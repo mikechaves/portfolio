@@ -3,6 +3,7 @@ import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata = {
   title: "Mike Chaves | UX Designer & Developer",
@@ -21,6 +22,7 @@ export default function RootLayout({
         <Navigation />
         <main className="flex-1 container mx-auto px-4 py-8 relative z-10">{children}</main>
         <Footer />
+        <Toaster />
         <Analytics />
       </body>
     </html>
