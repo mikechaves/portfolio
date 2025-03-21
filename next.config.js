@@ -12,6 +12,7 @@ const nextConfig = {
   },
   transpilePackages: [
     "lucide-react",
+    "input-otp",
     "@radix-ui/react-accordion",
     "@radix-ui/react-alert-dialog",
     "@radix-ui/react-aspect-ratio",
