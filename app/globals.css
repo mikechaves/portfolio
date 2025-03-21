@@ -20,9 +20,9 @@
     --accent-foreground: 0 0% 0%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 3% 20%;
-    --input: 240 3% 20%;
-    --ring: 160 100% 50%;
+    --border-color: 240 3% 20%;
+    --input-color: 240 3% 20%;
+    --ring-color: 160 100% 50%;
     --radius: 0.5rem;
   }
 
@@ -43,15 +43,15 @@
     --accent-foreground: 0 0% 0%;
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 3% 20%;
-    --input: 240 3% 20%;
-    --ring: 160 100% 50%;
+    --border-color: 240 3% 20%;
+    --input-color: 240 3% 20%;
+    --ring-color: 160 100% 50%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-zinc-800;
   }
   body {
     @apply bg-background text-foreground;
