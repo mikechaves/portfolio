@@ -4,12 +4,14 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ["placeholder.com"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+  },
+  // Disable static optimization to avoid trace collection issues
+  experimental: {
+    // Disable features that might cause the stack overflow
+    outputFileTracingRoot: undefined,
+    outputFileTracingExcludes: {
+      "*": ["node_modules/**", ".git/**"],
+    },
   },
 }
 
