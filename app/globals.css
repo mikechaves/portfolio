@@ -24,6 +24,18 @@
     --input-color: 240 3% 20%;
     --ring-color: 160 100% 50%;
     --radius: 0.5rem;
+
+    /* Sidebar variables */
+    --sidebar: 0 0% 4%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-muted: 240 3% 12%;
+    --sidebar-muted-foreground: 240 5% 65%;
+    --sidebar-border: 240 3% 20%;
+    --sidebar-ring: 160 100% 50%;
+    --sidebar-header-height: 60px;
+    --sidebar-footer-height: 60px;
+    --sidebar-width: 240px;
+    --sidebar-width-collapsed: 60px;
   }
 
   .dark {
@@ -46,6 +58,14 @@
     --border-color: 240 3% 20%;
     --input-color: 240 3% 20%;
     --ring-color: 160 100% 50%;
+
+    /* Sidebar variables */
+    --sidebar: 0 0% 4%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-muted: 240 3% 12%;
+    --sidebar-muted-foreground: 240 5% 65%;
+    --sidebar-border: 240 3% 20%;
+    --sidebar-ring: 160 100% 50%;
   }
 }
 

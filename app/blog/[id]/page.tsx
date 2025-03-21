@@ -1,20 +1,11 @@
-"use client"
-
-import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, CalendarIcon, Clock } from "lucide-react"
+import { notFound } from "next/navigation"
 
-interface BlogPostPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default function BlogPostPage({ params }: { params: { id: string } }) {
   const { id } = params
 
   // This would typically come from an API or database
-  const posts = {
+  const posts: Record<string, any> = {
     "design-masters": {
       title: "My Journey in the Master of Design Program",
       date: "2024-03-15",
@@ -223,16 +214,16 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     },
   }
 
-  const post = posts[id as keyof typeof posts]
+  const post = posts[id]
 
   if (!post) {
-    notFound()
+    return notFound()
   }
 
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline">
-        <ArrowLeft size={16} /> Back to blog
+        Back to blog
       </Link>
 
       <article>
@@ -243,11 +234,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
-              <CalendarIcon size={14} />
               <span>{post.date}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Clock size={14} />
               <span>{post.readingTime}</span>
             </div>
           </div>
