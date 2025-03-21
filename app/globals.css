@@ -195,7 +195,7 @@
 }
 
 .terminal-content {
-  font-family: var(--font-mono);
+  font-family: monospace;
   line-height: 1.5;
 }
 
