@@ -2,12 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  // Explicitly enable SWC
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
   images: {
     domains: ["placeholder.com"],
   },
-  // Disable static optimization to avoid trace collection issues
   experimental: {
-    // Disable features that might cause the stack overflow
+    // Reduce trace collection to avoid stack overflow
     outputFileTracingRoot: undefined,
     outputFileTracingExcludes: {
       "*": ["node_modules/**", ".git/**"],

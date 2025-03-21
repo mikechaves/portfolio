@@ -1,16 +1,9 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   title: "Mike Chaves | UX Designer & Developer",
@@ -24,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
+      <body className="font-mono bg-black text-white min-h-screen flex flex-col">
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
         <Navigation />
         <main className="flex-1 container mx-auto px-4 py-8 relative z-10">{children}</main>
