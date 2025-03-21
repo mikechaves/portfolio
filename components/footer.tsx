@@ -1,5 +1,7 @@
 import Link from "next/link"
-import { Github, Twitter, Linkedin, Mail } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
@@ -22,13 +24,15 @@ export function Footer() {
               <span className="sr-only">GitHub</span>
             </Link>
             <Link
-              href="https://twitter.com/mikechaves"
+              href="https://x.com/mikechaves"
               className="text-muted-foreground hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Twitter size={20} />
-              <span className="sr-only">Twitter</span>
+              <span className="w-5 h-5 flex items-center justify-center">
+                <FontAwesomeIcon icon={faXTwitter} className="w-4 h-4" />
+              </span>
+              <span className="sr-only">X</span>
             </Link>
             <Link
               href="https://linkedin.com/in/mikechaves"

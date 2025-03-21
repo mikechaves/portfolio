@@ -2,47 +2,104 @@
 
 import { useState } from "react"
 import { Terminal } from "@/components/terminal"
-import { Github, Twitter, Linkedin, Mail } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
+// Prevent Font Awesome from adding its CSS since we did it manually above
+config.autoAddCss = false
 
 export default function AboutPage() {
   const [introComplete, setIntroComplete] = useState(false)
   const [bioComplete, setBioComplete] = useState(false)
 
+  // Update the experiences array with the professional experience from the resume
   const experiences = [
     {
-      title: "UX Designer & Team Lead",
-      company: "Snap Inc's Spectacles",
-      period: "2023 - Present",
+      title: "Lead UX/UI Designer III (Design Engineering Focus)",
+      company: "Starbucks Corporation",
+      period: "April 2022 - December 2022",
       description:
-        "Leading a team in the Spectacles Accelerator Program to create innovative AR experiences and applications.",
+        "Designed VR/mobile interfaces with design thinking. Made them intuitive and user tested. Solved complex UX challenges and enhanced interaction and visual appeal. Collaborated with ML engineers to integrate AI capabilities into mobile and VR interfaces.",
     },
     {
-      title: "Digital Experience Designer",
-      company: "Ford",
-      period: "2021 - 2023",
+      title: "UX/UI Design Engineer – Unity & Frontend",
+      company: "Ford Motor Company",
+      period: "October 2021 - March 2022",
       description:
-        "Designed digital experiences for Ford's customer-facing applications, focusing on user-centered design principles and accessibility.",
+        "Built Unity3D time study tool with integrated machine learning components, saving $1M annually. Created reinforcement learning environments to optimize manufacturing scenarios. Implemented MLOps practices to ensure consistent model performance across global deployments.",
     },
     {
-      title: "UX/UI Designer",
-      company: "Starbucks Technology",
-      period: "2019 - 2021",
+      title: "UX/UI Design Engineer – Frontend & Immersive Technologies",
+      company: "POWER Engineers",
+      period: "June 2020 - October 2021",
       description:
-        "Worked with the Emerging Technology division to create innovative digital experiences for Starbucks customers and employees.",
+        "Led GeoVoice design, a web/VR app. Boosted stakeholder engagement. Developed interactive tools using Python, JavaScript, C#, and Unity3D.",
+    },
+    {
+      title: "Lead, Spectacles Accelerator Program",
+      company: "Snap Inc.",
+      period: "January 2025 - Present",
+      description: "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
     },
   ]
 
+  // Update the skills array with the skills from the resume
   const skills = [
-    { category: "Design", items: ["UX Design", "UI Design", "Interaction Design", "Prototyping"] },
-    { category: "Development", items: ["Front-end Development", "React", "HTML/CSS", "JavaScript"] },
-    { category: "Tools", items: ["Figma", "Adobe Creative Suite", "Sketch", "InVision"] },
-    { category: "Research", items: ["User Research", "Usability Testing", "A/B Testing", "Analytics"] },
-    { category: "Leadership", items: ["Team Leadership", "Project Management", "Mentoring", "Client Relations"] },
-    { category: "Emerging Tech", items: ["AR/VR", "Spatial Computing", "Voice UI", "Gesture Control"] },
+    {
+      category: "AI & Machine Learning",
+      items: [
+        "LLM Fine-tuning",
+        "Transformer Models",
+        "Reinforcement Learning",
+        "Neural Networks",
+        "Natural Language Processing",
+        "Open-Source LLMs (Llama, Gemma, QWN, DeepSeek RI)",
+      ],
+    },
+    {
+      category: "MLOps",
+      items: ["Model Versioning", "Automated Testing", "Performance Benchmarking", "Deployment Pipelines"],
+    },
+    {
+      category: "Programming",
+      items: ["Python (PyTorch, TensorFlow, Hugging Face)", "JavaScript", "C#"],
+    },
+    {
+      category: "Design & Integration",
+      items: [
+        "User-Centered Design",
+        "AI-Enhanced Interfaces",
+        "Multimodal Systems",
+        "AR/VR prototyping",
+        "XR accessibility",
+      ],
+    },
+    {
+      category: "Data Science",
+      items: ["Dataset Curation", "Statistical Analysis", "Performance Evaluation", "A/B Testing"],
+    },
+    {
+      category: "Tools",
+      items: [
+        "Unity3D",
+        "Git",
+        "Jupyter",
+        "Figma",
+        "Docker",
+        "Vercel",
+        "Hugging Face Transformers",
+        "LangChain",
+        "GitHub Copilot",
+        "Claude Code",
+        "Cursor",
+      ],
+    },
   ]
 
   return (
@@ -97,6 +154,49 @@ export default function AboutPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Education</h2>
+            <div className="space-y-6">
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button terminal-button-red"></div>
+                  <div className="terminal-button terminal-button-yellow"></div>
+                  <div className="terminal-button terminal-button-green"></div>
+                  <div className="terminal-title">education.sh</div>
+                </div>
+                <div className="terminal-content">
+                  <p className="mb-1">
+                    <span className="text-primary">$</span> cat education.txt
+                  </p>
+                  <div className="mb-4">
+                    <p className="mb-2">
+                      <span className="text-primary">degree:</span> Master of Design in Experience Design, Exp. May 2025
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">institution:</span> San Jose State University, San Jose, CA
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">thesis:</span> Voice-driven AI interfaces for XR environments using
+                      transformer models.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2">
+                      <span className="text-primary">degree:</span> Bachelor of Science in Games, Interactive Media, and
+                      Mobile Technology, May 2020
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">institution:</span> Boise State University, Boise, ID
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">honors:</span> Dean's List with Highest Honors, 2019 & 2020.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -206,14 +306,16 @@ export default function AboutPage() {
                       </Link>
                     </div>
                     <div>
-                      <p className="mb-1 text-primary">twitter0:</p>
+                      <p className="mb-1 text-primary">x0:</p>
                       <Link
-                        href="https://twitter.com"
+                        href="https://x.com"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                         target="_blank"
                       >
-                        <Twitter size={16} />
-                        twitter.com/cyberdev
+                        <span className="w-4 h-4 flex items-center justify-center">
+                          <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
+                        </span>
+                        x.com/cyberdev
                       </Link>
                     </div>
                     <div>
@@ -230,11 +332,11 @@ export default function AboutPage() {
                     <div>
                       <p className="mb-1 text-primary">mail0:</p>
                       <Link
-                        href="mailto:hello@example.com"
+                        href="mailto:mike@digitalhous.com"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                       >
                         <Mail size={16} />
-                        hello@example.com
+                        mike@digitalhous.com
                       </Link>
                     </div>
                   </div>

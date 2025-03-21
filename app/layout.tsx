@@ -4,6 +4,10 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "@/components/ui/toaster"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
+// Prevent Font Awesome from adding its CSS since we did it manually above
+config.autoAddCss = false
 
 export const metadata = {
   title: "Mike Chaves | UX Designer & Developer",
