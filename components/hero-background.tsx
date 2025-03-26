@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import * as THREE from "three"
 
 export function HeroBackground() {
@@ -12,6 +12,24 @@ export function HeroBackground() {
   const gridRef = useRef<THREE.LineSegments | null>(null)
   const frameRef = useRef<number>(0)
   const mousePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    // Check if we're on a mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Initial check
+    checkMobile()
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
+  }, [])
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -34,11 +52,11 @@ export function HeroBackground() {
 
     // Create cyberpunk grid
     const gridSize = 40
-    const gridDivisions = 20
+    const gridDivisions = isMobile ? 10 : 20 // Fewer grid lines on mobile
     const gridMaterial = new THREE.LineBasicMaterial({
       color: 0x00ff8c,
       transparent: true,
-      opacity: 0.1,
+      opacity: isMobile ? 0.08 : 0.1, // Slightly more subtle on mobile
     })
 
     const gridGeometry = new THREE.BufferGeometry()
@@ -69,8 +87,8 @@ export function HeroBackground() {
     scene.add(grid)
     gridRef.current = grid
 
-    // Create particles
-    const particleCount = 600
+    // Create particles - reduce count on mobile
+    const particleCount = isMobile ? 200 : 600
     const particles = new THREE.BufferGeometry()
     const positions = new Float32Array(particleCount * 3)
     const colors = new Float32Array(particleCount * 3)
@@ -81,11 +99,20 @@ export function HeroBackground() {
 
     const color = new THREE.Color()
 
+    // Adjust particle distribution for mobile
+    const xSpread = isMobile ? 20 : 30
+    const ySpread = isMobile ? 15 : 20
+    const zSpread = isMobile ? 10 : 20
+
+    // Adjust particle size for mobile
+    const baseSize = isMobile ? 1.5 : 3
+    const sizeVariation = isMobile ? 0.5 : 1.5
+
     for (let i = 0; i < particleCount; i++) {
       // Position - create a more layered depth effect
-      positions[i * 3] = (Math.random() - 0.5) * 30 // x
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 20 // y
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 20 // z - varying depths
+      positions[i * 3] = (Math.random() - 0.5) * xSpread // x
+      positions[i * 3 + 1] = (Math.random() - 0.5) * ySpread // y
+      positions[i * 3 + 2] = (Math.random() - 0.5) * zSpread // z - varying depths
 
       // Color - mostly our cyberpunk green with occasional variations
       if (Math.random() > 0.85) {
@@ -100,8 +127,8 @@ export function HeroBackground() {
       colors[i * 3 + 1] = color.g
       colors[i * 3 + 2] = color.b
 
-      // Size - varying particle sizes
-      sizes[i] = Math.random() * 3 + 0.5
+      // Size - varying particle sizes, smaller on mobile
+      sizes[i] = Math.random() * sizeVariation + baseSize
 
       // Speed - varying particle speeds
       speeds[i] = Math.random() * 0.02 + 0.005
@@ -196,7 +223,8 @@ export function HeroBackground() {
           vec3 glow = vColor * 0.3;
           vec3 finalColor = mix(glow, vColor, alpha > 0.0 ? 1.0 : 0.0);
           
-          gl_FragColor = vec4(finalColor, alpha);
+          // Reduce opacity on mobile
+          gl_FragColor = vec4(finalColor, alpha * ${isMobile ? "0.5" : "0.7"});
         }
       `,
       transparent: true,
@@ -247,15 +275,18 @@ export function HeroBackground() {
           // Reset particles that go out of bounds
           if (positions[i3 + 1] > 10) {
             positions[i3 + 1] = -10
-            positions[i3] = (Math.random() - 0.5) * 30
-            positions[i3 + 2] = (Math.random() - 0.5) * 20
+            positions[i3] = (Math.random() - 0.5) * (isMobile ? 20 : 30)
+            positions[i3 + 2] = (Math.random() - 0.5) * (isMobile ? 10 : 20)
           }
 
           // Rotate particles
           rotations[i] += 0.01 * (i % 2 === 0 ? 1 : -1)
 
-          // Pulse size slightly
-          sizes[i] = (Math.sin(time * 1.5 + i) * 0.3 + 1.2) * (Math.random() * 1.5 + 0.5)
+          // Pulse size slightly - reduced effect on mobile
+          const pulseIntensity = isMobile ? 0.2 : 0.3
+          sizes[i] =
+            (Math.sin(time * 1.5 + i) * pulseIntensity + 1.2) *
+            (Math.random() * (isMobile ? 0.8 : 1.5) + (isMobile ? 0.3 : 0.5))
         }
 
         particlesRef.current.geometry.attributes.position.needsUpdate = true
@@ -264,9 +295,10 @@ export function HeroBackground() {
       }
 
       if (gridRef.current) {
-        // Subtle grid movement
-        gridRef.current.position.y = Math.sin(time * 0.2) * 0.5
-        gridRef.current.rotation.x = Math.PI / 8 + Math.sin(time * 0.1) * 0.05
+        // Subtle grid movement - reduced on mobile
+        const movementIntensity = isMobile ? 0.3 : 0.5
+        gridRef.current.position.y = Math.sin(time * 0.2) * movementIntensity
+        gridRef.current.rotation.x = Math.PI / 8 + Math.sin(time * 0.1) * (isMobile ? 0.03 : 0.05)
       }
 
       renderer.render(scene, camera)
@@ -309,7 +341,7 @@ export function HeroBackground() {
         ;(gridRef.current.material as THREE.Material).dispose()
       }
     }
-  }, [])
+  }, [isMobile]) // Re-run effect when isMobile changes
 
   return <div ref={containerRef} className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 }
