@@ -608,15 +608,109 @@ export default function ProjectPage() {
         ],
       },
     },
-    snap: {
-      title: "Snap Inc's Spectacles",
-      category: "development",
+    portals: {
+      title: "Portals",
+      category: "ar-vr",
       description:
-        "Leading a team in the Spectacles Accelerator Program to create innovative AR experiences. Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
+        "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features. Utilizing spatial audio and computer vision, Portals allows users to engage with cultural and musical experiences in a unique way.",
       image: "/placeholder.svg?height=600&width=1200",
-      technologies: ["AR", "Team Leadership", "Product Design"],
-      github: "https://github.com/mikechaves",
+      technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
+      github: "https://github.com/mikechaves/stanford-immerse-the-bay-24",
       demo: "https://mikechaves.vercel.app",
+      gallery: [],
+      details: {
+        client: "Stanford's Immerse the Bay 2024 XR Hackathon",
+        date: "November 2023",
+        category: "AR Development",
+        services: ["AR Experience Design", "Accessibility Solutions", "Cultural Education"],
+        situation: [
+          {
+            title: "Overview",
+            description:
+              "As AR technologies become more widespread, there's a growing need for experiences that prioritize accessibility, cultural education, and climate awareness. Many existing AR applications focus primarily on visual elements, often overlooking audio-based interactions and accessibility features.",
+          },
+          {
+            title: "Challenge",
+            description:
+              "How might we create an immersive AR experience that makes diverse musical traditions accessible to everyone, including individuals with limited mobility, while promoting cultural education and climate awareness?",
+          },
+          {
+            title: "Context",
+            description:
+              "Snap Spectacles provide a unique platform for AR development with spatial audio capabilities, offering new possibilities for creating inclusive and educational experiences.",
+          },
+        ],
+        task: [
+          {
+            title: "Overview",
+            description:
+              "The goal was to develop an AR experience for Snap Spectacles that would achieve four main objectives:",
+          },
+          {
+            title: "Accessibility",
+            description:
+              "Design inclusive, voice-controlled features and audio cues for individuals with limited hand mobility or speech difficulties.",
+          },
+          {
+            title: "Cultural Education",
+            description:
+              "Enable auditory exploration of music from various cultures, focusing on historical context and lesser-known instruments.",
+          },
+          {
+            title: "Joy",
+            description: "Create fun, collaborative AR jam sessions with friends using spatial audio.",
+          },
+          {
+            title: "Climate Change Awareness",
+            description:
+              "Highlight music that connects to natural environments or climate themes to increase awareness through audio immersion.",
+          },
+        ],
+        actions: [
+          {
+            title: "Co-Creation Features",
+            description:
+              "Developed spatial audio circles that position friends and collaborators in a virtual jam session, each playing an instrument or adding to the ambiance, allowing friends to interact audibly to avoid visual clutter.",
+          },
+          {
+            title: "Interactive Auditory Timeline",
+            description:
+              "Implemented cultural markers recognition using Spectacles' computer vision to identify cultural artifacts or historical sites and launch a timeline with music, stories, and significant figures from that culture.",
+          },
+          {
+            title: "Accessibility Implementation",
+            description:
+              "Created voice command controls for the experience, providing accessibility for individuals with limited mobility, along with a custom 'safe word' exit feature to prioritize user comfort and safety.",
+          },
+          {
+            title: "Educational Layers",
+            description:
+              "Integrated optional deep dives into the history and significance of various music elements for educational purposes.",
+          },
+        ],
+        results: [
+          {
+            title: "Inclusive AR Experience",
+            description:
+              "Successfully created an AR experience that prioritizes accessibility through voice controls and audio-based interactions.",
+          },
+          {
+            title: "Cultural Education Platform",
+            description:
+              "Developed a platform for exploring diverse musical traditions and their historical contexts, focusing on underrepresented communities.",
+          },
+          {
+            title: "Collaborative Music Creation",
+            description:
+              "Implemented spatial audio features that enable users to create collaborative, immersive musical experiences with friends.",
+          },
+          {
+            title: "Climate Awareness Integration",
+            description:
+              "Incorporated elements that highlight the connection between music, natural environments, and climate themes to raise awareness through immersive audio experiences.",
+          },
+        ],
+      },
     },
     digitalhous: {
       title: "Digitalhous XR Applications",
