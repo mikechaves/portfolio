@@ -71,16 +71,17 @@ export default function ProjectsPage() {
       category: "web",
     },
     {
-      id: "snap",
-      title: "Snap Inc's Spectacles",
-      description: "Leading a team in the Spectacles Accelerator Program to create innovative AR experiences.",
+      id: "portals",
+      title: "Portals",
+      description:
+        "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
       image: "/placeholder.svg?height=400&width=600",
-      technologies: ["AR", "Team Leadership", "Product Design"],
+      technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       category: "ar-vr",
     },
     {
       id: "ai-energy-consumption",
-      title: "AI Energy Consumption",  
+      title: "AI Energy Consumption",
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
       image: "/placeholder.svg?height=400&width=600",
