@@ -6,6 +6,7 @@ import { Terminal } from "@/components/terminal"
 import { ProjectCard } from "@/components/project-card"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
+import { HeroBackground } from "@/components/hero-background"
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -63,7 +64,8 @@ export default function Home() {
 
   return (
     <div className="space-y-16">
-      <section className="py-12">
+      <section className="py-12 relative">
+        <HeroBackground />
         <Terminal
           text="Hello, World. I am MIKE_CHAVES. I design immersive, user-centered experiences that push boundaries."
           typingSpeed={40}
@@ -75,7 +77,7 @@ export default function Home() {
           <div className="mt-8 flex justify-center">
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-md transition-colors border border-primary/30"
+              className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
             >
               Learn more about me <ArrowRight size={16} />
             </Link>
