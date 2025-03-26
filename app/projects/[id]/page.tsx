@@ -638,6 +638,91 @@ export default function ProjectPage() {
       github: "https://github.com/mikechaves",
       demo: "https://mikechaves.vercel.app",
     },
+    "ai-energy-consumption": {
+      title: "AI Energy Consumption",
+      category: "web",
+      description:
+        "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions. Built using A-Frame and D3.js, this project combines immersive 3D graphics with data storytelling to highlight the rising energy demands associated with AI technologies.",
+      image: "/placeholder.svg?height=600&width=1200",
+      technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling", "JavaScript"],
+      github: "https://github.com/mikechaves/ai-energy-consumption",
+      demo: "https://mikechaves.github.io/ai-energy-consumption/",
+      gallery: [],
+      details: {
+        client: "Personal Project",
+        date: "March 2023",
+        category: "Web Development",
+        services: ["Data Visualization", "3D Web Development", "Environmental Impact Analysis"],
+        situation: [
+          {
+            title: "Overview",
+            description:
+              "As AI technologies continue to advance and become more widespread, their energy consumption and environmental impact are growing concerns that often go unnoticed by the general public and even many technology professionals.",
+          },
+          {
+            title: "Challenge",
+            description:
+              "Presenting complex environmental data in an engaging, accessible way is difficult. Traditional charts and graphs often fail to convey the scale and significance of the issue in a way that resonates with viewers.",
+          },
+          {
+            title: "Context",
+            description:
+              "The rise of AI models with billions of parameters has led to exponential growth in computing requirements, with corresponding increases in energy consumption and carbon emissions.",
+          },
+        ],
+        task: [
+          {
+            title: "Overview",
+            description:
+              "The goal was to create an interactive 3D visualization that makes abstract data about AI energy consumption tangible and impactful for users.",
+          },
+          {
+            title: "Educational Objective",
+            description:
+              "Raise awareness about the environmental impact of AI technologies in an engaging, interactive format.",
+          },
+          {
+            title: "Technical Objective",
+            description:
+              "Combine web-based 3D visualization with accurate data representation to create an immersive learning experience.",
+          },
+        ],
+        actions: [
+          {
+            title: "Research & Data Collection",
+            description:
+              "Gathered and analyzed data on AI energy consumption across different countries and regions, focusing on both training and inference phases of AI systems.",
+          },
+          {
+            title: "Technical Implementation",
+            description:
+              "Developed a web-based 3D visualization using A-Frame for the immersive environment and D3.js for data binding and manipulation. Created custom shaders and animations to represent energy consumption patterns.",
+          },
+          {
+            title: "User Experience Design",
+            description:
+              "Designed an intuitive interface that allows users to explore the data from different perspectives, with interactive elements that reveal additional information and context.",
+          },
+        ],
+        results: [
+          {
+            title: "Engaging Visualization",
+            description:
+              "Created a compelling 3D experience that transforms abstract data into a visually striking representation of AI's environmental impact.",
+          },
+          {
+            title: "Educational Tool",
+            description:
+              "The project serves as both a data visualization and an educational resource, helping users understand the environmental implications of AI advancement.",
+          },
+          {
+            title: "Technical Achievement",
+            description:
+              "Successfully integrated complex 3D graphics with data visualization techniques in a web-based application that performs well across different devices.",
+          },
+        ],
+      },
+    },
   }
 
   const project = projectsData[id as keyof typeof projectsData]
