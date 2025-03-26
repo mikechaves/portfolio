@@ -68,7 +68,8 @@
     "@fortawesome/free-brands-svg-icons": "latest",
     "@fortawesome/free-solid-svg-icons": "latest",
     "@vercel/analytics": "latest",
-    "resend": "latest"
+    "resend": "latest",
+    "three": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
