@@ -3,32 +3,50 @@ import { BlogCard } from "@/components/blog-card"
 export default function BlogPage() {
   const posts = [
     {
-      id: "design-masters",
-      title: "My Journey in the Master of Design Program",
-      excerpt: "Reflections on pursuing a Master of Design in Experience Design at San Jose State University.",
-      date: "2024-03-15",
-      readingTime: "5 min read",
-    },
-    {
-      id: "ar-future",
-      title: "The Future of AR in Everyday Life",
-      excerpt: "How augmented reality is evolving from novelty to necessity in our daily interactions.",
-      date: "2024-02-22",
-      readingTime: "7 min read",
-    },
-    {
-      id: "ux-principles",
-      title: "Essential UX Principles for Immersive Experiences",
-      excerpt: "Key design considerations when creating user experiences that transcend traditional interfaces.",
-      date: "2024-01-10",
+      id: "embracing-ambiguity",
+      title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
+      excerpt:
+        "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
+      date: "Feb 12, 2025",
       readingTime: "6 min read",
+      url: "https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150",
+      image: "/placeholder.svg?height=400&width=600",
+      publication: "Bootcamp",
+      featured: true,
     },
     {
-      id: "team-leadership",
-      title: "Leading Creative Teams in Tech",
-      excerpt: "Lessons learned from managing teams at the intersection of design and technology.",
-      date: "2023-12-18",
+      id: "ai-becomes-user",
+      title: "When AI Becomes the User: Redefining UX/UI for the Future",
+      excerpt: "Exploring how AI as a user changes our approach to interface design and user experience strategies.",
+      date: "Jan 28, 2025",
+      readingTime: "7 min read",
+      url: "https://medium.com/design-bootcamp/when-ai-becomes-the-user-redefining-ux-ui-for-the-future-ac6bbc6eb084",
+      image: "/placeholder.svg?height=400&width=600",
+      publication: "Bootcamp",
+      featured: false,
+    },
+    {
+      id: "extended-pausabilities",
+      title: "Extended Pausabilities: Navigating XR with Accessibility in Mind",
+      excerpt: "How to design inclusive extended reality experiences that work for users of all abilities.",
+      date: "Dec 15, 2024",
       readingTime: "8 min read",
+      url: "https://medium.com/design-bootcamp/extended-pausabilities-navigating-xr-with-accessibility-in-mind-1fa35fb4d590",
+      image: "/placeholder.svg?height=400&width=600",
+      publication: "Bootcamp",
+      featured: false,
+    },
+    {
+      id: "redefining-reality",
+      title: "Redefining Reality: The Future of Design in XR",
+      excerpt:
+        "How extended reality is transforming design principles and creating new possibilities for immersive experiences.",
+      date: "Nov 30, 2024",
+      readingTime: "6 min read",
+      url: "https://medium.com/design-bootcamp/redefining-reality-the-future-of-design-in-xr-a5e053e255a8",
+      image: "/placeholder.svg?height=400&width=600",
+      publication: "Bootcamp",
+      featured: false,
     },
   ]
 
@@ -48,11 +66,14 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {posts.map((post) => (
-          <BlogCard key={post.id} {...post} />
-        ))}
-      </div>
+      <section>
+        <h2 className="text-2xl font-bold mb-6">All Articles</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {posts.map((post) => (
+            <BlogCard key={post.id} {...post} />
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

@@ -12,35 +12,41 @@ export default function Home() {
 
   const featuredProjects = [
     {
-      id: "starbucks",
-      title: "Starbucks Technology",
-      description: "Work with Starbucks Technology Emerging Technology division on innovative digital experiences.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["UX Design", "Emerging Tech", "Innovation"],
+      id: "geovoice",
+      title: "GeoVoice",
+      description:
+        "A platform for streamlining geospatial data analysis and stakeholder feedback for large-scale infrastructure and environmental planning projects.",
+      image: "/projects/geovoice/main-image.png?height=400&width=600",
+      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
     },
     {
-      id: "ford",
-      title: "Ford Digital Experience",
-      description: "Digital experience design for Ford's customer-facing applications and interfaces.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["UX/UI", "Digital Design", "Automotive"],
+      id: "transcribe",
+      title: "Transcribe",
+      description:
+        "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
+      image: "/projects/transcribe/main-image.png?height=400&width=600",
+      technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
     },
     {
-      id: "snap",
-      title: "Snap Inc's Spectacles",
-      description: "Leading a team in the Spectacles Accelerator Program to create innovative AR experiences.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["AR", "Team Leadership", "Product Design"],
+      id: "speakeasy",
+      title: "SpeakEasy",
+      description:
+        "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
+      image: "/projects/speakeasy/main-image.png?height=400&width=600",
+      technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
     },
   ]
 
   const latestPosts = [
     {
-      id: "future-of-ai",
-      title: "The Future of AI Development",
-      excerpt: "Exploring the ethical implications and technological advancements in artificial intelligence.",
-      date: "2023-05-15",
-      readingTime: "5 min read",
+      id: "embracing-ambiguity",
+      title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
+      excerpt:
+        "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
+      date: "Feb 12, 2025",
+      readingTime: "6 min read",
+      url: "https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150",
+      publication: "Bootcamp",
     },
   ]
 

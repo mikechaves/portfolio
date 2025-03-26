@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type FormEvent, useTransition } from "react"
 import { Terminal } from "@/components/terminal"
-import { Github, Linkedin, Mail } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
+import { Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,12 +14,32 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 // Prevent Font Awesome from adding its CSS since we did it manually above
 config.autoAddCss = false
 
+// Add the import for the server action
+import { sendContactEmail } from "@/app/actions/contact"
+import { useToast } from "@/hooks/use-toast"
+
 export default function AboutPage() {
   const [introComplete, setIntroComplete] = useState(false)
   const [bioComplete, setBioComplete] = useState(false)
+  const [isPending, startTransition] = useTransition()
+  const [formStatus, setFormStatus] = useState<{
+    success: boolean | null
+    message: string | null
+  }>({
+    success: null,
+    message: null,
+  })
+  const { toast } = useToast()
 
   // Update the experiences array with the professional experience from the resume
   const experiences = [
+    {
+      title: "XR/AI Creative Technologist & Founder",
+      company: "Digitalhous",
+      period: "January 2023 - Present",
+      description:
+        "Founded Digitalhous, a tech-focused LLC, where I lead end-to-end development of innovative apps, software, games, and XR solutions powered by AI. Specializing in immersive VR/AR technologies and AI-driven features, I drive user-centered design with a focus on accessibility, leveraging tools like Unity3D, Python, and JavaScript to deliver impactful solutions.",
+    },
     {
       title: "Lead UX/UI Designer III (Design Engineering Focus)",
       company: "Starbucks Corporation",
@@ -42,14 +62,43 @@ export default function AboutPage() {
         "Led GeoVoice design, a web/VR app. Boosted stakeholder engagement. Developed interactive tools using Python, JavaScript, C#, and Unity3D.",
     },
     {
+      title: "Creative Director",
+      company: "Knitting Factory Entertainment",
+      period: "August 2008 - January 2016",
+      description:
+        "Directed rebranding and aligned with market trends and audience needs. Led design team from concept to completion and kept creative standards high.",
+    },
+  ]
+
+  // Create volunteer and student experience array
+  const volunteerExperiences = [
+    {
       title: "Lead, Spectacles Accelerator Program",
       company: "Snap Inc.",
       period: "January 2025 - Present",
       description: "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
     },
+    {
+      title: "UX Design Research Fellowship",
+      company: "LePal AI",
+      period: "August 2024 - October 2024",
+      description: "Conducted usability tests and improved visual AI models and interactions.",
+    },
+    {
+      title: "Campus Strategist",
+      company: "Perplexity AI Inc.",
+      period: "August 2024 - January 2025",
+      description: "Developed strategies to promote AI-powered search tech among students.",
+    },
+    {
+      title: "Student Ambassador",
+      company: "Adobe Inc.",
+      period: "February 2024 - October 2024",
+      description: "Planned AI-focused workshops and demonstrated machine learning integration with Adobe tools.",
+    },
   ]
 
-  // Update the skills array with the skills from the resume
+  // Update the skills array with a more uniform structure
   const skills = [
     {
       category: "AI & Machine Learning",
@@ -57,50 +106,97 @@ export default function AboutPage() {
         "LLM Fine-tuning",
         "Transformer Models",
         "Reinforcement Learning",
-        "Neural Networks",
+        "LangChain",
         "Natural Language Processing",
-        "Open-Source LLMs (Llama, Gemma, QWN, DeepSeek RI)",
+        "Open-Source LLMs (Llama, Gemma)",
       ],
-    },
-    {
-      category: "MLOps",
-      items: ["Model Versioning", "Automated Testing", "Performance Benchmarking", "Deployment Pipelines"],
-    },
-    {
-      category: "Programming",
-      items: ["Python (PyTorch, TensorFlow, Hugging Face)", "JavaScript", "C#"],
     },
     {
       category: "Design & Integration",
       items: [
         "User-Centered Design",
-        "AI-Enhanced Interfaces",
-        "Multimodal Systems",
-        "AR/VR prototyping",
-        "XR accessibility",
+        "Interaction Design",
+        "UI/UX Design",
+        "Prototyping",
+        "AR/VR Interfaces",
+        "Accessibility",
       ],
     },
     {
-      category: "Data Science",
-      items: ["Dataset Curation", "Statistical Analysis", "Performance Evaluation", "A/B Testing"],
+      category: "Programming",
+      items: ["Python (PyTorch, TensorFlow)", "JavaScript/TypeScript", "React/Next.js", "C# (Unity)", "HTML/CSS"],
     },
     {
-      category: "Tools",
+      category: "Research & Data",
+      items: ["User Research", "Usability Testing", "A/B Testing", "Data Visualization", "Statistical Analysis"],
+    },
+    {
+      category: "Immersive Technologies",
+      items: ["AR/VR Development", "Spatial Computing", "Voice UI", "Gesture Control", "XR Accessibility"],
+    },
+    {
+      category: "Development Tools",
+      items: ["Unity3D", "Git/GitHub", "Vercel", "Docker", "GitHub Copilot"],
+    },
+    {
+      category: "Design & Productivity",
+      items: ["Figma", "Adobe Creative Suite", "Jupyter Notebooks", "Notion", "Hugging Face"],
+    },
+    {
+      category: "Leadership",
       items: [
-        "Unity3D",
-        "Git",
-        "Jupyter",
-        "Figma",
-        "Docker",
-        "Vercel",
-        "Hugging Face Transformers",
-        "LangChain",
-        "GitHub Copilot",
-        "Claude Code",
-        "Cursor",
+        "Team Leadership",
+        "Project Management",
+        "AGILE Methodology",
+        "Client Relations",
+        "Cross-functional Collaboration",
       ],
     },
   ]
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    // Reset form status
+    setFormStatus({
+      success: null,
+      message: null,
+    })
+
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    startTransition(async () => {
+      try {
+        const response = await sendContactEmail(formData)
+
+        setFormStatus({
+          success: response.success,
+          message: response.message,
+        })
+
+        if (response.success) {
+          form.reset()
+          toast({
+            title: "Success!",
+            description: response.message,
+          })
+        } else {
+          toast({
+            title: "Error",
+            description: response.message || "Something went wrong. Please try again.",
+            variant: "destructive",
+          })
+        }
+      } catch (error) {
+        console.error("Form submission error:", error)
+        setFormStatus({
+          success: false,
+          message: "An unexpected error occurred. Please try again.",
+        })
+      }
+    })
+  }
 
   return (
     <div className="space-y-16">
@@ -139,6 +235,38 @@ export default function AboutPage() {
                   <div className="terminal-content">
                     <p className="mb-1">
                       <span className="text-primary">$</span> cat job_details.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {exp.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span> {exp.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">description:</span> {exp.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Volunteer & Student Experience</h2>
+            <div className="space-y-6">
+              {volunteerExperiences.map((exp, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">{exp.company}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat volunteer_details.txt
                     </p>
                     <div className="mb-2">
                       <p>
@@ -246,12 +374,19 @@ export default function AboutPage() {
                   <p className="mb-4">
                     <span className="text-primary">$</span> ./send_message.sh
                   </p>
-                  <form className="space-y-4">
+                  <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
                       <label htmlFor="name" className="block text-sm mb-1">
                         <span className="text-primary">name:</span>
                       </label>
-                      <Input id="name" placeholder="Enter your name" className="bg-background border-border" />
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        className="bg-background border-border"
+                        required
+                        disabled={isPending}
+                      />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm mb-1">
@@ -259,9 +394,12 @@ export default function AboutPage() {
                       </label>
                       <Input
                         id="email"
+                        name="email"
                         type="email"
                         placeholder="Enter your email"
                         className="bg-background border-border"
+                        required
+                        disabled={isPending}
                       />
                     </div>
                     <div>
@@ -270,14 +408,31 @@ export default function AboutPage() {
                       </label>
                       <Textarea
                         id="message"
+                        name="message"
                         placeholder="Enter your message"
                         rows={4}
                         className="bg-background border-border"
+                        required
+                        disabled={isPending}
                       />
                     </div>
-                    <Button type="submit" className="w-full">
-                      Send Message
+                    <Button type="submit" className="w-full" disabled={isPending}>
+                      {isPending ? "Sending..." : "Send Message"}
                     </Button>
+
+                    {formStatus.message && (
+                      <div
+                        className={`mt-2 p-2 text-sm rounded ${
+                          formStatus.success
+                            ? "bg-green-900/20 text-green-500 border border-green-900"
+                            : formStatus.success === false
+                              ? "bg-red-900/20 text-red-500 border border-red-900"
+                              : ""
+                        }`}
+                      >
+                        {formStatus.message}
+                      </div>
+                    )}
                   </form>
                 </div>
               </div>
@@ -296,41 +451,44 @@ export default function AboutPage() {
                   <div className="space-y-4">
                     <div>
                       <p className="mb-1 text-primary">github0:</p>
+
                       <Link
-                        href="https://github.com"
+                        href="https://github.com/mikechaves"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                         target="_blank"
                       >
                         <Github size={16} />
-                        github.com/cyberdev
+                        github.com/mikechaves
                       </Link>
                     </div>
                     <div>
                       <p className="mb-1 text-primary">x0:</p>
                       <Link
-                        href="https://x.com"
+                        href="https://x.com/mikechaves_io"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                         target="_blank"
+                        //rel="noopener noreferrer"
                       >
                         <span className="w-4 h-4 flex items-center justify-center">
                           <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
                         </span>
-                        x.com/cyberdev
+                        x.com/mikechaves_io
                       </Link>
                     </div>
                     <div>
                       <p className="mb-1 text-primary">linkedin0:</p>
                       <Link
-                        href="https://linkedin.com"
+                        href="https://www.linkedin.com/in/mikejchaves"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                         target="_blank"
                       >
                         <Linkedin size={16} />
-                        linkedin.com/in/cyberdev
+                        linkedin.com/in/mikejchaves
                       </Link>
                     </div>
                     <div>
                       <p className="mb-1 text-primary">mail0:</p>
+                      {/* Use regular anchor tag for mailto link */}
                       <Link
                         href="mailto:mike@digitalhous.com"
                         className="flex items-center gap-2 hover:text-primary transition-colors"

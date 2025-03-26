@@ -23,9 +23,9 @@ export function Footer() {
               <Github size={20} />
               <span className="sr-only">GitHub</span>
             </Link>
-            <Link
-              href="https://x.com/mikechaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+            <a
+              href="https://x.com/mikechaves_io"
+              className="text-zinc-400 hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -33,9 +33,9 @@ export function Footer() {
                 <FontAwesomeIcon icon={faXTwitter} className="w-4 h-4" />
               </span>
               <span className="sr-only">X</span>
-            </Link>
+            </a>
             <Link
-              href="https://linkedin.com/in/mikechaves"
+              href="https://www.linkedin.com/in/mikejchaves"
               className="text-muted-foreground hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
@@ -44,7 +44,7 @@ export function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="mailto:hello@mikechaves.io"
+              href="mailto:mike@digitalhous.com"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail size={20} />
