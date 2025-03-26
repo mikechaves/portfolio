@@ -1,5 +1,7 @@
 import Link from "next/link"
-import { Github, Twitter, Linkedin, Mail } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
@@ -21,17 +23,19 @@ export function Footer() {
               <Github size={20} />
               <span className="sr-only">GitHub</span>
             </Link>
-            <Link
-              href="https://twitter.com/mikechaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+            <a
+              href="https://x.com/mikechaves_io"
+              className="text-zinc-400 hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Twitter size={20} />
-              <span className="sr-only">Twitter</span>
-            </Link>
+              <span className="w-5 h-5 flex items-center justify-center">
+                <FontAwesomeIcon icon={faXTwitter} className="w-4 h-4" />
+              </span>
+              <span className="sr-only">X</span>
+            </a>
             <Link
-              href="https://linkedin.com/in/mikechaves"
+              href="https://www.linkedin.com/in/mikejchaves"
               className="text-muted-foreground hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
@@ -40,7 +44,7 @@ export function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="mailto:hello@mikechaves.io"
+              href="mailto:mike@digitalhous.com"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail size={20} />

@@ -8,20 +8,67 @@ export default function ProjectsPage() {
 
   const projects = [
     {
-      id: "starbucks",
-      title: "Starbucks Technology",
-      description: "Work with Starbucks Technology Emerging Technology division on innovative digital experiences.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["UX Design", "Emerging Tech", "Innovation"],
+      id: "geovoice",
+      title: "GeoVoice",
+      description:
+        "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
+      image: "/projects/geovoice/main-image.png?height=400&width=600",
+      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+      category: "web",
+    },
+    {
+      id: "transcribe",
+      title: "Transcribe",
+      description:
+        "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
+      image: "/projects/transcribe/main-image.png?height=400&width=600",
+      technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
       category: "design",
     },
     {
-      id: "ford",
-      title: "Ford Digital Experience",
-      description: "Digital experience design for Ford's customer-facing applications and interfaces.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["UX/UI", "Digital Design", "Automotive"],
+      id: "gaia",
+      title: "Gaia",
+      description:
+        "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+      image: "/projects/gaia/main-image.png?height=400&width=600",
+      technologies: ["UX Design", "AR/VR", "Unity3D"],
       category: "design",
+    },
+    {
+      id: "apt-plus",
+      title: "APT+",
+      description:
+        "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
+      image: "/projects/apt-plus/main-image.png?height=400&width=600",
+      technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
+      category: "design",
+    },
+    {
+      id: "speakeasy",
+      title: "SpeakEasy",
+      description:
+        "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
+      image: "/projects/speakeasy/main-image.png?height=400&width=600",
+      technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
+      category: "research",
+    },
+    {
+      id: "sound-escape-vr",
+      title: "Sound Escape VR",
+      description:
+        "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
+      image: "/placeholder.svg?height=400&width=600",
+      technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
+      category: "ar-vr",
+    },
+    {
+      id: "material-explorer",
+      title: "Material Explorer",
+      description:
+        "An interactive web application for creating, customizing, and visualizing 3D materials in real-time using Three.js and React Three Fiber.",
+      image: "/placeholder.svg?height=400&width=600",
+      technologies: ["TypeScript", "React", "Three.js", "WebGL"],
+      category: "web",
     },
     {
       id: "snap",
@@ -29,15 +76,7 @@ export default function ProjectsPage() {
       description: "Leading a team in the Spectacles Accelerator Program to create innovative AR experiences.",
       image: "/placeholder.svg?height=400&width=600",
       technologies: ["AR", "Team Leadership", "Product Design"],
-      category: "ar",
-    },
-    {
-      id: "sjsu",
-      title: "Master of Design Project",
-      description: "Academic research and design project for Master of Design in Experience Design at SJSU.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["Research", "Experience Design", "Academic"],
-      category: "research",
+      category: "ar-vr",
     },
     {
       id: "portfolio",
@@ -47,20 +86,12 @@ export default function ProjectsPage() {
       technologies: ["Next.js", "React", "UI Design"],
       category: "web",
     },
-    {
-      id: "ar-experiments",
-      title: "AR Experiments",
-      description: "Collection of experimental augmented reality prototypes and concepts.",
-      image: "/placeholder.svg?height=400&width=600",
-      technologies: ["AR", "Prototyping", "3D Design"],
-      category: "ar",
-    },
   ]
 
   const categories = [
     { id: "all", name: "All Projects" },
     { id: "design", name: "UX/UI Design" },
-    { id: "ar", name: "AR/VR" },
+    { id: "ar-vr", name: "AR/VR" },
     { id: "web", name: "Web Development" },
     { id: "research", name: "Research" },
   ]
