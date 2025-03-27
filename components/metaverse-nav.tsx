@@ -34,13 +34,7 @@ function NavItem({
 
   return (
     <mesh ref={mesh} position={position} onClick={onClick}>
-      <Text
-        color={active ? "#00ff8c" : "white"}
-        fontSize={0.3}
-        font="/fonts/Geist-Bold.ttf"
-        anchorX="center"
-        anchorY="middle"
-      >
+      <Text color={active ? "#00ff8c" : "white"} fontSize={0.3} anchorX="center" anchorY="middle">
         {name}
         <meshStandardMaterial
           color={active ? "#00ff8c" : "white"}
