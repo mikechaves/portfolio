@@ -199,7 +199,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 pt-8">
       <section>
         <Terminal
           text="Initializing personal profile... Access granted. Loading bio data..."

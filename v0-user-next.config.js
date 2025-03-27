@@ -16,6 +16,9 @@ const nextConfig = {
     "@fortawesome/free-brands-svg-icons",
     "@fortawesome/free-solid-svg-icons",
     "@fortawesome/fontawesome-svg-core",
+    "three",
+    "@react-three/fiber",
+    "@react-three/drei",
   ],
   // Ensure we're using the App Router
   experimental: {

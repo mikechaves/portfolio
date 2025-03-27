@@ -51,7 +51,7 @@ export default function BlogPage() {
   ]
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pt-8">
       <div className="terminal-window">
         <div className="terminal-header">
           <div className="terminal-button terminal-button-red"></div>
