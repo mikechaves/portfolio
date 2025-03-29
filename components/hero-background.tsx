@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from "react"
 import * as THREE from "three"
 
-// Import THREE from the same source to avoid duplicate instances
 export function HeroBackground() {
   const containerRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<THREE.Scene | null>(null)

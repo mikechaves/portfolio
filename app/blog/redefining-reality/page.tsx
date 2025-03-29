@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react"
 
 export default function RedefiningRealityPage() {
   return (
-    <div className="max-w-3xl mx-auto pt-8">
+    <div className="max-w-3xl mx-auto">
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
         <ArrowLeft size={16} /> Back to blog
       </Link>
