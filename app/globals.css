@@ -209,33 +209,3 @@
   }
 }
 
-/* Custom cursor styles */
-.cursor-none {
-  cursor: none;
-}
-
-/* Ensure clickable elements still show a pointer */
-a,
-button,
-[role="button"],
-input[type="submit"],
-input[type="button"],
-input[type="reset"],
-input[type="checkbox"],
-input[type="radio"],
-select {
-  cursor: pointer !important;
-}
-
-/* For text inputs, show the text cursor */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="url"],
-input[type="number"],
-textarea {
-  cursor: text !important;
-}
-
