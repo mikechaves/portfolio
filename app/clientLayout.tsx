@@ -5,7 +5,7 @@ import type React from "react"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { MetaverseNav } from "@/components/metaverse-nav"
+import { MetaverseNavFallback } from "@/components/metaverse-nav-fallback"
 import { KatanaCursor } from "@/components/katana-cursor"
 
 // Loading fallback for navigation components that use client-side hooks
@@ -38,7 +38,7 @@ export default function RootLayout({
       <body className="bg-black text-white min-h-screen flex flex-col">
         <KatanaCursor />
         <Suspense fallback={<NavigationFallback />}>
-          <MetaverseNav />
+          <MetaverseNavFallback />
         </Suspense>
         <Navigation />
         <main className="flex-grow">{children}</main>
