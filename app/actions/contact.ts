@@ -72,12 +72,13 @@ export async function sendContactEmail(formData: FormData) {
     `
 
     // Send the email using Resend with HTML content instead of React
+    // Fixed: Changed 'reply_to' to 'replyTo' to match the Resend API
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: ["mike@digitalhous.com"],
       subject: `New contact form submission from ${name}`,
       html: htmlContent,
-      reply_to: email,
+      replyTo: email,
     })
 
     if (error) {
