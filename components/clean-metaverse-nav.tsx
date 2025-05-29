@@ -9,10 +9,20 @@ import dynamic from "next/dynamic"
 // Dynamic imports to avoid SSR issues
 const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canvas), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-screen bg-black flex items-center justify-center">
+      <div className="text-primary text-lg">Loading 3D Environment...</div>
+    </div>
+  ),
 })
 
 const CleanStreetScene = dynamic(() => import("./clean-street-scene"), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-screen bg-black flex items-center justify-center">
+      <div className="text-primary text-lg">Loading Street Scene...</div>
+    </div>
+  ),
 })
 
 export function CleanMetaverseNav() {
@@ -21,12 +31,20 @@ export function CleanMetaverseNav() {
   const [transitioning, setTransitioning] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
+
+    // Set loaded after a brief delay to ensure everything is ready
+    const timer = setTimeout(() => setIsLoaded(true), 100)
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+      clearTimeout(timer)
+    }
   }, [])
 
   const navItems = [
@@ -49,6 +67,34 @@ export function CleanMetaverseNav() {
 
   const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
   const exitMetaverse = () => setShowMetaverse(false)
+
+  // Show loading state until component is ready
+  if (!isLoaded) {
+    return (
+      <div className="fixed top-0 left-0 w-full z-50">
+        <header className="border-b border-border/40 backdrop-blur-sm h-20">
+          <div className="container mx-auto px-4 h-full">
+            <nav className="flex items-center justify-between h-full">
+              <div className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
+                MIKE_CHAVES
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md opacity-50">
+                  Loading...
+                </div>
+              </div>
+              <div className="hidden md:flex items-center space-x-8">
+                <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+                <div className="w-20 h-4 bg-gray-700 rounded animate-pulse"></div>
+                <div className="w-12 h-4 bg-gray-700 rounded animate-pulse"></div>
+                <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            </nav>
+          </div>
+        </header>
+      </div>
+    )
+  }
 
   return (
     <>
