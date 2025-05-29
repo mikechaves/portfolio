@@ -53,4 +53,3 @@ export function Terminal({ text, typingSpeed = 50, className = "", showPrompt = 
     </div>
   )
 }
-

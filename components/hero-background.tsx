@@ -346,4 +346,3 @@ export function HeroBackground() {
 
   return <div ref={containerRef} className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 }
-

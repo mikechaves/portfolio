@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
+import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
@@ -25,7 +26,23 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Mike Chaves | UX Designer & Developer",
   description: "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
-    generator: 'v0.dev'
+  generator: "v0.dev",
+}
+
+// Loading fallback component
+function NavigationFallback() {
+  return (
+    <header className="border-b border-border/40 backdrop-blur-sm h-20">
+      <div className="container mx-auto px-4 h-full">
+        <nav className="flex items-center justify-between h-full">
+          <div className="text-xl font-bold text-primary">MIKE_CHAVES</div>
+          <div className="flex items-center gap-4">
+            <div className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md">Loading...</div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  )
 }
 
 export default function RootLayout({
@@ -38,8 +55,10 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
 
-        {/* Use MetaverseNav instead of the regular Navigation */}
-        <MetaverseNav />
+        {/* Wrap MetaverseNav in Suspense boundary */}
+        <Suspense fallback={<NavigationFallback />}>
+          <MetaverseNav />
+        </Suspense>
 
         {/* Reduced top padding from pt-28 to pt-20 (5rem) */}
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
@@ -57,7 +76,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'

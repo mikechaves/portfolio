@@ -4,4 +4,3 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 
 // Add icons to the library
 library.add(faXTwitter, faGithub, faLinkedin, faEnvelope)
-
