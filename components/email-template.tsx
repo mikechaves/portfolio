@@ -32,4 +32,3 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ name, email, messa
     </p>
   </div>
 )
-

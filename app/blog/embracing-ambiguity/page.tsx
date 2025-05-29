@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react"
 
 export default function EmbracingAmbiguityPage() {
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto pt-8">
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
         <ArrowLeft size={16} /> Back to blog
       </Link>
@@ -61,4 +61,3 @@ export default function EmbracingAmbiguityPage() {
     </div>
   )
 }
-

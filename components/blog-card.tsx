@@ -48,4 +48,3 @@ export function BlogCard({ id, title, excerpt, date, readingTime, url, publicati
     </Component>
   )
 }
-

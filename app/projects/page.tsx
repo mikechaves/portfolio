@@ -102,7 +102,7 @@ export default function ProjectsPage() {
     activeFilter === "all" ? projects : projects.filter((project) => project.category === activeFilter)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pt-8">
       <div className="terminal-window">
         <div className="terminal-header">
           <div className="terminal-button terminal-button-red"></div>
@@ -148,4 +148,3 @@ export default function ProjectsPage() {
     </div>
   )
 }
-

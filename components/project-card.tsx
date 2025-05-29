@@ -36,4 +36,3 @@ export function ProjectCard({ id, title, description, image, technologies }: Pro
     </Link>
   )
 }
-
