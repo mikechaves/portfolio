@@ -12,8 +12,8 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-// import { MetaverseNav } from "@/components/metaverse-nav"
-import { MinimalMetaverseNav } from "@/components/minimal-metaverse-nav"
+import { MetaverseNav } from "@/components/metaverse-nav"
+// import { MinimalMetaverseNav } from "@/components/minimal-metaverse-nav"
 import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
 // import { BlackSunBadge } from "@/components/black-sun-badge"
@@ -66,7 +66,7 @@ export default function RootLayout({
 
         {/* Using the minimal version instead of the original */}
         <Suspense fallback={<NavigationFallback />}>
-          <MinimalMetaverseNav />
+          <MetaverseNav />
         </Suspense>
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>

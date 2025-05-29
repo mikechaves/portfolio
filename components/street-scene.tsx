@@ -8,7 +8,7 @@ import * as THREE from "three"
 
 // Simplified Navigation item component - using a simple mesh
 function NavItem({
-  name, // Still passing name for potential future use, but not rendering it as text
+  name,
   path,
   active,
   position,
@@ -25,7 +25,6 @@ function NavItem({
 
   useFrame((state) => {
     if (!groupRef.current) return
-    // Subtle animation for the group
     groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0] * 0.2) * 0.05
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, (state.mouse.x * Math.PI) / 10, 0.1)
     const targetScale = isHovered ? 1.25 : 1
@@ -47,19 +46,34 @@ function NavItem({
         if (document.body) document.body.style.cursor = "none"
       }}
     >
+      {/* Main button mesh */}
       <mesh>
-        <boxGeometry args={[1.5, 0.4, 0.2]} /> {/* Simple box as the button */}
+        <boxGeometry args={[2, 0.6, 0.3]} />
         <meshStandardMaterial
           color={active ? "#00ff8c" : isHovered ? "#00ffff" : "#005555"}
           emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#005555"}
           emissiveIntensity={active ? 0.7 : isHovered ? 0.5 : 0.2}
         />
       </mesh>
-      {/* Placeholder for where text would be, to help visualize */}
-      <mesh position={[0, 0, 0.11]}>
-        <planeGeometry args={[1.4, 0.3]} />
-        <meshBasicMaterial color={active ? "#000" : "#fff"} transparent opacity={0.3} />
+
+      {/* Glowing outline */}
+      <mesh>
+        <boxGeometry args={[2.1, 0.7, 0.35]} />
+        <meshBasicMaterial color={active ? "#00ff8c" : "#005555"} transparent opacity={0.3} wireframe />
       </mesh>
+
+      {/* Corner accents */}
+      {[
+        [-0.9, 0.25, 0.16],
+        [0.9, 0.25, 0.16],
+        [-0.9, -0.25, 0.16],
+        [0.9, -0.25, 0.16],
+      ].map((pos, i) => (
+        <mesh key={i} position={pos as [number, number, number]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshBasicMaterial color="#00ff8c" />
+        </mesh>
+      ))}
     </group>
   )
 }
