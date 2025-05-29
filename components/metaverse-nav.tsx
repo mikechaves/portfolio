@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
-import * as THREE from "three" // Import THREE directly
+import * as THREE from "three"
 
 // Dynamically import R3F components
 const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canvas), {
@@ -15,28 +15,24 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
   ),
 })
 
-const Text = dynamic(() => import("@react-three/drei").then((mod) => mod.Text), { ssr: false })
-const Environment = dynamic(() => import("@react-three/drei").then((mod) => mod.Environment), { ssr: false })
-
-// Import R3F hooks directly, they will only be used within client-rendered Canvas
+// Import R3F hooks directly
 import { useFrame, useThree } from "@react-three/fiber"
 
-// Navigation item component that renders in 3D space
-function NavItem({
-  name,
-  path,
-  active,
+// Simple 3D text using basic geometry instead of Text component
+function Simple3DText({
+  text,
   position,
+  color = "white",
+  active = false,
   onClick,
 }: {
-  name: string
-  path: string
-  active: boolean
+  text: string
   position: [number, number, number]
+  color?: string
+  active?: boolean
   onClick: () => void
 }) {
-  const mesh = useRef<THREE.Mesh>(null!) // Added non-null assertion
-
+  const mesh = useRef<THREE.Mesh>(null!)
   const [isHovered, setIsHovered] = useState(false)
 
   useFrame((state) => {
@@ -59,18 +55,15 @@ function NavItem({
       }}
       onPointerOut={() => {
         setIsHovered(false)
-        if (document.body) document.body.style.cursor = "none" // Assuming 'none' is for your custom cursor
+        if (document.body) document.body.style.cursor = "auto"
       }}
     >
-      <Text
-        color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
-        fontSize={0.3}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {name}
-        {/* Material is implicitly handled by Text or can be added if needed */}
-      </Text>
+      <boxGeometry args={[1.5, 0.3, 0.1]} />
+      <meshStandardMaterial
+        color={active ? "#00ff8c" : isHovered ? "#00ffff" : color}
+        emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#000000"}
+        emissiveIntensity={0.3}
+      />
     </mesh>
   )
 }
@@ -130,22 +123,28 @@ function CyberCity() {
   )
 }
 
-// Floating code component
+// Floating code component using simple geometry
 function FloatingCode() {
-  const codeFragments = React.useMemo(() => ["{ }", "< />", "01", "AI", "XR", "UX"], [])
+  const codeElements = React.useMemo(
+    () =>
+      Array.from({ length: 6 }, (_, i) => ({
+        key: i,
+        position: [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20] as [
+          number,
+          number,
+          number,
+        ],
+      })),
+    [],
+  )
 
   return (
     <group>
-      {codeFragments.map((code, i) => (
-        <Text
-          key={i}
-          position={[(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20]}
-          fontSize={0.2}
-          color="#00ff8c"
-          anchorX="center"
-        >
-          {code}
-        </Text>
+      {codeElements.map((element) => (
+        <mesh key={element.key} position={element.position}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.8} />
+        </mesh>
       ))}
     </group>
   )
@@ -172,7 +171,7 @@ function Street({
     } else {
       camera.position.set(0, 0, 5)
     }
-    camera.lookAt(0, 0, 0) // Ensure camera is looking at the center
+    camera.lookAt(0, 0, 0)
   }, [camera, isMobile])
 
   return (
@@ -180,10 +179,6 @@ function Street({
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.5} />
       <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
-
-      <Suspense fallback={null}>
-        <Environment preset="night" />
-      </Suspense>
 
       <CyberCity />
       <FloatingCode />
@@ -205,12 +200,11 @@ function Street({
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
 
         return (
-          <NavItem
+          <Simple3DText
             key={item.path}
-            name={item.name}
-            path={item.path}
-            active={pathname === item.path}
+            text={item.name}
             position={position}
+            active={pathname === item.path}
             onClick={() => onNavigate(item.path)}
           />
         )
@@ -255,12 +249,11 @@ export function MetaverseNav() {
   const [transitioning, setTransitioning] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [canRender3D, setCanRender3D] = useState(false) // Default to false until checked
+  const [canRender3D, setCanRender3D] = useState(false)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
 
-    // Check if WebGL is supported for 3D rendering
     const checkWebGL = () => {
       try {
         const canvas = document.createElement("canvas")
@@ -272,7 +265,7 @@ export function MetaverseNav() {
     }
 
     checkMobile()
-    checkWebGL() // Check WebGL support on mount
+    checkWebGL()
 
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
@@ -292,14 +285,12 @@ export function MetaverseNav() {
     }
     setTransitioning(true)
     setTimeout(() => {
-      window.location.href = path // Using window.location for simplicity, consider Next Router for SPA transitions
+      window.location.href = path
     }, 500)
   }
 
   const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
   const exitMetaverse = () => setShowMetaverse(false)
-
-  // Fallback 2D navigation for when 3D fails or is not supported
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -404,7 +395,7 @@ export function MetaverseNav() {
           </button>
         </div>
         <div className="w-full h-screen">
-          {showMetaverse && ( // Only render Canvas when metaverse is shown
+          {showMetaverse && (
             <ThreeErrorBoundary
               fallback={
                 <div className="w-full h-screen bg-black flex items-center justify-center text-red-500">
@@ -414,13 +405,7 @@ export function MetaverseNav() {
             >
               {canRender3D ? (
                 <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-full flex items-center justify-center text-primary">
-                        Initializing Street...
-                      </div>
-                    }
-                  >
+                  <Suspense fallback={null}>
                     <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
                   </Suspense>
                 </Canvas>
