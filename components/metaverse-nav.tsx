@@ -290,13 +290,7 @@ export function MetaverseNav() {
                     gl.setClearColor("#000000", 0)
                   }}
                 >
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-full flex items-center justify-center text-primary">
-                        Initializing 3D environment...
-                      </div>
-                    }
-                  >
+                  <Suspense fallback={null}>
                     <StreetScene
                       navItems={navItems}
                       pathname={pathname}
