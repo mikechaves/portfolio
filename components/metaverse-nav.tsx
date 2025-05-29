@@ -239,7 +239,11 @@ class ThreeErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback
+      return (
+        <div className="w-full h-screen bg-black flex items-center justify-center text-red-500">
+          3D Navigation Error - Please refresh the page
+        </div>
+      )
     }
     return this.props.children
   }
@@ -296,36 +300,6 @@ export function MetaverseNav() {
   const exitMetaverse = () => setShowMetaverse(false)
 
   // Fallback 2D navigation for when 3D fails or is not supported
-  const Fallback2DNav = () => (
-    <div className="h-screen flex items-center justify-center bg-black">
-      <div className="grid grid-cols-2 gap-8 max-w-2xl p-4">
-        {navItems.map((item) => (
-          <motion.div
-            key={item.path}
-            className={`border ${
-              pathname === item.path ? "border-primary" : "border-zinc-700"
-            } rounded-md overflow-hidden cursor-pointer`}
-            whileHover={{ scale: 1.05, borderColor: "#00ff8c" }}
-            onClick={() => handleNavigate(item.path)}
-          >
-            <div className="p-6 bg-black/80">
-              <h3
-                className={`text-xl font-bold mb-2 ${pathname === item.path ? "text-primary" : "text-white"} glitch`}
-                data-text={item.name}
-              >
-                {item.name}
-              </h3>
-              <div className="h-1 w-12 bg-primary/50 mb-4"></div>
-              <div className="flex items-center">
-                <span className="text-primary mr-2">$</span>
-                <span className="text-zinc-400">cd /{item.name}</span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  )
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -431,7 +405,13 @@ export function MetaverseNav() {
         </div>
         <div className="w-full h-screen">
           {showMetaverse && ( // Only render Canvas when metaverse is shown
-            <ThreeErrorBoundary fallback={<Fallback2DNav />}>
+            <ThreeErrorBoundary
+              fallback={
+                <div className="w-full h-screen bg-black flex items-center justify-center text-red-500">
+                  3D Navigation Error - Please refresh the page
+                </div>
+              }
+            >
               {canRender3D ? (
                 <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
                   <Suspense
@@ -445,7 +425,9 @@ export function MetaverseNav() {
                   </Suspense>
                 </Canvas>
               ) : (
-                <Fallback2DNav />
+                <div className="w-full h-screen bg-black flex items-center justify-center text-yellow-500">
+                  WebGL not supported
+                </div>
               )}
             </ThreeErrorBoundary>
           )}
