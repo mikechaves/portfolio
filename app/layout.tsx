@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
+import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
@@ -11,10 +12,10 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { CleanMetaverseNav } from "@/components/clean-metaverse-nav"
+import { MetaverseNav } from "@/components/metaverse-nav"
 import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
-import { Suspense } from "react"
+// import { BlackSunBadge } from "@/components/black-sun-badge"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -28,6 +29,30 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
+// Loading fallback component for navigation
+function NavigationFallback() {
+  return (
+    <header className="border-b border-border/40 backdrop-blur-sm h-20">
+      <div className="container mx-auto px-4 h-full">
+        <nav className="flex items-center justify-between h-full">
+          <div className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
+            MIKE_CHAVES
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md">Loading...</div>
+          </div>
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-20 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-12 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  )
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,14 +63,15 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
 
-        {/* No Suspense wrapper - let the component handle its own loading */}
-        <Suspense>
-          <CleanMetaverseNav />
+        {/* Back to the original MetaverseNav with error handling */}
+        <Suspense fallback={<NavigationFallback />}>
+          <MetaverseNav />
         </Suspense>
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
         <Footer />
 
+        {/* Add our Snow Crash inspired components */}
         <SumerianVirus />
         <KatanaCursor />
 

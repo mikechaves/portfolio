@@ -25,6 +25,7 @@ const nextConfig = {
     "@fortawesome/fontawesome-svg-core",
     "three",
     "@react-three/fiber",
+    "@react-three/drei",
   ],
   // Removed the experimental.appDir option as it's now the default
 }
