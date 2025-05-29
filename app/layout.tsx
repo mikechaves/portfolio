@@ -12,11 +12,9 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { MetaverseNav } from "@/components/metaverse-nav"
-// import { MinimalMetaverseNav } from "@/components/minimal-metaverse-nav"
+import { CleanMetaverseNav } from "@/components/clean-metaverse-nav"
 import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
-// import { BlackSunBadge } from "@/components/black-sun-badge"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -64,15 +62,13 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
 
-        {/* Using the minimal version instead of the original */}
         <Suspense fallback={<NavigationFallback />}>
-          <MetaverseNav />
+          <CleanMetaverseNav />
         </Suspense>
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
         <Footer />
 
-        {/* Add our Snow Crash inspired components */}
         <SumerianVirus />
         <KatanaCursor />
 
