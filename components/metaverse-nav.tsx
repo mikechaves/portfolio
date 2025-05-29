@@ -18,22 +18,23 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
 // Import R3F hooks directly
 import { useFrame, useThree } from "@react-three/fiber"
 
-// HTML overlay for 3D positioned text
-function HTML3DText({
-  text,
+// 3D navigation item that communicates position to parent
+function NavItem3D({
+  name,
   position,
   active = false,
   onClick,
+  onPositionUpdate,
 }: {
-  text: string
+  name: string
   position: [number, number, number]
   active?: boolean
   onClick: () => void
+  onPositionUpdate: (name: string, screenPos: { x: number; y: number }, hovered: boolean) => void
 }) {
   const mesh = useRef<THREE.Mesh>(null!)
   const [isHovered, setIsHovered] = useState(false)
   const { camera, size } = useThree()
-  const [screenPosition, setScreenPosition] = useState({ x: 0, y: 0 })
 
   useFrame((state) => {
     if (!mesh.current || !camera) return
@@ -44,65 +45,40 @@ function HTML3DText({
     const targetScale = isHovered ? 1.2 : 1
     mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
 
-    // Project 3D position to screen coordinates for HTML overlay
+    // Project 3D position to screen coordinates
     const vector = new THREE.Vector3(mesh.current.position.x, mesh.current.position.y, mesh.current.position.z)
     vector.project(camera)
 
     const x = (vector.x * 0.5 + 0.5) * size.width
     const y = (vector.y * -0.5 + 0.5) * size.height
 
-    setScreenPosition({ x, y })
+    onPositionUpdate(name, { x, y }, isHovered)
   })
 
   return (
-    <>
-      {/* Invisible 3D mesh for interaction */}
-      <mesh
-        ref={mesh}
-        position={position}
-        onClick={onClick}
-        onPointerOver={(event) => {
-          event.stopPropagation()
-          setIsHovered(true)
-          if (document.body) document.body.style.cursor = "pointer"
-        }}
-        onPointerOut={() => {
-          setIsHovered(false)
-          if (document.body) document.body.style.cursor = "auto"
-        }}
-      >
-        <boxGeometry args={[1.5, 0.3, 0.1]} />
-        <meshStandardMaterial
-          transparent
-          opacity={0.1}
-          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
-          emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#000000"}
-          emissiveIntensity={0.3}
-        />
-      </mesh>
-
-      {/* HTML text overlay */}
-      <div
-        style={{
-          position: "absolute",
-          left: screenPosition.x,
-          top: screenPosition.y,
-          transform: "translate(-50%, -50%)",
-          pointerEvents: "none",
-          zIndex: 1000,
-          fontSize: isHovered ? "24px" : "20px",
-          fontWeight: "bold",
-          color: active ? "#00ff8c" : isHovered ? "#00ffff" : "white",
-          textShadow: "0 0 10px currentColor",
-          transition: "all 0.2s ease",
-          fontFamily: "inherit",
-        }}
-        className="glitch"
-        data-text={text.toUpperCase()}
-      >
-        {text.toUpperCase()}
-      </div>
-    </>
+    <mesh
+      ref={mesh}
+      position={position}
+      onClick={onClick}
+      onPointerOver={(event) => {
+        event.stopPropagation()
+        setIsHovered(true)
+        if (document.body) document.body.style.cursor = "pointer"
+      }}
+      onPointerOut={() => {
+        setIsHovered(false)
+        if (document.body) document.body.style.cursor = "auto"
+      }}
+    >
+      <boxGeometry args={[1.5, 0.3, 0.1]} />
+      <meshStandardMaterial
+        transparent
+        opacity={0.2}
+        color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
+        emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#000000"}
+        emissiveIntensity={0.3}
+      />
+    </mesh>
   )
 }
 
@@ -194,11 +170,13 @@ function Street({
   pathname,
   onNavigate,
   isMobile,
+  onNavPositionUpdate,
 }: {
   navItems: { name: string; path: string }[]
   pathname: string
   onNavigate: (path: string) => void
   isMobile: boolean
+  onNavPositionUpdate: (name: string, screenPos: { x: number; y: number }, hovered: boolean) => void
 }) {
   const { camera } = useThree()
 
@@ -238,12 +216,13 @@ function Street({
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
 
         return (
-          <HTML3DText
+          <NavItem3D
             key={item.path}
-            text={item.name}
+            name={item.name}
             position={position}
             active={pathname === item.path}
             onClick={() => onNavigate(item.path)}
+            onPositionUpdate={onNavPositionUpdate}
           />
         )
       })}
@@ -288,6 +267,7 @@ export function MetaverseNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [canRender3D, setCanRender3D] = useState(false)
+  const [navPositions, setNavPositions] = useState<Record<string, { x: number; y: number; hovered: boolean }>>({})
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -325,6 +305,13 @@ export function MetaverseNav() {
     setTimeout(() => {
       window.location.href = path
     }, 500)
+  }
+
+  const handleNavPositionUpdate = (name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
+    setNavPositions((prev) => ({
+      ...prev,
+      [name]: { ...screenPos, hovered },
+    }))
   }
 
   const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
@@ -442,11 +429,51 @@ export function MetaverseNav() {
               }
             >
               {canRender3D ? (
-                <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
-                  <Suspense fallback={null}>
-                    <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
-                  </Suspense>
-                </Canvas>
+                <>
+                  <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
+                    <Suspense fallback={null}>
+                      <Street
+                        navItems={navItems}
+                        pathname={pathname}
+                        onNavigate={handleNavigate}
+                        isMobile={isMobile}
+                        onNavPositionUpdate={handleNavPositionUpdate}
+                      />
+                    </Suspense>
+                  </Canvas>
+
+                  {/* HTML text overlays positioned outside Canvas */}
+                  {navItems.map((item) => {
+                    const pos = navPositions[item.name]
+                    if (!pos) return null
+
+                    const isActive = pathname === item.path
+
+                    return (
+                      <div
+                        key={item.path}
+                        style={{
+                          position: "absolute",
+                          left: pos.x,
+                          top: pos.y,
+                          transform: "translate(-50%, -50%)",
+                          pointerEvents: "none",
+                          zIndex: 1000,
+                          fontSize: pos.hovered ? "24px" : "20px",
+                          fontWeight: "bold",
+                          color: isActive ? "#00ff8c" : pos.hovered ? "#00ffff" : "white",
+                          textShadow: "0 0 10px currentColor",
+                          transition: "all 0.2s ease",
+                          fontFamily: "inherit",
+                        }}
+                        className="glitch"
+                        data-text={item.name.toUpperCase()}
+                      >
+                        {item.name.toUpperCase()}
+                      </div>
+                    )
+                  })}
+                </>
               ) : (
                 <div className="w-full h-screen bg-black flex items-center justify-center text-yellow-500">
                   WebGL not supported
