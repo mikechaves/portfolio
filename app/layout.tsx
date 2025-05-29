@@ -26,18 +26,26 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Mike Chaves | UX Designer & Developer",
   description: "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
-  generator: "v0.dev",
+    generator: 'v0.dev'
 }
 
-// Loading fallback component
+// Loading fallback component for navigation
 function NavigationFallback() {
   return (
     <header className="border-b border-border/40 backdrop-blur-sm h-20">
       <div className="container mx-auto px-4 h-full">
         <nav className="flex items-center justify-between h-full">
-          <div className="text-xl font-bold text-primary">MIKE_CHAVES</div>
+          <div className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
+            MIKE_CHAVES
+          </div>
           <div className="flex items-center gap-4">
             <div className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md">Loading...</div>
+          </div>
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-20 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-12 h-4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
           </div>
         </nav>
       </div>
@@ -55,7 +63,7 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
 
-        {/* Wrap MetaverseNav in Suspense boundary */}
+        {/* Wrap MetaverseNav in Suspense boundary to fix deployment error */}
         <Suspense fallback={<NavigationFallback />}>
           <MetaverseNav />
         </Suspense>

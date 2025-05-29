@@ -22,6 +22,13 @@ export function KatanaCursor() {
       setIsTouchDevice(isMobile || isSmallScreen)
     }
 
+    // Hide the default cursor when our custom cursor is active
+    if (!isTouchDevice) {
+      document.body.classList.add("cursor-none")
+    } else {
+      document.body.classList.remove("cursor-none")
+    }
+
     // Initial check
     checkTouchDevice()
 
@@ -54,6 +61,9 @@ export function KatanaCursor() {
       window.removeEventListener("mouseleave", handleMouseLeave)
       window.removeEventListener("mousedown", handleMouseDown)
       window.removeEventListener("resize", checkTouchDevice)
+
+      // Reset cursor to default when component unmounts
+      document.body.classList.remove("cursor-none")
     }
   }, [isTouchDevice])
 
@@ -63,39 +73,41 @@ export function KatanaCursor() {
   }
 
   return (
-    <motion.div
-      className="fixed z-[1000] pointer-events-none"
-      animate={{
-        x: position.x,
-        y: position.y,
-        opacity: isVisible ? 1 : 0,
-        rotate: isSlashing ? [0, 45, 90, 135, 180, 225, 270, 315, 360] : 0,
-        scale: isSlashing ? [1, 1.2, 1] : 1,
-      }}
-      transition={{
-        x: { duration: 0.1, ease: "linear" },
-        y: { duration: 0.1, ease: "linear" },
-        rotate: { duration: 0.3, ease: "easeInOut" },
-        scale: { duration: 0.3, ease: "easeInOut" },
-      }}
-    >
-      <div className="relative w-8 h-8 flex items-center justify-center">
-        {/* Katana handle */}
-        <div className="absolute w-1.5 h-4 bg-zinc-800 rounded-full translate-y-2"></div>
+    <>
+      <motion.div
+        className="fixed z-[1000] pointer-events-none"
+        animate={{
+          x: position.x,
+          y: position.y,
+          opacity: isVisible ? 1 : 0,
+          rotate: isSlashing ? [0, 45, 90, 135, 180, 225, 270, 315, 360] : 0,
+          scale: isSlashing ? [1, 1.2, 1] : 1,
+        }}
+        transition={{
+          x: { duration: 0.1, ease: "linear" },
+          y: { duration: 0.1, ease: "linear" },
+          rotate: { duration: 0.3, ease: "easeInOut" },
+          scale: { duration: 0.3, ease: "easeInOut" },
+        }}
+      >
+        <div className="relative w-8 h-8 flex items-center justify-center">
+          {/* Katana handle */}
+          <div className="absolute w-1.5 h-4 bg-zinc-800 rounded-full translate-y-2"></div>
 
-        {/* Katana blade */}
-        <div className="absolute w-0.5 h-12 bg-white/80 rounded-full -translate-y-2 shadow-[0_0_5px_rgba(255,255,255,0.7)]"></div>
+          {/* Katana blade */}
+          <div className="absolute w-0.5 h-12 bg-white/80 rounded-full -translate-y-2 shadow-[0_0_5px_rgba(255,255,255,0.7)]"></div>
 
-        {/* Slash effect */}
-        {isSlashing && (
-          <motion.div
-            className="absolute w-20 h-20 rounded-full border border-primary"
-            initial={{ opacity: 1, scale: 0 }}
-            animate={{ opacity: 0, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
-      </div>
-    </motion.div>
+          {/* Slash effect */}
+          {isSlashing && (
+            <motion.div
+              className="absolute w-20 h-20 rounded-full border border-primary"
+              initial={{ opacity: 1, scale: 0 }}
+              animate={{ opacity: 0, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+          )}
+        </div>
+      </motion.div>
+    </>
   )
 }

@@ -23,6 +23,7 @@ function NavItem({
   onClick: () => void
 }) {
   const mesh = useRef<THREE.Mesh>(null)
+  const [isHovered, setIsHovered] = useState(false)
 
   useFrame((state) => {
     if (!mesh.current) return
@@ -30,19 +31,115 @@ function NavItem({
     mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
     // Rotate slightly based on mouse position
     mesh.current.rotation.y = THREE.MathUtils.lerp(mesh.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
+    // Scale on hover
+    const targetScale = isHovered ? 1.2 : 1
+    mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
   })
 
   return (
-    <mesh ref={mesh} position={position} onClick={onClick}>
+    <mesh
+      ref={mesh}
+      position={position}
+      onClick={onClick}
+      onPointerOver={(event) => {
+        event.stopPropagation() // Prevent events from bubbling up to parent elements
+        setIsHovered(true)
+        document.body.style.cursor = "pointer" // Change cursor to pointer on hover
+      }}
+      onPointerOut={(event) => {
+        setIsHovered(false)
+        document.body.style.cursor = "none" // Revert to custom cursor
+      }}
+    >
       <Text color={active ? "#00ff8c" : "white"} fontSize={0.3} anchorX="center" anchorY="middle">
         {name}
         <meshStandardMaterial
-          color={active ? "#00ff8c" : "white"}
-          emissive={active ? "#00ff8c" : "#444444"}
-          emissiveIntensity={active ? 0.8 : 0.2}
+          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"} // Cyan for hover
+          emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#444444"}
+          emissiveIntensity={active ? 0.8 : isHovered ? 0.6 : 0.2} // Brighter emissive on hover
         />
       </Text>
     </mesh>
+  )
+}
+
+// Add this new component before the Street component
+function DataStream({ position }: { position: [number, number, number] }) {
+  const mesh = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    if (!mesh.current) return
+    mesh.current.position.y += 0.01
+    if (mesh.current.position.y > 5) {
+      mesh.current.position.y = -5
+    }
+    mesh.current.rotation.z += 0.02
+  })
+
+  return (
+    <mesh ref={mesh} position={position}>
+      <boxGeometry args={[0.02, 0.1, 0.02]} />
+      <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.5} />
+    </mesh>
+  )
+}
+
+// Add this after the existing NavItem component
+function HolographicPreview({ show, content }: { show: boolean; content: string }) {
+  return (
+    <group visible={show}>
+      <Text position={[0, 1, 0]} fontSize={0.15} color="#00ff8c" anchorX="center">
+        {content}
+        <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.3} transparent opacity={0.8} />
+      </Text>
+    </group>
+  )
+}
+
+// Add this component for background cityscape
+function CyberCity() {
+  const buildings = Array.from({ length: 20 }, (_, i) => ({
+    position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [number, number, number],
+    height: Math.random() * 8 + 2,
+    width: Math.random() * 2 + 0.5,
+  }))
+
+  return (
+    <group>
+      {buildings.map((building, i) => (
+        <mesh key={i} position={building.position}>
+          <boxGeometry args={[building.width, building.height, building.width]} />
+          <meshStandardMaterial
+            color="#111111"
+            emissive="#00ff8c"
+            emissiveIntensity={0.1}
+            wireframe={Math.random() > 0.7}
+          />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+// Add this for floating code elements
+function FloatingCode() {
+  const codeFragments = ["{ }", "< />", "01", "AI", "XR", "UX"]
+
+  return (
+    <group>
+      {codeFragments.map((code, i) => (
+        <Text
+          key={i}
+          position={[(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20]}
+          fontSize={0.2}
+          color="#00ff8c"
+          anchorX="center"
+        >
+          {code}
+          <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.2} transparent opacity={0.6} />
+        </Text>
+      ))}
+    </group>
   )
 }
 
@@ -72,13 +169,25 @@ function Street({
 
   return (
     <>
+      {/* Existing lighting and environment */}
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.5} />
       <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
-
       <Environment preset="night" />
 
-      {/* The Street - a glowing grid that extends to the horizon */}
+      {/* Add the new components */}
+      <CyberCity />
+      <FloatingCode />
+
+      {/* Add data streams around navigation */}
+      {Array.from({ length: 10 }, (_, i) => (
+        <DataStream
+          key={i}
+          position={[(Math.random() - 0.5) * 15, Math.random() * 10 - 5, (Math.random() - 0.5) * 10]}
+        />
+      ))}
+
+      {/* Existing street grid */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[100, 100, 50, 50]} />
         <meshStandardMaterial color="#000000" wireframe={true} emissive="#00ff8c" emissiveIntensity={0.2} />
@@ -86,14 +195,8 @@ function Street({
 
       {/* Navigation items positioned along the street */}
       {navItems.map((item, index) => {
-        // Adjust spacing based on screen size
         const spacing = isMobile ? 1.2 : 1.5
-
-        const position: [number, number, number] = [
-          (index - (navItems.length - 1) / 2) * spacing, // Spread items horizontally with adjusted spacing
-          0, // All at same height
-          0, // All at same depth
-        ]
+        const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
 
         return (
           <NavItem

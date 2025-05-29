@@ -210,7 +210,7 @@ export default function AboutPage() {
 
         {introComplete && (
           <Terminal
-            text="Hello, I'm MIKE_CHAVES. I blend technical expertise with creative innovation to deliver accessible, immersive digital experiences. I am on track to graduate with my Master of Design in Experience Design in May 2025 at San Jose State University, and I lead my team in Snap Inc's Spectacles Accelerator Program."
+            text="Hello, I'm MIKE_CHAVES. I blend technical expertise with creative innovation to deliver accessible, immersive digital experiences. I graduated with my Master of Design in Experience Design from San Jose State University in May 2025, and I lead my team in Snap Inc's Spectacles Accelerator Program."
             typingSpeed={20}
             className="max-w-3xl mx-auto mt-4"
             showPrompt={false}
@@ -301,7 +301,7 @@ export default function AboutPage() {
                   </p>
                   <div className="mb-4">
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Master of Design in Experience Design, Exp. May 2025
+                      <span className="text-primary">degree:</span> Master of Design in Experience Design, May 2025
                     </p>
                     <p className="mb-2">
                       <span className="text-primary">institution:</span> San Jose State University, San Jose, CA
