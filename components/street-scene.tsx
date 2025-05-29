@@ -2,10 +2,10 @@
 
 import React, { useRef, useState, useEffect } from "react"
 import { useFrame, useThree } from "@react-three/fiber"
-import { Html } from "@react-three/drei"
+import { Text } from "@react-three/drei" // Using Drei's Text for 3D text
 import * as THREE from "three"
 
-// Navigation item component - using Html component to render text safely
+// Navigation item component - using Drei's Text for 3D text
 function NavItem({
   name,
   path,
@@ -19,69 +19,50 @@ function NavItem({
   position: [number, number, number]
   onClick: () => void
 }) {
-  const mesh = useRef<THREE.Mesh>(null)
+  const groupRef = useRef<THREE.Group>(null)
   const [isHovered, setIsHovered] = useState(false)
 
   useFrame((state) => {
-    if (!mesh.current) return
-    mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
-    mesh.current.rotation.y = THREE.MathUtils.lerp(mesh.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
+    if (!groupRef.current) return
+    groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
     const targetScale = isHovered ? 1.2 : 1
-    mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
+    groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
   })
 
   return (
-    <group position={position}>
-      {/* Invisible clickable mesh */}
-      <mesh
-        ref={mesh}
-        onClick={onClick}
-        onPointerOver={(event) => {
-          event.stopPropagation()
-          setIsHovered(true)
-          if (document.body) document.body.style.cursor = "pointer"
-        }}
-        onPointerOut={() => {
-          setIsHovered(false)
-          if (document.body) document.body.style.cursor = "none"
-        }}
-      >
-        <boxGeometry args={[2, 0.5, 0.1]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-
-      {/* Text rendered as HTML overlay */}
-      <Html center>
-        <div
-          className={`px-4 py-2 rounded border transition-all duration-200 ${
-            active
-              ? "border-primary text-primary bg-black/80"
-              : isHovered
-                ? "border-cyan-400 text-cyan-400 bg-black/80"
-                : "border-white text-white bg-black/60"
-          }`}
-          style={{
-            fontFamily: "monospace",
-            fontSize: "14px",
-            fontWeight: "bold",
-            textTransform: "uppercase",
-            backdropFilter: "blur(4px)",
-            pointerEvents: "none",
-          }}
-        >
-          {name}
-        </div>
-      </Html>
-
-      {/* Glowing effect */}
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[2.2, 0.7]} />
-        <meshBasicMaterial
-          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "#ffffff"}
+    <group
+      ref={groupRef}
+      position={position}
+      onClick={onClick}
+      onPointerOver={(event) => {
+        event.stopPropagation()
+        setIsHovered(true)
+        if (document.body) document.body.style.cursor = "pointer"
+      }}
+      onPointerOut={() => {
+        setIsHovered(false)
+        if (document.body) document.body.style.cursor = "none" // Or your custom cursor class
+      }}
+    >
+      {/* Background plane for the text */}
+      <mesh>
+        <planeGeometry args={[2, 0.6]} />
+        <meshStandardMaterial
+          color={active ? "#00ff8c" : isHovered ? "#003333" : "#001a1a"}
           transparent
-          opacity={isHovered ? 0.1 : active ? 0.05 : 0.02}
+          opacity={0.8}
         />
       </mesh>
+      <Text
+        color={active ? "#000000" : isHovered ? "#00ffff" : "white"}
+        fontSize={0.25}
+        anchorX="center"
+        anchorY="middle"
+        font="/fonts/GeistMono-Regular.ttf" // Using a built-in font
+      >
+        {name.toUpperCase()}
+      </Text>
     </group>
   )
 }
@@ -218,7 +199,7 @@ export default function StreetScene({
 
       {/* Navigation items */}
       {navItems.map((item, index) => {
-        const spacing = isMobile ? 1.5 : 2
+        const spacing = isMobile ? 1.8 : 2.2 // Adjusted spacing for 3D Text
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
 
         return (
