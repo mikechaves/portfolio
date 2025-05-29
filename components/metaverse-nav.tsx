@@ -14,27 +14,30 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
   ),
 })
 
-// Navigation item component that renders in 3D space
+// Keep NavItem, DataStream, FloatingCode as synchronous components
+// but pass the dynamically imported modules to them.
+
 function NavItem({
   name,
   path,
   active,
   position,
   onClick,
+  useFrame,
+  Text,
+  THREE,
 }: {
   name: string
   path: string
   active: boolean
   position: [number, number, number]
   onClick: () => void
+  useFrame: any
+  Text: any
+  THREE: any
 }) {
   const mesh = useRef<any>(null)
   const [isHovered, setIsHovered] = useState(false)
-
-  // Import hooks inside the component to ensure they're used within Canvas context
-  const { useFrame } = require("@react-three/fiber")
-  const { Text } = require("@react-three/drei")
-  const THREE = require("three")
 
   useFrame((state: any) => {
     if (!mesh.current) return
@@ -71,10 +74,8 @@ function NavItem({
   )
 }
 
-// Data stream component
-function DataStream({ position }: { position: [number, number, number] }) {
+function DataStream({ position, useFrame }: { position: [number, number, number]; useFrame: any }) {
   const mesh = useRef<any>(null)
-  const { useFrame } = require("@react-three/fiber")
 
   useFrame(() => {
     if (!mesh.current) return
@@ -90,6 +91,30 @@ function DataStream({ position }: { position: [number, number, number] }) {
       <boxGeometry args={[0.02, 0.1, 0.02]} />
       <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.5} />
     </mesh>
+  )
+}
+
+function FloatingCode({ Text }: { Text: any }) {
+  const codeFragments = React.useMemo(() => ["{ }", "< />", "01", "AI", "XR", "UX"], [])
+  const positions = React.useMemo(
+    () => codeFragments.map(() => [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20]),
+    [codeFragments],
+  )
+
+  return (
+    <group>
+      {codeFragments.map((code, i) => (
+        <Text
+          key={i}
+          position={positions[i] as [number, number, number]}
+          fontSize={0.2}
+          color="#00ff8c"
+          anchorX="center"
+        >
+          {code}
+        </Text>
+      ))}
+    </group>
   )
 }
 
@@ -128,27 +153,7 @@ function CyberCity() {
   )
 }
 
-// Floating code component
-function FloatingCode() {
-  const { Text } = require("@react-three/drei")
-  const codeFragments = React.useMemo(() => ["{ }", "< />", "01", "AI", "XR", "UX"], [])
-  const positions = React.useMemo(
-    () => codeFragments.map(() => [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20]),
-    [codeFragments],
-  )
-
-  return (
-    <group>
-      {codeFragments.map((code, i) => (
-        <Text key={i} position={positions[i]} fontSize={0.2} color="#00ff8c" anchorX="center">
-          {code}
-        </Text>
-      ))}
-    </group>
-  )
-}
-
-// The Street scene component
+// The Street scene component - now loads modules and passes them
 function Street({
   navItems,
   pathname,
@@ -160,19 +165,51 @@ function Street({
   onNavigate: (path: string) => void
   isMobile: boolean
 }) {
-  const { useThree } = require("@react-three/fiber")
-  const { Environment } = require("@react-three/drei")
-  const { camera } = useThree()
+  const [modules, setModules] = useState<any>(null)
+  const [camera, setCamera] = useState<any>(null) // Move camera state here
 
   useEffect(() => {
-    if (!camera) return
-    if (isMobile) {
-      camera.position.set(0, 0, 7)
-    } else {
-      camera.position.set(0, 0, 5)
+    const loadModules = async () => {
+      const fiber = await import("@react-three/fiber")
+      const drei = await import("@react-three/drei")
+      const three = await import("three")
+      setModules({
+        useFrame: fiber.useFrame,
+        useThree: fiber.useThree,
+        Text: drei.Text,
+        Environment: drei.Environment,
+        THREE: three,
+      })
     }
-    camera.lookAt(0, 0, 0)
+    loadModules()
+  }, [])
+
+  useEffect(() => {
+    if (modules) {
+      const { useThree } = modules
+      const { camera } = useThree() // Access camera here
+      setCamera(camera) // Set the camera state
+    }
+  }, [modules])
+
+  useEffect(() => {
+    if (camera) {
+      if (isMobile) {
+        camera.position.set(0, 0, 7)
+      } else {
+        camera.position.set(0, 0, 5)
+      }
+      camera.lookAt(0, 0, 0)
+    }
   }, [camera, isMobile])
+
+  if (!modules) {
+    // You can return a loading state here if needed, or null
+    // The Suspense in MetaverseNav should handle the initial loading
+    return null
+  }
+
+  const { useThree, Environment, Text, useFrame, THREE } = modules
 
   return (
     <>
@@ -185,12 +222,13 @@ function Street({
       </Suspense>
 
       <CyberCity />
-      <FloatingCode />
+      <FloatingCode Text={Text} />
 
       {Array.from({ length: 10 }, (_, i) => (
         <DataStream
           key={i}
           position={[(Math.random() - 0.5) * 15, Math.random() * 10 - 5, (Math.random() - 0.5) * 10]}
+          useFrame={useFrame}
         />
       ))}
 
@@ -211,6 +249,9 @@ function Street({
             active={pathname === item.path}
             position={position}
             onClick={() => onNavigate(item.path)}
+            useFrame={useFrame}
+            Text={Text}
+            THREE={THREE}
           />
         )
       })}
