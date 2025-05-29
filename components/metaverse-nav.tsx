@@ -42,32 +42,37 @@ function NavItem({
       position={position}
       onClick={onClick}
       onPointerOver={(event) => {
-        event.stopPropagation() // Prevent events from bubbling up to parent elements
+        event.stopPropagation()
         setIsHovered(true)
-        document.body.style.cursor = "pointer" // Change cursor to pointer on hover
+        document.body.style.cursor = "pointer"
       }}
-      onPointerOut={(event) => {
+      onPointerOut={() => {
         setIsHovered(false)
-        document.body.style.cursor = "none" // Revert to custom cursor
+        document.body.style.cursor = "none"
       }}
     >
-      <Text color={active ? "#00ff8c" : "white"} fontSize={0.3} anchorX="center" anchorY="middle">
+      <Text
+        color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
+        fontSize={0.3}
+        anchorX="center"
+        anchorY="middle"
+      >
         {name}
         <meshStandardMaterial
-          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"} // Cyan for hover
+          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
           emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#444444"}
-          emissiveIntensity={active ? 0.8 : isHovered ? 0.6 : 0.2} // Brighter emissive on hover
+          emissiveIntensity={active ? 0.8 : isHovered ? 0.6 : 0.2}
         />
       </Text>
     </mesh>
   )
 }
 
-// Add this new component before the Street component
+// Simplified data stream component
 function DataStream({ position }: { position: [number, number, number] }) {
   const mesh = useRef<THREE.Mesh>(null)
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!mesh.current) return
     mesh.current.position.y += 0.01
     if (mesh.current.position.y > 5) {
@@ -84,19 +89,7 @@ function DataStream({ position }: { position: [number, number, number] }) {
   )
 }
 
-// Add this after the existing NavItem component
-function HolographicPreview({ show, content }: { show: boolean; content: string }) {
-  return (
-    <group visible={show}>
-      <Text position={[0, 1, 0]} fontSize={0.15} color="#00ff8c" anchorX="center">
-        {content}
-        <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.3} transparent opacity={0.8} />
-      </Text>
-    </group>
-  )
-}
-
-// Add this component for background cityscape
+// Simplified cyber city without custom materials
 function CyberCity() {
   const buildings = Array.from({ length: 20 }, (_, i) => ({
     position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [number, number, number],
@@ -121,7 +114,7 @@ function CyberCity() {
   )
 }
 
-// Add this for floating code elements
+// Simplified floating code
 function FloatingCode() {
   const codeFragments = ["{ }", "< />", "01", "AI", "XR", "UX"]
 
@@ -158,9 +151,7 @@ function Street({
   const { camera } = useThree()
 
   useEffect(() => {
-    // Position camera based on screen size
     if (isMobile) {
-      // Move camera back further on mobile to show all nav items
       camera.position.set(0, 0, 7)
     } else {
       camera.position.set(0, 0, 5)
@@ -169,17 +160,15 @@ function Street({
 
   return (
     <>
-      {/* Existing lighting and environment */}
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.5} />
       <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
+
       <Environment preset="night" />
 
-      {/* Add the new components */}
       <CyberCity />
       <FloatingCode />
 
-      {/* Add data streams around navigation */}
       {Array.from({ length: 10 }, (_, i) => (
         <DataStream
           key={i}
@@ -187,13 +176,11 @@ function Street({
         />
       ))}
 
-      {/* Existing street grid */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[100, 100, 50, 50]} />
         <meshStandardMaterial color="#000000" wireframe={true} emissive="#00ff8c" emissiveIntensity={0.2} />
       </mesh>
 
-      {/* Navigation items positioned along the street */}
       {navItems.map((item, index) => {
         const spacing = isMobile ? 1.2 : 1.5
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
@@ -220,16 +207,12 @@ export function MetaverseNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Check if we're on a mobile device
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
 
-    // Initial check
     checkMobile()
-
-    // Add resize listener
     window.addEventListener("resize", checkMobile)
 
     return () => {
@@ -256,19 +239,16 @@ export function MetaverseNav() {
     }, 500)
   }
 
-  // Function to toggle metaverse view
   const toggleMetaverse = () => {
     setShowMetaverse(!showMetaverse)
   }
 
-  // Function to exit metaverse view
   const exitMetaverse = () => {
     setShowMetaverse(false)
   }
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
-      {/* Regular navigation bar - ensure consistent height */}
       <header className="border-b border-border/40 backdrop-blur-sm h-20">
         <div className="container mx-auto px-4 h-full">
           <nav className="flex items-center justify-between h-full">
@@ -284,7 +264,6 @@ export function MetaverseNav() {
                 {showMetaverse ? "Exit Metaverse" : "Enter Metaverse"}
               </button>
 
-              {/* Mobile menu button */}
               <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 {isMobileMenuOpen ? (
                   <svg
@@ -321,7 +300,6 @@ export function MetaverseNav() {
               </button>
             </div>
 
-            {/* Desktop navigation */}
             <ul className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <li key={item.path}>
@@ -340,7 +318,6 @@ export function MetaverseNav() {
         </div>
       </header>
 
-      {/* Mobile navigation */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-black/95 backdrop-blur-sm border-b border-border/40">
           <div className="container mx-auto px-4 py-4">
@@ -363,7 +340,6 @@ export function MetaverseNav() {
         </div>
       )}
 
-      {/* Metaverse navigation overlay */}
       <motion.div
         className="fixed inset-0 bg-black/90 z-50"
         initial={{ opacity: 0, clipPath: "circle(0% at 50% 0%)" }}
@@ -394,7 +370,6 @@ export function MetaverseNav() {
         </div>
       </motion.div>
 
-      {/* Transition overlay */}
       <motion.div
         className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
         initial={{ opacity: 0 }}
