@@ -1,32 +1,25 @@
 "use client"
 
-import React from "react"
-
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, Suspense } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
+import * as THREE from "three" // Import THREE directly
 
-// Dynamically import the 3D components with error handling
-const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => ({ default: mod.Canvas })), {
+// Dynamically import R3F components
+const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canvas), {
   ssr: false,
-  loading: () => <div className="w-full h-screen bg-black" />,
+  loading: () => (
+    <div className="w-full h-screen bg-black flex items-center justify-center text-primary">Loading 3D Scene...</div>
+  ),
 })
 
-const Text = dynamic(() => import("@react-three/drei").then((mod) => ({ default: mod.Text })), {
-  ssr: false,
-})
+const Text = dynamic(() => import("@react-three/drei").then((mod) => mod.Text), { ssr: false })
+const Environment = dynamic(() => import("@react-three/drei").then((mod) => mod.Environment), { ssr: false })
 
-const Environment = dynamic(() => import("@react-three/drei").then((mod) => ({ default: mod.Environment })), {
-  ssr: false,
-})
-
-// Import Three.js dynamically to avoid SSR issues
-let THREE: any = null
-if (typeof window !== "undefined") {
-  THREE = require("three")
-}
+// Import R3F hooks directly, they will only be used within client-rendered Canvas
+import { useFrame, useThree } from "@react-three/fiber"
 
 // Navigation item component that renders in 3D space
 function NavItem({
@@ -42,19 +35,14 @@ function NavItem({
   position: [number, number, number]
   onClick: () => void
 }) {
-  const mesh = useRef<any>(null)
+  const mesh = useRef<THREE.Mesh>(null!) // Added non-null assertion
+
   const [isHovered, setIsHovered] = useState(false)
 
-  // Only use useFrame if we're in the browser
-  const useFrame = typeof window !== "undefined" ? require("@react-three/fiber").useFrame : () => {}
-
-  useFrame((state: any) => {
-    if (!mesh.current || !THREE) return
-    // Subtle floating animation
+  useFrame((state) => {
+    if (!mesh.current) return
     mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
-    // Rotate slightly based on mouse position
     mesh.current.rotation.y = THREE.MathUtils.lerp(mesh.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
-    // Scale on hover
     const targetScale = isHovered ? 1.2 : 1
     mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
   })
@@ -64,14 +52,14 @@ function NavItem({
       ref={mesh}
       position={position}
       onClick={onClick}
-      onPointerOver={(event: any) => {
+      onPointerOver={(event) => {
         event.stopPropagation()
         setIsHovered(true)
-        document.body.style.cursor = "pointer"
+        if (document.body) document.body.style.cursor = "pointer"
       }}
       onPointerOut={() => {
         setIsHovered(false)
-        document.body.style.cursor = "none"
+        if (document.body) document.body.style.cursor = "none" // Assuming 'none' is for your custom cursor
       }}
     >
       <Text
@@ -81,6 +69,7 @@ function NavItem({
         anchorY="middle"
       >
         {name}
+        {/* Material is implicitly handled by Text or can be added if needed */}
       </Text>
     </mesh>
   )
@@ -88,8 +77,7 @@ function NavItem({
 
 // Data stream component
 function DataStream({ position }: { position: [number, number, number] }) {
-  const mesh = useRef<any>(null)
-  const useFrame = typeof window !== "undefined" ? require("@react-three/fiber").useFrame : () => {}
+  const mesh = useRef<THREE.Mesh>(null!)
 
   useFrame(() => {
     if (!mesh.current) return
@@ -110,16 +98,25 @@ function DataStream({ position }: { position: [number, number, number] }) {
 
 // Cyber city component
 function CyberCity() {
-  const buildings = Array.from({ length: 20 }, (_, i) => ({
-    position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [number, number, number],
-    height: Math.random() * 8 + 2,
-    width: Math.random() * 2 + 0.5,
-  }))
+  const buildings = React.useMemo(
+    () =>
+      Array.from({ length: 20 }, (_, i) => ({
+        key: i,
+        position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [
+          number,
+          number,
+          number,
+        ],
+        height: Math.random() * 8 + 2,
+        width: Math.random() * 2 + 0.5,
+      })),
+    [],
+  )
 
   return (
     <group>
-      {buildings.map((building, i) => (
-        <mesh key={i} position={building.position}>
+      {buildings.map((building) => (
+        <mesh key={building.key} position={building.position}>
           <boxGeometry args={[building.width, building.height, building.width]} />
           <meshStandardMaterial
             color="#111111"
@@ -135,7 +132,7 @@ function CyberCity() {
 
 // Floating code component
 function FloatingCode() {
-  const codeFragments = ["{ }", "< />", "01", "AI", "XR", "UX"]
+  const codeFragments = React.useMemo(() => ["{ }", "< />", "01", "AI", "XR", "UX"], [])
 
   return (
     <group>
@@ -166,7 +163,6 @@ function Street({
   onNavigate: (path: string) => void
   isMobile: boolean
 }) {
-  const useThree = typeof window !== "undefined" ? require("@react-three/fiber").useThree : () => ({ camera: null })
   const { camera } = useThree()
 
   useEffect(() => {
@@ -176,6 +172,7 @@ function Street({
     } else {
       camera.position.set(0, 0, 5)
     }
+    camera.lookAt(0, 0, 0) // Ensure camera is looking at the center
   }, [camera, isMobile])
 
   return (
@@ -184,7 +181,9 @@ function Street({
       <pointLight position={[10, 10, 10]} intensity={0.5} />
       <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
 
-      <Environment preset="night" />
+      <Suspense fallback={null}>
+        <Environment preset="night" />
+      </Suspense>
 
       <CyberCity />
       <FloatingCode />
@@ -225,7 +224,7 @@ class ThreeErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback: React.ReactNode },
   { hasError: boolean }
 > {
-  constructor(props: any) {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
     super(props)
     this.state = { hasError: false }
   }
@@ -235,14 +234,13 @@ class ThreeErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    console.error("Three.js Error:", error, errorInfo)
+    console.error("MetaverseNav 3D Error:", error, errorInfo)
   }
 
   render() {
     if (this.state.hasError) {
       return this.props.fallback
     }
-
     return this.props.children
   }
 }
@@ -253,31 +251,27 @@ export function MetaverseNav() {
   const [transitioning, setTransitioning] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [canUse3D, setCanUse3D] = useState(true)
+  const [canRender3D, setCanRender3D] = useState(false) // Default to false until checked
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
 
-    // Check if WebGL is supported
+    // Check if WebGL is supported for 3D rendering
     const checkWebGL = () => {
       try {
         const canvas = document.createElement("canvas")
         const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
-        setCanUse3D(!!gl)
+        setCanRender3D(!!gl)
       } catch (e) {
-        setCanUse3D(false)
+        setCanRender3D(false)
       }
     }
 
     checkMobile()
-    checkWebGL()
-    window.addEventListener("resize", checkMobile)
+    checkWebGL() // Check WebGL support on mount
 
-    return () => {
-      window.removeEventListener("resize", checkMobile)
-    }
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
   const navItems = [
@@ -292,25 +286,19 @@ export function MetaverseNav() {
       setShowMetaverse(false)
       return
     }
-
     setTransitioning(true)
     setTimeout(() => {
-      window.location.href = path
+      window.location.href = path // Using window.location for simplicity, consider Next Router for SPA transitions
     }, 500)
   }
 
-  const toggleMetaverse = () => {
-    setShowMetaverse(!showMetaverse)
-  }
+  const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
+  const exitMetaverse = () => setShowMetaverse(false)
 
-  const exitMetaverse = () => {
-    setShowMetaverse(false)
-  }
-
-  // Fallback 2D navigation for when 3D fails
+  // Fallback 2D navigation for when 3D fails or is not supported
   const Fallback2DNav = () => (
-    <div className="h-screen flex items-center justify-center">
-      <div className="grid grid-cols-2 gap-8 max-w-2xl">
+    <div className="h-screen flex items-center justify-center bg-black">
+      <div className="grid grid-cols-2 gap-8 max-w-2xl p-4">
         {navItems.map((item) => (
           <motion.div
             key={item.path}
@@ -347,7 +335,6 @@ export function MetaverseNav() {
             <Link href="/" className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
               MIKE_CHAVES
             </Link>
-
             <div className="flex items-center gap-4">
               <button
                 onClick={toggleMetaverse}
@@ -355,11 +342,9 @@ export function MetaverseNav() {
               >
                 {showMetaverse ? "Exit Metaverse" : "Enter Metaverse"}
               </button>
-
               <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 {isMobileMenuOpen ? (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -374,7 +359,6 @@ export function MetaverseNav() {
                   </svg>
                 ) : (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -391,15 +375,12 @@ export function MetaverseNav() {
                 )}
               </button>
             </div>
-
             <ul className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <li key={item.path}>
                   <Link
                     href={item.path}
-                    className={`command-prompt hover:text-primary transition-colors ${
-                      pathname === item.path ? "text-primary" : "text-white"
-                    }`}
+                    className={`command-prompt hover:text-primary transition-colors ${pathname === item.path ? "text-primary" : "text-white"}`}
                   >
                     {item.name}
                   </Link>
@@ -418,9 +399,7 @@ export function MetaverseNav() {
                 <li key={item.path}>
                   <Link
                     href={item.path}
-                    className={`command-prompt block hover:text-primary transition-colors ${
-                      pathname === item.path ? "text-primary" : "text-white"
-                    }`}
+                    className={`command-prompt block hover:text-primary transition-colors ${pathname === item.path ? "text-primary" : "text-white"}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -450,19 +429,27 @@ export function MetaverseNav() {
             Exit Metaverse
           </button>
         </div>
-
         <div className="w-full h-screen">
-          <ThreeErrorBoundary fallback={<Fallback2DNav />}>
-            {canUse3D ? (
-              <Canvas>
-                <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
-              </Canvas>
-            ) : (
-              <Fallback2DNav />
-            )}
-          </ThreeErrorBoundary>
+          {showMetaverse && ( // Only render Canvas when metaverse is shown
+            <ThreeErrorBoundary fallback={<Fallback2DNav />}>
+              {canRender3D ? (
+                <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex items-center justify-center text-primary">
+                        Initializing Street...
+                      </div>
+                    }
+                  >
+                    <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
+                  </Suspense>
+                </Canvas>
+              ) : (
+                <Fallback2DNav />
+              )}
+            </ThreeErrorBoundary>
+          )}
         </div>
-
         <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-zinc-500">
           Navigate The Street by clicking on destinations
         </div>
