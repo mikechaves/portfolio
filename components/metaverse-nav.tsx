@@ -18,53 +18,91 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
 // Import R3F hooks directly
 import { useFrame, useThree } from "@react-three/fiber"
 
-// Simple 3D text using basic geometry instead of Text component
-function Simple3DText({
+// HTML overlay for 3D positioned text
+function HTML3DText({
   text,
   position,
-  color = "white",
   active = false,
   onClick,
 }: {
   text: string
   position: [number, number, number]
-  color?: string
   active?: boolean
   onClick: () => void
 }) {
   const mesh = useRef<THREE.Mesh>(null!)
   const [isHovered, setIsHovered] = useState(false)
+  const { camera, size } = useThree()
+  const [screenPosition, setScreenPosition] = useState({ x: 0, y: 0 })
 
   useFrame((state) => {
-    if (!mesh.current) return
+    if (!mesh.current || !camera) return
+
+    // Animate the 3D position
     mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
     mesh.current.rotation.y = THREE.MathUtils.lerp(mesh.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
     const targetScale = isHovered ? 1.2 : 1
     mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
+
+    // Project 3D position to screen coordinates for HTML overlay
+    const vector = new THREE.Vector3(mesh.current.position.x, mesh.current.position.y, mesh.current.position.z)
+    vector.project(camera)
+
+    const x = (vector.x * 0.5 + 0.5) * size.width
+    const y = (vector.y * -0.5 + 0.5) * size.height
+
+    setScreenPosition({ x, y })
   })
 
   return (
-    <mesh
-      ref={mesh}
-      position={position}
-      onClick={onClick}
-      onPointerOver={(event) => {
-        event.stopPropagation()
-        setIsHovered(true)
-        if (document.body) document.body.style.cursor = "pointer"
-      }}
-      onPointerOut={() => {
-        setIsHovered(false)
-        if (document.body) document.body.style.cursor = "auto"
-      }}
-    >
-      <boxGeometry args={[1.5, 0.3, 0.1]} />
-      <meshStandardMaterial
-        color={active ? "#00ff8c" : isHovered ? "#00ffff" : color}
-        emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#000000"}
-        emissiveIntensity={0.3}
-      />
-    </mesh>
+    <>
+      {/* Invisible 3D mesh for interaction */}
+      <mesh
+        ref={mesh}
+        position={position}
+        onClick={onClick}
+        onPointerOver={(event) => {
+          event.stopPropagation()
+          setIsHovered(true)
+          if (document.body) document.body.style.cursor = "pointer"
+        }}
+        onPointerOut={() => {
+          setIsHovered(false)
+          if (document.body) document.body.style.cursor = "auto"
+        }}
+      >
+        <boxGeometry args={[1.5, 0.3, 0.1]} />
+        <meshStandardMaterial
+          transparent
+          opacity={0.1}
+          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
+          emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#000000"}
+          emissiveIntensity={0.3}
+        />
+      </mesh>
+
+      {/* HTML text overlay */}
+      <div
+        style={{
+          position: "absolute",
+          left: screenPosition.x,
+          top: screenPosition.y,
+          transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
+          zIndex: 1000,
+          fontSize: isHovered ? "24px" : "20px",
+          fontWeight: "bold",
+          color: active ? "#00ff8c" : isHovered ? "#00ffff" : "white",
+          textShadow: "0 0 10px currentColor",
+          transition: "all 0.2s ease",
+          fontFamily: "inherit",
+        }}
+        className="glitch"
+        data-text={text.toUpperCase()}
+      >
+        {text.toUpperCase()}
+      </div>
+    </>
   )
 }
 
@@ -200,7 +238,7 @@ function Street({
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
 
         return (
-          <Simple3DText
+          <HTML3DText
             key={item.path}
             text={item.name}
             position={position}
@@ -394,7 +432,7 @@ export function MetaverseNav() {
             Exit Metaverse
           </button>
         </div>
-        <div className="w-full h-screen">
+        <div className="w-full h-screen relative">
           {showMetaverse && (
             <ThreeErrorBoundary
               fallback={
