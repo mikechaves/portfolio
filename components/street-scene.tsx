@@ -2,12 +2,13 @@
 
 import React, { useRef, useState, useEffect } from "react"
 import { useFrame, useThree } from "@react-three/fiber"
-import { Text } from "@react-three/drei" // Using Drei's Text for 3D text
+// Not using Drei Text for now to simplify
+// import { Text } from "@react-three/drei"
 import * as THREE from "three"
 
-// Navigation item component - using Drei's Text for 3D text
+// Simplified Navigation item component - using a simple mesh
 function NavItem({
-  name,
+  name, // Still passing name for potential future use, but not rendering it as text
   path,
   active,
   position,
@@ -24,9 +25,10 @@ function NavItem({
 
   useFrame((state) => {
     if (!groupRef.current) return
-    groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
-    const targetScale = isHovered ? 1.2 : 1
+    // Subtle animation for the group
+    groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0] * 0.2) * 0.05
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, (state.mouse.x * Math.PI) / 10, 0.1)
+    const targetScale = isHovered ? 1.25 : 1
     groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
   })
 
@@ -42,44 +44,35 @@ function NavItem({
       }}
       onPointerOut={() => {
         setIsHovered(false)
-        if (document.body) document.body.style.cursor = "none" // Or your custom cursor class
+        if (document.body) document.body.style.cursor = "none"
       }}
     >
-      {/* Background plane for the text */}
       <mesh>
-        <planeGeometry args={[2, 0.6]} />
+        <boxGeometry args={[1.5, 0.4, 0.2]} /> {/* Simple box as the button */}
         <meshStandardMaterial
-          color={active ? "#00ff8c" : isHovered ? "#003333" : "#001a1a"}
-          transparent
-          opacity={0.8}
+          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "#005555"}
+          emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#005555"}
+          emissiveIntensity={active ? 0.7 : isHovered ? 0.5 : 0.2}
         />
       </mesh>
-      <Text
-        color={active ? "#000000" : isHovered ? "#00ffff" : "white"}
-        fontSize={0.25}
-        anchorX="center"
-        anchorY="middle"
-        font="/fonts/GeistMono-Regular.ttf" // Using a built-in font
-      >
-        {name.toUpperCase()}
-      </Text>
+      {/* Placeholder for where text would be, to help visualize */}
+      <mesh position={[0, 0, 0.11]}>
+        <planeGeometry args={[1.4, 0.3]} />
+        <meshBasicMaterial color={active ? "#000" : "#fff"} transparent opacity={0.3} />
+      </mesh>
     </group>
   )
 }
 
-// Data stream component
+// Data stream component (remains the same)
 function DataStream({ position }: { position: [number, number, number] }) {
   const mesh = useRef<THREE.Mesh>(null)
-
   useFrame(() => {
     if (!mesh.current) return
     mesh.current.position.y += 0.01
-    if (mesh.current.position.y > 5) {
-      mesh.current.position.y = -5
-    }
+    if (mesh.current.position.y > 5) mesh.current.position.y = -5
     mesh.current.rotation.z += 0.02
   })
-
   return (
     <mesh ref={mesh} position={position}>
       <boxGeometry args={[0.02, 0.1, 0.02]} />
@@ -88,20 +81,25 @@ function DataStream({ position }: { position: [number, number, number] }) {
   )
 }
 
-// Floating code component using basic geometries
+// Floating code component (remains the same)
 function FloatingCode() {
-  const codeElements = React.useMemo(() => {
-    return Array.from({ length: 6 }, (_, i) => ({
-      position: [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20] as [
-        number,
-        number,
-        number,
-      ],
-      rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-      scale: Math.random() * 0.5 + 0.5,
-    }))
-  }, [])
-
+  const codeElements = React.useMemo(
+    () =>
+      Array.from({ length: 6 }, (_, i) => ({
+        position: [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20] as [
+          number,
+          number,
+          number,
+        ],
+        rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [
+          number,
+          number,
+          number,
+        ],
+        scale: Math.random() * 0.5 + 0.5,
+      })),
+    [],
+  )
   return (
     <group>
       {codeElements.map((element, i) => (
@@ -114,7 +112,7 @@ function FloatingCode() {
   )
 }
 
-// Cyber city component
+// Cyber city component (remains the same)
 function CyberCity() {
   const buildings = React.useMemo(
     () =>
@@ -131,7 +129,6 @@ function CyberCity() {
       })),
     [],
   )
-
   return (
     <group>
       {buildings.map((building) => (
@@ -164,44 +161,55 @@ export default function StreetScene({
   const { camera } = useThree()
 
   useEffect(() => {
+    console.log("StreetScene: isMobile:", isMobile)
     if (isMobile) {
-      camera.position.set(0, 0, 7)
+      camera.position.set(0, 0, 9) // Adjusted for potentially larger nav items without text
     } else {
-      camera.position.set(0, 0, 5)
+      camera.position.set(0, 0, 6) // Adjusted
     }
     camera.lookAt(0, 0, 0)
   }, [camera, isMobile])
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={0.5} color="#ffffff" />
-      <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.3} />
+      <ambientLight intensity={0.4} />
+      <pointLight position={[10, 10, 10]} intensity={0.6} color="#ffffff" />
+      <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.4} />
+      <directionalLight position={[0, 5, 5]} intensity={0.3} color="#55aaff" />
 
-      {/* Background elements */}
       <CyberCity />
       <FloatingCode />
 
-      {/* Data streams */}
-      {Array.from({ length: 10 }, (_, i) => (
-        <DataStream
-          key={i}
-          position={[(Math.random() - 0.5) * 15, Math.random() * 10 - 5, (Math.random() - 0.5) * 10]}
-        />
-      ))}
+      {Array.from(
+        { length: 15 },
+        (
+          _,
+          i, // Increased data streams
+        ) => (
+          <DataStream
+            key={i}
+            position={[(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 15]}
+          />
+        ),
+      )}
 
-      {/* Ground grid */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]}>
+        {" "}
+        {/* Lowered ground slightly */}
         <planeGeometry args={[100, 100, 50, 50]} />
-        <meshBasicMaterial color="#000000" wireframe transparent opacity={0.3} />
+        <meshStandardMaterial
+          color="#050505"
+          wireframe={true}
+          emissive="#00ff8c"
+          emissiveIntensity={0.1}
+          transparent
+          opacity={0.4}
+        />
       </mesh>
 
-      {/* Navigation items */}
       {navItems.map((item, index) => {
-        const spacing = isMobile ? 1.8 : 2.2 // Adjusted spacing for 3D Text
+        const spacing = isMobile ? 2.0 : 2.5 // Adjusted spacing for simpler boxes
         const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
-
         return (
           <NavItem
             key={item.path}
@@ -214,12 +222,13 @@ export default function StreetScene({
         )
       })}
 
-      {/* Particle effects */}
       <group>
-        {Array.from({ length: 50 }, (_, i) => (
-          <mesh key={i} position={[(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 30]}>
-            <sphereGeometry args={[0.01, 4, 4]} />
-            <meshBasicMaterial color="#00ff8c" transparent opacity={Math.random() * 0.5 + 0.2} />
+        {" "}
+        {/* More particles */}
+        {Array.from({ length: 80 }, (_, i) => (
+          <mesh key={i} position={[(Math.random() - 0.5) * 35, (Math.random() - 0.5) * 25, (Math.random() - 0.5) * 35]}>
+            <sphereGeometry args={[0.015, 4, 4]} />
+            <meshBasicMaterial color="#00ff8c" transparent opacity={Math.random() * 0.6 + 0.1} />
           </mesh>
         ))}
       </group>
