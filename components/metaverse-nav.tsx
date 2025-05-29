@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef, Suspense } from "react"
+import React, { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
@@ -14,250 +14,13 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
   ),
 })
 
-// Keep NavItem, DataStream, FloatingCode as synchronous components
-// but pass the dynamically imported modules to them.
-
-function NavItem({
-  name,
-  path,
-  active,
-  position,
-  onClick,
-  useFrame,
-  Text,
-  THREE,
-}: {
-  name: string
-  path: string
-  active: boolean
-  position: [number, number, number]
-  onClick: () => void
-  useFrame: any
-  Text: any
-  THREE: any
-}) {
-  const mesh = useRef<any>(null)
-  const [isHovered, setIsHovered] = useState(false)
-
-  useFrame((state: any) => {
-    if (!mesh.current) return
-    mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
-    mesh.current.rotation.y = THREE.MathUtils.lerp(mesh.current.rotation.y, (state.mouse.x * Math.PI) / 8, 0.1)
-    const targetScale = isHovered ? 1.2 : 1
-    mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
-  })
-
-  return (
-    <mesh
-      ref={mesh}
-      position={position}
-      onClick={onClick}
-      onPointerOver={(event) => {
-        event.stopPropagation()
-        setIsHovered(true)
-        if (document.body) document.body.style.cursor = "pointer"
-      }}
-      onPointerOut={() => {
-        setIsHovered(false)
-        if (document.body) document.body.style.cursor = "none"
-      }}
-    >
-      <Text
-        color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
-        fontSize={0.3}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {name}
-      </Text>
-    </mesh>
-  )
-}
-
-function DataStream({ position, useFrame }: { position: [number, number, number]; useFrame: any }) {
-  const mesh = useRef<any>(null)
-
-  useFrame(() => {
-    if (!mesh.current) return
-    mesh.current.position.y += 0.01
-    if (mesh.current.position.y > 5) {
-      mesh.current.position.y = -5
-    }
-    mesh.current.rotation.z += 0.02
-  })
-
-  return (
-    <mesh ref={mesh} position={position}>
-      <boxGeometry args={[0.02, 0.1, 0.02]} />
-      <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.5} />
-    </mesh>
-  )
-}
-
-function FloatingCode({ Text }: { Text: any }) {
-  const codeFragments = React.useMemo(() => ["{ }", "< />", "01", "AI", "XR", "UX"], [])
-  const positions = React.useMemo(
-    () => codeFragments.map(() => [(Math.random() - 0.5) * 20, Math.random() * 10 - 5, (Math.random() - 0.5) * 20]),
-    [codeFragments],
-  )
-
-  return (
-    <group>
-      {codeFragments.map((code, i) => (
-        <Text
-          key={i}
-          position={positions[i] as [number, number, number]}
-          fontSize={0.2}
-          color="#00ff8c"
-          anchorX="center"
-        >
-          {code}
-        </Text>
-      ))}
-    </group>
-  )
-}
-
-// Cyber city component
-function CyberCity() {
-  const buildings = React.useMemo(
-    () =>
-      Array.from({ length: 20 }, (_, i) => ({
-        key: i,
-        position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [
-          number,
-          number,
-          number,
-        ],
-        height: Math.random() * 8 + 2,
-        width: Math.random() * 2 + 0.5,
-        wireframe: Math.random() > 0.7,
-      })),
-    [],
-  )
-
-  return (
-    <group>
-      {buildings.map((building) => (
-        <mesh key={building.key} position={building.position}>
-          <boxGeometry args={[building.width, building.height, building.width]} />
-          <meshStandardMaterial
-            color="#111111"
-            emissive="#00ff8c"
-            emissiveIntensity={0.1}
-            wireframe={building.wireframe}
-          />
-        </mesh>
-      ))}
-    </group>
-  )
-}
-
-// The Street scene component - now loads modules and passes them
-function Street({
-  navItems,
-  pathname,
-  onNavigate,
-  isMobile,
-}: {
-  navItems: { name: string; path: string }[]
-  pathname: string
-  onNavigate: (path: string) => void
-  isMobile: boolean
-}) {
-  const [modules, setModules] = useState<any>(null)
-  const [camera, setCamera] = useState<any>(null) // Move camera state here
-
-  useEffect(() => {
-    const loadModules = async () => {
-      const fiber = await import("@react-three/fiber")
-      const drei = await import("@react-three/drei")
-      const three = await import("three")
-      setModules({
-        useFrame: fiber.useFrame,
-        useThree: fiber.useThree,
-        Text: drei.Text,
-        Environment: drei.Environment,
-        THREE: three,
-      })
-    }
-    loadModules()
-  }, [])
-
-  useEffect(() => {
-    if (modules) {
-      const { useThree } = modules
-      const { camera } = useThree() // Access camera here
-      setCamera(camera) // Set the camera state
-    }
-  }, [modules])
-
-  useEffect(() => {
-    if (camera) {
-      if (isMobile) {
-        camera.position.set(0, 0, 7)
-      } else {
-        camera.position.set(0, 0, 5)
-      }
-      camera.lookAt(0, 0, 0)
-    }
-  }, [camera, isMobile])
-
-  if (!modules) {
-    // You can return a loading state here if needed, or null
-    // The Suspense in MetaverseNav should handle the initial loading
-    return null
-  }
-
-  const { useThree, Environment, Text, useFrame, THREE } = modules
-
-  return (
-    <>
-      <ambientLight intensity={0.2} />
-      <pointLight position={[10, 10, 10]} intensity={0.5} />
-      <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
-
-      <Suspense fallback={null}>
-        <Environment preset="night" />
-      </Suspense>
-
-      <CyberCity />
-      <FloatingCode Text={Text} />
-
-      {Array.from({ length: 10 }, (_, i) => (
-        <DataStream
-          key={i}
-          position={[(Math.random() - 0.5) * 15, Math.random() * 10 - 5, (Math.random() - 0.5) * 10]}
-          useFrame={useFrame}
-        />
-      ))}
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
-        <planeGeometry args={[100, 100, 50, 50]} />
-        <meshStandardMaterial color="#000000" wireframe={true} emissive="#00ff8c" emissiveIntensity={0.2} />
-      </mesh>
-
-      {navItems.map((item, index) => {
-        const spacing = isMobile ? 1.2 : 1.5
-        const position: [number, number, number] = [(index - (navItems.length - 1) / 2) * spacing, 0, 0]
-
-        return (
-          <NavItem
-            key={item.path}
-            name={item.name}
-            path={item.path}
-            active={pathname === item.path}
-            position={position}
-            onClick={() => onNavigate(item.path)}
-            useFrame={useFrame}
-            Text={Text}
-            THREE={THREE}
-          />
-        )
-      })}
-    </>
-  )
-}
+// Dynamic import wrapper for the 3D scene
+const DynamicStreet = dynamic(() => import("./street-scene"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-screen bg-black flex items-center justify-center text-primary">Loading Street...</div>
+  ),
+})
 
 // Error boundary component for 3D content
 class ThreeErrorBoundary extends React.Component<
@@ -477,7 +240,12 @@ export function MetaverseNav() {
               {canRender3D ? (
                 <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
                   <Suspense fallback={null}>
-                    <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
+                    <DynamicStreet
+                      navItems={navItems}
+                      pathname={pathname}
+                      onNavigate={handleNavigate}
+                      isMobile={isMobile}
+                    />
                   </Suspense>
                 </Canvas>
               ) : (
