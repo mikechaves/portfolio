@@ -12,7 +12,7 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { MetaverseNavFallback } from "@/components/metaverse-nav-fallback"
+import { MetaverseNav } from "@/components/metaverse-nav"
 import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
 // import { BlackSunBadge } from "@/components/black-sun-badge"
@@ -63,9 +63,9 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
 
-        {/* Use the 2D fallback navigation instead of the 3D version */}
+        {/* Back to the original MetaverseNav with error handling */}
         <Suspense fallback={<NavigationFallback />}>
-          <MetaverseNavFallback />
+          <MetaverseNav />
         </Suspense>
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>

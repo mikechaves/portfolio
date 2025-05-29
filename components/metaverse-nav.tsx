@@ -1,12 +1,32 @@
 "use client"
 
+import React from "react"
+
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import * as THREE from "three"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { Text, Environment } from "@react-three/drei"
 import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
+
+// Dynamically import the 3D components with error handling
+const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => ({ default: mod.Canvas })), {
+  ssr: false,
+  loading: () => <div className="w-full h-screen bg-black" />,
+})
+
+const Text = dynamic(() => import("@react-three/drei").then((mod) => ({ default: mod.Text })), {
+  ssr: false,
+})
+
+const Environment = dynamic(() => import("@react-three/drei").then((mod) => ({ default: mod.Environment })), {
+  ssr: false,
+})
+
+// Import Three.js dynamically to avoid SSR issues
+let THREE: any = null
+if (typeof window !== "undefined") {
+  THREE = require("three")
+}
 
 // Navigation item component that renders in 3D space
 function NavItem({
@@ -22,11 +42,14 @@ function NavItem({
   position: [number, number, number]
   onClick: () => void
 }) {
-  const mesh = useRef<THREE.Mesh>(null)
+  const mesh = useRef<any>(null)
   const [isHovered, setIsHovered] = useState(false)
 
-  useFrame((state) => {
-    if (!mesh.current) return
+  // Only use useFrame if we're in the browser
+  const useFrame = typeof window !== "undefined" ? require("@react-three/fiber").useFrame : () => {}
+
+  useFrame((state: any) => {
+    if (!mesh.current || !THREE) return
     // Subtle floating animation
     mesh.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.05
     // Rotate slightly based on mouse position
@@ -41,7 +64,7 @@ function NavItem({
       ref={mesh}
       position={position}
       onClick={onClick}
-      onPointerOver={(event) => {
+      onPointerOver={(event: any) => {
         event.stopPropagation()
         setIsHovered(true)
         document.body.style.cursor = "pointer"
@@ -58,19 +81,15 @@ function NavItem({
         anchorY="middle"
       >
         {name}
-        <meshStandardMaterial
-          color={active ? "#00ff8c" : isHovered ? "#00ffff" : "white"}
-          emissive={active ? "#00ff8c" : isHovered ? "#00ffff" : "#444444"}
-          emissiveIntensity={active ? 0.8 : isHovered ? 0.6 : 0.2}
-        />
       </Text>
     </mesh>
   )
 }
 
-// Simplified data stream component
+// Data stream component
 function DataStream({ position }: { position: [number, number, number] }) {
-  const mesh = useRef<THREE.Mesh>(null)
+  const mesh = useRef<any>(null)
+  const useFrame = typeof window !== "undefined" ? require("@react-three/fiber").useFrame : () => {}
 
   useFrame(() => {
     if (!mesh.current) return
@@ -89,7 +108,7 @@ function DataStream({ position }: { position: [number, number, number] }) {
   )
 }
 
-// Simplified cyber city without custom materials
+// Cyber city component
 function CyberCity() {
   const buildings = Array.from({ length: 20 }, (_, i) => ({
     position: [(Math.random() - 0.5) * 50, Math.random() * 5 + 2, -20 - Math.random() * 30] as [number, number, number],
@@ -114,7 +133,7 @@ function CyberCity() {
   )
 }
 
-// Simplified floating code
+// Floating code component
 function FloatingCode() {
   const codeFragments = ["{ }", "< />", "01", "AI", "XR", "UX"]
 
@@ -129,14 +148,13 @@ function FloatingCode() {
           anchorX="center"
         >
           {code}
-          <meshStandardMaterial color="#00ff8c" emissive="#00ff8c" emissiveIntensity={0.2} transparent opacity={0.6} />
         </Text>
       ))}
     </group>
   )
 }
 
-// The Street scene that contains all navigation items
+// The Street scene component
 function Street({
   navItems,
   pathname,
@@ -148,9 +166,11 @@ function Street({
   onNavigate: (path: string) => void
   isMobile: boolean
 }) {
+  const useThree = typeof window !== "undefined" ? require("@react-three/fiber").useThree : () => ({ camera: null })
   const { camera } = useThree()
 
   useEffect(() => {
+    if (!camera) return
     if (isMobile) {
       camera.position.set(0, 0, 7)
     } else {
@@ -200,19 +220,59 @@ function Street({
   )
 }
 
+// Error boundary component for 3D content
+class ThreeErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: any) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("Three.js Error:", error, errorInfo)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback
+    }
+
+    return this.props.children
+  }
+}
+
 export function MetaverseNav() {
   const pathname = usePathname()
   const [showMetaverse, setShowMetaverse] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [canUse3D, setCanUse3D] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
 
+    // Check if WebGL is supported
+    const checkWebGL = () => {
+      try {
+        const canvas = document.createElement("canvas")
+        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+        setCanUse3D(!!gl)
+      } catch (e) {
+        setCanUse3D(false)
+      }
+    }
+
     checkMobile()
+    checkWebGL()
     window.addEventListener("resize", checkMobile)
 
     return () => {
@@ -246,6 +306,38 @@ export function MetaverseNav() {
   const exitMetaverse = () => {
     setShowMetaverse(false)
   }
+
+  // Fallback 2D navigation for when 3D fails
+  const Fallback2DNav = () => (
+    <div className="h-screen flex items-center justify-center">
+      <div className="grid grid-cols-2 gap-8 max-w-2xl">
+        {navItems.map((item) => (
+          <motion.div
+            key={item.path}
+            className={`border ${
+              pathname === item.path ? "border-primary" : "border-zinc-700"
+            } rounded-md overflow-hidden cursor-pointer`}
+            whileHover={{ scale: 1.05, borderColor: "#00ff8c" }}
+            onClick={() => handleNavigate(item.path)}
+          >
+            <div className="p-6 bg-black/80">
+              <h3
+                className={`text-xl font-bold mb-2 ${pathname === item.path ? "text-primary" : "text-white"} glitch`}
+                data-text={item.name}
+              >
+                {item.name}
+              </h3>
+              <div className="h-1 w-12 bg-primary/50 mb-4"></div>
+              <div className="flex items-center">
+                <span className="text-primary mr-2">$</span>
+                <span className="text-zinc-400">cd /{item.name}</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -360,9 +452,15 @@ export function MetaverseNav() {
         </div>
 
         <div className="w-full h-screen">
-          <Canvas>
-            <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
-          </Canvas>
+          <ThreeErrorBoundary fallback={<Fallback2DNav />}>
+            {canUse3D ? (
+              <Canvas>
+                <Street navItems={navItems} pathname={pathname} onNavigate={handleNavigate} isMobile={isMobile} />
+              </Canvas>
+            ) : (
+              <Fallback2DNav />
+            )}
+          </ThreeErrorBoundary>
         </div>
 
         <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-zinc-500">
