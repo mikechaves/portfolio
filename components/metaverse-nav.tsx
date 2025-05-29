@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
 
-// Import R3F components dynamically
+// Import Canvas dynamically to avoid SSR issues
 const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canvas), {
   ssr: false,
   loading: () => (
@@ -14,8 +14,8 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((mod) => mod.Canv
   ),
 })
 
-// Dynamic import wrapper for the 3D scene
-const DynamicStreet = dynamic(() => import("./street-scene"), {
+// Import the street scene dynamically
+const StreetScene = dynamic(() => import("./street-scene"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-screen bg-black flex items-center justify-center text-primary">Loading Street...</div>
@@ -238,9 +238,15 @@ export function MetaverseNav() {
           <div className="w-full h-screen">
             <ThreeErrorBoundary fallback={<Fallback2DNav />}>
               {canRender3D ? (
-                <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
+                <Canvas
+                  camera={{ fov: 75, near: 0.1, far: 1000 }}
+                  gl={{ antialias: true, alpha: true }}
+                  onCreated={({ gl }) => {
+                    gl.setClearColor("#000000", 0)
+                  }}
+                >
                   <Suspense fallback={null}>
-                    <DynamicStreet
+                    <StreetScene
                       navItems={navItems}
                       pathname={pathname}
                       onNavigate={handleNavigate}
