@@ -1,56 +1,35 @@
 import type React from "react"
-import type { Metadata } from "next"
-import { JetBrains_Mono } from "next/font/google"
-import { Suspense } from "react"
 import "./globals.css"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { Analytics } from "@vercel/analytics/react"
-import { Toaster } from "@/components/ui/toaster"
-import "@fortawesome/fontawesome-svg-core/styles.css"
-import { config } from "@fortawesome/fontawesome-svg-core"
-// Prevent Font Awesome from adding its CSS since we did it manually above
-config.autoAddCss = false
-
-// Import our Snow Crash inspired components
-import { MetaverseNav } from "@/components/metaverse-nav"
-import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
+import { Analytics } from "@vercel/analytics/react"
+import { Suspense } from "react"
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-})
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Mike Chaves | UX Designer & Developer",
-  description: "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
+  title: "Cyberpunk Portfolio",
+  description: "A cyberpunk-themed portfolio showcasing my work and skills",
     generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
-        <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
-
-        {/* No fallback - let MetaverseNav handle its own loading */}
+      <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col`}>
         <Suspense>
-          <MetaverseNav />
+          <Navigation />
         </Suspense>
-
-        <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
-
-        {/* Add our Snow Crash inspired components */}
-        <SumerianVirus />
         <KatanaCursor />
-
-        <Toaster />
         <Analytics />
       </body>
     </html>
