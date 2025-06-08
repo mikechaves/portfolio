@@ -5,6 +5,24 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 
+interface ProjectDetailItem {
+  title: string
+  description: string
+}
+
+interface ProjectDetails {
+  client: string
+  date: string
+  category: string
+  services: string[]
+  situation?: string | ProjectDetailItem[]
+  task?: string | ProjectDetailItem[]
+  actions?: ProjectDetailItem[]
+  results?: ProjectDetailItem[]
+  result?: string
+  exhibition?: ProjectDetailItem[]
+}
+
 interface Project {
   title: string
   category: string
@@ -14,7 +32,7 @@ interface Project {
   github: string
   demo: string
   gallery?: string[]
-  details?: any
+  details?: ProjectDetails
 }
 
 export default function ProjectPage() {
@@ -862,10 +880,10 @@ export default function ProjectPage() {
               <span className="text-primary">category:</span> {project.category}
             </p>
             <p>
-              <span className="text-primary">client:</span> {project.details.client}
+              <span className="text-primary">client:</span> {project.details?.client}
             </p>
             <p>
-              <span className="text-primary">date:</span> {project.details.date}
+              <span className="text-primary">date:</span> {project.details?.date}
             </p>
             <p className="flex flex-wrap gap-2 mt-2">
               <span className="text-primary">stack:</span>
@@ -939,7 +957,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Situation</h2>
           <div className="space-y-4">
-            {project.details.situation.map((item: any, index: number) => (
+            {(project.details.situation as ProjectDetailItem[]).map((item, index) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -964,7 +982,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Task</h2>
           <div className="space-y-4">
-            {project.details.task.map((item: any, index: number) => (
+            {(project.details.task as ProjectDetailItem[]).map((item, index) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -980,7 +998,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Action</h2>
           <div className="space-y-4">
-            {project.details.actions.map((action: any, index: number) => (
+            {(project.details.actions as ProjectDetailItem[]).map((action, index) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">{index + 1}.</span> {action.title}
@@ -996,7 +1014,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Result</h2>
           <div className="space-y-4">
-            {project.details.results.map((result: any, index: number) => (
+            {(project.details.results as ProjectDetailItem[]).map((result, index) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {result.title}
@@ -1021,7 +1039,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Exhibition & Future Directions</h2>
           <div className="space-y-4">
-            {project.details.exhibition.map((item: any, index: number) => (
+            {(project.details.exhibition as ProjectDetailItem[]).map((item, index) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
