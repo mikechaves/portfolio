@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Terminal } from "@/components/terminal"
-import { ProjectCard } from "@/components/project-card"
-import { BlogCard } from "@/components/blog-card"
-import { ArrowRight } from "lucide-react"
-import { HeroBackground } from "@/components/hero-background"
+import { useState } from "react";
+import Link from "next/link";
+import { Terminal } from "@/components/terminal";
+import { ProjectCard } from "@/components/project-card";
+import { BlogCard } from "@/components/blog-card";
+import { ArrowRight } from "lucide-react";
+import { HeroBackground } from "@/components/hero-background";
 
 export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false)
+  const [introComplete, setIntroComplete] = useState(false);
 
   const featuredProjects = [
     {
@@ -18,7 +18,11 @@ export default function Home() {
       description:
         "A platform for streamlining geospatial data analysis and stakeholder feedback for large-scale infrastructure and environmental planning projects.",
       image: "/projects/geovoice/main-image.png?height=400&width=600",
-      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+      technologies: [
+        "Geospatial Mapping",
+        "UX/UI Design",
+        "Data Visualization",
+      ],
     },
     {
       id: "transcribe",
@@ -36,12 +40,13 @@ export default function Home() {
       image: "/projects/speakeasy/main-image.png?height=400&width=600",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
     },
-  ]
+  ];
 
   const latestPosts = [
     {
       id: "embracing-ambiguity",
-      title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
+      title:
+        "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
       excerpt:
         "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
       date: "Feb 12, 2025",
@@ -49,7 +54,7 @@ export default function Home() {
       url: "https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150",
       publication: "Bootcamp",
     },
-  ]
+  ];
 
   const skills = [
     "UX Design",
@@ -60,7 +65,7 @@ export default function Home() {
     "Creative Direction",
     "Team Leadership",
     "Front-end Development",
-  ]
+  ];
 
   return (
     <div className="space-y-16">
@@ -88,7 +93,10 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Featured Projects</h2>
-          <Link href="/projects" className="text-primary hover:underline inline-flex items-center gap-1">
+          <Link
+            href="/projects"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
             View all <ArrowRight size={16} />
           </Link>
         </div>
@@ -125,7 +133,10 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Latest from the Blog</h2>
-          <Link href="/blog" className="text-primary hover:underline inline-flex items-center gap-1">
+          <Link
+            href="/blog"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
             View all <ArrowRight size={16} />
           </Link>
         </div>
@@ -137,5 +148,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-  )
+  );
 }

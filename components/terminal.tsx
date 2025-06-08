@@ -1,41 +1,47 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react";
 
 interface TerminalProps {
-  text: string
-  typingSpeed?: number
-  className?: string
-  showPrompt?: boolean
-  onComplete?: () => void
+  text: string;
+  typingSpeed?: number;
+  className?: string;
+  showPrompt?: boolean;
+  onComplete?: () => void;
 }
 
-export function Terminal({ text, typingSpeed = 50, className = "", showPrompt = true, onComplete }: TerminalProps) {
-  const [displayedText, setDisplayedText] = useState("")
-  const [isTyping, setIsTyping] = useState(true)
-  const containerRef = useRef<HTMLDivElement>(null)
+export function Terminal({
+  text,
+  typingSpeed = 50,
+  className = "",
+  showPrompt = true,
+  onComplete,
+}: TerminalProps) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let currentIndex = 0
-    let timer: NodeJS.Timeout
+    let currentIndex = 0;
+    let timer: NodeJS.Timeout;
 
     const typeNextCharacter = () => {
       if (currentIndex < text.length) {
-        setDisplayedText(text.substring(0, currentIndex + 1))
-        currentIndex++
-        timer = setTimeout(typeNextCharacter, typingSpeed)
+        setDisplayedText(text.substring(0, currentIndex + 1));
+        currentIndex++;
+        timer = setTimeout(typeNextCharacter, typingSpeed);
       } else {
-        setIsTyping(false)
-        if (onComplete) onComplete()
+        setIsTyping(false);
+        if (onComplete) onComplete();
       }
-    }
+    };
 
-    typeNextCharacter()
+    typeNextCharacter();
 
     return () => {
-      clearTimeout(timer)
-    }
-  }, [text, typingSpeed, onComplete])
+      clearTimeout(timer);
+    };
+  }, [text, typingSpeed, onComplete]);
 
   return (
     <div className={`terminal-window ${className}`} ref={containerRef}>
@@ -51,5 +57,5 @@ export function Terminal({ text, typingSpeed = 50, className = "", showPrompt = 
         {isTyping && <span className="terminal-cursor"></span>}
       </div>
     </div>
-  )
+  );
 }

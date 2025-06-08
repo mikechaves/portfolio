@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import { useState, type FormEvent, useTransition } from "react"
-import { Terminal } from "@/components/terminal"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { Github, Linkedin, Mail } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import "@fortawesome/fontawesome-svg-core/styles.css"
-import { config } from "@fortawesome/fontawesome-svg-core"
+import { useState, type FormEvent, useTransition } from "react";
+import { Terminal } from "@/components/terminal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { Github, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
 // Prevent Font Awesome from adding its CSS since we did it manually above
-config.autoAddCss = false
+config.autoAddCss = false;
 
 // Add the import for the server action
-import { sendContactEmail } from "@/app/actions/contact"
-import { useToast } from "@/hooks/use-toast"
+import { sendContactEmail } from "@/app/actions/contact";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AboutPage() {
-  const [introComplete, setIntroComplete] = useState(false)
-  const [bioComplete, setBioComplete] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [introComplete, setIntroComplete] = useState(false);
+  const [bioComplete, setBioComplete] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [formStatus, setFormStatus] = useState<{
-    success: boolean | null
-    message: string | null
+    success: boolean | null;
+    message: string | null;
   }>({
     success: null,
     message: null,
-  })
-  const { toast } = useToast()
+  });
+  const { toast } = useToast();
 
   // Update the experiences array with the professional experience from the resume
   const experiences = [
@@ -68,7 +68,7 @@ export default function AboutPage() {
       description:
         "Directed rebranding and aligned with market trends and audience needs. Led design team from concept to completion and kept creative standards high.",
     },
-  ]
+  ];
 
   // Create volunteer and student experience array
   const volunteerExperiences = [
@@ -76,27 +76,31 @@ export default function AboutPage() {
       title: "Lead, Spectacles Accelerator Program",
       company: "Snap Inc.",
       period: "January 2025 - Present",
-      description: "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
+      description:
+        "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
     },
     {
       title: "UX Design Research Fellowship",
       company: "LePal AI",
       period: "August 2024 - October 2024",
-      description: "Conducted usability tests and improved visual AI models and interactions.",
+      description:
+        "Conducted usability tests and improved visual AI models and interactions.",
     },
     {
       title: "Campus Strategist",
       company: "Perplexity AI Inc.",
       period: "August 2024 - January 2025",
-      description: "Developed strategies to promote AI-powered search tech among students.",
+      description:
+        "Developed strategies to promote AI-powered search tech among students.",
     },
     {
       title: "Student Ambassador",
       company: "Adobe Inc.",
       period: "February 2024 - October 2024",
-      description: "Planned AI-focused workshops and demonstrated machine learning integration with Adobe tools.",
+      description:
+        "Planned AI-focused workshops and demonstrated machine learning integration with Adobe tools.",
     },
-  ]
+  ];
 
   // Update the skills array with a more uniform structure
   const skills = [
@@ -124,15 +128,33 @@ export default function AboutPage() {
     },
     {
       category: "Programming",
-      items: ["Python (PyTorch, TensorFlow)", "JavaScript/TypeScript", "React/Next.js", "C# (Unity)", "HTML/CSS"],
+      items: [
+        "Python (PyTorch, TensorFlow)",
+        "JavaScript/TypeScript",
+        "React/Next.js",
+        "C# (Unity)",
+        "HTML/CSS",
+      ],
     },
     {
       category: "Research & Data",
-      items: ["User Research", "Usability Testing", "A/B Testing", "Data Visualization", "Statistical Analysis"],
+      items: [
+        "User Research",
+        "Usability Testing",
+        "A/B Testing",
+        "Data Visualization",
+        "Statistical Analysis",
+      ],
     },
     {
       category: "Immersive Technologies",
-      items: ["AR/VR Development", "Spatial Computing", "Voice UI", "Gesture Control", "XR Accessibility"],
+      items: [
+        "AR/VR Development",
+        "Spatial Computing",
+        "Voice UI",
+        "Gesture Control",
+        "XR Accessibility",
+      ],
     },
     {
       category: "Development Tools",
@@ -140,7 +162,13 @@ export default function AboutPage() {
     },
     {
       category: "Design & Productivity",
-      items: ["Figma", "Adobe Creative Suite", "Jupyter Notebooks", "Notion", "Hugging Face"],
+      items: [
+        "Figma",
+        "Adobe Creative Suite",
+        "Jupyter Notebooks",
+        "Notion",
+        "Hugging Face",
+      ],
     },
     {
       category: "Leadership",
@@ -152,50 +180,51 @@ export default function AboutPage() {
         "Cross-functional Collaboration",
       ],
     },
-  ]
+  ];
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
     // Reset form status
     setFormStatus({
       success: null,
       message: null,
-    })
+    });
 
-    const form = e.currentTarget
-    const formData = new FormData(form)
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
     startTransition(async () => {
       try {
-        const response = await sendContactEmail(formData)
+        const response = await sendContactEmail(formData);
 
         setFormStatus({
           success: response.success,
           message: response.message,
-        })
+        });
 
         if (response.success) {
-          form.reset()
+          form.reset();
           toast({
             title: "Success!",
             description: response.message,
-          })
+          });
         } else {
           toast({
             title: "Error",
-            description: response.message || "Something went wrong. Please try again.",
+            description:
+              response.message || "Something went wrong. Please try again.",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
-        console.error("Form submission error:", error)
+        console.error("Form submission error:", error);
         setFormStatus({
           success: false,
           message: "An unexpected error occurred. Please try again.",
-        })
+        });
       }
-    })
+    });
   }
 
   return (
@@ -234,17 +263,20 @@ export default function AboutPage() {
                   </div>
                   <div className="terminal-content">
                     <p className="mb-1">
-                      <span className="text-primary">$</span> cat job_details.txt
+                      <span className="text-primary">$</span> cat
+                      job_details.txt
                     </p>
                     <div className="mb-2">
                       <p>
                         <span className="text-primary">title:</span> {exp.title}
                       </p>
                       <p>
-                        <span className="text-primary">period:</span> {exp.period}
+                        <span className="text-primary">period:</span>{" "}
+                        {exp.period}
                       </p>
                       <p>
-                        <span className="text-primary">description:</span> {exp.description}
+                        <span className="text-primary">description:</span>{" "}
+                        {exp.description}
                       </p>
                     </div>
                   </div>
@@ -254,7 +286,9 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-6">Volunteer & Student Experience</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              Volunteer & Student Experience
+            </h2>
             <div className="space-y-6">
               {volunteerExperiences.map((exp, index) => (
                 <div key={index} className="terminal-window">
@@ -266,17 +300,20 @@ export default function AboutPage() {
                   </div>
                   <div className="terminal-content">
                     <p className="mb-1">
-                      <span className="text-primary">$</span> cat volunteer_details.txt
+                      <span className="text-primary">$</span> cat
+                      volunteer_details.txt
                     </p>
                     <div className="mb-2">
                       <p>
                         <span className="text-primary">title:</span> {exp.title}
                       </p>
                       <p>
-                        <span className="text-primary">period:</span> {exp.period}
+                        <span className="text-primary">period:</span>{" "}
+                        {exp.period}
                       </p>
                       <p>
-                        <span className="text-primary">description:</span> {exp.description}
+                        <span className="text-primary">description:</span>{" "}
+                        {exp.description}
                       </p>
                     </div>
                   </div>
@@ -301,26 +338,32 @@ export default function AboutPage() {
                   </p>
                   <div className="mb-4">
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Master of Design in Experience Design, May 2025
+                      <span className="text-primary">degree:</span> Master of
+                      Design in Experience Design, May 2025
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> San Jose State University, San Jose, CA
+                      <span className="text-primary">institution:</span> San
+                      Jose State University, San Jose, CA
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">thesis:</span> Voice-driven AI interfaces for XR environments using
-                      transformer models.
+                      <span className="text-primary">thesis:</span> Voice-driven
+                      AI interfaces for XR environments using transformer
+                      models.
                     </p>
                   </div>
                   <div>
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Bachelor of Science in Games, Interactive Media, and
-                      Mobile Technology, May 2020
+                      <span className="text-primary">degree:</span> Bachelor of
+                      Science in Games, Interactive Media, and Mobile
+                      Technology, May 2020
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> Boise State University, Boise, ID
+                      <span className="text-primary">institution:</span> Boise
+                      State University, Boise, ID
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">honors:</span> Dean's List with Highest Honors, 2019 & 2020.
+                      <span className="text-primary">honors:</span> Dean's List
+                      with Highest Honors, 2019 & 2020.
                     </p>
                   </div>
                 </div>
@@ -344,10 +387,15 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {skills.map((skillGroup, index) => (
                     <div key={index} className="space-y-2">
-                      <h3 className="text-primary font-bold">{skillGroup.category}</h3>
+                      <h3 className="text-primary font-bold">
+                        {skillGroup.category}
+                      </h3>
                       <ul className="space-y-1">
                         {skillGroup.items.map((skill, skillIndex) => (
-                          <li key={skillIndex} className="flex items-center gap-2">
+                          <li
+                            key={skillIndex}
+                            className="flex items-center gap-2"
+                          >
                             <span className="text-primary">-</span>
                             <span>{skill}</span>
                           </li>
@@ -416,7 +464,11 @@ export default function AboutPage() {
                         disabled={isPending}
                       />
                     </div>
-                    <Button type="submit" className="w-full" disabled={isPending}>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isPending}
+                    >
                       {isPending ? "Sending..." : "Send Message"}
                     </Button>
 
@@ -470,7 +522,10 @@ export default function AboutPage() {
                         //rel="noopener noreferrer"
                       >
                         <span className="w-4 h-4 flex items-center justify-center">
-                          <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
+                          <FontAwesomeIcon
+                            icon={faXTwitter}
+                            className="w-3 h-3"
+                          />
                         </span>
                         x.com/mikechaves_io
                       </Link>
@@ -505,5 +560,5 @@ export default function AboutPage() {
         </>
       )}
     </div>
-  )
+  );
 }

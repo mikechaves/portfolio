@@ -36,7 +36,8 @@
 }
 
 .bg-grid-pattern {
-  background-image: linear-gradient(to right, rgba(0, 255, 140, 0.1) 1px, transparent 1px),
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 140, 0.1) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 255, 140, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
@@ -70,12 +71,14 @@
 }
 
 .glitch:hover::before {
-  animation: glitch-animation 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  animation: glitch-animation 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both
+    infinite;
   opacity: 1;
 }
 
 .glitch:hover::after {
-  animation: glitch-animation 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  animation: glitch-animation 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse
+    both infinite;
   opacity: 1;
 }
 

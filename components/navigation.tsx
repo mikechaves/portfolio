@@ -1,31 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 
 export function Navigation() {
-  const pathname = usePathname()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
     { name: "home", path: "/" },
     { name: "projects", path: "/projects" },
     { name: "blog", path: "/blog" },
     { name: "about", path: "/about" },
-  ]
+  ];
 
   return (
     <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
+          <Link
+            href="/"
+            className="text-xl font-bold text-primary glitch"
+            data-text="MIKE_CHAVES"
+          >
             MIKE_CHAVES
           </Link>
 
           {/* Mobile menu button */}
-          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button
+            className="md:hidden text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
@@ -68,5 +75,5 @@ export function Navigation() {
         )}
       </div>
     </header>
-  )
+  );
 }

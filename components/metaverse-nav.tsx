@@ -1,82 +1,96 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import dynamic from "next/dynamic"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 
 // Dynamically import the client component
 const MetaverseNavClient = dynamic(
-  () => import("./metaverse-nav-client").then((mod) => ({ default: mod.MetaverseNavClient })),
+  () =>
+    import("./metaverse-nav-client").then((mod) => ({
+      default: mod.MetaverseNavClient,
+    })),
   {
     ssr: false,
     loading: () => null,
   },
-)
+);
 
 export function MetaverseNav() {
-  const pathname = usePathname()
-  const [showMetaverse, setShowMetaverse] = useState(false)
-  const [transitioning, setTransitioning] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [canRender3D, setCanRender3D] = useState(false)
-  const [navPositions, setNavPositions] = useState<Record<string, { x: number; y: number; hovered: boolean }>>({})
+  const pathname = usePathname();
+  const [showMetaverse, setShowMetaverse] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [canRender3D, setCanRender3D] = useState(false);
+  const [navPositions, setNavPositions] = useState<
+    Record<string, { x: number; y: number; hovered: boolean }>
+  >({});
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
 
     const checkWebGL = () => {
       try {
-        const canvas = document.createElement("canvas")
-        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
-        setCanRender3D(!!gl)
+        const canvas = document.createElement("canvas");
+        const gl =
+          canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        setCanRender3D(!!gl);
       } catch (e) {
-        setCanRender3D(false)
+        setCanRender3D(false);
       }
-    }
+    };
 
-    checkMobile()
-    checkWebGL()
+    checkMobile();
+    checkWebGL();
 
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const navItems = [
     { name: "home", path: "/" },
     { name: "projects", path: "/projects" },
     { name: "blog", path: "/blog" },
     { name: "about", path: "/about" },
-  ]
+  ];
 
   const handleNavigate = (path: string) => {
     if (path === pathname) {
-      setShowMetaverse(false)
-      return
+      setShowMetaverse(false);
+      return;
     }
-    setTransitioning(true)
+    setTransitioning(true);
     setTimeout(() => {
-      window.location.href = path
-    }, 500)
-  }
+      window.location.href = path;
+    }, 500);
+  };
 
-  const handleNavPositionUpdate = (name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
+  const handleNavPositionUpdate = (
+    name: string,
+    screenPos: { x: number; y: number },
+    hovered: boolean,
+  ) => {
     setNavPositions((prev) => ({
       ...prev,
       [name]: { ...screenPos, hovered },
-    }))
-  }
+    }));
+  };
 
-  const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
-  const exitMetaverse = () => setShowMetaverse(false)
+  const toggleMetaverse = () => setShowMetaverse(!showMetaverse);
+  const exitMetaverse = () => setShowMetaverse(false);
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <header className="border-b border-border/40 backdrop-blur-sm h-20">
         <div className="container mx-auto px-4 h-full">
           <nav className="flex items-center justify-between h-full">
-            <Link href="/" className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
+            <Link
+              href="/"
+              className="text-xl font-bold text-primary glitch"
+              data-text="MIKE_CHAVES"
+            >
               MIKE_CHAVES
             </Link>
             <div className="flex items-center gap-4">
@@ -86,7 +100,10 @@ export function MetaverseNav() {
               >
                 {showMetaverse ? "Exit Metaverse" : "Enter Metaverse"}
               </button>
-              <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <button
+                className="md:hidden text-white"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
                 {isMobileMenuOpen ? (
                   <svg
                     width="24"
@@ -168,5 +185,5 @@ export function MetaverseNav() {
         onExitMetaverse={exitMetaverse}
       />
     </div>
-  )
+  );
 }

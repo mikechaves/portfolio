@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ProjectCard } from "@/components/project-card"
+import { useState } from "react";
+import { ProjectCard } from "@/components/project-card";
 
 export default function ProjectsPage() {
-  const [activeFilter, setActiveFilter] = useState<string>("all")
+  const [activeFilter, setActiveFilter] = useState<string>("all");
 
   const projects = [
     {
@@ -13,7 +13,11 @@ export default function ProjectsPage() {
       description:
         "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
       image: "/projects/geovoice/main-image.png?height=400&width=600",
-      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+      technologies: [
+        "Geospatial Mapping",
+        "UX/UI Design",
+        "Data Visualization",
+      ],
       category: "web",
     },
     {
@@ -40,7 +44,11 @@ export default function ProjectsPage() {
       description:
         "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
       image: "/projects/apt-plus/main-image.png?height=400&width=600",
-      technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
+      technologies: [
+        "UX/UI Design",
+        "Data Visualization",
+        "Process Optimization",
+      ],
       category: "design",
     },
     {
@@ -76,7 +84,13 @@ export default function ProjectsPage() {
       description:
         "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
       image: "/placeholder.svg?height=400&width=600",
-      technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
+      technologies: [
+        "AR",
+        "Snap Spectacles",
+        "Spatial Audio",
+        "Voice UI",
+        "Accessibility",
+      ],
       category: "ar-vr",
     },
     {
@@ -85,10 +99,15 @@ export default function ProjectsPage() {
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
       image: "/placeholder.svg?height=400&width=600",
-      technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
+      technologies: [
+        "A-Frame",
+        "D3.js",
+        "3D Visualization",
+        "Data Storytelling",
+      ],
       category: "web",
     },
-  ]
+  ];
 
   const categories = [
     { id: "all", name: "All Projects" },
@@ -96,10 +115,12 @@ export default function ProjectsPage() {
     { id: "ar-vr", name: "AR/VR" },
     { id: "web", name: "Web Development" },
     { id: "research", name: "Research" },
-  ]
+  ];
 
   const filteredProjects =
-    activeFilter === "all" ? projects : projects.filter((project) => project.category === activeFilter)
+    activeFilter === "all"
+      ? projects
+      : projects.filter((project) => project.category === activeFilter);
 
   return (
     <div className="space-y-8 pt-8">
@@ -112,7 +133,8 @@ export default function ProjectsPage() {
         </div>
         <div className="terminal-content">
           <p className="mb-4">
-            <span className="text-primary">$</span> Displaying projects directory. Select category to filter results.
+            <span className="text-primary">$</span> Displaying projects
+            directory. Select category to filter results.
           </p>
         </div>
       </div>
@@ -146,5 +168,5 @@ export default function ProjectsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

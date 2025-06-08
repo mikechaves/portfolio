@@ -1,11 +1,14 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export default function EmbracingAmbiguityPage() {
   return (
     <div className="max-w-3xl mx-auto pt-8">
-      <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-2 text-primary hover:underline mb-8"
+      >
         <ArrowLeft size={16} /> Back to blog
       </Link>
 
@@ -33,7 +36,8 @@ export default function EmbracingAmbiguityPage() {
 
       <div className="border border-zinc-800 rounded-md overflow-hidden bg-black p-6 mb-8">
         <p className="text-zinc-400 mb-4">
-          This article is available on Medium. Click the button below to read the full article.
+          This article is available on Medium. Click the button below to read
+          the full article.
         </p>
         <a
           href="https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150"
@@ -48,16 +52,19 @@ export default function EmbracingAmbiguityPage() {
       <div className="border border-zinc-800 rounded-md overflow-hidden bg-black p-6">
         <h2 className="text-xl font-bold mb-4">Article Preview</h2>
         <p className="text-zinc-400 mb-4">
-          In today's rapidly evolving technological landscape, designers and developers often find themselves navigating
-          through ambiguity. This article explores strategies for finding clarity amid the chaos of modern technology,
-          embracing uncertainty as a catalyst for innovation, and developing frameworks that help transform complex
-          problems into meaningful solutions.
+          In today's rapidly evolving technological landscape, designers and
+          developers often find themselves navigating through ambiguity. This
+          article explores strategies for finding clarity amid the chaos of
+          modern technology, embracing uncertainty as a catalyst for innovation,
+          and developing frameworks that help transform complex problems into
+          meaningful solutions.
         </p>
         <p className="text-zinc-400">
-          The full article discusses approaches to design thinking, technological adaptation, and maintaining a
-          human-centered focus in an increasingly digital world.
+          The full article discusses approaches to design thinking,
+          technological adaptation, and maintaining a human-centered focus in an
+          increasingly digital world.
         </p>
       </div>
     </div>
-  )
+  );
 }
