@@ -831,7 +831,7 @@ export default function ProjectPage() {
     },
   }
 
-  const project: Project | undefined = projectsData[id]
+  const project: Project | undefined = projectsData[id as keyof typeof projectsData]
 
   if (!project) {
     notFound()
