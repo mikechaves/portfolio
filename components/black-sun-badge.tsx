@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export function BlackSunBadge() {
-  const [isVisible, setIsVisible] = useState(false)
-  const pathname = usePathname()
+  const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
 
   // Disable the badge completely on the About page
-  const isAboutPage = pathname === "/about"
+  const isAboutPage = pathname === "/about";
 
   useEffect(() => {
     // Only show the badge if we're not on the About page
     if (!isAboutPage) {
       const timer = setTimeout(() => {
-        setIsVisible(true)
-      }, 3000)
+        setIsVisible(true);
+      }, 3000);
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [isAboutPage])
+  }, [isAboutPage]);
 
   // Don't render anything on the About page
   if (isAboutPage) {
-    return null
+    return null;
   }
 
   return (
@@ -58,5 +58,5 @@ export function BlackSunBadge() {
         Black Sun Access
       </div>
     </motion.div>
-  )
+  );
 }

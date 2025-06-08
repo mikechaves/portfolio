@@ -1,10 +1,11 @@
-import { BlogCard } from "@/components/blog-card"
+import { BlogCard } from "@/components/blog-card";
 
 export default function BlogPage() {
   const posts = [
     {
       id: "embracing-ambiguity",
-      title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
+      title:
+        "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
       excerpt:
         "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
       date: "Feb 12, 2025",
@@ -17,7 +18,8 @@ export default function BlogPage() {
     {
       id: "ai-becomes-user",
       title: "When AI Becomes the User: Redefining UX/UI for the Future",
-      excerpt: "Exploring how AI as a user changes our approach to interface design and user experience strategies.",
+      excerpt:
+        "Exploring how AI as a user changes our approach to interface design and user experience strategies.",
       date: "Jan 28, 2025",
       readingTime: "7 min read",
       url: "https://medium.com/design-bootcamp/when-ai-becomes-the-user-redefining-ux-ui-for-the-future-ac6bbc6eb084",
@@ -28,7 +30,8 @@ export default function BlogPage() {
     {
       id: "extended-pausabilities",
       title: "Extended Pausabilities: Navigating XR with Accessibility in Mind",
-      excerpt: "How to design inclusive extended reality experiences that work for users of all abilities.",
+      excerpt:
+        "How to design inclusive extended reality experiences that work for users of all abilities.",
       date: "Dec 15, 2024",
       readingTime: "8 min read",
       url: "https://medium.com/design-bootcamp/extended-pausabilities-navigating-xr-with-accessibility-in-mind-1fa35fb4d590",
@@ -48,7 +51,7 @@ export default function BlogPage() {
       publication: "Bootcamp",
       featured: false,
     },
-  ]
+  ];
 
   return (
     <div className="space-y-8 pt-8">
@@ -75,5 +78,5 @@ export default function BlogPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

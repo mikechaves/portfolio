@@ -28,6 +28,6 @@ const nextConfig = {
     "@react-three/drei",
   ],
   // Removed the experimental.appDir option as it's now the default
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

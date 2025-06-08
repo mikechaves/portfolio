@@ -1,12 +1,12 @@
-"use client"
-import { Suspense } from "react"
-import type React from "react"
+"use client";
+import { Suspense } from "react";
+import type React from "react";
 
-import "./globals.css"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { MetaverseNavFallback } from "@/components/metaverse-nav-fallback"
-import { KatanaCursor } from "@/components/katana-cursor"
+import "./globals.css";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { MetaverseNavFallback } from "@/components/metaverse-nav-fallback";
+import { KatanaCursor } from "@/components/katana-cursor";
 
 // Loading fallback for navigation components that use client-side hooks
 function NavigationFallback() {
@@ -19,19 +19,22 @@ function NavigationFallback() {
         <nav>
           <ul className="flex space-x-6">
             {[1, 2, 3, 4].map((i) => (
-              <li key={i} className="h-4 w-16 bg-[#00ff8c]/10 animate-pulse rounded"></li>
+              <li
+                key={i}
+                className="h-4 w-16 bg-[#00ff8c]/10 animate-pulse rounded"
+              ></li>
             ))}
           </ul>
         </nav>
       </div>
     </header>
-  )
+  );
 }
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -45,5 +48,5 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  )
+  );
 }

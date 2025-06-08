@@ -1,21 +1,31 @@
-import Link from "next/link"
-import { CalendarIcon, Clock, ArrowRight } from "lucide-react"
+import Link from "next/link";
+import { CalendarIcon, Clock, ArrowRight } from "lucide-react";
 
 interface BlogCardProps {
-  id: string
-  title: string
-  excerpt: string
-  date: string
-  readingTime: string
-  url?: string
-  publication?: string
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readingTime: string;
+  url?: string;
+  publication?: string;
 }
 
-export function BlogCard({ id, title, excerpt, date, readingTime, url, publication }: BlogCardProps) {
+export function BlogCard({
+  id,
+  title,
+  excerpt,
+  date,
+  readingTime,
+  url,
+  publication,
+}: BlogCardProps) {
   // If URL is provided, use an anchor tag that opens in a new tab
   // Otherwise, use Next.js Link for internal navigation
-  const Component = url ? "a" : Link
-  const linkProps = url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: `/blog/${id}` }
+  const Component = url ? "a" : Link;
+  const linkProps = url
+    ? { href: url, target: "_blank", rel: "noopener noreferrer" }
+    : { href: `/blog/${id}` };
 
   return (
     <Component {...linkProps} className="block h-full">
@@ -38,7 +48,9 @@ export function BlogCard({ id, title, excerpt, date, readingTime, url, publicati
         <h3 className="text-lg font-bold mb-2 glitch" data-text={title}>
           {title}
         </h3>
-        <p className="text-sm text-zinc-400 mb-4 flex-grow line-clamp-3">{excerpt}</p>
+        <p className="text-sm text-zinc-400 mb-4 flex-grow line-clamp-3">
+          {excerpt}
+        </p>
         {url && (
           <div className="text-primary text-sm flex items-center gap-1 mt-auto">
             Read on Medium <ArrowRight size={14} />
@@ -46,5 +58,5 @@ export function BlogCard({ id, title, excerpt, date, readingTime, url, publicati
         )}
       </div>
     </Component>
-  )
+  );
 }

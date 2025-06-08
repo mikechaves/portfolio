@@ -1,11 +1,14 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export default function RedefiningRealityPage() {
   return (
     <div className="max-w-3xl mx-auto pt-8">
-      <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-2 text-primary hover:underline mb-8"
+      >
         <ArrowLeft size={16} /> Back to blog
       </Link>
 
@@ -22,7 +25,9 @@ export default function RedefiningRealityPage() {
         <div className="inline-block px-3 py-1 mb-3 text-xs border border-zinc-700 rounded-full text-zinc-400">
           Bootcamp
         </div>
-        <h1 className="text-3xl font-bold mb-4">Redefining Reality: The Future of Design in XR</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          Redefining Reality: The Future of Design in XR
+        </h1>
         <div className="flex items-center gap-4 text-sm text-zinc-400">
           <div>Nov 30, 2024</div>
           <div>6 min read</div>
@@ -31,7 +36,8 @@ export default function RedefiningRealityPage() {
 
       <div className="border border-zinc-800 rounded-md overflow-hidden bg-black p-6 mb-8">
         <p className="text-zinc-400 mb-4">
-          This article is available on Medium. Click the button below to read the full article.
+          This article is available on Medium. Click the button below to read
+          the full article.
         </p>
         <a
           href="https://medium.com/design-bootcamp/redefining-reality-the-future-of-design-in-xr-a5e053e255a8"
@@ -46,16 +52,19 @@ export default function RedefiningRealityPage() {
       <div className="border border-zinc-800 rounded-md overflow-hidden bg-black p-6">
         <h2 className="text-xl font-bold mb-4">Article Preview</h2>
         <p className="text-zinc-400 mb-4">
-          Extended Reality (XR) is transforming how we design digital experiences by breaking free from the constraints
-          of 2D screens. This article explores how spatial computing, embodied interaction, and immersive environments
-          are creating new design paradigms that blend physical and digital realities.
+          Extended Reality (XR) is transforming how we design digital
+          experiences by breaking free from the constraints of 2D screens. This
+          article explores how spatial computing, embodied interaction, and
+          immersive environments are creating new design paradigms that blend
+          physical and digital realities.
         </p>
         <p className="text-zinc-400">
-          The full article examines emerging XR design principles, the evolution of user interfaces beyond screens, and
-          how designers can prepare for a future where the boundaries between physical and digital experiences continue
-          to blur.
+          The full article examines emerging XR design principles, the evolution
+          of user interfaces beyond screens, and how designers can prepare for a
+          future where the boundaries between physical and digital experiences
+          continue to blur.
         </p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Sumerian-inspired glyphs
 const glyphs = [
@@ -43,12 +43,12 @@ const glyphs = [
   "𒁐",
   "𒁑",
   "𒁒",
-]
+];
 
 export function SumerianVirus() {
-  const [isActive, setIsActive] = useState(false)
-  const [glyphStream, setGlyphStream] = useState<string[]>([])
-  const [message, setMessage] = useState("")
+  const [isActive, setIsActive] = useState(false);
+  const [glyphStream, setGlyphStream] = useState<string[]>([]);
+  const [message, setMessage] = useState("");
 
   // Messages that will be displayed during the "infection"
   const messages = [
@@ -58,55 +58,58 @@ export function SumerianVirus() {
     "Deploying countermeasures...",
     "Sumerian defense activated...",
     "System protected.",
-  ]
+  ];
 
   useEffect(() => {
     // Random chance to trigger the virus effect when navigating to a new page
-    const shouldTrigger = Math.random() < 0.2 // 20% chance
+    const shouldTrigger = Math.random() < 0.2; // 20% chance
 
     if (shouldTrigger) {
       // Start the effect after a random delay
       const timer = setTimeout(
         () => {
-          setIsActive(true)
+          setIsActive(true);
 
           // Generate random glyph stream
           const interval = setInterval(() => {
             setGlyphStream((prev) => {
-              const newStream = [...prev]
-              if (newStream.length > 100) newStream.shift()
-              return [...newStream, glyphs[Math.floor(Math.random() * glyphs.length)]]
-            })
-          }, 50)
+              const newStream = [...prev];
+              if (newStream.length > 100) newStream.shift();
+              return [
+                ...newStream,
+                glyphs[Math.floor(Math.random() * glyphs.length)],
+              ];
+            });
+          }, 50);
 
           // Display messages in sequence
-          let messageIndex = 0
+          let messageIndex = 0;
           const messageInterval = setInterval(() => {
-            setMessage(messages[messageIndex])
-            messageIndex++
+            setMessage(messages[messageIndex]);
+            messageIndex++;
 
             if (messageIndex >= messages.length) {
-              clearInterval(messageInterval)
+              clearInterval(messageInterval);
 
               // End the effect after all messages are shown
               setTimeout(() => {
-                clearInterval(interval)
-                setIsActive(false)
-              }, 2000)
+                clearInterval(interval);
+                setIsActive(false);
+              }, 2000);
             }
-          }, 1200)
+          }, 1200);
 
           return () => {
-            clearInterval(interval)
-            clearInterval(messageInterval)
-          }
+            clearInterval(interval);
+            clearInterval(messageInterval);
+          };
         },
         Math.random() * 5000 + 2000,
-      )
+      );
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [])
+  }, []);
 
   return (
     <AnimatePresence>
@@ -149,7 +152,10 @@ export function SumerianVirus() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="text-primary text-xl font-bold mb-4 glitch" data-text={message}>
+            <div
+              className="text-primary text-xl font-bold mb-4 glitch"
+              data-text={message}
+            >
               {message}
             </div>
 
@@ -164,7 +170,10 @@ export function SumerianVirus() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div
                     className="w-3/4 h-3/4 rounded-full border-4 border-primary/70 animate-spin"
-                    style={{ animationDuration: "2s", animationDirection: "reverse" }}
+                    style={{
+                      animationDuration: "2s",
+                      animationDirection: "reverse",
+                    }}
                   ></div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -173,12 +182,14 @@ export function SumerianVirus() {
                     style={{ animationDuration: "1.5s" }}
                   ></div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">𒀭</div>
+                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">
+                  𒀭
+                </div>
               </div>
             </div>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }
