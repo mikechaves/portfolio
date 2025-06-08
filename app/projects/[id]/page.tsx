@@ -5,11 +5,23 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 
+interface Project {
+  title: string
+  category: string
+  description: string
+  image: string
+  technologies: string[]
+  github: string
+  demo: string
+  gallery?: string[]
+  details?: any
+}
+
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>()
 
   // This would typically come from a database or API
-  const projectsData = {
+  const projectsData: Record<string, Project> = {
     gaia: {
       title: "Gaia",
       category: "design",
@@ -819,7 +831,7 @@ export default function ProjectPage() {
     },
   }
 
-  const project = projectsData[id as keyof typeof projectsData]
+  const project: Project | undefined = projectsData[id]
 
   if (!project) {
     notFound()
@@ -927,7 +939,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Situation</h2>
           <div className="space-y-4">
-            {project.details.situation.map((item, index) => (
+            {project.details.situation.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -952,7 +964,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Task</h2>
           <div className="space-y-4">
-            {project.details.task.map((item, index) => (
+            {project.details.task.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -968,7 +980,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Action</h2>
           <div className="space-y-4">
-            {project.details.actions.map((action, index) => (
+            {project.details.actions.map((action: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">{index + 1}.</span> {action.title}
@@ -984,7 +996,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Result</h2>
           <div className="space-y-4">
-            {project.details.results.map((result, index) => (
+            {project.details.results.map((result: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {result.title}
@@ -1009,7 +1021,7 @@ export default function ProjectPage() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Exhibition & Future Directions</h2>
           <div className="space-y-4">
-            {project.details.exhibition.map((item, index) => (
+            {project.details.exhibition.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
