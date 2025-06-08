@@ -751,6 +751,17 @@ export default function ProjectPage() {
       technologies: ["XR", "AI", "Entrepreneurship"],
       github: "https://github.com/mikechaves",
       demo: "https://mikechaves.vercel.app",
+      gallery: [],
+      details: {
+        client: "Digitalhous",
+        date: "",
+        category: "XR Development",
+        services: [],
+        situation: "",
+        task: "",
+        actions: [],
+        results: [],
+      },
     },
     "voice-first-ar": {
       title: "Voice-First AR Prototypes",
@@ -761,6 +772,17 @@ export default function ProjectPage() {
       technologies: ["AR", "Voice UI", "Accessibility"],
       github: "https://github.com/mikechaves",
       demo: "https://mikechaves.vercel.app",
+      gallery: [],
+      details: {
+        client: "Research Project",
+        date: "",
+        category: "XR Research",
+        services: [],
+        situation: "",
+        task: "",
+        actions: [],
+        results: [],
+      },
     },
     "ai-energy-consumption": {
       title: "AI Energy Consumption",
@@ -850,6 +872,7 @@ export default function ProjectPage() {
   }
 
   const project: Project | undefined = projectsData[id as keyof typeof projectsData]
+  const project: any = projectsData[id as keyof typeof projectsData]
 
   if (!project) {
     notFound()
@@ -887,7 +910,7 @@ export default function ProjectPage() {
             </p>
             <p className="flex flex-wrap gap-2 mt-2">
               <span className="text-primary">stack:</span>
-              {project.technologies.map((tech, index) => (
+              {project.technologies.map((tech: string, index: number) => (
                 <span key={index} className="text-xs px-2 py-1 bg-secondary text-secondary-foreground rounded">
                   {tech}
                 </span>
@@ -903,7 +926,7 @@ export default function ProjectPage() {
 
       {project.gallery && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {project.gallery.map((img, index) => (
+          {project.gallery.map((img: string, index: number) => (
             <div
               key={index}
               className="bg-zinc-100 rounded-md overflow-hidden h-[200px] flex items-center justify-center"
@@ -958,6 +981,7 @@ export default function ProjectPage() {
           <h2 className="text-2xl font-bold mb-4">Situation</h2>
           <div className="space-y-4">
             {(project.details.situation as ProjectDetailItem[]).map((item, index) => (
+            {project.details.situation.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -983,6 +1007,7 @@ export default function ProjectPage() {
           <h2 className="text-2xl font-bold mb-4">Task</h2>
           <div className="space-y-4">
             {(project.details.task as ProjectDetailItem[]).map((item, index) => (
+            {project.details.task.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -999,6 +1024,7 @@ export default function ProjectPage() {
           <h2 className="text-2xl font-bold mb-4">Action</h2>
           <div className="space-y-4">
             {(project.details.actions as ProjectDetailItem[]).map((action, index) => (
+            {project.details.actions.map((action: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">{index + 1}.</span> {action.title}
@@ -1015,6 +1041,7 @@ export default function ProjectPage() {
           <h2 className="text-2xl font-bold mb-4">Result</h2>
           <div className="space-y-4">
             {(project.details.results as ProjectDetailItem[]).map((result, index) => (
+            {project.details.results.map((result: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {result.title}
@@ -1040,6 +1067,7 @@ export default function ProjectPage() {
           <h2 className="text-2xl font-bold mb-4">Exhibition & Future Directions</h2>
           <div className="space-y-4">
             {(project.details.exhibition as ProjectDetailItem[]).map((item, index) => (
+            {project.details.exhibition.map((item: any, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
