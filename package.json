@@ -46,6 +46,7 @@
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@react-three/fiber": "latest",
+    "@remix-run/react": "latest",
     "@sveltejs/kit": "latest",
     "@vercel/analytics": "latest",
     "autoprefixer": "^10.4.20",
