@@ -61,7 +61,7 @@ export default function ProjectPage() {
         "Ford APT+ is an end-to-end solution focused on streamlining manufacturing workflows by improving the accuracy and efficiency of time studies. These studies, previously slow and error-prone, cost Ford millions of dollars annually in wasted effort. My goal with APT+ was to design and implement a precision-driven, scalable system that eliminated inefficiencies and enabled data-driven decision-making—ultimately saving Ford approximately $1M per plant each year.",
       image: "/projects/apt-plus/main-image.png",
       technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
-      github: "https://github.com/mikechaves",
+      github: "",
       demo: "https://mikechaves.vercel.app",
       gallery: ["/projects/apt-plus/situation.png", "/projects/apt-plus/action.png", "/projects/apt-plus/result.png"],
       details: {
@@ -160,7 +160,7 @@ export default function ProjectPage() {
         "Starbucks sought to improve communication in their stores, particularly in drive-through scenarios, by implementing real-time speech-to-text transcription. This initiative aimed to enhance inclusivity and operational efficiency. As the Product UX/UI Designer and React Developer, I designed and developed the Transcribe application to address unique communication challenges in high-traffic retail environments.",
       image: "/projects/transcribe/main-image.png",
       technologies: ["React.js", "UX/UI Design", "Speech-to-Text API", "Accessibility"],
-      github: "https://github.com/mikechaves",
+      github: "",
       demo: "https://mikechaves.vercel.app",
       gallery: [
         "/projects/transcribe/situation.png",
@@ -214,8 +214,8 @@ export default function ProjectPage() {
         "GeoVoice is a platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. By integrating intuitive mapping tools with a centralized feedback system, GeoVoice enables teams to gather, visualize, and act on geographically specific insights in real time. The result is a more transparent and efficient way to collaborate, whether for urban development, energy planning, or environmental impact assessments.",
       image: "/projects/geovoice/main-image.png",
       technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization", "Collaborative Tools"],
-      github: "https://github.com/mikechaves",
-      demo: "https://mikechaves.vercel.app",
+      github: "",
+      demo: "https://geovoice.powereng.com/demo/",
       gallery: [
         "/projects/geovoice/situation.png",
         "/projects/geovoice/action.png",
@@ -302,7 +302,7 @@ export default function ProjectPage() {
         "SpeakEasy is an immersive research and design project that reimagines Extended Reality (XR) for a more inclusive future. By integrating a voice-driven AI interface into XR environments, SpeakEasy addresses the complex interaction barriers faced by users with low muscle tone and other physical challenges. This project is dedicated to making XR more accessible, intuitive, and engaging.",
       image: "/projects/speakeasy/main-image.png",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
-      github: "https://github.com/mikechaves",
+      github: "https://github.com/mikechaves/speak-easy-mr",
       demo: "https://mikechaves.vercel.app",
       gallery: [
         "/projects/speakeasy/situation.png",
@@ -616,7 +616,7 @@ export default function ProjectPage() {
       image: "/placeholder.svg?height=600&width=1200",
       technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       github: "https://github.com/mikechaves/stanford-immerse-the-bay-24",
-      demo: "https://mikechaves.vercel.app",
+      demo: "https://devpost.com/software/strings",
       gallery: [],
       details: {
         client: "Stanford's Immerse the Bay 2024 XR Hackathon",
