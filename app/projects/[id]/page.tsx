@@ -17,8 +17,8 @@ export default function ProjectPage() {
         "Starbucks aimed to transform data analytics into practical, experiential contexts through spatial computing, enhancing store operations, design, and training using AR/VR technology. As the Lead UX/UI Designer and Unity3D Developer, I was tasked with crafting user-friendly interfaces for advanced spatial computing systems and developing AR/VR applications integrated into Starbucks' environment.",
       image: "/projects/gaia/main-image.png",
       technologies: ["UX Design", "AR/VR", "Unity3D", "Spatial Computing"],
-      github: "https://github.com/mikechaves",
-      demo: "https://mikechaves.vercel.app",
+      github: "",
+      demo: "/projects/gaia/GaiaVisiPad.mp4",
       gallery: ["/projects/gaia/how-might-we.png", "/projects/gaia/wireframes-3d.png", "/projects/gaia/vr-testing.png"],
       details: {
         client: "Starbucks Corporation",
