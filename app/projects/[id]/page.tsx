@@ -518,7 +518,7 @@ export default function ProjectPage() {
       image: "/placeholder.svg?height=600&width=1200",
       technologies: ["TypeScript", "React", "Three.js", "React Three Fiber", "WebGL"],
       github: "https://github.com/mikechaves/material-explorer",
-      demo: "https://mikechaves.vercel.app",
+      demo: "https://mikechaves.github.io/material-explorer/",
       gallery: [],
       details: {
         client: "Personal Project",
