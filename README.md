@@ -11,7 +11,7 @@ pnpm install
 pnpm dev
 ```
 
-The site will be available at [http://localhost:3000](http://localhost:3000).
+The site will be available at [https://mikechaves.io](https://mikechaves.io).
 
 ### Environment Variables
 
