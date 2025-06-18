@@ -65,7 +65,7 @@ export default function ProjectsPage() {
       title: "Sound Escape VR",
       description:
         "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
-      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Sound Escape VR')}`,
+      image: "/projects/soundescape/main-image.jpg?height=400&width=600",
       technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
       category: "ar-vr",
     },
