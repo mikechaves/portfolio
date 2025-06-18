@@ -83,7 +83,7 @@ export default function ProjectsPage() {
       title: "Portals",
       description:
         "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
-      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Portals')}`,
+      image: "/projects/portals/main-image.png?height=400&width=600",
       technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       category: "ar-vr",
     },

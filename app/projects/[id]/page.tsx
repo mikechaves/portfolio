@@ -611,7 +611,7 @@ export default function ProjectPage() {
       category: "ar-vr",
       description:
         "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features. Utilizing spatial audio and computer vision, Portals allows users to engage with cultural and musical experiences in a unique way.",
-      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Portals')}`,
+      image: "/projects/portals/main-image.png",
       technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       github: "https://github.com/mikechaves/stanford-immerse-the-bay-24",
       demo: "https://devpost.com/software/strings",
