@@ -74,7 +74,7 @@ export default function ProjectsPage() {
       title: "Material Explorer",
       description:
         "An interactive web application for creating, customizing, and visualizing 3D materials in real-time using Three.js and React Three Fiber.",
-      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Material Explorer')}`,
+      image: "/projects/material-explorer/main-image.png?height=400&width=600",
       technologies: ["TypeScript", "React", "Three.js", "WebGL"],
       category: "web",
     },

@@ -513,7 +513,7 @@ export default function ProjectPage() {
       category: "web",
       description:
         "Material Explorer is an interactive web application that allows users to create, customize, and visualize 3D materials in real-time. Built with Three.js and React Three Fiber, this tool provides immediate visual feedback on material property changes such as color, metalness, and roughness, making it ideal for designers, developers, and 3D artists.",
-      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Material Explorer')}`,
+      image: "/projects/material-explorer/main-image.png",
       technologies: ["TypeScript", "React", "Three.js", "React Three Fiber", "WebGL"],
       github: "https://github.com/mikechaves/material-explorer",
       demo: "https://mikechaves.github.io/material-explorer/",
