@@ -14,7 +14,15 @@ export function ProjectCard({ id, title, description, image, technologies }: Pro
     <Link href={`/projects/${id}`}>
       <div className="card-hover bg-card rounded-md overflow-hidden h-full flex flex-col">
         <div className="relative h-48">
-          <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+          <Image
+            src={
+              image ||
+              `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`
+            }
+            alt={title}
+            fill
+            className="object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-4">
             <h3 className="text-lg font-bold text-white glitch" data-text={title}>

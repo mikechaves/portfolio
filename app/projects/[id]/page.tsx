@@ -418,7 +418,7 @@ export default function ProjectPage() {
       category: "ar-vr",
       description:
         "Sound Escape VR is an immersive virtual reality music-making and exploration experience that channels a retro 80s synthwave aesthetic while blending real-time audio visualization and interactive world-building. Users can craft their own musical tracks on a grid-based sequencer and watch as the environment reacts and transforms in sync with every note.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Sound Escape VR')}`,
       technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization", "Interactive Music"],
       github: "https://github.com/mikechaves/sound-escape-vr",
       demo: "https://mikechaves.vercel.app",
@@ -515,7 +515,7 @@ export default function ProjectPage() {
       category: "web",
       description:
         "Material Explorer is an interactive web application that allows users to create, customize, and visualize 3D materials in real-time. Built with Three.js and React Three Fiber, this tool provides immediate visual feedback on material property changes such as color, metalness, and roughness, making it ideal for designers, developers, and 3D artists.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Material Explorer')}`,
       technologies: ["TypeScript", "React", "Three.js", "React Three Fiber", "WebGL"],
       github: "https://github.com/mikechaves/material-explorer",
       demo: "https://mikechaves.github.io/material-explorer/",
@@ -613,7 +613,7 @@ export default function ProjectPage() {
       category: "ar-vr",
       description:
         "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features. Utilizing spatial audio and computer vision, Portals allows users to engage with cultural and musical experiences in a unique way.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Portals')}`,
       technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       github: "https://github.com/mikechaves/stanford-immerse-the-bay-24",
       demo: "https://devpost.com/software/strings",
@@ -717,7 +717,7 @@ export default function ProjectPage() {
       category: "development",
       description:
         "Founded Digitalhous, a tech-focused LLC, where I lead end-to-end development of innovative apps, software, games, and XR solutions powered by AI. Specializing in immersive VR/AR technologies and AI-driven features, I drive user-centered design with a focus on accessibility.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Digitalhous XR Applications')}`,
       technologies: ["XR", "AI", "Entrepreneurship"],
       github: "https://github.com/mikechaves",
       demo: "https://mikechaves.vercel.app",
@@ -727,7 +727,7 @@ export default function ProjectPage() {
       category: "research",
       description:
         "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility. This research explores how voice interfaces can make augmented reality more accessible and intuitive for all users.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Voice-First AR Prototypes')}`,
       technologies: ["AR", "Voice UI", "Accessibility"],
       github: "https://github.com/mikechaves",
       demo: "https://mikechaves.vercel.app",
@@ -737,7 +737,7 @@ export default function ProjectPage() {
       category: "web",
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions. Built using A-Frame and D3.js, this project combines immersive 3D graphics with data storytelling to highlight the rising energy demands associated with AI technologies.",
-      image: "/placeholder.svg?height=600&width=1200",
+      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('AI Energy Consumption')}`,
       technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling", "JavaScript"],
       github: "https://github.com/mikechaves/ai-energy-consumption",
       demo: "https://mikechaves.github.io/ai-energy-consumption/",
@@ -868,7 +868,15 @@ export default function ProjectPage() {
       </div>
 
       <div className="relative h-80 rounded-md overflow-hidden">
-        <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+        <Image
+          src={
+            project.image ||
+            `/api/placeholder?width=1200&height=600&text=${encodeURIComponent(project.title)}`
+          }
+          alt={project.title}
+          fill
+          className="object-cover"
+        />
       </div>
 
       {project.gallery && (
@@ -879,7 +887,10 @@ export default function ProjectPage() {
               className="bg-zinc-100 rounded-md overflow-hidden h-[200px] flex items-center justify-center"
             >
               <Image
-                src={img || "/placeholder.svg"}
+                src={
+                  img ||
+                  `/api/placeholder?width=800&height=600&text=${encodeURIComponent(project.title)}`
+                }
                 alt={`${project.title} gallery image ${index + 1}`}
                 width={800}
                 height={600}

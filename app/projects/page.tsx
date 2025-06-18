@@ -57,7 +57,7 @@ export default function ProjectsPage() {
       title: "Sound Escape VR",
       description:
         "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Sound Escape VR')}`,
       technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
       category: "ar-vr",
     },
@@ -66,7 +66,7 @@ export default function ProjectsPage() {
       title: "Material Explorer",
       description:
         "An interactive web application for creating, customizing, and visualizing 3D materials in real-time using Three.js and React Three Fiber.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Material Explorer')}`,
       technologies: ["TypeScript", "React", "Three.js", "WebGL"],
       category: "web",
     },
@@ -75,7 +75,7 @@ export default function ProjectsPage() {
       title: "Portals",
       description:
         "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Portals')}`,
       technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
       category: "ar-vr",
     },
@@ -84,7 +84,7 @@ export default function ProjectsPage() {
       title: "AI Energy Consumption",
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('AI Energy Consumption')}`,
       technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
       category: "web",
     },

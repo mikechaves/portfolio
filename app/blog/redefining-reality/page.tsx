@@ -11,7 +11,7 @@ export default function RedefiningRealityPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-orange-900 via-red-900 to-pink-900">
         <Image
-          src="/placeholder.svg?height=600&width=1200"
+          src={`/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Redefining Reality')}`}
           alt="Redefining Reality"
           fill
           className="object-cover mix-blend-overlay opacity-70"
