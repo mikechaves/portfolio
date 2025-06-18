@@ -217,10 +217,9 @@ export default function ProjectPage() {
       github: "",
       demo: "https://geovoice.powereng.com/demo/",
       gallery: [
-        "/projects/geovoice/situation.png",
-        "/projects/geovoice/action.png",
-        "/projects/geovoice/interface.png",
-        "/projects/geovoice/result.png",
+        "/projects/geovoice/geovoice-prototype.png",
+        "/projects/geovoice/geovoice-demo.png",
+        "/projects/geovoice/geovoice-cvow.png",
       ],
       details: {
         client: "POWER Engineers",
