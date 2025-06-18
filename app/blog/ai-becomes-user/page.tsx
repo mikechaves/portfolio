@@ -11,7 +11,7 @@ export default function AIBecomesUserPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900">
         <Image
-          src="/placeholder.svg?height=600&width=1200"
+          src={`/api/placeholder?width=1200&height=600&text=${encodeURIComponent('When AI Becomes the User')}`}
           alt="When AI Becomes the User"
           fill
           className="object-cover mix-blend-overlay opacity-70"

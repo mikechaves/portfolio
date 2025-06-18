@@ -11,7 +11,7 @@ export default function ExtendedPausabilitiesPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-green-900 via-teal-900 to-cyan-900">
         <Image
-          src="/placeholder.svg?height=600&width=1200"
+          src={`/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Extended Pausabilities')}`}
           alt="Extended Pausabilities"
           fill
           className="object-cover mix-blend-overlay opacity-70"
