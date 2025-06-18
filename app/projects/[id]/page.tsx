@@ -416,10 +416,10 @@ export default function ProjectPage() {
       category: "ar-vr",
       description:
         "Sound Escape VR is an immersive virtual reality music-making and exploration experience that channels a retro 80s synthwave aesthetic while blending real-time audio visualization and interactive world-building. Users can craft their own musical tracks on a grid-based sequencer and watch as the environment reacts and transforms in sync with every note.",
-      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Sound Escape VR')}`,
+      image: "/projects/soundescape/main-image.jpg",
       technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization", "Interactive Music"],
       github: "https://github.com/mikechaves/sound-escape-vr",
-      demo: "https://mikechaves.vercel.app",
+      demo: "https://www.youtube.com/watch?v=z2tbf1AHm7w",
       gallery: [],
       details: {
         client: "Personal Project",
