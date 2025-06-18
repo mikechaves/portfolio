@@ -1,10 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
+import { Button } from "@/components/ui/button"
 
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<string>("all")
+  const [initialLimit, setInitialLimit] = useState(6)
+  const [showAll, setShowAll] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)")
+    setInitialLimit(mediaQuery.matches ? 3 : 6)
+  }, [])
 
   const projects = [
     {
@@ -134,7 +142,9 @@ export default function ProjectsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProjects.map((project) => (
+        {filteredProjects
+          .slice(0, showAll ? filteredProjects.length : initialLimit)
+          .map((project) => (
           <ProjectCard
             key={project.id}
             id={project.id}
@@ -145,6 +155,13 @@ export default function ProjectsPage() {
           />
         ))}
       </div>
+      {!showAll && filteredProjects.length > initialLimit && (
+        <div className="flex justify-center">
+          <Button onClick={() => setShowAll(true)} variant="secondary">
+            See More
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
