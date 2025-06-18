@@ -303,12 +303,11 @@ export default function ProjectPage() {
       image: "/projects/speakeasy/main-image.png",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
       github: "https://github.com/mikechaves/speak-easy-mr",
-      demo: "https://mikechaves.vercel.app",
+      demo: "/projects/speakeasy/Chaves_Thesis_process-book_final.pdf",
       gallery: [
-        "/projects/speakeasy/situation.png",
-        "/projects/speakeasy/action.png",
-        "/projects/speakeasy/result.png",
-        "/projects/speakeasy/exhibition.png",
+        "/projects/speakeasy/thesis-exhibition.jpg",
+        "/projects/speakeasy/thesis-defense.jpg",
+        "/projects/speakeasy/ten-pillars-recap.jpg",
       ],
       details: {
         client: "Master of Design in Experience Design, SJSU",

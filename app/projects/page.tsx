@@ -56,7 +56,7 @@ export default function ProjectsPage() {
       title: "SpeakEasy",
       description:
         "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
-      image: "/projects/speakeasy/main-image.png?height=400&width=600",
+      image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
       category: "research",
     },
