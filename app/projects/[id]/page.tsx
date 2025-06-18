@@ -300,14 +300,14 @@ export default function ProjectPage() {
       category: "research",
       description:
         "SpeakEasy is an immersive research and design project that reimagines Extended Reality (XR) for a more inclusive future. By integrating a voice-driven AI interface into XR environments, SpeakEasy addresses the complex interaction barriers faced by users with low muscle tone and other physical challenges. This project is dedicated to making XR more accessible, intuitive, and engaging.",
-      image: "/projects/speakeasy/main-image.png",
+      image: "/projects/speakeasy/thesis-defense.jpg",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
       github: "https://github.com/mikechaves/speak-easy-mr",
       demo: "/projects/speakeasy/Chaves_Thesis_process-book_final.pdf",
       gallery: [
-        "/projects/speakeasy/thesis-exhibition.jpg",
+        "/projects/speakeasy/thesis-exhibition.HEIC",
         "/projects/speakeasy/thesis-defense.jpg",
-        "/projects/speakeasy/ten-pillars-recap.jpg",
+        "/projects/speakeasy/ten-pillars-recap.png",
       ],
       details: {
         client: "Master of Design in Experience Design, SJSU",
