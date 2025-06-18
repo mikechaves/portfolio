@@ -62,8 +62,8 @@ export default function ProjectPage() {
       image: "/projects/apt-plus/main-image.png",
       technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
       github: "",
-      demo: "https://mikechaves.vercel.app",
-      gallery: ["/projects/apt-plus/situation.png", "/projects/apt-plus/action.png", "/projects/apt-plus/result.png"],
+      demo: "/projects/apt-plus/Ford_APTplusUI_walkthrough.mp4",
+      gallery: ["/projects/apt-plus/aptplus-prototype.png", "/projects/apt-plus/aptplus-interface.png", "/projects/apt-plus/aptplus-walkpatternanalysis.png"],
       details: {
         client: "Ford Motor Company",
         date: "Nov 22, 2021",
