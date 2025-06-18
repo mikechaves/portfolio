@@ -92,7 +92,7 @@ export default function ProjectsPage() {
       title: "AI Energy Consumption",
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
-      image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('AI Energy Consumption')}`,
+      image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
       technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
       category: "web",
     },

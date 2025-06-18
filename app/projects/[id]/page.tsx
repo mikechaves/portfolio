@@ -735,7 +735,7 @@ export default function ProjectPage() {
       category: "web",
       description:
         "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions. Built using A-Frame and D3.js, this project combines immersive 3D graphics with data storytelling to highlight the rising energy demands associated with AI technologies.",
-      image: `/api/placeholder?width=1200&height=600&text=${encodeURIComponent('AI Energy Consumption')}`,
+      image: "/projects/ai-energy-consumption/main-image.png",
       technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling", "JavaScript"],
       github: "https://github.com/mikechaves/ai-energy-consumption",
       demo: "https://mikechaves.github.io/ai-energy-consumption/",
