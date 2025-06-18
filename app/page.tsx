@@ -13,20 +13,20 @@ export default function Home() {
 
   const featuredProjects = [
     {
-      id: "geovoice",
-      title: "GeoVoice",
+      id: "gaia",
+      title: "Gaia",
       description:
-        "A platform for streamlining geospatial data analysis and stakeholder feedback for large-scale infrastructure and environmental planning projects.",
-      image: "/projects/geovoice/main-image.png?height=400&width=600",
-      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+        "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+      image: "/projects/gaia/main-image.png?height=400&width=600",
+      technologies: ["UX Design", "AR/VR", "Unity3D"],
     },
     {
-      id: "transcribe",
-      title: "Transcribe",
+      id: "apt-plus",
+      title: "APT+",
       description:
-        "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
-      image: "/projects/transcribe/main-image.png?height=400&width=600",
-      technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
+        "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
+      image: "/projects/apt-plus/main-image.png?height=400&width=600",
+      technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
     },
     {
       id: "speakeasy",
