@@ -19,7 +19,7 @@ export default function ProjectPage() {
       technologies: ["UX Design", "AR/VR", "Unity3D", "Spatial Computing"],
       github: "",
       demo: "/projects/gaia/GaiaVisiPad.mp4",
-      gallery: ["/projects/gaia/how-might-we.png", "/projects/gaia/wireframes-3d.png", "/projects/gaia/vr-testing.png"],
+      gallery: ["/projects/gaia/gaia-prototype.png", "/projects/gaia/gaia-lobby-2.png", "/projects/gaia/gaia-store-overview.png"],
       details: {
         client: "Starbucks Corporation",
         date: "Dec 30, 2022",
