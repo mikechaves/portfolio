@@ -40,13 +40,12 @@ export default function Home() {
 
   const latestPosts = [
     {
-      id: "embracing-ambiguity",
-      title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
-      excerpt:
-        "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
-      date: "Feb 12, 2025",
-      readingTime: "6 min read",
-      url: "https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150",
+      id: "voice-first-xr",
+      title: "Voice-First XR: Five Lessons from the Front Lines of Inclusive Design",
+      excerpt: "Key takeaways for crafting accessible voice interfaces in spatial computing.",
+      date: "Jun 18, 2025",
+      readingTime: "5 min read",
+      url: "https://medium.com/@mikejchaves/voice-first-xr-five-lessons-from-the-front-lines-of-inclusive-design-e58dacf49c54",
       publication: "Bootcamp",
     },
   ]
