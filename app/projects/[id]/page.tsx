@@ -4,9 +4,14 @@ import { useParams, notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
+import { useState, useCallback, useEffect } from "react"
+import { ImageModal } from "@/components/image-modal"
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>()
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+
+  const closeModal = useCallback(() => setSelectedIndex(null), [])
 
   // This would typically come from a database or API
   const projectsData = {
@@ -818,6 +823,20 @@ export default function ProjectPage() {
   }
 
   const project = projectsData[id as keyof typeof projectsData]
+  const images = [project.image, ...(project.gallery || [])]
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return
+      if (e.key === "ArrowRight") {
+        setSelectedIndex((i) => (i !== null ? (i + 1) % images.length : i))
+      } else if (e.key === "ArrowLeft") {
+        setSelectedIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : i))
+      }
+    }
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [selectedIndex, images.length])
 
   if (!project) {
     notFound()
@@ -865,7 +884,10 @@ export default function ProjectPage() {
         </div>
       </div>
 
-      <div className="relative h-80 rounded-md overflow-hidden">
+      <div
+        className="relative h-80 rounded-md overflow-hidden cursor-pointer"
+        onClick={() => setSelectedIndex(0)}
+      >
         <Image
           src={
             project.image ||
@@ -882,7 +904,8 @@ export default function ProjectPage() {
           {project.gallery.map((img, index) => (
             <div
               key={index}
-              className="bg-zinc-100 rounded-md overflow-hidden h-[200px] flex items-center justify-center"
+              className="bg-zinc-100 rounded-md overflow-hidden h-[200px] flex items-center justify-center cursor-pointer"
+              onClick={() => setSelectedIndex(index + 1)}
             >
               <Image
                 src={
@@ -1029,6 +1052,14 @@ export default function ProjectPage() {
           </div>
         </div>
       )}
+      <ImageModal
+        open={selectedIndex !== null}
+        onOpenChange={(o) => !o && closeModal()}
+        src={selectedIndex !== null ? images[selectedIndex] : ""}
+        alt={project.title}
+        onPrev={() => setSelectedIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : i))}
+        onNext={() => setSelectedIndex((i) => (i !== null ? (i + 1) % images.length : i))}
+      />
     </div>
   )
 }
