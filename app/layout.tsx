@@ -26,7 +26,6 @@ export const metadata: Metadata = {
   title: "Mike Chaves | UX Designer & Developer",
   description:
     "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
-  generator: "v0.dev",
   manifest: "/favicon/site.webmanifest",
   icons: {
     icon: "/favicon/favicon.ico",
