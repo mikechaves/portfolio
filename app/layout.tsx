@@ -24,8 +24,21 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Mike Chaves | UX Designer & Developer",
-  description: "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
-    generator: 'v0.dev'
+  description:
+    "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
+  generator: "v0.dev",
+  manifest: "/favicon/site.webmanifest",
+  icons: {
+    icon: "/favicon/favicon.ico",
+    shortcut: "/favicon/favicon-96x96.png",
+    apple: "/favicon/apple-touch-icon.png",
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/favicon/favicon.svg",
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
