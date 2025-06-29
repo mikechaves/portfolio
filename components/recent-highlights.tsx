@@ -16,18 +16,21 @@ const highlights: Highlight[] = [
     title: "AR & AI: The Intersection of the Future",
     date: "June 2025",
     description: "Roundtable on the future of AI-powered XR and accessibility",
+    image: "/events/chaves_gatherverse_2025_thumb.png",
   },
   {
     event: "XR Access Symposium (2024)",
     role: "Speaker",
     title: "Voice-Driven Mixed Reality for Accessibility",
     date: "July 2024",
+    image: "/events/chaves_xraccess_2024_thumb.png",
   },
   {
     event: "Adobe Experiential Horizons Symposium (2023)",
     role: "Host/Presenter",
     title: "Industry Roundtable, Demo Showcase",
     date: "October 2023",
+    image: "/events/chaves_adobesympo_2023_thumb.png",
   },
 ]
 
