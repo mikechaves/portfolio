@@ -7,6 +7,7 @@ import { ProjectCard } from "@/components/project-card"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
 import { HeroBackground } from "@/components/hero-background"
+import { RecentHighlights } from "@/components/recent-highlights"
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -135,6 +136,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <RecentHighlights />
     </div>
   )
 }
