@@ -33,9 +33,18 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
       setPersonalized(false)
       return
     }
-    const matches = projects.filter((p) =>
-      p.technologies.some((tag) => tag.toLowerCase().includes(text))
-    )
+
+    const matches: Project[] = []
+    for (const project of projects) {
+      if (
+        project.technologies.some((tag) =>
+          tag.toLowerCase().includes(text)
+        )
+      ) {
+        matches.push(project)
+      }
+    }
+
     if (matches.length > 0) {
       setDisplay(matches)
       setPersonalized(true)
