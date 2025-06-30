@@ -13,6 +13,8 @@ pnpm build
 pnpm lint
 ```
 
+Use `pnpm lint` to run ESLint and check the codebase for issues.
+
 The local site will be running at [http://localhost:3000](http://localhost:3000).
 
 The production site is available at [https://mikechaves.io](https://mikechaves.io).
