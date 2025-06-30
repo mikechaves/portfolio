@@ -1,13 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
+import type { Project } from "@/types/project"
 
-interface ProjectCardProps {
-  id: string
-  title: string
-  description: string
-  image: string
-  technologies: string[]
-}
+type ProjectCardProps = Project
 
 export function ProjectCard({ id, title, description, image, technologies }: ProjectCardProps) {
   return (
