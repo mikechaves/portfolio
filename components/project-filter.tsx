@@ -36,11 +36,13 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
     const matches = projects.filter((p) =>
       p.technologies.some((tag) => tag.toLowerCase().includes(text))
     )
-    const others = projects.filter(
-      (p) => !p.technologies.some((tag) => tag.toLowerCase().includes(text))
-    )
-    setDisplay([...matches, ...others])
-    setPersonalized(true)
+    if (matches.length > 0) {
+      setDisplay(matches)
+      setPersonalized(true)
+    } else {
+      setDisplay(projects)
+      setPersonalized(false)
+    }
   }
 
   const handleReset = () => {
