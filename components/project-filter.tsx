@@ -34,16 +34,12 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
       return
     }
 
-    const matches: Project[] = []
-    for (const project of projects) {
-      if (
-        project.technologies.some((tag) =>
-          tag.toLowerCase().includes(text)
-        )
-      ) {
-        matches.push(project)
-      }
-    }
+    const matches = projects.filter(
+      (p) =>
+        (p.title || "").toLowerCase().includes(text) ||
+        (p.description || "").toLowerCase().includes(text) ||
+        (p.technologies || []).some((tag) => (tag || "").toLowerCase().includes(text))
+    )
 
     if (matches.length > 0) {
       setDisplay(matches)
