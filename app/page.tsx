@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Terminal } from "@/components/terminal"
 import { ProjectCard } from "@/components/project-card"
+import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
 import { HeroBackground } from "@/components/hero-background"
@@ -93,11 +94,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.id} {...project} />
-          ))}
-        </div>
+        <ProjectFilter projects={featuredProjects} />
       </section>
 
       <section>
