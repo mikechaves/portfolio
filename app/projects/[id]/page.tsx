@@ -823,6 +823,11 @@ export default function ProjectPage() {
   }
 
   const project = projectsData[id as keyof typeof projectsData]
+
+  if (!project) {
+    notFound()
+  }
+
   const images = [project.image, ...(project.gallery || [])]
 
   useEffect(() => {
@@ -837,10 +842,6 @@ export default function ProjectPage() {
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
   }, [selectedIndex, images.length])
-
-  if (!project) {
-    notFound()
-  }
 
   return (
     <div className="space-y-8 pt-8">
