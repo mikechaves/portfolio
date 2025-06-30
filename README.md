@@ -4,11 +4,13 @@ A personal portfolio site built with [Next.js](https://nextjs.org/) and TypeScri
 
 ## Getting Started
 
-Install dependencies and start the development server:
+Install dependencies and run common scripts:
 
 ```bash
 pnpm install
 pnpm dev
+pnpm build
+pnpm lint
 ```
 
 The local site will be running at [http://localhost:3000](http://localhost:3000).
