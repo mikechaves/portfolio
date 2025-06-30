@@ -58,20 +58,26 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-2">
+      <form
+        className="flex flex-col sm:flex-row gap-2"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handlePersonalize()
+        }}
+      >
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Enter a keyword"
           className="flex-1"
         />
-        <Button onClick={handlePersonalize}>Personalize</Button>
+        <Button type="submit">Personalize</Button>
         {personalized && (
-          <Button variant="secondary" onClick={handleReset}>
+          <Button type="button" variant="secondary" onClick={handleReset}>
             Reset
           </Button>
         )}
-      </div>
+      </form>
 
       {personalized && (
         <h3 className="text-xl font-bold">
