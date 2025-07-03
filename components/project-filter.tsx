@@ -41,17 +41,9 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
         (p.description || "").toLowerCase().includes(text) ||
         (p.technologies || []).some((tag) => (tag || "").toLowerCase().includes(text))
     )
-    const nonMatches = projects.filter(
-      (p) =>
-        !(
-          (p.title || "").toLowerCase().includes(text) ||
-          (p.description || "").toLowerCase().includes(text) ||
-          (p.technologies || []).some((tag) => (tag || "").toLowerCase().includes(text))
-        )
-    )
 
     if (matches.length > 0) {
-      setDisplay([...matches, ...nonMatches])
+      setDisplay(matches)
       setPersonalized(true)
     } else {
       setDisplay(featured)
