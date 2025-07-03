@@ -14,22 +14,23 @@ export interface Project {
 }
 
 interface ProjectFilterProps {
+  featured: Project[]
   projects: Project[]
 }
 
-export function ProjectFilter({ projects }: ProjectFilterProps) {
+export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
   const [query, setQuery] = useState("")
   const [personalized, setPersonalized] = useState(false)
-  const [display, setDisplay] = useState<Project[]>(projects)
+  const [display, setDisplay] = useState<Project[]>(featured)
 
   useEffect(() => {
-    setDisplay(projects)
-  }, [projects])
+    setDisplay(featured)
+  }, [featured])
 
   const handlePersonalize = () => {
     const text = query.trim().toLowerCase()
     if (!text) {
-      setDisplay(projects)
+      setDisplay(featured)
       setPersonalized(false)
       return
     }
@@ -40,19 +41,27 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
         (p.description || "").toLowerCase().includes(text) ||
         (p.technologies || []).some((tag) => (tag || "").toLowerCase().includes(text))
     )
+    const nonMatches = projects.filter(
+      (p) =>
+        !(
+          (p.title || "").toLowerCase().includes(text) ||
+          (p.description || "").toLowerCase().includes(text) ||
+          (p.technologies || []).some((tag) => (tag || "").toLowerCase().includes(text))
+        )
+    )
 
     if (matches.length > 0) {
-      setDisplay(matches)
+      setDisplay([...matches, ...nonMatches])
       setPersonalized(true)
     } else {
-      setDisplay(projects)
+      setDisplay(featured)
       setPersonalized(false)
     }
   }
 
   const handleReset = () => {
     setQuery("")
-    setDisplay(projects)
+    setDisplay(featured)
     setPersonalized(false)
   }
 
