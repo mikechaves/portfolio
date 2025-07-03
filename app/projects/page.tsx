@@ -186,54 +186,56 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      <form
-        className="flex flex-col sm:flex-row gap-2"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handlePersonalize()
-        }}
-      >
-        <Input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter a keyword"
-          className="flex-1"
-        />
-        <Button type="submit">Personalize</Button>
-        {personalized && (
-          <Button type="button" variant="secondary" onClick={handleReset}>
-            Reset
-          </Button>
-        )}
-      </form>
-
-      {personalized && (
-        <h3 className="text-xl font-bold">
-          Projects aligned with “{query.trim()}”:
-        </h3>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {display
-          .slice(0, showAll ? display.length : initialLimit)
-          .map((project) => (
-          <ProjectCard
-            key={project.id}
-            id={project.id}
-            title={project.title}
-            description={project.description}
-            image={project.image}
-            technologies={project.technologies}
+      <div className="space-y-4">
+        <form
+          className="flex flex-col sm:flex-row gap-2"
+          onSubmit={(e) => {
+            e.preventDefault()
+            handlePersonalize()
+          }}
+        >
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Enter a keyword"
+            className="flex-1"
           />
-        ))}
-      </div>
-      {!showAll && display.length > initialLimit && (
-        <div className="flex justify-center">
-          <Button onClick={() => setShowAll(true)} variant="secondary">
-            See More
-          </Button>
+          <Button type="submit">Personalize</Button>
+          {personalized && (
+            <Button type="button" variant="secondary" onClick={handleReset}>
+              Reset
+            </Button>
+          )}
+        </form>
+
+        {personalized && (
+          <h3 className="text-xl font-bold">
+            Projects aligned with “{query.trim()}”:
+          </h3>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {display
+            .slice(0, showAll ? display.length : initialLimit)
+            .map((project) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              description={project.description}
+              image={project.image}
+              technologies={project.technologies}
+            />
+          ))}
         </div>
-      )}
+        {!showAll && display.length > initialLimit && (
+          <div className="flex justify-center">
+            <Button onClick={() => setShowAll(true)} variant="secondary">
+              See More
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
