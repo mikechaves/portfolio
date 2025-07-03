@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -111,15 +111,20 @@ export default function ProjectsPage() {
     { id: "research", name: "Research" },
   ]
 
-  const filteredProjects =
-    activeFilter === "all" ? projects : projects.filter((project) => project.category === activeFilter)
+  const filteredProjects = useMemo(
+    () =>
+      activeFilter === "all"
+        ? projects
+        : projects.filter((project) => project.category === activeFilter),
+    [activeFilter]
+  )
 
   useEffect(() => {
     setDisplay(filteredProjects)
     setQuery("")
     setPersonalized(false)
     setShowAll(false)
-  }, [filteredProjects])
+  }, [activeFilter])
 
   const handlePersonalize = () => {
     const text = query.trim().toLowerCase()
