@@ -6,17 +6,31 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Project } from "@/types/project"
 
+const MOBILE_BREAKPOINT_PX = 767
+const PROJECTS_LIMIT_MOBILE = 3
+const PROJECTS_LIMIT_DESKTOP = 6
+
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<string>("all")
-  const [initialLimit, setInitialLimit] = useState(6)
+  const [initialLimit, setInitialLimit] = useState(PROJECTS_LIMIT_DESKTOP)
   const [showAll, setShowAll] = useState(false)
   const [query, setQuery] = useState("")
   const [personalized, setPersonalized] = useState(false)
   const [display, setDisplay] = useState<Project[]>([])
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)")
-    setInitialLimit(mediaQuery.matches ? 3 : 6)
+    const updateLimit = () => {
+      const mediaQuery = window.matchMedia(
+        `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
+      )
+      setInitialLimit(
+        mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+      )
+    }
+
+    updateLimit()
+    window.addEventListener("resize", updateLimit)
+    return () => window.removeEventListener("resize", updateLimit)
   }, [])
 
   const projects = [
