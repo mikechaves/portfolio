@@ -71,7 +71,11 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
         className="flex flex-col sm:flex-row gap-2"
         onSubmit={handleSubmit}
       >
+        <label htmlFor="project-keyword" className="sr-only">
+          Enter a keyword
+        </label>
         <Input
+          id="project-keyword"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Enter a keyword"
