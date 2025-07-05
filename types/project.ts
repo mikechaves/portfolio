@@ -4,4 +4,5 @@ export interface Project {
   description: string
   image: string
   technologies: string[]
+  category: 'design' | 'web' | 'research' | 'ar-vr' | 'development'
 }
