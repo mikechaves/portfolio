@@ -6,9 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Project } from "@/types/project"
 
+const MOBILE_BREAKPOINT_PX = 767
+const PROJECTS_LIMIT_MOBILE = 3
+const PROJECTS_LIMIT_DESKTOP = 6
+
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<string>("all")
-  const [initialLimit, setInitialLimit] = useState(6)
+  const [initialLimit, setInitialLimit] = useState(() =>
+    window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`).matches
+      ? PROJECTS_LIMIT_MOBILE
+      : PROJECTS_LIMIT_DESKTOP
+  )
   const [showAll, setShowAll] = useState(false)
   const [query, setQuery] = useState("")
   const [personalized, setPersonalized] = useState(false)
