@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, type FormEvent } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -57,14 +57,16 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
     setPersonalized(false)
   }
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    handlePersonalize()
+  }
+
   return (
     <div className="space-y-4">
       <form
         className="flex flex-col sm:flex-row gap-2"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handlePersonalize()
-        }}
+        onSubmit={handleSubmit}
       >
         <Input
           value={query}
