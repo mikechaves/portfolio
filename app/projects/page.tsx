@@ -23,8 +23,26 @@ export default function ProjectsPage() {
   const [display, setDisplay] = useState<Project[]>([])
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)")
-    setInitialLimit(mediaQuery.matches ? 3 : 6)
+    const mediaQuery = window.matchMedia(
+      `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
+    )
+
+    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+      setInitialLimit(
+        event.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+      )
+    }
+
+    // Set the initial limit based on current match state
+    setInitialLimit(
+      mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+    )
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange)
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange)
+    }
   }, [])
 
   const projects = [
