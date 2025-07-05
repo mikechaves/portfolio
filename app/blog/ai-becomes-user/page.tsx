@@ -1,6 +1,10 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
+import { posts } from "@/lib/posts"
+import type { Post } from "@/types/post"
+
+const post = posts.find((p) => p.id === "ai-becomes-user") as Post
 
 export default function AIBecomesUserPage() {
   return (
@@ -11,8 +15,8 @@ export default function AIBecomesUserPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900">
         <Image
-          src={`/api/placeholder?width=1200&height=600&text=${encodeURIComponent('When AI Becomes the User')}`}
-          alt="When AI Becomes the User"
+          src={post.image.replace("width=600", "width=1200").replace("height=400", "height=600")}
+          alt={post.title}
           fill
           className="object-cover mix-blend-overlay opacity-70"
         />
@@ -20,12 +24,12 @@ export default function AIBecomesUserPage() {
 
       <div className="mb-8">
         <div className="inline-block px-3 py-1 mb-3 text-xs border border-zinc-700 rounded-full text-zinc-400">
-          Bootcamp
+          {post.publication}
         </div>
-        <h1 className="text-3xl font-bold mb-4">When AI Becomes the User: Redefining UX/UI for the Future</h1>
+        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
         <div className="flex items-center gap-4 text-sm text-zinc-400">
-          <div>Jan 28, 2025</div>
-          <div>7 min read</div>
+          <div>{post.date}</div>
+          <div>{post.readingTime}</div>
         </div>
       </div>
 
@@ -34,7 +38,7 @@ export default function AIBecomesUserPage() {
           This article is available on Medium. Click the button below to read the full article.
         </p>
         <a
-          href="https://medium.com/design-bootcamp/when-ai-becomes-the-user-redefining-ux-ui-for-the-future-ac6bbc6eb084"
+          href={post.url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-primary text-black px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
