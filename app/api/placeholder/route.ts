@@ -4,7 +4,13 @@ export function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const width = parseInt(searchParams.get("width") ?? "600")
   const height = parseInt(searchParams.get("height") ?? "400")
-  const text = searchParams.get("text") ?? "No Image"
+  const rawText = searchParams.get("text") ?? "No Image"
+  const text = rawText
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
   const fontSize = Math.floor(Math.min(width, height) / 10)
   const svg = `
     <svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'>
