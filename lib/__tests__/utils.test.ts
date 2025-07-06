@@ -30,4 +30,5 @@ describe('cn', () => {
       'a b c d f'
     )
   })
+
 })
