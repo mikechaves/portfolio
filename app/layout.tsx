@@ -12,9 +12,7 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { MetaverseNav } from "@/components/metaverse-nav"
-import { SumerianVirus } from "@/components/sumerian-virus"
-import { KatanaCursor } from "@/components/katana-cursor"
+import { SnowCrashEffects } from "@/components/snow-crash-effects"
 import { LabelsProvider } from "@/components/labels-provider"
 
 const jetbrainsMono = JetBrains_Mono({
@@ -56,9 +54,7 @@ export default function RootLayout({
         ></div>
 
         {/* No fallback - let MetaverseNav handle its own loading */}
-        <Suspense>
-          <MetaverseNav />
-        </Suspense>
+        <SnowCrashEffects />
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
           {children}
@@ -66,8 +62,7 @@ export default function RootLayout({
         <Footer />
 
         {/* Add our Snow Crash inspired components */}
-        <SumerianVirus />
-        <KatanaCursor />
+        {/* SnowCrashEffects already includes SumerianVirus and KatanaCursor */}
 
         <LabelsProvider>
           <Toaster />
