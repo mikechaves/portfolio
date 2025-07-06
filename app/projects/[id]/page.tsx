@@ -846,7 +846,6 @@ export default function ProjectPage() {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return
       if (e.key === "ArrowRight") {
         handleNext()
       } else if (e.key === "ArrowLeft") {
@@ -855,7 +854,7 @@ export default function ProjectPage() {
     }
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
-  }, [selectedIndex, handleNext, handlePrev])
+  }, [handleNext, handlePrev])
 
   return (
     <div className="space-y-8 pt-8">
