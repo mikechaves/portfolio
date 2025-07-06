@@ -4,6 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface ImageModalProps {
   open: boolean
@@ -47,22 +48,26 @@ export function ImageModal({ open, onOpenChange, src, alt, onPrev, onNext }: Ima
                     </button>
                   </Dialog.Close>
                   {onPrev && (
-                    <button
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-primary hover:text-white rounded-full p-1 backdrop-blur-sm"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-primary hover:text-white backdrop-blur-sm rounded-full"
                       onClick={onPrev}
                       aria-label="Previous image"
                     >
                       <ChevronLeft className="w-6 h-6" />
-                    </button>
+                    </Button>
                   )}
                   {onNext && (
-                    <button
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-primary hover:text-white rounded-full p-1 backdrop-blur-sm"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-primary hover:text-white backdrop-blur-sm rounded-full"
                       onClick={onNext}
                       aria-label="Next image"
                     >
                       <ChevronRight className="w-6 h-6" />
-                    </button>
+                    </Button>
                   )}
                 </div>
               </motion.div>
