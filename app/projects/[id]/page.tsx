@@ -858,7 +858,7 @@ export default function ProjectPage() {
 
   return (
     <div className="space-y-8 pt-8">
-      <h1 className="sr-only">{project.title}</h1>
+      <h1 className="sr-only">{project.title || "Project Details"}</h1>
       <Link href="/projects" className="inline-flex items-center gap-2 text-primary hover:underline">
         <ArrowLeft size={16} /> Back to projects
       </Link>
