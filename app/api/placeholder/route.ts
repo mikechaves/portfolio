@@ -2,8 +2,8 @@ import { NextResponse } from "next/server"
 
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const width = parseInt(searchParams.get("width") ?? "600", 10)
-  const height = parseInt(searchParams.get("height") ?? "400", 10)
+  const width = parseInt(searchParams.get("width") || "", 10) || 600
+  const height = parseInt(searchParams.get("height") || "", 10) || 400
   const rawText = searchParams.get("text") ?? "No Image"
   const text = rawText.replace(/[&<>"']/g, (c) => ({
     "&": "&amp;",
