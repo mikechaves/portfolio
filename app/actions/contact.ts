@@ -27,15 +27,10 @@ export async function sendContactEmail(formData: FormData) {
 
     // Check if we have the Resend API key
     if (!process.env.RESEND_API_KEY) {
-      console.log("Resend API key not found. Using mock implementation.")
       // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      console.log("Contact form submission (mock):", {
-        name,
-        email,
-        message,
-      })
+      // Mock contact form submission output
 
       return {
         success: true,
@@ -89,7 +84,6 @@ export async function sendContactEmail(formData: FormData) {
       }
     }
 
-    console.log("Email sent successfully:", data)
     return {
       success: true,
       message: "Message sent successfully! We'll get back to you soon.",
