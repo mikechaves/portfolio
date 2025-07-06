@@ -212,6 +212,9 @@ importers:
       vue-router:
         specifier: latest
         version: 4.5.1(vue@3.5.16(typescript@5.0.2))
+      wcag-contrast:
+        specifier: ^3.0.0
+        version: 3.0.0
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -252,9 +255,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.2
-      wcag-contrast:
-        specifier: ^3.0.0
-        version: 3.0.0
 
 packages:
 
