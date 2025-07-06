@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Project } from "@/types/project"
 
-// Use these constants to keep breakpoints and limits in one place.
 const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
 const PROJECTS_LIMIT_DESKTOP = 6

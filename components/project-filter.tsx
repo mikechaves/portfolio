@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useId, type FormEvent } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,6 +22,7 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
   const [query, setQuery] = useState("")
   const [personalized, setPersonalized] = useState(false)
   const [display, setDisplay] = useState<Project[]>(featured)
+  const inputId = useId()
 
   useEffect(() => {
     setDisplay(featured)
@@ -57,16 +58,25 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
     setPersonalized(false)
   }
 
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      handlePersonalize()
+    },
+    [handlePersonalize]
+  )
+
   return (
     <div className="space-y-4">
       <form
         className="flex flex-col sm:flex-row gap-2"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handlePersonalize()
-        }}
+        onSubmit={handleSubmit}
       >
+        <label htmlFor={inputId} className="sr-only">
+          Filter by keyword
+        </label>
         <Input
+          id={inputId}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Enter a keyword"
