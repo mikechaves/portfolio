@@ -14,7 +14,9 @@ export function ProjectFilter({ onPersonalize, onReset }: ProjectFilterProps) {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    onPersonalize(query)
+    if (query.trim() !== "") {
+      onPersonalize(query.trim())
+    }
   }
 
   function handleReset() {
