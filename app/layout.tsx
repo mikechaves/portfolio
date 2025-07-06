@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import { Suspense } from "react"
+import dynamic from "next/dynamic"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
@@ -12,9 +13,18 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { MetaverseNav } from "@/components/metaverse-nav"
-import { SumerianVirus } from "@/components/sumerian-virus"
-import { KatanaCursor } from "@/components/katana-cursor"
+const MetaverseNav = dynamic(
+  () => import("@/components/metaverse-nav").then((m) => m.MetaverseNav),
+  { ssr: false }
+)
+const SumerianVirus = dynamic(
+  () => import("@/components/sumerian-virus").then((m) => m.SumerianVirus),
+  { ssr: false }
+)
+const KatanaCursor = dynamic(
+  () => import("@/components/katana-cursor").then((m) => m.KatanaCursor),
+  { ssr: false }
+)
 import { LabelsProvider } from "@/components/labels-provider"
 
 const jetbrainsMono = JetBrains_Mono({
