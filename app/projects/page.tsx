@@ -23,18 +23,18 @@ export default function ProjectsPage() {
       `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
     )
 
-    const handleMediaQueryChange = (query: { matches: boolean }) => {
+    const updateLimit = () => {
       setInitialLimit(
-        query.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+        mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
       )
     }
 
-    handleMediaQueryChange(mediaQuery)
+    updateLimit()
 
-    mediaQuery.addEventListener("change", handleMediaQueryChange)
+    mediaQuery.addEventListener("change", updateLimit)
 
     return () => {
-      mediaQuery.removeEventListener("change", handleMediaQueryChange)
+      mediaQuery.removeEventListener("change", updateLimit)
     }
   }, [])
 
