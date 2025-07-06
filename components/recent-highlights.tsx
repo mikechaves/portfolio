@@ -56,7 +56,7 @@ export function RecentHighlights() {
                     h.event
                   )}`
                 }
-                alt=""
+                alt={h.event}
                 fill
                 className="object-cover rounded"
               />
