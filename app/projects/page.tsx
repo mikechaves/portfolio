@@ -30,9 +30,12 @@ export default function ProjectsPage() {
     }
 
     updateLimit()
+
     mediaQuery.addEventListener("change", updateLimit)
 
-    return () => mediaQuery.removeEventListener("change", updateLimit)
+    return () => {
+      mediaQuery.removeEventListener("change", updateLimit)
+    }
   }, [])
 
   const projects = [

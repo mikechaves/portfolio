@@ -1,8 +1,15 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
+import { posts } from "@/lib/posts"
+import { notFound } from "next/navigation"
+
+const post = posts.find((p) => p.id === "voice-first-xr")
 
 export default function VoiceFirstXRPage() {
+  if (!post) {
+    notFound()
+  }
   return (
     <div className="max-w-3xl mx-auto pt-8">
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
@@ -11,8 +18,8 @@ export default function VoiceFirstXRPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-indigo-900 via-purple-900 to-blue-900">
         <Image
-          src={`/api/placeholder?width=1200&height=600&text=${encodeURIComponent('Voice-First XR')}`}
-          alt="Voice-First XR: Five Lessons from the Front Lines of Inclusive Design"
+          src={post.image.replace(/width=\d+/, "width=1200").replace(/height=\d+/, "height=600")}
+          alt={post.title}
           fill
           className="object-cover mix-blend-overlay opacity-70"
         />
@@ -20,12 +27,12 @@ export default function VoiceFirstXRPage() {
 
       <div className="mb-8">
         <div className="inline-block px-3 py-1 mb-3 text-xs border border-zinc-700 rounded-full text-zinc-400">
-          Bootcamp
+          {post.publication}
         </div>
-        <h1 className="text-3xl font-bold mb-4">Voice-First XR: Five Lessons from the Front Lines of Inclusive Design</h1>
+        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
         <div className="flex items-center gap-4 text-sm text-zinc-400">
-          <div>Jun 18, 2025</div>
-          <div>5 min read</div>
+          <div>{post.date}</div>
+          <div>{post.readingTime}</div>
         </div>
       </div>
 
@@ -34,7 +41,7 @@ export default function VoiceFirstXRPage() {
           This article is available on Medium. Click the button below to read the full article.
         </p>
         <a
-          href="https://medium.com/@mikejchaves/voice-first-xr-five-lessons-from-the-front-lines-of-inclusive-design-e58dacf49c54"
+          href={post.url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-primary text-black px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"

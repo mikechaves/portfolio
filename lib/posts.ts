@@ -1,0 +1,61 @@
+import type { Post } from "@/types/post"
+
+export const posts: Post[] = [
+  {
+    id: "voice-first-xr",
+    title: "Voice-First XR: Five Lessons from the Front Lines of Inclusive Design",
+    excerpt: "Key takeaways for crafting accessible voice interfaces in spatial computing.",
+    date: "Jun 18, 2025",
+    readingTime: "5 min read",
+    url: "https://medium.com/@mikejchaves/voice-first-xr-five-lessons-from-the-front-lines-of-inclusive-design-e58dacf49c54",
+    image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Voice-First XR')}`,
+    publication: "Bootcamp",
+    featured: true,
+  },
+  {
+    id: "embracing-ambiguity",
+    title: "Embracing Ambiguity: Finding Clarity in the Chaos of Modern Technology",
+    excerpt:
+      "Navigating the complex landscape of emerging technologies and finding meaningful solutions amid uncertainty.",
+    date: "Feb 12, 2025",
+    readingTime: "6 min read",
+    url: "https://medium.com/design-bootcamp/embracing-ambiguity-finding-clarity-in-the-chaos-of-modern-technology-415e5834e150",
+    image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Embracing Ambiguity')}`,
+    publication: "Bootcamp",
+    featured: true,
+  },
+  {
+    id: "ai-becomes-user",
+    title: "When AI Becomes the User: Redefining UX/UI for the Future",
+    excerpt: "Exploring how AI as a user changes our approach to interface design and user experience strategies.",
+    date: "Jan 28, 2025",
+    readingTime: "7 min read",
+    url: "https://medium.com/design-bootcamp/when-ai-becomes-the-user-redefining-ux-ui-for-the-future-ac6bbc6eb084",
+    image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('When AI Becomes the User')}`,
+    publication: "Bootcamp",
+    featured: false,
+  },
+  {
+    id: "extended-pausabilities",
+    title: "Extended Pausabilities: Navigating XR with Accessibility in Mind",
+    excerpt: "How to design inclusive extended reality experiences that work for users of all abilities.",
+    date: "Dec 15, 2024",
+    readingTime: "8 min read",
+    url: "https://medium.com/design-bootcamp/extended-pausabilities-navigating-xr-with-accessibility-in-mind-1fa35fb4d590",
+    image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Extended Pausabilities')}`,
+    publication: "Bootcamp",
+    featured: false,
+  },
+  {
+    id: "redefining-reality",
+    title: "Redefining Reality: The Future of Design in XR",
+    excerpt:
+      "How extended reality is transforming design principles and creating new possibilities for immersive experiences.",
+    date: "Nov 30, 2024",
+    readingTime: "6 min read",
+    url: "https://medium.com/design-bootcamp/redefining-reality-the-future-of-design-in-xr-a5e053e255a8",
+    image: `/api/placeholder?width=600&height=400&text=${encodeURIComponent('Redefining Reality')}`,
+    publication: "Bootcamp",
+    featured: false,
+  },
+]
