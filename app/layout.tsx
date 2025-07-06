@@ -15,6 +15,7 @@ config.autoAddCss = false
 import { MetaverseNav } from "@/components/metaverse-nav"
 import { SumerianVirus } from "@/components/sumerian-virus"
 import { KatanaCursor } from "@/components/katana-cursor"
+import { LabelsProvider } from "@/components/labels-provider"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -65,7 +66,9 @@ export default function RootLayout({
         <SumerianVirus />
         <KatanaCursor />
 
-        <Toaster />
+        <LabelsProvider>
+          <Toaster />
+        </LabelsProvider>
         <Analytics />
       </body>
     </html>
