@@ -200,6 +200,7 @@ export default function AboutPage() {
 
   return (
     <div className="space-y-16 pt-8">
+      <h1 className="sr-only">About Mike Chaves</h1>
       <section>
         <Terminal
           text="Initializing personal profile... Access granted. Loading bio data..."
