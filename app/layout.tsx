@@ -59,7 +59,9 @@ export default function RootLayout({
           <MetaverseNav />
         </Suspense>
 
-        <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
+        <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
+          {children}
+        </main>
         <Footer />
 
         {/* Add our Snow Crash inspired components */}
