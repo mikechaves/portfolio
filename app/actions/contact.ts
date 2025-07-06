@@ -72,7 +72,7 @@ export async function sendContactEmail(formData: FormData) {
     `
 
     // Send the email using Resend with HTML content instead of React
-    // Set reply address for Resend
+    // Ensure replies are sent to the original sender
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: ["mike@digitalhous.com"],
