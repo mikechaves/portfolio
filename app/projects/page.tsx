@@ -22,9 +22,20 @@ export default function ProjectsPage() {
     const mediaQuery = window.matchMedia(
       `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
     )
-    setInitialLimit(
-      mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
-    )
+
+    const handleMediaQueryChange = (query: { matches: boolean }) => {
+      setInitialLimit(
+        query.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+      )
+    }
+
+    handleMediaQueryChange(mediaQuery)
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange)
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange)
+    }
   }, [])
 
   const projects = [
