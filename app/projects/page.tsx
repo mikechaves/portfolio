@@ -23,16 +23,13 @@ export default function ProjectsPage() {
       `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
     )
 
-    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+    const handleMediaQueryChange = (query: { matches: boolean }) => {
       setInitialLimit(
-        event.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+        query.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
       )
     }
 
-    // Set the initial limit based on current match state
-    setInitialLimit(
-      mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
-    )
+    handleMediaQueryChange(mediaQuery)
 
     mediaQuery.addEventListener("change", handleMediaQueryChange)
 
