@@ -116,10 +116,12 @@ export function SumerianVirus() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          aria-hidden="true"
         >
           {/* Background glyph stream */}
-          <div className="absolute inset-0 text-primary/20 overflow-hidden pointer-events-none select-none">
+          <div
+            className="absolute inset-0 text-primary/20 overflow-hidden pointer-events-none select-none"
+            aria-hidden="true"
+          >
             {glyphStream.map((glyph, index) => (
               <motion.span
                 key={index}
@@ -150,12 +152,17 @@ export function SumerianVirus() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="text-primary text-xl font-bold mb-4 glitch" data-text={message}>
+            <div
+              className="text-primary text-xl font-bold mb-4 glitch"
+              data-text={message}
+              role="alert"
+              aria-live="assertive"
+            >
               {message}
             </div>
 
             <div className="flex justify-center">
-              <div className="w-32 h-32 relative">
+              <div className="w-32 h-32 relative" aria-hidden="true">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div
                     className="w-full h-full rounded-full border-4 border-primary animate-spin"
