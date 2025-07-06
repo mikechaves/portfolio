@@ -58,6 +58,9 @@ export default function RootLayout({
           <MetaverseNav />
         </Suspense>
 
+        {/* Hidden heading for accessibility */}
+        <h1 className="sr-only">Mike Chaves Portfolio</h1>
+
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
         <Footer />
 
