@@ -321,7 +321,7 @@ export function MetaverseNav() {
     <div className="fixed top-0 left-0 w-full z-50">
       <header className="border-b border-border/40 backdrop-blur-sm h-20">
         <div className="container mx-auto px-4 h-full">
-          <nav className="flex items-center justify-between h-full">
+          <nav aria-label="Main navigation" className="flex items-center justify-between h-full">
             <Link href="/" className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
               MIKE_CHAVES
             </Link>
@@ -406,7 +406,8 @@ export function MetaverseNav() {
         </div>
       )}
 
-      <motion.div
+      <motion.nav
+        aria-label="Metaverse navigation"
         className="fixed inset-0 bg-black/90 z-50"
         initial={{ opacity: 0, clipPath: "circle(0% at 50% 0%)" }}
         animate={{
@@ -490,7 +491,7 @@ export function MetaverseNav() {
         <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-zinc-500">
           Navigate The Street by clicking on destinations
         </div>
-      </motion.div>
+      </motion.nav>
 
       <motion.div
         className="fixed inset-0 bg-black z-[60] flex items-center justify-center"

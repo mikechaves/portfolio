@@ -54,11 +54,9 @@ export default function RootLayout({
         ></div>
 
         {/* No fallback - let MetaverseNav handle its own loading */}
-        <nav aria-label="Metaverse navigation">
-          <Suspense>
-            <MetaverseNav />
-          </Suspense>
-        </nav>
+        <Suspense>
+          <MetaverseNav />
+        </Suspense>
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">{children}</main>
         <Footer />
