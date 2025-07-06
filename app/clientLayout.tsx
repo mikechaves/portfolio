@@ -37,9 +37,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-black text-white min-h-screen flex flex-col">
         <KatanaCursor />
-        <Suspense fallback={<NavigationFallback />}>
-          <MetaverseNavFallback />
-        </Suspense>
+        <nav aria-label="Metaverse navigation">
+          <Suspense fallback={<NavigationFallback />}>
+            <MetaverseNavFallback />
+          </Suspense>
+        </nav>
         <Navigation />
         <main className="flex-grow">{children}</main>
         <Footer />
