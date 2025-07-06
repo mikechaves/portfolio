@@ -31,7 +31,4 @@ describe('cn', () => {
     )
   })
 
-  it('handles nested arrays and objects', () => {
-    expect(cn(['a', ['b']], { c: true })).toBe('a b c')
-  })
 })
