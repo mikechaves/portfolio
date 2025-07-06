@@ -48,7 +48,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
-        <div className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"></div>
+        <div
+          className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
+          aria-hidden="true"
+        ></div>
 
         {/* No fallback - let MetaverseNav handle its own loading */}
         <Suspense>
