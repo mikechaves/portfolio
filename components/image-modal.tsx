@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { X } from "lucide-react"
+import { X, ChevronLeft, ChevronRight } from "lucide-react"
 
 interface ImageModalProps {
   open: boolean
@@ -52,7 +52,7 @@ export function ImageModal({ open, onOpenChange, src, alt, onPrev, onNext }: Ima
                       onClick={onPrev}
                       aria-label="Previous image"
                     >
-                      ‹
+                      <ChevronLeft className="w-6 h-6" />
                     </button>
                   )}
                   {onNext && (
@@ -61,7 +61,7 @@ export function ImageModal({ open, onOpenChange, src, alt, onPrev, onNext }: Ima
                       onClick={onNext}
                       aria-label="Next image"
                     >
-                      ›
+                      <ChevronRight className="w-6 h-6" />
                     </button>
                   )}
                 </div>
