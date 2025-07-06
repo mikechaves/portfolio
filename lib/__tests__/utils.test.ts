@@ -7,7 +7,10 @@ describe('cn', () => {
 
   it('merges conflicting tailwind classes', () => {
     expect(cn('p-2', 'p-4')).toBe('p-4')
+    expect(cn('p-4', 'p-2')).toBe('p-2')
     expect(cn('px-2', 'pl-4')).toBe('px-2 pl-4')
+    expect(cn('p-2', 'px-4')).toBe('p-2 px-4')
+    expect(cn('px-2', 'p-4')).toBe('p-4')
   })
 
   it('ignores falsey values', () => {
