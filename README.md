@@ -13,6 +13,8 @@ pnpm build
 pnpm lint
 ```
 
+The project uses ESLint with Next.js's strict configuration. Run `pnpm lint` to check for warnings in the codebase.
+
 The local site will be running at [http://localhost:3000](http://localhost:3000).
 
 The production site is available at [https://mikechaves.io](https://mikechaves.io).
