@@ -134,6 +134,9 @@ const listeners: Set<(state: State) => void> = new Set()
 let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
+  if (typeof window === "undefined") {
+    return
+  }
   memoryState = reducer(memoryState, action)
   listeners.forEach((listener) => {
     listener(memoryState)
@@ -143,6 +146,13 @@ function dispatch(action: Action) {
 type Toast = Omit<ToasterToast, "id">
 
 function toast({ ...props }: Toast) {
+  if (typeof window === "undefined") {
+    return {
+      id: "",
+      dismiss: () => {},
+      update: () => {},
+    }
+  }
   const id = genId()
 
   const update = (props: ToasterToast) =>
