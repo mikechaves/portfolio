@@ -830,18 +830,31 @@ export default function ProjectPage() {
 
   const images = [project.image, ...(project.gallery || [])]
 
+  const handlePrev = useCallback(() => {
+    setSelectedIndex((i) => {
+      if (i === null) return null
+      return (i - 1 + images.length) % images.length
+    })
+  }, [images.length])
+
+  const handleNext = useCallback(() => {
+    setSelectedIndex((i) => {
+      if (i === null) return null
+      return (i + 1) % images.length
+    })
+  }, [images.length])
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return
       if (e.key === "ArrowRight") {
-        setSelectedIndex((i) => (i !== null ? (i + 1) % images.length : i))
+        handleNext()
       } else if (e.key === "ArrowLeft") {
-        setSelectedIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : i))
+        handlePrev()
       }
     }
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
-  }, [selectedIndex, images.length])
+  }, [handleNext, handlePrev])
 
   return (
     <div className="space-y-8 pt-8">
@@ -1058,8 +1071,8 @@ export default function ProjectPage() {
         onOpenChange={(o) => !o && closeModal()}
         src={selectedIndex !== null ? images[selectedIndex] : ""}
         alt={project.title}
-        onPrev={() => setSelectedIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : i))}
-        onNext={() => setSelectedIndex((i) => (i !== null ? (i + 1) % images.length : i))}
+        onPrev={handlePrev}
+        onNext={handleNext}
       />
     </div>
   )
