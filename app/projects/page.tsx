@@ -233,9 +233,13 @@ export default function ProjectsPage() {
           )}
         </form>
 
-        {personalized && (
+        {personalized ? (
           <h2 className="text-xl font-bold">
             Projects aligned with “{query.trim()}”:
+          </h2>
+        ) : (
+          <h2 className="text-xl font-bold">
+            {categories.find((c) => c.id === activeFilter)?.name}
           </h2>
         )}
 
