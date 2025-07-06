@@ -71,6 +71,9 @@ importers:
       three:
         specifier: latest
         version: 0.177.0
+      wcag-contrast:
+        specifier: ^3.0.0
+        version: 3.0.0
     devDependencies:
       '@types/jest':
         specifier: ^29.5.14
@@ -108,9 +111,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.2
-      wcag-contrast:
-        specifier: ^3.0.0
-        version: 3.0.0
 
 packages:
 
