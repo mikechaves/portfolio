@@ -233,10 +233,14 @@ export default function ProjectsPage() {
           )}
         </form>
 
-        {personalized && (
-          <h3 className="text-xl font-bold">
+        {personalized ? (
+          <h2 className="text-xl font-bold">
             Projects aligned with “{query.trim()}”:
-          </h3>
+          </h2>
+        ) : (
+          <h2 className="text-xl font-bold">
+            {categories.find((c) => c.id === activeFilter)?.name}
+          </h2>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
