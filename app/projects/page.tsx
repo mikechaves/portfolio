@@ -24,11 +24,8 @@ export default function ProjectsPage() {
     )
 
     const updateLimit = () => {
-      const query = window.matchMedia(
-        `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
-      )
       setInitialLimit(
-        query.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+        mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
       )
     }
 
