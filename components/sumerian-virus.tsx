@@ -116,6 +116,7 @@ export function SumerianVirus() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          aria-hidden="true"
         >
           {/* Background glyph stream */}
           <div className="absolute inset-0 text-primary/20 overflow-hidden pointer-events-none select-none">

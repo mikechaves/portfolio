@@ -76,6 +76,7 @@ export function KatanaCursor() {
     <>
       <motion.div
         className="fixed z-[1000] pointer-events-none"
+        aria-hidden="true"
         animate={{
           x: position.x,
           y: position.y,
