@@ -83,7 +83,7 @@ const allProjects = [
     image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
     technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
   },
-]
+] as const
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
