@@ -22,9 +22,17 @@ export default function ProjectsPage() {
     const mediaQuery = window.matchMedia(
       `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
     )
-    setInitialLimit(
-      mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
-    )
+
+    const updateLimit = () => {
+      setInitialLimit(
+        mediaQuery.matches ? PROJECTS_LIMIT_MOBILE : PROJECTS_LIMIT_DESKTOP
+      )
+    }
+
+    updateLimit()
+    mediaQuery.addEventListener("change", updateLimit)
+
+    return () => mediaQuery.removeEventListener("change", updateLimit)
   }, [])
 
   const projects = [
