@@ -2,11 +2,14 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
 import { posts } from "@/lib/posts"
-import type { Post } from "@/types/post"
+import { notFound } from "next/navigation"
 
-const post = posts.find((p) => p.id === "ai-becomes-user") as Post
+const post = posts.find((p) => p.id === "ai-becomes-user")
 
 export default function AIBecomesUserPage() {
+  if (!post) {
+    notFound()
+  }
   return (
     <div className="max-w-3xl mx-auto pt-8">
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
@@ -15,7 +18,7 @@ export default function AIBecomesUserPage() {
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900">
         <Image
-          src={post.image.replace("width=600", "width=1200").replace("height=400", "height=600")}
+          src={post.image.replace(/width=\d+/, "width=1200").replace(/height=\d+/, "height=600")}
           alt={post.title}
           fill
           className="object-cover mix-blend-overlay opacity-70"
