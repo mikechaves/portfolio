@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
-import Script from "next/script"
 import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
@@ -73,9 +72,7 @@ export default function RootLayout({
         <LabelsProvider>
           <Toaster />
         </LabelsProvider>
-        <Script strategy="lazyOnload" id="vercel-analytics">
-          <Analytics />
-        </Script>
+        <Analytics />
       </body>
     </html>
   )
