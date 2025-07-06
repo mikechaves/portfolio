@@ -335,7 +335,8 @@ export function MetaverseNav() {
               <button
                 className="md:hidden text-white"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Toggle menu"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
               >
                 {isMobileMenuOpen ? (
                   <svg

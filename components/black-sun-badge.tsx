@@ -43,7 +43,7 @@ export function BlackSunBadge() {
         <button
           className="relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-black rounded-full border border-primary/50 overflow-hidden"
           onClick={() => window.open("https://github.com/mikechaves", "_blank")}
-          aria-label="Open GitHub"
+          aria-label="Open Mike Chaves's GitHub profile"
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-black border-2 border-primary"></div>
