@@ -1,5 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "next/strict"],
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "react/no-unescaped-entities": "off",
     "@typescript-eslint/no-explicit-any": "warn",
