@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
+import Script from "next/script"
 import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
@@ -21,6 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -71,7 +73,9 @@ export default function RootLayout({
         <LabelsProvider>
           <Toaster />
         </LabelsProvider>
-        <Analytics />
+        <Script strategy="lazyOnload" id="vercel-analytics">
+          <Analytics />
+        </Script>
       </body>
     </html>
   )
