@@ -39,11 +39,7 @@ function convert(value: string): string {
   if (value.startsWith('#')) {
     return value.toLowerCase();
   }
-  const match = value.match(/([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%/);
-  if (!match) {
-    throw new Error(`Unable to parse color: ${value}`);
-  }
-  return hslToHex(parseFloat(match[1]), parseFloat(match[2]), parseFloat(match[3]));
+  const match = value.match(/^hsl\(\s*([0-9.]+)\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/);
 }
 
 const css = fs.readFileSync('styles/globals.css', 'utf8');
