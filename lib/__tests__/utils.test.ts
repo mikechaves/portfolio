@@ -20,4 +20,14 @@ describe('cn', () => {
   it('ignores duplicate values', () => {
     expect(cn('text-red-500', 'text-red-500')).toBe('text-red-500')
   })
+
+  it('supports object style inputs', () => {
+    expect(cn({ a: true, b: false }, 'c')).toBe('a c')
+  })
+
+  it('merges array inputs', () => {
+    expect(cn(['a', { b: true }], ['c', ['d']], { e: false }, 'f')).toBe(
+      'a b c d f'
+    )
+  })
 })
