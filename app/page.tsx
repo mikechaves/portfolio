@@ -7,7 +7,11 @@ import { ProjectCard } from "@/components/project-card"
 import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
-import { HeroBackground } from "@/components/hero-background"
+import dynamic from "next/dynamic"
+const HeroBackground = dynamic(
+  () => import("@/components/hero-background").then((m) => m.HeroBackground),
+  { ssr: false, loading: () => <div className="absolute inset-0 -z-10" /> }
+)
 import { RecentHighlights } from "@/components/recent-highlights"
 
 const allProjects = [
