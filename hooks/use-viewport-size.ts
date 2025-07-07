@@ -1,20 +1,24 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 
 export function useViewportSize() {
-  const sizeRef = useRef({ width: 0, height: 0 })
+  const [size, setSize] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
+  })
 
   useEffect(() => {
-    const updateSize = () => {
-      sizeRef.current.width = window.innerWidth
-      sizeRef.current.height = window.innerHeight
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
     }
 
-    updateSize()
-    window.addEventListener("resize", updateSize)
-    return () => window.removeEventListener("resize", updateSize)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  return sizeRef
+  return size
 }

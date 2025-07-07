@@ -19,7 +19,7 @@ export function KatanaCursor() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
       // Additional check for small screen sizes typical of mobile devices
-      const isSmallScreen = viewport.current.width < 768
+      const isSmallScreen = viewport.width < 768
 
       setIsTouchDevice(isMobile || isSmallScreen)
     }

@@ -130,11 +130,11 @@ export function SumerianVirus() {
                 className="absolute text-xl"
                 initial={{
                   opacity: 1,
-                  x: Math.random() * viewport.current.width,
+                  x: Math.random() * viewport.width,
                   y: -30,
                 }}
                 animate={{
-                  y: viewport.current.height + 30,
+                  y: viewport.height + 30,
                   opacity: [1, 0.8, 0.6, 0.4, 0.2, 0],
                 }}
                 transition={{

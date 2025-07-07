@@ -20,7 +20,7 @@ export function HeroBackground() {
   useEffect(() => {
     // Check if we're on a mobile device
     const checkMobile = () => {
-      setIsMobile(viewport.current.width < 768)
+      setIsMobile(viewport.width < 768)
     }
 
     // Initial check
@@ -44,7 +44,7 @@ export function HeroBackground() {
     // Initialize camera
     const camera = new THREE.PerspectiveCamera(
       60,
-      viewport.current.width / viewport.current.height,
+      viewport.width / viewport.height,
       0.1,
       1000,
     )
@@ -53,7 +53,7 @@ export function HeroBackground() {
 
     // Initialize renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    renderer.setSize(viewport.current.width, viewport.current.height)
+    renderer.setSize(viewport.width, viewport.height)
     renderer.setClearColor(0x000000, 0) // Transparent background
     containerRef.current.appendChild(renderer.domElement)
     rendererRef.current = renderer
@@ -248,8 +248,8 @@ export function HeroBackground() {
 
     // Track mouse movement for subtle interactivity
     const handleMouseMove = (event: MouseEvent) => {
-      mousePosition.current.x = (event.clientX / viewport.current.width) * 2 - 1
-      mousePosition.current.y = -(event.clientY / viewport.current.height) * 2 + 1
+      mousePosition.current.x = (event.clientX / viewport.width) * 2 - 1
+      mousePosition.current.y = -(event.clientY / viewport.height) * 2 + 1
     }
 
     window.addEventListener("mousemove", handleMouseMove)
@@ -318,9 +318,9 @@ export function HeroBackground() {
     const handleResize = () => {
       if (!cameraRef.current || !rendererRef.current) return
 
-      cameraRef.current.aspect = viewport.current.width / viewport.current.height
+      cameraRef.current.aspect = viewport.width / viewport.height
       cameraRef.current.updateProjectionMatrix()
-      rendererRef.current.setSize(viewport.current.width, viewport.current.height)
+      rendererRef.current.setSize(viewport.width, viewport.height)
 
       if (particleMaterial.uniforms) {
         particleMaterial.uniforms.pixelRatio.value = window.devicePixelRatio
