@@ -10,7 +10,15 @@ import { ArrowRight } from "lucide-react"
 import dynamic from "next/dynamic"
 const HeroBackground = dynamic(
   () => import("@/components/hero-background").then((m) => m.HeroBackground),
-  { ssr: false, loading: () => <div className="absolute inset-0 -z-10" /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="absolute inset-0 -z-10 overflow-hidden"
+        aria-hidden="true"
+      />
+    ),
+  }
 )
 import { RecentHighlights } from "@/components/recent-highlights"
 
