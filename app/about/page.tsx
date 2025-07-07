@@ -30,7 +30,7 @@ export default function AboutPage() {
   })
   const { toast } = useToast()
 
-  // Update the experiences array with the professional experience from the resume
+  // Static list of professional experience entries
   const experiences = [
     {
       title: "XR/AI Creative Technologist & Founder",
