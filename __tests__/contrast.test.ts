@@ -97,3 +97,7 @@ test('convert parses hsl formats', () => {
   expect(convert('hsl(43 74% 66%)')).toBe('#e8c468');
   expect(convert('hsl(43,74%,66%)')).toBe('#e8c468');
 });
+
+test('convert throws on invalid color string', () => {
+  expect(() => convert('not-a-color')).toThrow();
+});
