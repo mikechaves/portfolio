@@ -15,7 +15,6 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    unoptimized: true,
   },
   transpilePackages: [
     "lucide-react",
