@@ -339,9 +339,9 @@ export function MetaverseNav() {
   }
 
   useEffect(() => {
-    requestAnimationFrame(applyTransforms)
+    const animationFrameId = requestAnimationFrame(applyTransforms)
     return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+      cancelAnimationFrame(animationFrameId)
     }
   }, [pathname, showMetaverse])
 
@@ -497,7 +497,7 @@ export function MetaverseNav() {
                         fontWeight: "bold",
                         color: "white",
                         textShadow: "0 0 10px currentColor",
-                        transition: "all 0.2s ease",
+                        transition: "color 0.2s ease, font-size 0.2s ease",
                         fontFamily: "inherit",
                         display: "none",
                       }}
