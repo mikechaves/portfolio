@@ -155,7 +155,7 @@ function toast({ ...props }: Toast) {
   }
   const id = genId()
 
-  const update = (props: Partial<ToasterToast>) =>
+  const update = (props: Omit<Partial<ToasterToast>, "id">) =>
     dispatch({
       type: "UPDATE_TOAST",
       toast: { ...props, id },
