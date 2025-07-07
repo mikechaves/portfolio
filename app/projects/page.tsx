@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,6 +17,7 @@ export default function ProjectsPage() {
   const [query, setQuery] = useState("")
   const [personalized, setPersonalized] = useState(false)
   const [display, setDisplay] = useState<Project[]>([])
+  const skipFilterEffect = useRef(false)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(
@@ -139,22 +140,34 @@ export default function ProjectsPage() {
   )
 
   useEffect(() => {
+    if (skipFilterEffect.current) {
+      skipFilterEffect.current = false
+      return
+    }
     setDisplay(filteredProjects)
     setQuery("")
     setPersonalized(false)
     setShowAll(false)
-  }, [activeFilter])
+  }, [activeFilter, filteredProjects])
 
   const handlePersonalize = () => {
     const text = query.trim().toLowerCase()
+    if (activeFilter !== "all") {
+      skipFilterEffect.current = true
+      setActiveFilter("all")
+    }
+
+    const baseProjects = projects
+
     if (!text) {
-      setDisplay(filteredProjects)
+      setQuery("")
+      setDisplay(baseProjects)
       setPersonalized(false)
       setShowAll(false)
       return
     }
 
-    const matches = filteredProjects.filter(
+    const matches = baseProjects.filter(
       (p) =>
         (p.title || "").toLowerCase().includes(text) ||
         (p.description || "").toLowerCase().includes(text) ||
@@ -165,7 +178,7 @@ export default function ProjectsPage() {
       setDisplay(matches)
       setPersonalized(true)
     } else {
-      setDisplay(filteredProjects)
+      setDisplay(baseProjects)
       setPersonalized(false)
     }
     setShowAll(false)
