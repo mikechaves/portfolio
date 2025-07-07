@@ -16,16 +16,27 @@ export default function ProjectPage() {
   const closeModal = useCallback(() => setSelectedIndex(null), [])
 
   useEffect(() => {
-    fetch("/data/projects.json")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchProject = async () => {
+      try {
+        const res = await fetch("/data/projects.json")
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        const data = await res.json()
         const p = data[id as keyof typeof data]
         if (!p) {
-          router.push("/404")
+          router.push("/error?message=" + encodeURIComponent("Project not found"))
         } else {
           setProject(p)
         }
-      })
+      } catch (error) {
+        console.error("Failed to fetch project data:", error)
+        router.push(
+          "/error?message=" + encodeURIComponent("Failed to load project")
+        )
+      }
+    }
+    fetchProject()
   }, [id, router])
 
   const images = project ? [project.image, ...(project.gallery || [])] : []
