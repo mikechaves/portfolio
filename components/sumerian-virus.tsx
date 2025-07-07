@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useViewportSize } from "@/hooks/use-viewport-size"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Sumerian-inspired glyphs
@@ -49,6 +50,7 @@ export function SumerianVirus() {
   const [isActive, setIsActive] = useState(false)
   const [glyphStream, setGlyphStream] = useState<string[]>([])
   const [message, setMessage] = useState("")
+  const viewport = useViewportSize()
 
   // Messages that will be displayed during the "infection"
   const messages = [
@@ -128,11 +130,11 @@ export function SumerianVirus() {
                 className="absolute text-xl"
                 initial={{
                   opacity: 1,
-                  x: Math.random() * window.innerWidth,
+                  x: Math.random() * viewport.width,
                   y: -30,
                 }}
                 animate={{
-                  y: window.innerHeight + 30,
+                  y: viewport.height + 30,
                   opacity: [1, 0.8, 0.6, 0.4, 0.2, 0],
                 }}
                 transition={{

@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
+import { useViewportSize } from "@/hooks/use-viewport-size"
 import * as THREE from "three"
 
 // Import THREE from the same source to avoid duplicate instances
@@ -14,11 +15,12 @@ export function HeroBackground() {
   const frameRef = useRef<number>(0)
   const mousePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const [isMobile, setIsMobile] = useState(false)
+  const viewport = useViewportSize()
 
   useEffect(() => {
     // Check if we're on a mobile device
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(viewport.width < 768)
     }
 
     // Initial check
@@ -40,13 +42,18 @@ export function HeroBackground() {
     sceneRef.current = scene
 
     // Initialize camera
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      viewport.width / viewport.height,
+      0.1,
+      1000,
+    )
     camera.position.z = 20
     cameraRef.current = camera
 
     // Initialize renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(viewport.width, viewport.height)
     renderer.setClearColor(0x000000, 0) // Transparent background
     containerRef.current.appendChild(renderer.domElement)
     rendererRef.current = renderer
@@ -241,8 +248,8 @@ export function HeroBackground() {
 
     // Track mouse movement for subtle interactivity
     const handleMouseMove = (event: MouseEvent) => {
-      mousePosition.current.x = (event.clientX / window.innerWidth) * 2 - 1
-      mousePosition.current.y = -(event.clientY / window.innerHeight) * 2 + 1
+      mousePosition.current.x = (event.clientX / viewport.width) * 2 - 1
+      mousePosition.current.y = -(event.clientY / viewport.height) * 2 + 1
     }
 
     window.addEventListener("mousemove", handleMouseMove)
@@ -311,9 +318,9 @@ export function HeroBackground() {
     const handleResize = () => {
       if (!cameraRef.current || !rendererRef.current) return
 
-      cameraRef.current.aspect = window.innerWidth / window.innerHeight
+      cameraRef.current.aspect = viewport.width / viewport.height
       cameraRef.current.updateProjectionMatrix()
-      rendererRef.current.setSize(window.innerWidth, window.innerHeight)
+      rendererRef.current.setSize(viewport.width, viewport.height)
 
       if (particleMaterial.uniforms) {
         particleMaterial.uniforms.pixelRatio.value = window.devicePixelRatio
