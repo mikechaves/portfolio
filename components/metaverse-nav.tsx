@@ -491,17 +491,16 @@ export function MetaverseNav() {
         <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-zinc-500">
           Navigate The Street by clicking on destinations
         </div>
+        <motion.div
+          className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: transitioning ? 1 : 0, pointerEvents: transitioning ? "auto" : "none" }}
+        >
+          <div className="text-primary text-2xl font-bold glitch" data-text="LOADING STREET...">
+            LOADING STREET...
+          </div>
+        </motion.div>
       </motion.nav>
-
-      <motion.div
-        className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: transitioning ? 1 : 0, pointerEvents: transitioning ? "auto" : "none" }}
-      >
-        <div className="text-primary text-2xl font-bold glitch" data-text="LOADING STREET...">
-          LOADING STREET...
-        </div>
-      </motion.div>
     </div>
   )
 }
