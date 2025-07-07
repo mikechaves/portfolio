@@ -78,7 +78,7 @@ export async function sendContactEmail(formData: FormData) {
       to: ["mike@digitalhous.com"],
       subject: `New contact form submission from ${name}`,
       html: htmlContent,
-      replyTo: email,
+      reply_to: email,
     })
 
     if (error) {
