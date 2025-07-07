@@ -98,6 +98,10 @@ test('convert parses hsl formats', () => {
   expect(convert('hsl(43,74%,66%)')).toBe('#e8c468');
 });
 
+test('convert lowercases hex strings', () => {
+  expect(convert('#ABCDEF')).toBe('#abcdef');
+});
+
 test.each([
   ['not-a-color'],
   ['hsl(invalid)'],
