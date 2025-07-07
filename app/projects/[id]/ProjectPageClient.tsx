@@ -6,8 +6,39 @@ import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect } from "react"
 import { ImageModal } from "@/components/image-modal"
 
+interface DetailItem {
+  title: string
+  description: string
+}
+
+interface ProjectDetails {
+  client?: string
+  date?: string
+  category?: string
+  services?: string[]
+  situation?: string | DetailItem[]
+  task?: string | DetailItem[]
+  actions?: DetailItem[]
+  results?: DetailItem[]
+  result?: string
+  exhibition?: DetailItem[]
+}
+
+interface Project {
+  id: string
+  title: string
+  image: string
+  gallery?: string[]
+  category: string
+  description: string
+  technologies: string[]
+  github: string
+  demo: string
+  details: ProjectDetails
+}
+
 interface ProjectPageClientProps {
-  project: any
+  project: Project
 }
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
@@ -161,7 +192,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div>
           <h2 className="text-2xl font-bold mb-4">Situation</h2>
           <div className="space-y-4">
-            {project.details.situation.map((item: any, index: number) => (
+            {project.details.situation.map((item: DetailItem, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -186,7 +217,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div>
           <h2 className="text-2xl font-bold mb-4">Task</h2>
           <div className="space-y-4">
-            {project.details.task.map((item: any, index: number) => (
+            {project.details.task.map((item: DetailItem, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}
@@ -202,7 +233,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div>
           <h2 className="text-2xl font-bold mb-4">Action</h2>
           <div className="space-y-4">
-            {project.details.actions.map((action: any, index: number) => (
+            {project.details.actions.map((action: DetailItem, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">{index + 1}.</span> {action.title}
@@ -218,7 +249,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div>
           <h2 className="text-2xl font-bold mb-4">Result</h2>
           <div className="space-y-4">
-            {project.details.results.map((result: any, index: number) => (
+            {project.details.results.map((result: DetailItem, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {result.title}
@@ -243,7 +274,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div>
           <h2 className="text-2xl font-bold mb-4">Exhibition & Future Directions</h2>
           <div className="space-y-4">
-            {project.details.exhibition.map((item: any, index: number) => (
+            {project.details.exhibition.map((item: DetailItem, index: number) => (
               <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
                 <h3 className="text-lg font-bold mb-2 flex items-center">
                   <span className="text-primary mr-2">•</span> {item.title}

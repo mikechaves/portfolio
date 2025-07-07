@@ -11,7 +11,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const filePath = path.join(process.cwd(), 'public', 'data', 'projects.json')
   const json = await fs.readFile(filePath, 'utf8')
   const data = JSON.parse(json)
-  const p = data[params.id as keyof typeof data]
+  const p = Object.hasOwn(data, params.id) ? data[params.id as keyof typeof data] : undefined
   if (!p) {
     redirect('/error?message=' + encodeURIComponent('Project not found'))
   }
