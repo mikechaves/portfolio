@@ -88,3 +88,9 @@ test('light theme color contrast', () => {
 test('dark theme color contrast', () => {
   checkPairs(darkColors);
 });
+
+test('convert parses hsl formats', () => {
+  expect(convert('240 5.9% 10%')).toBe('#18181b');
+  expect(convert('hsl(43 74% 66%)')).toBe('#e8c468');
+  expect(convert('hsl(43,74%,66%)')).toBe('#e8c468');
+});
