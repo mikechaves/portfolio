@@ -39,10 +39,13 @@ function convert(value: string): string {
   if (value.startsWith('#')) {
     return value.toLowerCase();
   }
-  let match = value.match(/([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%/);
-  if (!match) {
-    match = value.match(/^hsl\(\s*([0-9.]+)\s*,?\s*([0-9.]+)%\s*,?\s*([0-9.]+)%\s*\)$/);
-  }
+const match =
+  // First, try to match the flexible hsl(H S L) or hsl(H, S, L) format
+  value.match(/^hsl\(\s*([0-9.]+)\s*,?\s*([0-9.]+)%\s*,?\s*([0-9.]+)%\s*\)$/) ||
+  
+  // If that fails, try to match the space-separated H S L format
+  value.match(/^([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%$/); 
+  
   if (!match) {
     throw new Error(`Unable to parse color: ${value}`);
   }
