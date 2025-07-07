@@ -160,6 +160,7 @@ export default function ProjectsPage() {
     const baseProjects = projects
 
     if (!text) {
+      setQuery("")
       setDisplay(baseProjects)
       setPersonalized(false)
       setShowAll(false)
