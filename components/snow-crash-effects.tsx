@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import { MetaverseNav } from './metaverse-nav'
+const MetaverseNav = dynamic(() => import('./metaverse-nav').then(m => m.MetaverseNav), { ssr: false })
 
 // Only non-essential effects are dynamically loaded to keep the initial
 // bundle small while ensuring the main navigation is present immediately.
