@@ -39,9 +39,13 @@ function convert(value: string): string {
   if (value.startsWith('#')) {
     return value.toLowerCase();
   }
-  const match =
-    value.match(/^hsl\(\s*([0-9.]+)\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/) ||
-    value.match(/^([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%$/);
+const match =
+  // First, try to match the flexible hsl(H S L) or hsl(H, S, L) format
+  value.match(/^hsl\(\s*([0-9.]+)\s*,?\s*([0-9.]+)%\s*,?\s*([0-9.]+)%\s*\)$/) ||
+  
+  // If that fails, try to match the space-separated H S L format
+  value.match(/^([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%$/); 
+  
   if (!match) {
     throw new Error(`Unable to parse color: ${value}`);
   }
@@ -86,4 +90,10 @@ test('light theme color contrast', () => {
 
 test('dark theme color contrast', () => {
   checkPairs(darkColors);
+});
+
+test('convert parses hsl formats', () => {
+  expect(convert('240 5.9% 10%')).toBe('#18181b');
+  expect(convert('hsl(43 74% 66%)')).toBe('#e8c468');
+  expect(convert('hsl(43,74%,66%)')).toBe('#e8c468');
 });

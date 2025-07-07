@@ -147,7 +147,7 @@ export default function AboutPage() {
       items: [
         "Team Leadership",
         "Project Management",
-        "AGILE Methodology",
+        "Agile Methodology",
         "Client Relations",
         "Cross-functional Collaboration",
       ],
