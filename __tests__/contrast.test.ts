@@ -39,11 +39,9 @@ function convert(value: string): string {
   if (value.startsWith('#')) {
     return value.toLowerCase();
   }
-  let match = value.match(/^hsl\(\s*([0-9.]+)\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/);
-  if (match) {
-    return hslToHex(parseFloat(match[1]), parseFloat(match[2]), parseFloat(match[3]));
-  }
-  match = value.match(/^([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%$/);
+  const match =
+    value.match(/^hsl\(\s*([0-9.]+)\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/) ||
+    value.match(/^([0-9.]+)\s+([0-9.]+)%\s+([0-9.]+)%$/);
   if (!match) {
     throw new Error(`Unable to parse color: ${value}`);
   }
