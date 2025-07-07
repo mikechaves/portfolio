@@ -23,7 +23,7 @@ The production site is available at [https://mikechaves.io](https://mikechaves.i
 
 To enable email sending from the contact form, create a `.env.local` file in the project root and define `RESEND_API_KEY` with your Resend API key.
 
-Without this variable, the form falls back to a mock implementation.
+Without this variable, the form falls back to a mock implementation that logs submissions to the console instead of sending an email.
 
 ## Features
 
