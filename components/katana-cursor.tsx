@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useViewportSize } from "@/hooks/use-viewport-size"
 import { motion } from "framer-motion"
 
 export function KatanaCursor() {
@@ -8,6 +9,7 @@ export function KatanaCursor() {
   const [isVisible, setIsVisible] = useState(false)
   const [isSlashing, setIsSlashing] = useState(false)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const viewport = useViewportSize()
 
   useEffect(() => {
     // More reliable touch device detection
@@ -17,7 +19,7 @@ export function KatanaCursor() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
       // Additional check for small screen sizes typical of mobile devices
-      const isSmallScreen = window.innerWidth < 768
+      const isSmallScreen = viewport.current.width < 768
 
       setIsTouchDevice(isMobile || isSmallScreen)
     }
