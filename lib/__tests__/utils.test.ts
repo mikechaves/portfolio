@@ -31,4 +31,8 @@ describe('cn', () => {
     )
   })
 
+  it('returns an empty string when called with no arguments', () => {
+    expect(cn()).toBe('')
+  })
+
 })
