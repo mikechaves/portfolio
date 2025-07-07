@@ -14,7 +14,7 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 // Prevent Font Awesome from adding its CSS since we did it manually above
 config.autoAddCss = false
 
-// Add the import for the server action
+// Import server action for sending email
 import { sendContactEmail } from "@/app/actions/contact"
 import { useToast } from "@/hooks/use-toast"
 
