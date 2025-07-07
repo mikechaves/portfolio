@@ -53,6 +53,7 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
 
+        {/* SnowCrashEffects already includes SumerianVirus and KatanaCursor */}
         {/* No fallback - let MetaverseNav handle its own loading */}
         <SnowCrashEffects />
 
@@ -61,8 +62,6 @@ export default function RootLayout({
         </main>
         <Footer />
 
-        {/* Add our Snow Crash inspired components */}
-        {/* SnowCrashEffects already includes SumerianVirus and KatanaCursor */}
 
         <LabelsProvider>
           <Toaster />
