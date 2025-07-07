@@ -98,6 +98,11 @@ test('convert parses hsl formats', () => {
   expect(convert('hsl(43,74%,66%)')).toBe('#e8c468');
 });
 
-test('convert throws on invalid color string', () => {
-  expect(() => convert('not-a-color')).toThrow();
+test.each([
+  ['not-a-color'],
+  ['hsl(invalid)'],
+  ['1 2 3'], // missing '%'
+  [''], // empty string
+])('convert throws on invalid color string "%s"', (color) => {
+  expect(() => convert(color)).toThrow(`Unable to parse color: ${color}`);
 });
