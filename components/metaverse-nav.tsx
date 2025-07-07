@@ -267,7 +267,9 @@ export function MetaverseNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [canRender3D, setCanRender3D] = useState(false)
-  const [navPositions, setNavPositions] = useState<Record<string, { x: number; y: number; hovered: boolean }>>({})
+  const navPositionsRef = useRef<Record<string, { x: number; y: number; hovered: boolean }>>({})
+  const overlayRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -307,12 +309,41 @@ export function MetaverseNav() {
     }, 500)
   }
 
-  const handleNavPositionUpdate = (name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
-    setNavPositions((prev) => ({
-      ...prev,
-      [name]: { ...screenPos, hovered },
-    }))
+  const applyTransforms = () => {
+    rafRef.current = null
+    navItems.forEach((item) => {
+      const pos = navPositionsRef.current[item.name]
+      const el = overlayRefs.current[item.name]
+      if (!el) return
+      if (pos) {
+        el.style.display = "block"
+        el.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`
+        el.style.fontSize = pos.hovered ? "24px" : "20px"
+        const isActive = pathname === item.path
+        el.style.color = isActive ? "#00ff8c" : pos.hovered ? "#00ffff" : "white"
+      } else {
+        el.style.display = "none"
+      }
+    })
   }
+
+  const handleNavPositionUpdate = (
+    name: string,
+    screenPos: { x: number; y: number },
+    hovered: boolean,
+  ) => {
+    navPositionsRef.current[name] = { ...screenPos, hovered }
+    if (rafRef.current === null) {
+      rafRef.current = requestAnimationFrame(applyTransforms)
+    }
+  }
+
+  useEffect(() => {
+    requestAnimationFrame(applyTransforms)
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    }
+  }, [pathname, showMetaverse])
 
   const toggleMetaverse = () => setShowMetaverse(!showMetaverse)
   const exitMetaverse = () => setShowMetaverse(false)
@@ -449,36 +480,33 @@ export function MetaverseNav() {
                   </Canvas>
 
                   {/* HTML text overlays positioned outside Canvas */}
-                  {navItems.map((item) => {
-                    const pos = navPositions[item.name]
-                    if (!pos) return null
-
-                    const isActive = pathname === item.path
-
-                    return (
-                      <div
-                        key={item.path}
-                        style={{
-                          position: "absolute",
-                          left: pos.x,
-                          top: pos.y,
-                          transform: "translate(-50%, -50%)",
-                          pointerEvents: "none",
-                          zIndex: 1000,
-                          fontSize: pos.hovered ? "24px" : "20px",
-                          fontWeight: "bold",
-                          color: isActive ? "#00ff8c" : pos.hovered ? "#00ffff" : "white",
-                          textShadow: "0 0 10px currentColor",
-                          transition: "all 0.2s ease",
-                          fontFamily: "inherit",
-                        }}
-                        className="glitch"
-                        data-text={item.name.toUpperCase()}
-                      >
-                        {item.name.toUpperCase()}
-                      </div>
-                    )
-                  })}
+                  {navItems.map((item) => (
+                    <div
+                      key={item.path}
+                      ref={(el) => {
+                        overlayRefs.current[item.name] = el
+                      }}
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        transform: "translate(-50%, -50%)",
+                        pointerEvents: "none",
+                        zIndex: 1000,
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "white",
+                        textShadow: "0 0 10px currentColor",
+                        transition: "all 0.2s ease",
+                        fontFamily: "inherit",
+                        display: "none",
+                      }}
+                      className="glitch"
+                      data-text={item.name.toUpperCase()}
+                    >
+                      {item.name.toUpperCase()}
+                    </div>
+                  ))}
                 </>
               ) : (
                 <div className="w-full h-screen bg-black flex items-center justify-center text-yellow-500">
