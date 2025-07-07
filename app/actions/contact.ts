@@ -18,7 +18,8 @@ export async function sendContactEmail(formData: FormData) {
       }
     }
 
-    if (!email.includes("@")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email) || /[\r\n]/.test(email)) {
       return {
         success: false,
         message: "Please enter a valid email address",
@@ -78,7 +79,7 @@ export async function sendContactEmail(formData: FormData) {
       to: ["mike@digitalhous.com"],
       subject: `New contact form submission from ${name}`,
       html: htmlContent,
-      replyTo: email,
+      reply_to: email,
     })
 
     if (error) {
