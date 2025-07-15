@@ -125,9 +125,9 @@ export default function ProjectsPage() {
       id: "die-ai",
       title: "Die, AI!",
       description:
-        "A revived Flash shooter demo built with Adobe Animate and ActionScript.",
+        "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
       image: "/projects/die-ai/main-image.png?height=400&width=600",
-      technologies: ["ActionScript", "Ruffle", "Adobe Animate"],
+      technologies: ["ActionScript", "Adobe Animate", "Ruffle"],
       category: "web",
     },
   ]
