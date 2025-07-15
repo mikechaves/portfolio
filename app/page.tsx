@@ -95,6 +95,14 @@ const allProjects = [
     image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
     technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
   },
+  {
+    id: "die-ai",
+    title: "Die, AI!",
+    description:
+      "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
+    image: "/projects/die-ai/main-image.png?height=400&width=600",
+    technologies: ["ActionScript", "Adobe Animate", "Ruffle"],
+  },
 ] as const
 
 export default function Home() {

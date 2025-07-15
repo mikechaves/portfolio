@@ -794,5 +794,48 @@
         }
       ]
     }
+  },
+  "die-ai": {
+    "title": "Die, AI!",
+    "category": "web",
+    "description": "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
+    "image": "/projects/die-ai/main-image.png",
+    "technologies": [
+      "ActionScript",
+      "Adobe Animate",
+      "Ruffle"
+    ],
+    "github": "https://github.com/mikechaves/dieai-flash",
+    "demo": "https://mikechaves.github.io/dieai-flash/",
+    "gallery": [
+      "/projects/die-ai/start-screen.png",
+      "/projects/die-ai/intro-good.png",
+      "/projects/die-ai/intro-hacked.png",
+      "/projects/die-ai/level-one.png",
+      "/projects/die-ai/game-over.png"
+    ],
+    "details": {
+      "client": "Personal Project",
+      "date": "Fall 2018, renewed 2025",
+      "category": "Flash Game Development",
+      "services": [
+        "Game Design",
+        "ActionScript",
+        "Animation"
+      ],
+      "situation": "Hackers reprogrammed AICorp's Buddy Bots to break out and destroy humanity. Dr. Gimmstein must stop them with his prototype laser gun.",
+      "task": "Create a simple Flash game inspired by a shoot-em-up template and enhance it with levels, intro screens, and audio.",
+      "actions": [
+        {
+          "title": "Custom ActionScript Mechanics",
+          "description": "Extended a Shoot game template with health bars, lasers, enemy AI, and Greensock transitions."
+        },
+        {
+          "title": "Ruffle Revival",
+          "description": "Repackaged the original SWF with an HTML loader using the Ruffle WebAssembly emulator."
+        }
+      ],
+      "result": "A playable Flash demo preserved for the modern web."
+    }
   }
 }
