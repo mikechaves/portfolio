@@ -121,6 +121,15 @@ export default function ProjectsPage() {
       technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
       category: "web",
     },
+    {
+      id: "die-ai",
+      title: "Die, AI!",
+      description:
+        "A revived Flash shooter demo built with Adobe Animate and ActionScript.",
+      image: "/projects/die-ai/main-image.png?height=400&width=600",
+      technologies: ["ActionScript", "Ruffle", "Adobe Animate"],
+      category: "web",
+    },
   ]
 
   const categories = [

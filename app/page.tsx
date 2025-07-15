@@ -95,6 +95,14 @@ const allProjects = [
     image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
     technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
   },
+  {
+    id: "die-ai",
+    title: "Die, AI!",
+    description:
+      "A revived Flash shooter demo built with Adobe Animate and ActionScript.",
+    image: "/projects/die-ai/main-image.png?height=400&width=600",
+    technologies: ["ActionScript", "Ruffle", "Adobe Animate"],
+  },
 ] as const
 
 export default function Home() {
