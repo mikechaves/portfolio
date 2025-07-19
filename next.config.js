@@ -12,10 +12,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "placeholder.com",
       },
     ],
-    unoptimized: true,
   },
   transpilePackages: [
     "lucide-react",
