@@ -14,7 +14,7 @@ jobs:
           if [ -f .nvmrc ]; then
             echo "version=$(cat .nvmrc)" >> "$GITHUB_OUTPUT"
           else
-            echo "version=$(node -e \"const p=require('./package.json'); console.log(p.engines?.node || '20');\")" >> "$GITHUB_OUTPUT"
+            echo "version=$(node -e 'const p=require("./package.json"); console.log(p.engines?.node || "20");')" >> "$GITHUB_OUTPUT"
           fi
       - uses: pnpm/action-setup@v2
         with:
