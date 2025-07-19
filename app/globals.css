@@ -25,7 +25,7 @@
   --ring: 160 100% 50%;
 }
 
-/* Dark theme variables copied from styles/globals.css */
+/* Dark theme variables */
 .dark {
   --background: 0 0% 3.9%;
   --foreground: 0 0% 98%;
