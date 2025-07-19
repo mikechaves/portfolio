@@ -52,7 +52,7 @@ const match =
   return hslToHex(parseFloat(match[1]), parseFloat(match[2]), parseFloat(match[3]));
 }
 
-const css = fs.readFileSync('styles/globals.css', 'utf8');
+const css = fs.readFileSync('app/globals.css', 'utf8');
 const rootMatch = /:root\s*{([^}]*)}/.exec(css);
 const darkMatch = /\.dark\s*{([^}]*)}/.exec(css);
 if (!rootMatch || !darkMatch) {
