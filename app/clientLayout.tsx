@@ -3,7 +3,6 @@ import { Suspense } from "react"
 import type React from "react"
 
 import "./globals.css"
-import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { MetaverseNav } from "@/components/metaverse-nav"
 import { KatanaCursor } from "@/components/katana-cursor"
@@ -40,7 +39,6 @@ export default function RootLayout({
         <Suspense fallback={<NavigationFallback />}>
           <MetaverseNav />
         </Suspense>
-        <Navigation />
         <main className="flex-grow">{children}</main>
         <Footer />
       </body>
