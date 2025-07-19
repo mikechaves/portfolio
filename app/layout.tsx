@@ -12,7 +12,12 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { SnowCrashEffects } from "@/components/client-snow-crash-effects"
+import dynamic from "next/dynamic"
+
+// Dynamically import Snow Crash effects to ensure they only load on the client
+const SnowCrashEffects = dynamic(
+  () => import("@/components/snow-crash-effects").then((m) => m.SnowCrashEffects),
+)
 import { LabelsProvider } from "@/components/labels-provider"
 
 const jetbrainsMono = JetBrains_Mono({
