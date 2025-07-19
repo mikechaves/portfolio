@@ -12,7 +12,7 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
 // Import our Snow Crash inspired components
-import { SnowCrashEffects } from "@/components/snow-crash-effects"
+import { SnowCrashEffects } from "@/components/client-snow-crash-effects"
 import { LabelsProvider } from "@/components/labels-provider"
 
 const jetbrainsMono = JetBrains_Mono({
