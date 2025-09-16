@@ -102,7 +102,7 @@ export default function AboutPage() {
       {bioComplete && (
         <>
           <section>
-            <h2 className="text-2xl font-bold mb-6">Experience Timeline</h2>
+            <h2 className="text-2xl font-bold mb-6">Professional Experience</h2>
             <div className="space-y-6">
               {experiences.map((exp, index) => (
                 <div key={index} className="terminal-window">
@@ -134,7 +134,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-6">Volunteer & Student Experience</h2>
+            <h2 className="text-2xl font-bold mb-6">Fellowships & Leadership</h2>
             <div className="space-y-6">
               {volunteerExperiences.map((exp, index) => (
                 <div key={index} className="terminal-window">
