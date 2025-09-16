@@ -1,11 +1,17 @@
 "use server"
 import { Resend } from "resend"
 
-// Initialize Resend with the API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function sendContactEmail(formData: FormData) {
   try {
+    // Check if Resend API key is configured
+    if (!process.env.RESEND_API_KEY) {
+      console.warn("Resend API key not configured. Contact form will not send emails.")
+      return {
+        success: false,
+        message: "Contact form is not configured. Please try again later or contact directly.",
+      }
+    }
+
     const name = formData.get("name") as string
     const email = formData.get("email") as string
     const message = formData.get("message") as string
@@ -26,23 +32,9 @@ export async function sendContactEmail(formData: FormData) {
       }
     }
 
-    // Check if we have the Resend API key
-    if (!process.env.RESEND_API_KEY) {
-      console.log("Resend API key not found. Using mock implementation.")
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+    // Initialize Resend with the API key from environment variables
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
-      console.log("Contact form submission (mock):", {
-        name,
-        email,
-        message,
-      })
-
-      return {
-        success: true,
-        message: "Message sent successfully! We'll get back to you soon.",
-      }
-    }
 
     // Create HTML content directly instead of using React component
     const htmlContent = `

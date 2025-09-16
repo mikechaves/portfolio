@@ -2,9 +2,11 @@ import Image from "next/image"
 import Link from "next/link"
 import type { Project } from "@/types/project"
 
-type ProjectCardProps = Project
+type ProjectCardProps = Project & {
+  priority?: boolean
+}
 
-export function ProjectCard({ id, title, description, image, technologies }: ProjectCardProps) {
+export function ProjectCard({ id, title, description, image, technologies, category, priority }: ProjectCardProps) {
   return (
     <Link href={`/projects/${id}`}>
       <div className="card-hover bg-card rounded-md overflow-hidden h-full flex flex-col">
@@ -17,6 +19,8 @@ export function ProjectCard({ id, title, description, image, technologies }: Pro
             alt={title}
             fill
             className="object-cover"
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            priority={priority}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-4">

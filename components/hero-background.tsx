@@ -32,10 +32,13 @@ export function HeroBackground() {
     return () => {
       window.removeEventListener("resize", checkMobile)
     }
-  }, [])
+  }, [viewport])
 
   useEffect(() => {
     if (!containerRef.current) return
+
+    // Prevent double initialization in development (React Strict Mode)
+    if (sceneRef.current) return
 
     // Initialize scene
     const scene = new THREE.Scene()

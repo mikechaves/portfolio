@@ -59,6 +59,7 @@ export function RecentHighlights() {
                 alt={`Thumbnail for ${h.event}`}
                 fill
                 className="object-cover rounded"
+                sizes="64px"
               />
             </div>
             <div className="text-sm flex flex-col">

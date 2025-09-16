@@ -22,6 +22,7 @@ export default function RedefiningRealityPage() {
           alt={post.title}
           fill
           className="object-cover mix-blend-overlay opacity-70"
+          sizes="(min-width: 1024px) 960px, 100vw"
         />
       </div>
 

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: process.env.NODE_ENV === 'production', // Only enable in production
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -8,7 +8,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["placeholder.com"],
     remotePatterns: [
       {
         protocol: "https",

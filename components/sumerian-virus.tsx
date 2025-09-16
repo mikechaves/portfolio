@@ -4,47 +4,18 @@ import { useState, useEffect } from "react"
 import { useViewportSize } from "@/hooks/use-viewport-size"
 import { motion, AnimatePresence } from "framer-motion"
 
-// Sumerian-inspired glyphs
-const glyphs = [
-  "𒀭",
-  "𒀮",
-  "𒀯",
-  "𒀰",
-  "𒀱",
-  "𒀲",
-  "𒀳",
-  "𒀴",
-  "𒀵",
-  "𒀶",
-  "𒀷",
-  "𒀸",
-  "𒀹",
-  "𒀺",
-  "𒀻",
-  "𒀼",
-  "𒀽",
-  "𒀾",
-  "𒀿",
-  "𒁀",
-  "𒁁",
-  "𒁂",
-  "𒁃",
-  "𒁄",
-  "𒁅",
-  "𒁆",
-  "𒁇",
-  "𒁈",
-  "𒁉",
-  "𒁊",
-  "𒁋",
-  "𒁌",
-  "𒁍",
-  "𒁎",
-  "𒁏",
-  "𒁐",
-  "𒁑",
-  "𒁒",
-]
+// Sumerian-inspired glyphs from Snow Crash (using dynamic generation)
+const getSumerianGlyphs = () => {
+  // Generate Sumerian cuneiform glyphs using String.fromCodePoint
+  const startCodePoint = 0x1202D // 𒀭
+  const glyphs = []
+  for (let i = 0; i < 40; i++) {
+    glyphs.push(String.fromCodePoint(startCodePoint + i))
+  }
+  return glyphs
+}
+
+const glyphs = getSumerianGlyphs()
 
 export function SumerianVirus() {
   const [isActive, setIsActive] = useState(false)
@@ -183,7 +154,7 @@ export function SumerianVirus() {
                     style={{ animationDuration: "1.5s" }}
                   ></div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">𒀭</div>
+                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">{String.fromCodePoint(0x1202D)}</div>
               </div>
             </div>
           </motion.div>

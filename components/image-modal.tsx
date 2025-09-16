@@ -37,8 +37,19 @@ export function ImageModal({ open, onOpenChange, src, alt, onPrev, onNext }: Ima
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
               >
-                <div className="relative max-h-[90vh]">
-                  <Image src={src} alt={alt} width={1200} height={800} className="max-h-[90vh] w-auto rounded-md shadow-lg" />
+                <div className="sr-only">
+                  <Dialog.Title>Image preview</Dialog.Title>
+                  <Dialog.Description>{alt}</Dialog.Description>
+                </div>
+                <div className="relative w-full max-w-5xl">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    width={1200}
+                    height={800}
+                    className="w-full h-auto max-h-[90vh] object-contain rounded-md shadow-lg"
+                    style={{ width: "100%", height: "auto" }}
+                  />
                   <Dialog.Close asChild>
                     <button
                       className="absolute top-2 right-2 text-primary hover:text-white bg-black/60 backdrop-blur-sm rounded-full p-1"

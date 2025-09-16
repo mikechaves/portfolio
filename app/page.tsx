@@ -30,6 +30,7 @@ const allProjects = [
       "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
     image: "/projects/geovoice/main-image.png?height=400&width=600",
     technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+    category: "web" as const,
   },
   {
     id: "transcribe",
@@ -38,6 +39,7 @@ const allProjects = [
       "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
     image: "/projects/transcribe/main-image.png?height=400&width=600",
     technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
+    category: "web" as const,
   },
   {
     id: "gaia",
@@ -46,6 +48,7 @@ const allProjects = [
       "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
     image: "/projects/gaia/main-image.png?height=400&width=600",
     technologies: ["UX Design", "AR/VR", "Unity3D"],
+    category: "ar-vr" as const,
   },
   {
     id: "apt-plus",
@@ -54,6 +57,7 @@ const allProjects = [
       "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
     image: "/projects/apt-plus/main-image.png?height=400&width=600",
     technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
+    category: "design" as const,
   },
   {
     id: "speakeasy",
@@ -62,6 +66,7 @@ const allProjects = [
       "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
     image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
     technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
+    category: "research" as const,
   },
   {
     id: "sound-escape-vr",
@@ -70,6 +75,7 @@ const allProjects = [
       "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
     image: "/projects/soundescape/main-image.jpg?height=400&width=600",
     technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
+    category: "ar-vr" as const,
   },
   {
     id: "material-explorer",
@@ -78,6 +84,7 @@ const allProjects = [
       "An interactive web application for creating, customizing, and visualizing 3D materials in real-time using Three.js and React Three Fiber.",
     image: "/projects/material-explorer/main-image.png?height=400&width=600",
     technologies: ["TypeScript", "React", "Three.js", "WebGL"],
+    category: "development" as const,
   },
   {
     id: "portals",
@@ -86,6 +93,7 @@ const allProjects = [
       "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
     image: "/projects/portals/main-image.png?height=400&width=600",
     technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
+    category: "ar-vr" as const,
   },
   {
     id: "ai-energy-consumption",
@@ -94,6 +102,7 @@ const allProjects = [
       "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
     image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
     technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
+    category: "development" as const,
   },
   {
     id: "die-ai",
@@ -102,8 +111,9 @@ const allProjects = [
       "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
     image: "/projects/die-ai/main-image.png?height=400&width=600",
     technologies: ["ActionScript", "Adobe Animate", "Ruffle"],
+    category: "development" as const,
   },
-] as const
+]
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -116,6 +126,7 @@ export default function Home() {
         "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
       image: "/projects/gaia/main-image.png?height=400&width=600",
       technologies: ["UX Design", "AR/VR", "Unity3D"],
+      category: "ar-vr" as const,
     },
     {
       id: "apt-plus",
@@ -124,6 +135,7 @@ export default function Home() {
         "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
       image: "/projects/apt-plus/main-image.png?height=400&width=600",
       technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
+      category: "design" as const,
     },
     {
       id: "speakeasy",
@@ -132,6 +144,7 @@ export default function Home() {
         "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
       image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
       technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
+      category: "research" as const,
     },
   ]
 

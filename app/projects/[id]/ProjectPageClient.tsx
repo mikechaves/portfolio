@@ -129,6 +129,8 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           alt={project.title}
           fill
           className="object-cover"
+          sizes="(min-width: 1024px) 960px, 100vw"
+          priority
         />
       </div>
 
@@ -137,7 +139,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           {project.gallery.map((img: string, index: number) => (
             <div
               key={index}
-              className="bg-zinc-100 rounded-md overflow-hidden h-[200px] flex items-center justify-center cursor-pointer"
+              className="relative bg-zinc-100 rounded-md overflow-hidden h-[200px] cursor-pointer"
               onClick={() => setSelectedIndex(index + 1)}
             >
               <Image
@@ -146,9 +148,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   `/api/placeholder?width=800&height=600&text=${encodeURIComponent(project.title)}`
                 }
                 alt={`${project.title} gallery image ${index + 1}`}
-                width={800}
-                height={600}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 320px, (min-width: 768px) 33vw, 100vw"
               />
             </div>
           ))}
