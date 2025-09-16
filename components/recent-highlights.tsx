@@ -12,6 +12,15 @@ interface Highlight {
 
 const highlights: Highlight[] = [
   {
+    id: "futuressummit-2025",
+    event: "Futures Summit 2025",
+    role: "Panelist",
+    title: "The Rise of Synthetic AI Companions: Promise or Peril",
+    date: "September 2025",
+    description: "Panel explored AI companionship across education and industry.",
+    image: "/events/chaves_futuressummit_2025_thumb.png",
+  },
+  {
     id: "gatherverse-xrevolve-2025",
     event: "GatherVerse XREvolve 2025",
     role: "Panelist",
@@ -42,7 +51,7 @@ export function RecentHighlights() {
   return (
     <section>
       <h2 className="text-2xl font-bold mb-6">Recent Highlights</h2>
-      <ul className="grid gap-6 md:grid-cols-3">
+      <ul className="grid gap-6 lg:grid-cols-4">
         {highlights.map((h) => (
           <li
             key={h.id}
