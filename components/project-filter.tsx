@@ -4,14 +4,7 @@ import { useState, useEffect, useCallback, useId, type FormEvent } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
-export interface Project {
-  id: string
-  title: string
-  description: string
-  image: string
-  technologies: string[]
-}
+import type { Project } from "@/types/project"
 
 interface ProjectFilterProps {
   featured: Project[]
@@ -100,7 +93,12 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
         {display.map((project, index) => (
           <ProjectCard
             key={project.id}
-            {...project}
+            id={project.id}
+            title={project.title}
+            description={project.description}
+            image={project.image}
+            technologies={project.technologies}
+            category={project.category}
             priority={index === 0}
           />
         ))}

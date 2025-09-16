@@ -24,6 +24,15 @@ import { RecentHighlights } from "@/components/recent-highlights"
 
 const allProjects = [
   {
+    id: "wizzo",
+    title: "Wizzo",
+    description:
+      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+    image: "/projects/wizzo/main-image.png?height=400&width=600",
+    technologies: ["SaaS Platform", "Goal Tracking", "Productivity Tools", "AI Integration"],
+    category: "web" as const,
+  },
+  {
     id: "geovoice",
     title: "GeoVoice",
     description:
@@ -120,6 +129,15 @@ export default function Home() {
 
   const featuredProjects = [
     {
+      id: "wizzo",
+      title: "Wizzo",
+      description:
+        "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+      image: "/projects/wizzo/main-image.png?height=400&width=600",
+      technologies: ["SaaS Platform", "Productivity Tools", "AI Integration"],
+      category: "web" as const,
+    },
+    {
       id: "gaia",
       title: "Gaia",
       description:
@@ -136,15 +154,6 @@ export default function Home() {
       image: "/projects/apt-plus/main-image.png?height=400&width=600",
       technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
       category: "design" as const,
-    },
-    {
-      id: "speakeasy",
-      title: "SpeakEasy",
-      description:
-        "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
-      image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
-      technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
-      category: "research" as const,
     },
   ]
 

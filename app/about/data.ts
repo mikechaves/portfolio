@@ -5,7 +5,7 @@ export const experiences = [
     company: "Wizzo_Labs_Inc",
     period: "June 2025 - Present",
     description:
-      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI, web, and XR interfaces while leading fundraising, strategy, and early team formation. Focused on creating accessible, adaptive tools that empower individuals and teams to reach their goals.",
+      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI, and web interfaces, while leading fundraising, strategy, and early team formation. Focused on creating accessible, adaptive tools that empower individuals and teams to reach their goals.",
   },
   {
     title: "Founder",

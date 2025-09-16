@@ -370,11 +370,11 @@ export default function AboutPage() {
                       <p className="mb-1 text-primary">mail0:</p>
                       {/* Use regular anchor tag for mailto link */}
                       <Link
-                        href="mailto:mike@digitalhous.com"
+                        href="mailto:founder@gowizzo.io"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                       >
                         <Mail size={16} />
-                        mike@digitalhous.com
+                        founder@gowizzo.io
                       </Link>
                     </div>
                   </div>

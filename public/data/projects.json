@@ -54,7 +54,7 @@
   "apt-plus": {
     "title": "APT+",
     "category": "design",
-    "description": "Ford APT+ is an end-to-end solution focused on streamlining manufacturing workflows by improving the accuracy and efficiency of time studies. These studies, previously slow and error-prone, cost Ford millions of dollars annually in wasted effort. My goal with APT+ was to design and implement a precision-driven, scalable system that eliminated inefficiencies and enabled data-driven decision-making—ultimately saving Ford approximately $1M per plant each year.",
+    "description": "Ford APT+ is an end-to-end solution focused on streamlining manufacturing workflows by improving the accuracy and efficiency of time studies. These studies, previously slow and error-prone, cost Ford millions of dollars annually in wasted effort. My goal with APT+ was to design and implement a precision-driven, scalable system that eliminated inefficiencies and enabled data-driven decision-making - ultimately saving Ford approximately $1M per plant each year.",
     "image": "/projects/apt-plus/main-image.png",
     "technologies": [
       "UX/UI Design",
@@ -236,7 +236,7 @@
       "situation": [
         {
           "title": "Overview",
-          "description": "Large-scale projects often involve multiple stakeholders—community members, government agencies, and private sector partners—who need to provide location-specific feedback. Existing processes (e.g., in-person forums, paper surveys) can be slow, fragmented, and prone to data loss."
+          "description": "Large-scale projects often involve multiple stakeholders - community members, government agencies, and private sector partners - who need to provide location-specific feedback. Existing processes (e.g., in-person forums, paper surveys) can be slow, fragmented, and prone to data loss."
         },
         {
           "title": "Challenge",
@@ -334,7 +334,7 @@
       "task": [
         {
           "title": "Overview",
-          "description": "The core objective was to design an XR experience that minimizes physical strain while maximizing intuitive interaction. I set out to develop a voice-driven AI system—SpeakEasy—that would:"
+          "description": "The core objective was to design an XR experience that minimizes physical strain while maximizing intuitive interaction. I set out to develop a voice-driven AI system - SpeakEasy - that would:"
         },
         {
           "title": "Reduce physical interaction",
@@ -360,7 +360,7 @@
         },
         {
           "title": "Prototype Development",
-          "description": "Beginning with early sketches and wireframes in ShapesXR, I rapidly moved through iterative cycles—transitioning to a Unity3D prototype—to incorporate voice recognition and multimodal feedback mechanisms."
+          "description": "Beginning with early sketches and wireframes in ShapesXR, I rapidly moved through iterative cycles - transitioning to a Unity3D prototype - to incorporate voice recognition and multimodal feedback mechanisms."
         },
         {
           "title": "Feedback & Iteration",
@@ -836,6 +836,99 @@
         }
       ],
       "result": "A playable Flash demo preserved for the modern web."
+    }
+  },
+  "wizzo": {
+    "title": "Wizzo",
+    "category": "web",
+    "description": "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI, andweb interfaces while leading fundraising, strategy, and early team formation. Focused on creating accessible, adaptive tools that empower individuals and teams to reach their goals.",
+    "image": "/projects/wizzo/main-image.png",
+    "technologies": [
+      "SaaS Platform",
+      "Goal Tracking",
+      "Productivity Tools",
+      "AI Integration"
+    ],
+    "github": "",
+    "demo": "https://gowizzo.io",
+    "gallery": [
+      "/projects/wizzo/main-image.png"
+    ],
+    "details": {
+      "client": "Wizzo Labs",
+      "date": "2025 - Present",
+      "category": "SaaS Development",
+      "services": [
+        "Product Vision",
+        "Technical Prototyping",
+        "Fundraising",
+        "Team Formation",
+        "Strategy"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "Traditional goal tracking and productivity tools often lack the personalization and adaptability needed to truly empower users in achieving their objectives. Many existing solutions are either too rigid or too complex, failing to provide the right balance of structure and flexibility."
+        },
+        {
+          "title": "Challenge",
+          "description": "How might we create a comprehensive SaaS platform that combines goal tracking with personal productivity features while maintaining accessibility and adaptability for diverse user needs?"
+        },
+        {
+          "title": "Context",
+          "description": "The market for productivity and goal tracking tools is saturated, but there's an opportunity to differentiate through AI-powered insights and cross-platform accessibility."
+        }
+      ],
+      "task": [
+        {
+          "title": "Overview",
+          "description": "As Founder of Wizzo Labs, the objective was to develop a comprehensive SaaS platform that would:"
+        },
+        {
+          "title": "Streamline Goal Tracking",
+          "description": "Provide intuitive tools for setting, monitoring, and achieving personal and professional goals."
+        },
+        {
+          "title": "Enhance Productivity",
+          "description": "Integrate productivity features that adapt to individual workflows and preferences."
+        },
+        {
+          "title": "Ensure Accessibility",
+          "description": "Create adaptive tools that work across web, mobile, and emerging XR platforms."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Product Vision & Strategy",
+          "description": "Developed the core product vision and strategic roadmap for Wizzo, focusing on user-centered design and scalable architecture."
+        },
+        {
+          "title": "Technical Prototyping",
+          "description": "Led technical prototyping across multiple platforms, exploring AI integration and XR interface possibilities for enhanced user experiences."
+        },
+        {
+          "title": "Fundraising & Business Development",
+          "description": "Drove fundraising efforts and strategic partnerships to secure resources for development and market expansion."
+        },
+        {
+          "title": "Team Formation",
+          "description": "Built and led early team formation, establishing development processes and company culture focused on innovation and accessibility."
+        }
+      ],
+      "results": [
+        {
+          "title": "Beta Launch Success",
+          "description": "Successfully launched Wizzo in beta, demonstrating market validation and user interest in the platform's approach to goal tracking and productivity."
+        },
+        {
+          "title": "Cross-Platform Innovation",
+          "description": "Established technical foundation for multi-platform deployment, including web, and mobile."
+        },
+        {
+          "title": "Strategic Foundation",
+          "description": "Built comprehensive business strategy and team structure to support long-term growth and market expansion."
+        }
+      ]
     }
   }
 }

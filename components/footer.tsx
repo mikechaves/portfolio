@@ -44,7 +44,7 @@ export function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="mailto:mike@digitalhous.com"
+              href="mailto:founder@gowizzo.io"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail size={20} />

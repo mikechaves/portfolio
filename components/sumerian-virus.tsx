@@ -4,14 +4,51 @@ import { useState, useEffect } from "react"
 import { useViewportSize } from "@/hooks/use-viewport-size"
 import { motion, AnimatePresence } from "framer-motion"
 
-// Sumerian-inspired glyphs from Snow Crash (using dynamic generation)
+// Sumerian-inspired glyphs from Snow Crash (using safe Unicode escape sequences)
 const getSumerianGlyphs = () => {
-  // Generate Sumerian cuneiform glyphs using String.fromCodePoint
-  const startCodePoint = 0x1202D // 𒀭
-  const glyphs = []
-  for (let i = 0; i < 40; i++) {
-    glyphs.push(String.fromCodePoint(startCodePoint + i))
-  }
+  // Use Unicode escape sequences to avoid build issues
+  const glyphs = [
+    '\uD803\uDC2D', // 𒀭
+    '\uD803\uDC2E', // 𒀮
+    '\uD803\uDC2F', // 𒀯
+    '\uD803\uDC30', // 𒀰
+    '\uD803\uDC31', // 𒀱
+    '\uD803\uDC32', // 𒀲
+    '\uD803\uDC33', // 𒀳
+    '\uD803\uDC34', // 𒀴
+    '\uD803\uDC35', // 𒀵
+    '\uD803\uDC36', // 𒀶
+    '\uD803\uDC37', // 𒀷
+    '\uD803\uDC38', // 𒀸
+    '\uD803\uDC39', // 𒀹
+    '\uD803\uDC3A', // 𒀺
+    '\uD803\uDC3B', // 𒀻
+    '\uD803\uDC3C', // 𒀼
+    '\uD803\uDC3D', // 𒀽
+    '\uD803\uDC3E', // 𒀾
+    '\uD803\uDC3F', // 𒀿
+    '\uD803\uDC40', // 𒁀
+    '\uD803\uDC41', // 𒁁
+    '\uD803\uDC42', // 𒁂
+    '\uD803\uDC43', // 𒁃
+    '\uD803\uDC44', // 𒁄
+    '\uD803\uDC45', // 𒁅
+    '\uD803\uDC46', // 𒁆
+    '\uD803\uDC47', // 𒁇
+    '\uD803\uDC48', // 𒁈
+    '\uD803\uDC49', // 𒁉
+    '\uD803\uDC4A', // 𒁊
+    '\uD803\uDC4B', // 𒁋
+    '\uD803\uDC4C', // 𒁌
+    '\uD803\uDC4D', // 𒁍
+    '\uD803\uDC4E', // 𒁎
+    '\uD803\uDC4F', // 𒁏
+    '\uD803\uDC50', // 𒁐
+    '\uD803\uDC51', // 𒁑
+    '\uD803\uDC52', // 𒁒
+    '\uD803\uDC53', // 𒁓
+    '\uD803\uDC54', // 𒁔
+  ]
   return glyphs
 }
 
@@ -154,7 +191,7 @@ export function SumerianVirus() {
                     style={{ animationDuration: "1.5s" }}
                   ></div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">{String.fromCodePoint(0x1202D)}</div>
+                <div className="absolute inset-0 flex items-center justify-center text-4xl text-primary">{'\uD803\uDC2D'}</div>
               </div>
             </div>
           </motion.div>

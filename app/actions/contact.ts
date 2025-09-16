@@ -68,7 +68,7 @@ export async function sendContactEmail(formData: FormData) {
     // Ensure replies are sent to the original sender
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
-      to: ["mike@digitalhous.com"],
+      to: ["founder@gowizzo.io"],
       subject: `New contact form submission from ${name}`,
       html: htmlContent,
       reply_to: email,

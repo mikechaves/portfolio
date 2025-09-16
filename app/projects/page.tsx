@@ -41,13 +41,22 @@ export default function ProjectsPage() {
 
   const projects: Project[] = [
     {
-      id: "geovoice",
-      title: "GeoVoice",
+      id: "wizzo",
+      title: "Wizzo",
       description:
-        "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
-      image: "/projects/geovoice/main-image.png?height=400&width=600",
-      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+        "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+      image: "/projects/wizzo/main-image.png?height=400&width=600",
+      technologies: ["SaaS Platform", "Productivity Tools", "AI Integration"],
       category: "web" as const,
+    },
+    {
+      id: "speakeasy",
+      title: "SpeakEasy",
+      description:
+        "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
+      image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
+      technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
+      category: "research" as const,
     },
     {
       id: "transcribe",
@@ -77,13 +86,13 @@ export default function ProjectsPage() {
       category: "design" as const,
     },
     {
-      id: "speakeasy",
-      title: "SpeakEasy",
+      id: "geovoice",
+      title: "GeoVoice",
       description:
-        "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
-      image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
-      technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
-      category: "research" as const,
+        "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
+      image: "/projects/geovoice/main-image.png?height=400&width=600",
+      technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+      category: "web" as const,
     },
     {
       id: "sound-escape-vr",
@@ -276,6 +285,7 @@ export default function ProjectsPage() {
               description={project.description}
               image={project.image}
               technologies={project.technologies}
+              category={project.category}
             />
           ))}
         </div>
