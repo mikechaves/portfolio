@@ -184,6 +184,7 @@ export default function Home() {
   return (
     <div className="space-y-16">
       <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
+
       <section className="py-12 relative">
         <HeroBackground />
         <Terminal
