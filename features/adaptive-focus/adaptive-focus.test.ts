@@ -77,6 +77,8 @@ describe("Adaptive Focus", () => {
     const first = runAdaptiveFocus({ query, projects: PROJECTS })
     const second = runAdaptiveFocus({ query, projects: PROJECTS })
 
+    expect(first.schemaVersion).toBe("af.v1")
+    expect(second.schemaVersion).toBe("af.v1")
     expect(first.intent).toEqual(second.intent)
     expect(first.summary).toBe(second.summary)
     expect(first.ranked.map((item) => item.project.id)).toEqual(

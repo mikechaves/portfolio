@@ -40,7 +40,10 @@ export interface RankedProject {
   reasons: string[]
 }
 
+export const ADAPTIVE_FOCUS_SCHEMA_VERSION = "af.v1" as const
+
 export interface AdaptiveFocusResult {
+  schemaVersion: typeof ADAPTIVE_FOCUS_SCHEMA_VERSION
   intent: AdaptiveIntent
   ranked: RankedProject[]
   summary: string

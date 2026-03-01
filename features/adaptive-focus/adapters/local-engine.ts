@@ -1,4 +1,9 @@
-import type { AdaptiveFocusEngine, AdaptiveFocusRequest, AdaptiveFocusResult } from "../types"
+import {
+  ADAPTIVE_FOCUS_SCHEMA_VERSION,
+  type AdaptiveFocusEngine,
+  type AdaptiveFocusRequest,
+  type AdaptiveFocusResult,
+} from "../types"
 import { parseIntent } from "../core/intent"
 import { rankProjects } from "../core/ranking"
 import { createSummary } from "../core/summary"
@@ -9,6 +14,11 @@ export class LocalAdaptiveFocusEngine implements AdaptiveFocusEngine {
     const ranked = rankProjects(request.projects, intent)
     const summary = createSummary(intent)
 
-    return { intent, ranked, summary }
+    return {
+      schemaVersion: ADAPTIVE_FOCUS_SCHEMA_VERSION,
+      intent,
+      ranked,
+      summary,
+    }
   }
 }
