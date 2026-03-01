@@ -130,6 +130,7 @@ export default function ProjectsPage() {
   const [adaptiveSummary, setAdaptiveSummary] = useState("")
   const [display, setDisplay] = useState<Project[]>([])
   const skipFilterEffect = useRef(false)
+  const didHydrateFocusRef = useRef(false)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`)
@@ -153,6 +154,17 @@ export default function ProjectsPage() {
         : PROJECTS.filter((project) => project.category === activeFilter),
     [activeFilter]
   )
+
+
+  useEffect(() => {
+    if (didHydrateFocusRef.current) return
+    if (typeof window === "undefined") return
+    const focus = new URLSearchParams(window.location.search).get("focus")
+    if (!focus) return
+    didHydrateFocusRef.current = true
+    setQuery(focus)
+    handleAdaptiveFocus(focus)
+  }, [])
 
   useEffect(() => {
     if (skipFilterEffect.current) {
