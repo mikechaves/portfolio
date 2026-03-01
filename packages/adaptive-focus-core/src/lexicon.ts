@@ -1,4 +1,4 @@
-import type { AdaptiveSignal } from "../types"
+import type { AdaptiveSignal } from "./types"
 
 export const SIGNAL_PHRASES: Array<{ signal: AdaptiveSignal; terms: string[] }> = [
   { signal: "ai", terms: ["ai", "machine learning", "ml", "llm", "intelligent", "assistant"] },

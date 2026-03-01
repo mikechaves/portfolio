@@ -1,1 +1,1 @@
-export { createSummary as buildAdaptiveSummary } from "./core/summary"
+export { createSummary as buildAdaptiveSummary } from "../../packages/adaptive-focus-core/src"

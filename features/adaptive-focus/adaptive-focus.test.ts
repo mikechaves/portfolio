@@ -1,6 +1,6 @@
 import { runAdaptiveFocus } from "./index"
-import { parseIntent } from "./core/intent"
-import { rankProjects } from "./core/ranking"
+import { interpretAdaptiveIntent as parseIntent } from "./intent"
+import { rankProjectsForIntent as rankProjects } from "./rank"
 import type { Project } from "@/types/project"
 
 const PROJECTS: Project[] = [

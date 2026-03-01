@@ -1,1 +1,1 @@
-export { normalizeIntentInput as normalize, parseIntent as interpretAdaptiveIntent } from "./core/intent"
+export { normalizeIntentInput as normalize, parseIntent as interpretAdaptiveIntent } from "../../packages/adaptive-focus-core/src"
