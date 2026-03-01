@@ -1,234 +1,94 @@
 "use client";
 
-import { useState, type FormEvent, useTransition } from "react";
-import { Terminal } from "@/components/terminal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Github, Linkedin, Mail } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import { useEffect, useState, type FormEvent, useTransition } from "react"
+import { Terminal } from "@/components/terminal"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
+import { Github, Linkedin, Mail } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
 // Prevent Font Awesome from adding its CSS since we did it manually above
-config.autoAddCss = false;
+config.autoAddCss = false
 
-// Add the import for the server action
-import { sendContactEmail } from "@/app/actions/contact";
-import { useToast } from "@/hooks/use-toast";
+import { sendContactEmail } from "@/app/actions/contact"
+import { useToast } from "@/hooks/use-toast"
+import { experiences, volunteerExperiences, skills, talksRecognition } from "./data"
+import { FocusContextBadge } from "@/components/focus-context-badge"
 
 export default function AboutPage() {
-  const [introComplete, setIntroComplete] = useState(false);
-  const [bioComplete, setBioComplete] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [introComplete, setIntroComplete] = useState(false)
+  const [bioComplete, setBioComplete] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const [formStatus, setFormStatus] = useState<{
-    success: boolean | null;
-    message: string | null;
+    success: boolean | null
+    message: string | null
   }>({
     success: null,
     message: null,
-  });
-  const { toast } = useToast();
+  })
+  const { toast } = useToast()
+  const [focus, setFocus] = useState("")
 
-  // Update the experiences array with the professional experience from the resume
-  const experiences = [
-    {
-      title: "XR/AI Creative Technologist & Founder",
-      company: "Digitalhous",
-      period: "January 2023 - Present",
-      description:
-        "Founded Digitalhous, a tech-focused LLC, where I lead end-to-end development of innovative apps, software, games, and XR solutions powered by AI. Specializing in immersive VR/AR technologies and AI-driven features, I drive user-centered design with a focus on accessibility, leveraging tools like Unity3D, Python, and JavaScript to deliver impactful solutions.",
-    },
-    {
-      title: "Lead UX/UI Designer III (Design Engineering Focus)",
-      company: "Starbucks Corporation",
-      period: "April 2022 - December 2022",
-      description:
-        "Designed VR/mobile interfaces with design thinking. Made them intuitive and user tested. Solved complex UX challenges and enhanced interaction and visual appeal. Collaborated with ML engineers to integrate AI capabilities into mobile and VR interfaces.",
-    },
-    {
-      title: "UX/UI Design Engineer – Unity & Frontend",
-      company: "Ford Motor Company",
-      period: "October 2021 - March 2022",
-      description:
-        "Built Unity3D time study tool with integrated machine learning components, saving $1M annually. Created reinforcement learning environments to optimize manufacturing scenarios. Implemented MLOps practices to ensure consistent model performance across global deployments.",
-    },
-    {
-      title: "UX/UI Design Engineer – Frontend & Immersive Technologies",
-      company: "POWER Engineers",
-      period: "June 2020 - October 2021",
-      description:
-        "Led GeoVoice design, a web/VR app. Boosted stakeholder engagement. Developed interactive tools using Python, JavaScript, C#, and Unity3D.",
-    },
-    {
-      title: "Creative Director",
-      company: "Knitting Factory Entertainment",
-      period: "August 2008 - January 2016",
-      description:
-        "Directed rebranding and aligned with market trends and audience needs. Led design team from concept to completion and kept creative standards high.",
-    },
-  ];
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const query = new URLSearchParams(window.location.search).get("focus")
+    if (query) setFocus(query)
+  }, [])
 
-  // Create volunteer and student experience array
-  const volunteerExperiences = [
-    {
-      title: "Lead, Spectacles Accelerator Program",
-      company: "Snap Inc.",
-      period: "January 2025 - Present",
-      description:
-        "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility.",
-    },
-    {
-      title: "UX Design Research Fellowship",
-      company: "LePal AI",
-      period: "August 2024 - October 2024",
-      description:
-        "Conducted usability tests and improved visual AI models and interactions.",
-    },
-    {
-      title: "Campus Strategist",
-      company: "Perplexity AI Inc.",
-      period: "August 2024 - January 2025",
-      description:
-        "Developed strategies to promote AI-powered search tech among students.",
-    },
-    {
-      title: "Student Ambassador",
-      company: "Adobe Inc.",
-      period: "February 2024 - October 2024",
-      description:
-        "Planned AI-focused workshops and demonstrated machine learning integration with Adobe tools.",
-    },
-  ];
-
-  // Update the skills array with a more uniform structure
-  const skills = [
-    {
-      category: "AI & Machine Learning",
-      items: [
-        "LLM Fine-tuning",
-        "Transformer Models",
-        "Reinforcement Learning",
-        "LangChain",
-        "Natural Language Processing",
-        "Open-Source LLMs (Llama, Gemma)",
-      ],
-    },
-    {
-      category: "Design & Integration",
-      items: [
-        "User-Centered Design",
-        "Interaction Design",
-        "UI/UX Design",
-        "Prototyping",
-        "AR/VR Interfaces",
-        "Accessibility",
-      ],
-    },
-    {
-      category: "Programming",
-      items: [
-        "Python (PyTorch, TensorFlow)",
-        "JavaScript/TypeScript",
-        "React/Next.js",
-        "C# (Unity)",
-        "HTML/CSS",
-      ],
-    },
-    {
-      category: "Research & Data",
-      items: [
-        "User Research",
-        "Usability Testing",
-        "A/B Testing",
-        "Data Visualization",
-        "Statistical Analysis",
-      ],
-    },
-    {
-      category: "Immersive Technologies",
-      items: [
-        "AR/VR Development",
-        "Spatial Computing",
-        "Voice UI",
-        "Gesture Control",
-        "XR Accessibility",
-      ],
-    },
-    {
-      category: "Development Tools",
-      items: ["Unity3D", "Git/GitHub", "Vercel", "Docker", "GitHub Copilot"],
-    },
-    {
-      category: "Design & Productivity",
-      items: [
-        "Figma",
-        "Adobe Creative Suite",
-        "Jupyter Notebooks",
-        "Notion",
-        "Hugging Face",
-      ],
-    },
-    {
-      category: "Leadership",
-      items: [
-        "Team Leadership",
-        "Project Management",
-        "AGILE Methodology",
-        "Client Relations",
-        "Cross-functional Collaboration",
-      ],
-    },
-  ];
+  // Data arrays are imported from ./data to keep them outside the component
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+    e.preventDefault()
 
     // Reset form status
     setFormStatus({
       success: null,
       message: null,
-    });
+    })
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    const form = e.currentTarget
+    const formData = new FormData(form)
 
     startTransition(async () => {
       try {
-        const response = await sendContactEmail(formData);
+        const response = await sendContactEmail(formData)
 
         setFormStatus({
           success: response.success,
           message: response.message,
-        });
+        })
 
         if (response.success) {
-          form.reset();
+          form.reset()
           toast({
             title: "Success!",
             description: response.message,
-          });
+          })
         } else {
           toast({
             title: "Error",
-            description:
-              response.message || "Something went wrong. Please try again.",
+            description: response.message || "Something went wrong. Please try again.",
             variant: "destructive",
-          });
+          })
         }
       } catch (error) {
-        console.error("Form submission error:", error);
+        console.error("Form submission error:", error)
         setFormStatus({
           success: false,
           message: "An unexpected error occurred. Please try again.",
-        });
+        })
       }
-    });
+    })
   }
 
   return (
     <div className="space-y-16 pt-8">
+      <h1 className="sr-only">About Mike Chaves</h1>
+      {focus && <FocusContextBadge focus={focus} />}
       <section>
         <Terminal
           text="Initializing personal profile... Access granted. Loading bio data..."
@@ -239,7 +99,7 @@ export default function AboutPage() {
 
         {introComplete && (
           <Terminal
-            text="Hello, I'm MIKE_CHAVES. I blend technical expertise with creative innovation to deliver accessible, immersive digital experiences. I graduated with my Master of Design in Experience Design from San Jose State University in May 2025, and I lead my team in Snap Inc's Spectacles Accelerator Program."
+            text="Hello, I'm MIKE_CHAVES. Creative Technologist and AI Systems & Workflow Engineer focused on human-in-the-loop AI workflows, moderation infrastructure, and evaluation frameworks. I design production systems that combine automation, structured measurement, and human judgment to improve quality and throughput."
             typingSpeed={20}
             className="max-w-3xl mx-auto mt-4"
             showPrompt={false}
@@ -251,7 +111,7 @@ export default function AboutPage() {
       {bioComplete && (
         <>
           <section>
-            <h2 className="text-2xl font-bold mb-6">Experience Timeline</h2>
+            <h2 className="text-2xl font-bold mb-6">Professional Experience</h2>
             <div className="space-y-6">
               {experiences.map((exp, index) => (
                 <div key={index} className="terminal-window">
@@ -286,9 +146,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-6">
-              Volunteer & Student Experience
-            </h2>
+            <h2 className="text-2xl font-bold mb-6">Fellowships & Leadership</h2>
             <div className="space-y-6">
               {volunteerExperiences.map((exp, index) => (
                 <div key={index} className="terminal-window">
@@ -300,20 +158,17 @@ export default function AboutPage() {
                   </div>
                   <div className="terminal-content">
                     <p className="mb-1">
-                      <span className="text-primary">$</span> cat
-                      volunteer_details.txt
+                      <span className="text-primary">$</span> cat volunteer_details.txt
                     </p>
                     <div className="mb-2">
                       <p>
                         <span className="text-primary">title:</span> {exp.title}
                       </p>
                       <p>
-                        <span className="text-primary">period:</span>{" "}
-                        {exp.period}
+                        <span className="text-primary">period:</span> {exp.period}
                       </p>
                       <p>
-                        <span className="text-primary">description:</span>{" "}
-                        {exp.description}
+                        <span className="text-primary">description:</span> {exp.description}
                       </p>
                     </div>
                   </div>
@@ -338,36 +193,55 @@ export default function AboutPage() {
                   </p>
                   <div className="mb-4">
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Master of
-                      Design in Experience Design, May 2025
+                      <span className="text-primary">degree:</span> Master of Design, Experience Design, May 2025
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> San
-                      Jose State University, San Jose, CA
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">thesis:</span> Voice-driven
-                      AI interfaces for XR environments using transformer
-                      models.
+                      <span className="text-primary">institution:</span> San José State University
                     </p>
                   </div>
                   <div>
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Bachelor of
-                      Science in Games, Interactive Media, and Mobile
+                      <span className="text-primary">degree:</span> Bachelor of Science, Games, Interactive Media & Mobile
                       Technology, May 2020
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> Boise
-                      State University, Boise, ID
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">honors:</span> Dean's List
-                      with Highest Honors, 2019 & 2020.
+                      <span className="text-primary">institution:</span> Boise State University
                     </p>
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Talks & Recognition</h2>
+            <div className="space-y-6">
+              {talksRecognition.map((item, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">recognition_{index + 1}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat talk.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {item.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span> {item.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">focus:</span> {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -464,11 +338,7 @@ export default function AboutPage() {
                         disabled={isPending}
                       />
                     </div>
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={isPending}
-                    >
+                    <Button type="submit" className="w-full" disabled={isPending}>
                       {isPending ? "Sending..." : "Send Message"}
                     </Button>
 
@@ -522,10 +392,7 @@ export default function AboutPage() {
                         //rel="noopener noreferrer"
                       >
                         <span className="w-4 h-4 flex items-center justify-center">
-                          <FontAwesomeIcon
-                            icon={faXTwitter}
-                            className="w-3 h-3"
-                          />
+                          <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
                         </span>
                         x.com/mikechaves_io
                       </Link>
@@ -545,11 +412,11 @@ export default function AboutPage() {
                       <p className="mb-1 text-primary">mail0:</p>
                       {/* Use regular anchor tag for mailto link */}
                       <Link
-                        href="mailto:mike@digitalhous.com"
+                        href="mailto:founder@gowizzo.io"
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                       >
                         <Mail size={16} />
-                        mike@digitalhous.com
+                        founder@gowizzo.io
                       </Link>
                     </div>
                   </div>

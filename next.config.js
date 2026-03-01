@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: process.env.NODE_ENV === 'production', // Only enable in production
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -8,11 +8,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["placeholder.com"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "placeholder.com",
       },
     ],
     unoptimized: true,
@@ -28,6 +27,6 @@ const nextConfig = {
     "@react-three/drei",
   ],
   // Removed the experimental.appDir option as it's now the default
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

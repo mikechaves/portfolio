@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link"
+import { Github, Linkedin, Mail } from "lucide-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
@@ -45,7 +45,7 @@ export function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="mailto:mike@digitalhous.com"
+              href="mailto:founder@gowizzo.io"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail size={20} />

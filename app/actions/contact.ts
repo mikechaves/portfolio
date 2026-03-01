@@ -1,47 +1,40 @@
-"use server";
-import { Resend } from "resend";
-
-// Initialize Resend with the API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY);
+"use server"
+import { Resend } from "resend"
 
 export async function sendContactEmail(formData: FormData) {
   try {
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const message = formData.get("message") as string;
+    // Check if Resend API key is configured
+    if (!process.env.RESEND_API_KEY) {
+      console.warn("Resend API key not configured. Contact form will not send emails.")
+      return {
+        success: false,
+        message: "Contact form is not configured. Please try again later or contact directly.",
+      }
+    }
+
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const message = formData.get("message") as string
 
     // Validate the form data
     if (!name || !email || !message) {
       return {
         success: false,
         message: "Please fill in all fields",
-      };
+      }
     }
 
-    if (!email.includes("@")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email) || /[\r\n]/.test(email)) {
       return {
         success: false,
         message: "Please enter a valid email address",
-      };
+      }
     }
 
-    // Check if we have the Resend API key
-    if (!process.env.RESEND_API_KEY) {
-      console.log("Resend API key not found. Using mock implementation.");
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Initialize Resend with the API key from environment variables
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
-      console.log("Contact form submission (mock):", {
-        name,
-        email,
-        message,
-      });
-
-      return {
-        success: true,
-        message: "Message sent successfully! We'll get back to you soon.",
-      };
-    }
 
     // Create HTML content directly instead of using React component
     const htmlContent = `
@@ -69,36 +62,36 @@ export async function sendContactEmail(formData: FormData) {
           This email was sent from the contact form on your portfolio website.
         </p>
       </div>
-    `;
+    `
 
     // Send the email using Resend with HTML content instead of React
-    // Fixed: Changed 'reply_to' to 'replyTo' to match the Resend API
+    // Ensure replies are sent to the original sender
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
-      to: ["mike@digitalhous.com"],
+      to: ["founder@gowizzo.io"],
       subject: `New contact form submission from ${name}`,
       html: htmlContent,
-      replyTo: email,
-    });
+      reply_to: email,
+    })
 
     if (error) {
-      console.error("Resend API error:", error);
+      console.error("Resend API error:", error)
       return {
         success: false,
         message: "Failed to send message. Please try again later.",
-      };
+      }
     }
 
-    console.log("Email sent successfully:", data);
+    console.log("Email sent successfully:", data)
     return {
       success: true,
       message: "Message sent successfully! We'll get back to you soon.",
-    };
+    }
   } catch (error) {
-    console.error("Server action error:", error);
+    console.error("Server action error:", error)
     return {
       success: false,
       message: "Failed to send message. Please try again later.",
-    };
+    }
   }
 }
