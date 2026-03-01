@@ -4,19 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { runAdaptiveFocus } from "@/features/adaptive-focus"
+import { ADAPTIVE_FOCUS_EXAMPLES, runAdaptiveFocus } from "@/features/adaptive-focus"
 import type { Project } from "@/types/project"
 
 const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
 const PROJECTS_LIMIT_DESKTOP = 6
-
-const ADAPTIVE_FOCUS_EXAMPLES = [
-  "I'm hiring for an AI design engineer",
-  "Show me your XR accessibility work",
-  "What would be most relevant for Adobe?",
-  "Focus on rapid prototyping and product execution",
-]
 
 const PROJECTS: Project[] = [
   {
@@ -189,7 +182,7 @@ export default function ProjectsPage() {
       return
     }
 
-    const result = runAdaptiveFocus(input, PROJECTS)
+    const result = runAdaptiveFocus({ query: input, projects: PROJECTS })
     setQuery(input)
     setDisplay(result.ranked.map((entry) => entry.project))
     setAdaptiveEnabled(true)

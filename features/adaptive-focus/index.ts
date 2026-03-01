@@ -1,15 +1,15 @@
-import type { Project } from "@/types/project"
-import { interpretAdaptiveIntent } from "./intent"
-import { rankProjectsForIntent } from "./rank"
-import { buildAdaptiveSummary } from "./summary"
-import type { AdaptiveFocusResult } from "./types"
+import { ADAPTIVE_FOCUS_EXAMPLES } from "./config/prompts"
+import { LocalAdaptiveFocusEngine } from "./adapters/local-engine"
+import type { AdaptiveFocusEngine, AdaptiveFocusRequest, AdaptiveFocusResult } from "./types"
 
-// TODO(private-extract): move this orchestration and metadata to a private package/service when sensitive weighting logic evolves.
-export function runAdaptiveFocus(input: string, projects: Project[]): AdaptiveFocusResult {
-  const intent = interpretAdaptiveIntent(input)
-  const ranked = rankProjectsForIntent(projects, intent)
-  const summary = buildAdaptiveSummary(intent)
-  return { intent, ranked, summary }
+export function createAdaptiveFocusEngine(): AdaptiveFocusEngine {
+  // TODO(private-extract): swap LocalAdaptiveFocusEngine with a private package/service adapter.
+  return new LocalAdaptiveFocusEngine()
 }
 
-export type { AdaptiveFocusResult } from "./types"
+export function runAdaptiveFocus(request: AdaptiveFocusRequest): AdaptiveFocusResult {
+  return createAdaptiveFocusEngine().run(request)
+}
+
+export { ADAPTIVE_FOCUS_EXAMPLES }
+export type { AdaptiveFocusEngine, AdaptiveFocusRequest, AdaptiveFocusResult } from "./types"
