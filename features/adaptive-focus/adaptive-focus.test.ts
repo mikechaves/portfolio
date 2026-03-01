@@ -72,11 +72,37 @@ describe("Adaptive Focus", () => {
     expect(neutralRanked[1].project.id).toBe("tie-b")
   })
 
-  it("returns a concise local summary", () => {
-    const result = runAdaptiveFocus({ query: "What would be most relevant for Adobe XR accessibility?", projects: PROJECTS })
+  it("is deterministic for the same query input", () => {
+    const query = "Show me XR accessibility work"
+    const first = runAdaptiveFocus({ query, projects: PROJECTS })
+    const second = runAdaptiveFocus({ query, projects: PROJECTS })
+
+    expect(first.intent).toEqual(second.intent)
+    expect(first.summary).toBe(second.summary)
+    expect(first.ranked.map((item) => item.project.id)).toEqual(
+      second.ranked.map((item) => item.project.id)
+    )
+  })
+
+  it("returns a concise local summary with expected themes", () => {
+    const result = runAdaptiveFocus({
+      query: "What would be most relevant for Adobe XR accessibility?",
+      projects: PROJECTS,
+    })
 
     expect(result.summary.toLowerCase()).toContain("highlight")
+    expect(result.summary.toLowerCase()).toContain("immersive")
+    expect(result.summary.toLowerCase()).toContain("accessible")
     expect(result.summary.length).toBeGreaterThan(30)
+    expect(result.summary.length).toBeLessThanOrEqual(180)
     expect(result.ranked.length).toBe(PROJECTS.length)
+  })
+
+  it("handles low-signal input with a fallback summary", () => {
+    const result = runAdaptiveFocus({ query: "hello there", projects: PROJECTS })
+
+    expect(result.intent.matchedSignals).toHaveLength(0)
+    expect(result.summary.toLowerCase()).toContain("balanced project mix")
+    expect(result.summary.length).toBeLessThanOrEqual(180)
   })
 })
