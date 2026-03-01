@@ -107,4 +107,14 @@ describe("Adaptive Focus", () => {
     expect(result.summary.toLowerCase()).toContain("balanced project mix")
     expect(result.summary.length).toBeLessThanOrEqual(180)
   })
+
+  it("handles empty input with deterministic fallback behavior", () => {
+    const result = runAdaptiveFocus({ query: "", projects: PROJECTS })
+
+    expect(result.schemaVersion).toBe("af.v1")
+    expect(result.intent.normalized).toBe("")
+    expect(result.intent.matchedSignals).toHaveLength(0)
+    expect(result.summary.toLowerCase()).toContain("balanced project mix")
+    expect(result.ranked).toHaveLength(PROJECTS.length)
+  })
 })
