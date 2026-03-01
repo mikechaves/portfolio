@@ -1,11 +1,19 @@
 import { BlogCard } from "@/components/blog-card"
+import { FocusContextBadge } from "@/components/focus-context-badge"
 import { posts } from "@/lib/posts"
 
-export default function BlogPage() {
+interface BlogPageProps {
+  searchParams?: Promise<{ focus?: string }>
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const resolvedSearchParams = (await searchParams) ?? {}
+  const focus = resolvedSearchParams.focus?.trim() ?? ""
 
   return (
     <div className="space-y-8 pt-8">
       <h1 className="sr-only">Blog</h1>
+      {focus && <FocusContextBadge focus={focus} />}
       <div className="terminal-window">
         <div className="terminal-header">
           <div className="terminal-button terminal-button-red"></div>

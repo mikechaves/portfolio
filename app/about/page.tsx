@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent, useTransition } from "react"
+import { useEffect, useState, type FormEvent, useTransition } from "react"
 import { Terminal } from "@/components/terminal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
@@ -17,6 +17,7 @@ config.autoAddCss = false
 import { sendContactEmail } from "@/app/actions/contact"
 import { useToast } from "@/hooks/use-toast"
 import { experiences, volunteerExperiences, skills } from "./data"
+import { FocusContextBadge } from "@/components/focus-context-badge"
 
 export default function AboutPage() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -30,6 +31,13 @@ export default function AboutPage() {
     message: null,
   })
   const { toast } = useToast()
+  const [focus, setFocus] = useState("")
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const query = new URLSearchParams(window.location.search).get("focus")
+    if (query) setFocus(query)
+  }, [])
 
   // Data arrays are imported from ./data to keep them outside the component
 
@@ -80,6 +88,7 @@ export default function AboutPage() {
   return (
     <div className="space-y-16 pt-8">
       <h1 className="sr-only">About Mike Chaves</h1>
+      {focus && <FocusContextBadge focus={focus} />}
       <section>
         <Terminal
           text="Initializing personal profile... Access granted. Loading bio data..."
