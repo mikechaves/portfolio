@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -132,6 +132,31 @@ export default function ProjectsPage() {
   const skipFilterEffect = useRef(false)
   const didHydrateFocusRef = useRef(false)
 
+  const handleAdaptiveFocus = useCallback((value?: string) => {
+    const input = (value ?? query).trim()
+    if (activeFilter !== "all") {
+      skipFilterEffect.current = true
+      setActiveFilter("all")
+    }
+
+    if (!input) {
+      setQuery("")
+      setDisplay(PROJECTS)
+      setAdaptiveEnabled(false)
+      setAdaptiveSummary("")
+      setShowAll(false)
+      return
+    }
+
+    const result = runAdaptiveFocus({ query: input, projects: PROJECTS })
+    setQuery(input)
+    setDisplay(result.ranked.map((entry) => entry.project))
+    setAdaptiveEnabled(true)
+    setAdaptiveSummary(result.summary)
+    setShowAll(false)
+  }, [activeFilter, query])
+
+
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`)
 
@@ -164,7 +189,7 @@ export default function ProjectsPage() {
     didHydrateFocusRef.current = true
     setQuery(focus)
     handleAdaptiveFocus(focus)
-  }, [])
+  }, [handleAdaptiveFocus])
 
   useEffect(() => {
     if (skipFilterEffect.current) {
@@ -177,30 +202,6 @@ export default function ProjectsPage() {
     setAdaptiveSummary("")
     setShowAll(false)
   }, [activeFilter, filteredProjects])
-
-  const handleAdaptiveFocus = (value?: string) => {
-    const input = (value ?? query).trim()
-    if (activeFilter !== "all") {
-      skipFilterEffect.current = true
-      setActiveFilter("all")
-    }
-
-    if (!input) {
-      setQuery("")
-      setDisplay(PROJECTS)
-      setAdaptiveEnabled(false)
-      setAdaptiveSummary("")
-      setShowAll(false)
-      return
-    }
-
-    const result = runAdaptiveFocus({ query: input, projects: PROJECTS })
-    setQuery(input)
-    setDisplay(result.ranked.map((entry) => entry.project))
-    setAdaptiveEnabled(true)
-    setAdaptiveSummary(result.summary)
-    setShowAll(false)
-  }
 
   const handleReset = () => {
     setQuery("")
