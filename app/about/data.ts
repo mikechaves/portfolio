@@ -1,134 +1,126 @@
 // Static list of professional experience entries
 export const experiences = [
   {
-    title: "Founder & CEO",
+    title: "UGC Engineer (Contract)",
+    company: "Astrocade_AI",
+    period: "November 2025 - Present",
+    description:
+      "Own the end-to-end UGC moderation pipeline, including auto-review logic, QA curation tooling, final review queue behavior, and creator feedback ingestion, supporting daily publishing with a one-day review turnaround target. Designed and operate precision and recall calibration systems to reduce false and repeat rejections and improve moderation accuracy across human review layers. Identify and resolve systemic bottlenecks across automation and human workflows, shipping backend and tooling fixes that improve throughput, reduce latency, and increase review consistency. Lead recurring calibration audits and documentation updates to reduce ambiguity between system enforcement logic and human reviewer judgment.",
+  },
+  {
+    title: "Founder & Full-Stack Product Engineer",
     company: "Wizzo_Labs_Inc",
-    period: "June 2025 - Present",
+    period: "August 2025 - Present",
     description:
-      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI, and web interfaces, while leading fundraising, strategy, and early team formation. Focused on creating accessible, adaptive tools that empower individuals and teams to reach their goals.",
+      "Architected and launched a production AI platform from concept through public beta, designing the full application stack and deployment pipeline. Built a Next.js 15 and TypeScript front end with a Python-backed AI layer, implementing evaluation harnesses to test and iterate on LLM-driven features with measurable baselines. Designed structured AI workflows using retrieval pipelines and tool orchestration, incorporating explicit controls and human-in-the-loop review to improve reliability and reduce model error.",
   },
   {
-    title: "Founder",
-    company: "Digital_Hous_LLC",
-    period: "January 2023 - Present",
+    title: "Founder & Creative Technologist",
+    company: "Digitalhous_LLC",
+    period: "January 2023 - August 2025",
     description:
-      "Founded Digitalhous, an independent design studio offering UX, XR, and creative technology consulting. Delivering occasional client work in web, app, and digital product design while maintaining it as a boutique outlet, with primary focus now on Wizzo Labs.",
+      "Operated an independent design and technology studio delivering UX, web, and interactive projects for early-stage clients and small businesses. Built high-fidelity web and product prototypes, translating design concepts into functional front-end implementations. Maintained Digitalhous as a boutique outlet while completing a Master of Design and transitioning into AI-focused product and systems work.",
   },
   {
-    title: "AI Expert Contributor",
-    company: "Snorkel_AI",
-    period: "April 2025 - Present",
+    title: "Lead UX/UI Designer III (Contract)",
+    company: "Starbucks",
+    period: "March 2022 - December 2022",
     description:
-      "Authoring and validating graduate-level problems to test and enhance large language model fluency and reasoning. Contributed to proprietary datasets for fine-tuning and benchmarking AI models while collaborating with researchers to evaluate models and share insights on generative AI potential.",
+      "Designed immersive VR and mobile internal tools for high-priority learning and operations modules, utilizing user research to drive simulation fidelity. Partnered with ML engineers to prototype AI-enhanced simulations, leading to measurable improvements in task completion via targeted usability testing.",
   },
   {
-    title: "Lead UX/UI Designer",
-    company: "Starbucks_Corporation",
-    period: "April 2022 - December 2022",
-    description:
-      "Designed immersive VR and mobile internal tools to improve task clarity and user flow across core modules. Conducted over 10 usability sessions and iterative design sprints to enhance usability and user satisfaction while partnering with cross-functional teams to integrate multimodal interaction and creative technology concepts into product development.",
-  },
-  {
-    title: "UX/UI Design Engineer, Unity",
+    title: "Software Engineer II (Unity) (Contract)",
     company: "Ford_Motor_Company",
     period: "October 2021 - March 2022",
     description:
-      "Developed Unity3D time study validation internal tools deployed across 10+ countries, saving over $1M annually. Designed intuitive interfaces that reduced data-entry time by 40% while creating WebGL dashboards for factory analytics with integrated ML components and custom shaders for real-time visualization and interaction performance.",
+      "Developed a Unity3D time-study tool deployed globally, contributing to over $1M in annual operational savings per plant. Built WebGL dashboards for factory analytics using custom shaders, reducing data-entry time by 40%.",
   },
   {
-    title: "UX/UI Design Engineer",
+    title: "Frontend Engineer",
     company: "POWER_Engineers",
     period: "June 2020 - October 2021",
     description:
-      "Led design of GeoVoice, a web and VR platform for spatial storytelling, increasing stakeholder engagement by 60%. Developed responsive interfaces and interactive prototypes for geospatial and data-rich tools across web, AR, and VR while building visualizations that translated engineering data into actionable dashboards, enhancing user decision-making.",
+      "Led design and development of GeoVoice, a web and VR platform for spatial storytelling, increasing stakeholder engagement by 60%. Developed responsive interfaces and interactive prototypes for geospatial and data-rich tools across web, AR, and VR.",
   },
   {
     title: "Creative Director",
     company: "Knitting_Factory_Entertainment",
     period: "August 2008 - January 2016",
     description:
-      "Directed digital projects across five venues and media platforms, managing branding and creative direction. Managed creative teams and project lifecycles, ensuring consistent visual identity and timely delivery while leading redesign of the ticketing platform, increasing conversions by 25%.",
+      "Directed digital projects and creative teams across five venues, ensuring a consistent visual identity and brand strategy. Led the redesign of the ticketing platform, resulting in a 25% increase in conversion rates.",
   },
 ];
 
 export const volunteerExperiences = [
   {
-    title: "Co-Founder and Team Lead",
+    title: "Spectacles Student Accelerator",
     company: "Snap_Inc",
     period: "January 2025 - May 2025",
-    description: "Selected for Snap Spectacles Accelerator program, prototyped voice-first AR interactions for hands-free and accessible experiences while pitching for pre-seed funding.",
-  },
-  {
-    title: "UX Design Research Fellow",
-    company: "LePal_AI",
-    period: "August 2024 - October 2024",
-    description: "Led usability testing and helped redesign interactions for digital health tools.",
+    description:
+      "Built voice-first AR experiences for accessibility as part of Snap’s Spectacles Student Accelerator Program.",
   },
   {
     title: "Campus Strategist",
     company: "Perplexity_AI_Inc",
     period: "August 2024 - January 2025",
-    description: "Created awareness and adoption strategies for GenAI-powered academic tools.",
+    description: "Led academic adoption efforts for generative AI search tools.",
   },
   {
     title: "Student Ambassador",
     company: "Adobe_Inc",
     period: "February 2024 - October 2024",
-    description: "Delivered workshops on Adobe Express and Firefly to promote creative AI tool.",
+    description: "Ran creative AI workshops and product demos for student communities.",
+  },
+  {
+    title: "UX Design Research Fellow",
+    company: "LePal_AI",
+    period: "August 2024 - December 2024",
+    description: "Contributed to digital health experience redesign through UX research and testing.",
   },
 ];
 
 export const skills = [
   {
-    category: "AI & Machine Learning",
-    items: [
-      "LLM Fine-tuning",
-      "Transformer Models",
-      "Reinforcement Learning",
-      "LangChain",
-      "Natural Language Processing",
-      "Open-Source LLMs (Llama, Gemma)",
-    ],
+    category: "Prototyping & Front-End",
+    items: ["Next.js 15", "React", "TypeScript", "JavaScript", "WebGL"],
   },
   {
-    category: "Design & Integration",
-    items: [
-      "User-Centered Design",
-      "Interaction Design",
-      "UI/UX Design",
-      "Prototyping",
-      "AR/VR Interfaces",
-      "Accessibility",
-    ],
+    category: "AI & Emerging Tech",
+    items: ["Python", "LLM APIs", "RAG pipelines", "Agentic workflows", "Voice UI"],
   },
   {
-    category: "Programming",
-    items: ["Python (PyTorch, TensorFlow)", "JavaScript/TypeScript", "React/Next.js", "C# (Unity)", "HTML/CSS"],
+    category: "XR & Spatial Computing",
+    items: ["Unity3D", "C#", "AR/VR Interaction Design", "Custom Shaders", "3D Modeling"],
   },
   {
-    category: "Research & Data",
-    items: ["User Research", "Usability Testing", "A/B Testing", "Data Visualization", "Statistical Analysis"],
+    category: "Cloud & Infrastructure",
+    items: ["Vercel", "Cloudflare Workers", "GitHub Actions", "REST APIs", "GCP", "AWS"],
   },
   {
-    category: "Immersive Technologies",
-    items: ["AR/VR Development", "Spatial Computing", "Voice UI", "Gesture Control", "XR Accessibility"],
+    category: "Design & Research",
+    items: ["Interaction Design", "Design Systems", "Usability Testing", "Accessibility"],
+  },
+];
+
+export const talksRecognition = [
+  {
+    title: "Guest, XReality Podcast",
+    period: "November 2025",
+    description: "AI-assisted accessibility and voice-first XR",
   },
   {
-    category: "Development Tools",
-    items: ["Unity3D", "Git/GitHub", "Vercel", "Docker", "GitHub Copilot"],
+    title: "Panelist, Futures Summit 2025",
+    period: "2025",
+    description: "Synthetic AI companions",
   },
   {
-    category: "Design & Productivity",
-    items: ["Figma", "Adobe Creative Suite", "Jupyter Notebooks", "Notion", "Hugging Face"],
+    title: "Presenter, XR Access Symposium 2024",
+    period: "2024",
+    description: "Voice-driven mixed reality",
   },
   {
-    category: "Leadership",
-    items: [
-      "Team Leadership",
-      "Project Management",
-      "Agile Methodology",
-      "Client Relations",
-      "Cross-functional Collaboration",
-    ],
+    title: "Host, Adobe Experiential Horizons 2023",
+    period: "2023",
+    description: "Demo showcase",
   },
 ];

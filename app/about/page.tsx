@@ -16,7 +16,7 @@ config.autoAddCss = false
 
 import { sendContactEmail } from "@/app/actions/contact"
 import { useToast } from "@/hooks/use-toast"
-import { experiences, volunteerExperiences, skills } from "./data"
+import { experiences, volunteerExperiences, skills, talksRecognition } from "./data"
 import { FocusContextBadge } from "@/components/focus-context-badge"
 
 export default function AboutPage() {
@@ -99,7 +99,7 @@ export default function AboutPage() {
 
         {introComplete && (
           <Terminal
-            text="Hello, I'm MIKE_CHAVES. I blend technical expertise with creative innovation to deliver accessible, immersive digital experiences. I graduated with my Master of Design in Experience Design from San Jose State University in May 2025, and I lead my team in Snap Inc's Spectacles Accelerator Program."
+            text="Hello, I'm MIKE_CHAVES. Creative Technologist and AI Systems & Workflow Engineer focused on human-in-the-loop AI workflows, moderation infrastructure, and evaluation frameworks. I design production systems that combine automation, structured measurement, and human judgment to improve quality and throughput."
             typingSpeed={20}
             className="max-w-3xl mx-auto mt-4"
             showPrompt={false}
@@ -190,30 +190,55 @@ export default function AboutPage() {
                   </p>
                   <div className="mb-4">
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Master of Design in Experience Design, May 2025
+                      <span className="text-primary">degree:</span> Master of Design, Experience Design, May 2025
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> San Jose State University, San Jose, CA
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">thesis:</span> Voice-driven AI interfaces for XR environments using
-                      transformer models.
+                      <span className="text-primary">institution:</span> San José State University
                     </p>
                   </div>
                   <div>
                     <p className="mb-2">
-                      <span className="text-primary">degree:</span> Bachelor of Science in Games, Interactive Media, and
-                      Mobile Technology, May 2020
+                      <span className="text-primary">degree:</span> Bachelor of Science, Games, Interactive Media & Mobile
+                      Technology, May 2020
                     </p>
                     <p className="mb-2">
-                      <span className="text-primary">institution:</span> Boise State University, Boise, ID
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">honors:</span> Dean's List with Highest Honors, 2019 & 2020.
+                      <span className="text-primary">institution:</span> Boise State University
                     </p>
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Talks & Recognition</h2>
+            <div className="space-y-6">
+              {talksRecognition.map((item, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">recognition_{index + 1}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat talk.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {item.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span> {item.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">focus:</span> {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
