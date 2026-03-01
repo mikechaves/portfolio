@@ -10,6 +10,11 @@ export type AdaptiveSignal =
   | "prototyping"
   | "data-viz"
 
+export interface AdaptiveFocusRequest {
+  query: string
+  projects: Project[]
+}
+
 export interface ProjectFocusMetadata {
   id: Project["id"]
   tags: string[]
@@ -39,4 +44,8 @@ export interface AdaptiveFocusResult {
   intent: AdaptiveIntent
   ranked: RankedProject[]
   summary: string
+}
+
+export interface AdaptiveFocusEngine {
+  run(request: AdaptiveFocusRequest): AdaptiveFocusResult
 }

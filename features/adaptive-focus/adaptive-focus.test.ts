@@ -1,6 +1,6 @@
 import { runAdaptiveFocus } from "./index"
-import { interpretAdaptiveIntent } from "./intent"
-import { rankProjectsForIntent } from "./rank"
+import { parseIntent } from "./core/intent"
+import { rankProjects } from "./core/ranking"
 import type { Project } from "@/types/project"
 
 const PROJECTS: Project[] = [
@@ -32,7 +32,7 @@ const PROJECTS: Project[] = [
 
 describe("Adaptive Focus", () => {
   it("interprets multi-signal natural language intent", () => {
-    const intent = interpretAdaptiveIntent("I'm hiring for an AI design engineer focused on accessibility")
+    const intent = parseIntent("I'm hiring for an AI design engineer focused on accessibility")
 
     expect(intent.matchedSignals).toEqual(
       expect.arrayContaining(["ai", "design-engineering", "accessibility"])
@@ -42,8 +42,8 @@ describe("Adaptive Focus", () => {
   })
 
   it("ranks projects deterministically with stable tie ordering", () => {
-    const intent = interpretAdaptiveIntent("show me xr accessibility")
-    const ranked = rankProjectsForIntent(PROJECTS, intent)
+    const intent = parseIntent("show me xr accessibility")
+    const ranked = rankProjects(PROJECTS, intent)
 
     expect(ranked[0].project.id).toBe("speakeasy")
 
@@ -66,14 +66,14 @@ describe("Adaptive Focus", () => {
       },
     ]
 
-    const neutralIntent = interpretAdaptiveIntent("unmatched phrase")
-    const neutralRanked = rankProjectsForIntent(tieProjects, neutralIntent)
+    const neutralIntent = parseIntent("unmatched phrase")
+    const neutralRanked = rankProjects(tieProjects, neutralIntent)
     expect(neutralRanked[0].project.id).toBe("tie-a")
     expect(neutralRanked[1].project.id).toBe("tie-b")
   })
 
   it("returns a concise local summary", () => {
-    const result = runAdaptiveFocus("What would be most relevant for Adobe XR accessibility?", PROJECTS)
+    const result = runAdaptiveFocus({ query: "What would be most relevant for Adobe XR accessibility?", projects: PROJECTS })
 
     expect(result.summary.toLowerCase()).toContain("highlight")
     expect(result.summary.length).toBeGreaterThan(30)
