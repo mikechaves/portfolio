@@ -117,4 +117,35 @@ describe("Adaptive Focus", () => {
     expect(result.summary.toLowerCase()).toContain("balanced project mix")
     expect(result.ranked).toHaveLength(PROJECTS.length)
   })
+
+  it("maps company-only input into signals that affect ranking", () => {
+    const companyProjects: Project[] = [
+      {
+        id: "material-explorer",
+        title: "Material Explorer",
+        description: "Creative tech and rapid prototyping for 3D interfaces.",
+        image: "/material-explorer.png",
+        technologies: ["Three.js", "React", "Prototype"],
+        category: "web",
+      },
+      {
+        id: "apt-plus",
+        title: "APT+",
+        description: "Manufacturing workflow optimization.",
+        image: "/apt-plus.png",
+        technologies: ["Process", "Optimization"],
+        category: "design",
+      },
+    ]
+
+    const result = runAdaptiveFocus({ query: "Adobe", projects: companyProjects })
+
+    expect(result.intent.matchedSignals.length).toBeGreaterThan(0)
+    expect(result.ranked[0].project.id).toBe("material-explorer")
+
+    const second = runAdaptiveFocus({ query: "Adobe", projects: companyProjects })
+    expect(result.ranked.map((entry) => entry.project.id)).toEqual(
+      second.ranked.map((entry) => entry.project.id)
+    )
+  })
 })

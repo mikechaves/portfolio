@@ -1,54 +1,23 @@
 import type { Project } from "@/types/project"
+import type {
+  AdaptiveFocusEngine as CoreAdaptiveFocusEngine,
+  AdaptiveFocusRequest as CoreAdaptiveFocusRequest,
+  AdaptiveFocusResult as CoreAdaptiveFocusResult,
+  AdaptiveIntent,
+  AdaptiveSignal,
+  ProjectFocusMetadata as CoreProjectFocusMetadata,
+  RankedProject as CoreRankedProject,
+} from "../../packages/adaptive-focus-core/src/types"
 
-export type AdaptiveSignal =
-  | "ai"
-  | "xr"
-  | "accessibility"
-  | "design-engineering"
-  | "creative-tech"
-  | "product"
-  | "prototyping"
-  | "data-viz"
+export { ADAPTIVE_FOCUS_SCHEMA_VERSION } from "../../packages/adaptive-focus-core/src/types"
 
-export interface AdaptiveFocusRequest {
-  query: string
-  projects: Project[]
-}
-
-export interface ProjectFocusMetadata {
+export type ProjectFocusMetadata = Omit<CoreProjectFocusMetadata, "id"> & {
   id: Project["id"]
-  tags: string[]
-  signals: AdaptiveSignal[]
-  weight?: number
 }
 
-export interface AdaptiveIntent {
-  raw: string
-  normalized: string
-  matchedSignals: AdaptiveSignal[]
-  matchedTags: string[]
-  inferredAudience?: string
-  confidence: number
-  reasons: string[]
-}
+export type RankedProject = CoreRankedProject<Project>
+export type AdaptiveFocusRequest = CoreAdaptiveFocusRequest<Project>
+export type AdaptiveFocusResult = CoreAdaptiveFocusResult<Project>
+export type AdaptiveFocusEngine = CoreAdaptiveFocusEngine<Project>
 
-export interface RankedProject {
-  project: Project
-  score: number
-  matchedSignals: AdaptiveSignal[]
-  matchedTags: string[]
-  reasons: string[]
-}
-
-export const ADAPTIVE_FOCUS_SCHEMA_VERSION = "af.v1" as const
-
-export interface AdaptiveFocusResult {
-  schemaVersion: typeof ADAPTIVE_FOCUS_SCHEMA_VERSION
-  intent: AdaptiveIntent
-  ranked: RankedProject[]
-  summary: string
-}
-
-export interface AdaptiveFocusEngine {
-  run(request: AdaptiveFocusRequest): AdaptiveFocusResult
-}
+export type { AdaptiveIntent, AdaptiveSignal }
