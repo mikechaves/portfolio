@@ -7,6 +7,9 @@ import { ProjectCard } from "@/components/project-card"
 import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ADAPTIVE_FOCUS_EXAMPLES } from "@/features/adaptive-focus"
 import dynamic from "next/dynamic"
 const HeroBackground = dynamic(
   () => import("@/components/hero-background").then((m) => m.HeroBackground),
@@ -126,6 +129,7 @@ const allProjects = [
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
+  const [focusQuery, setFocusQuery] = useState("")
 
   const featuredProjects = [
     {
@@ -204,6 +208,49 @@ export default function Home() {
             </Link>
           </div>
         )}
+      </section>
+
+      <section className="space-y-4">
+        <div className="terminal-window">
+          <div className="terminal-header">
+            <div className="terminal-button terminal-button-red"></div>
+            <div className="terminal-button terminal-button-yellow"></div>
+            <div className="terminal-button terminal-button-green"></div>
+            <div className="terminal-title">adaptive_focus.sh</div>
+          </div>
+          <div className="terminal-content space-y-3">
+            <p className="text-sm text-muted-foreground">Describe what you want to evaluate and jump into a focused projects view.</p>
+            <form
+              className="flex flex-col sm:flex-row gap-2"
+              onSubmit={(e) => {
+                e.preventDefault()
+                const q = focusQuery.trim()
+                if (!q) return
+                window.location.href = `/projects?focus=${encodeURIComponent(q)}`
+              }}
+            >
+              <Input
+                value={focusQuery}
+                onChange={(e) => setFocusQuery(e.target.value)}
+                placeholder="e.g. I'm hiring for an AI design engineer"
+                className="flex-1"
+              />
+              <Button type="submit">Focus Projects</Button>
+            </form>
+            <div className="flex flex-wrap gap-2">
+              {ADAPTIVE_FOCUS_EXAMPLES.slice(0, 3).map((example) => (
+                <button
+                  key={example}
+                  type="button"
+                  onClick={() => (window.location.href = `/projects?focus=${encodeURIComponent(example)}`)}
+                  className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       <section>
