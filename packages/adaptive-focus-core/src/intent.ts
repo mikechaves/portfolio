@@ -1,5 +1,5 @@
-import { AUDIENCE_HINTS, SIGNAL_PHRASES } from "../config/lexicon"
-import type { AdaptiveIntent, AdaptiveSignal } from "../types"
+import { AUDIENCE_HINTS, SIGNAL_PHRASES } from "./lexicon"
+import type { AdaptiveIntent, AdaptiveSignal } from "./types"
 
 export function normalizeIntentInput(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim()
@@ -13,7 +13,7 @@ export function parseIntent(rawInput: string): AdaptiveIntent {
 
   for (const entry of SIGNAL_PHRASES) {
     const matchedTerms = entry.terms.filter((term) => normalized.includes(term))
-    if (matchedTerms.length === 0) continue
+    if (!matchedTerms.length) continue
     matchedSignals.add(entry.signal)
     matchedTerms.forEach((term) => matchedTags.add(term))
     reasons.push(`${entry.signal} via ${matchedTerms.join(", ")}`)
