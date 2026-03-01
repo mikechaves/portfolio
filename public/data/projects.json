@@ -498,26 +498,27 @@
   "material-explorer": {
     "title": "Material Explorer",
     "category": "web",
-    "description": "Material Explorer is an interactive web application that allows users to create, customize, and visualize 3D materials in real-time. Built with Three.js and React Three Fiber, this tool provides immediate visual feedback on material property changes such as color, metalness, and roughness, making it ideal for designers, developers, and 3D artists.",
+    "description": "Material Explorer is a production-minded interactive web app for creating, comparing, and sharing physically based 3D materials in real time. Built with React + Three.js/React Three Fiber, it now includes autosave/restore, A/B compare, texture workflows, draft history, and shareable presets for rapid iteration.",
     "image": "/projects/material-explorer/main-image.png",
     "technologies": [
       "TypeScript",
-      "React",
+      "React 19",
       "Three.js",
       "React Three Fiber",
-      "WebGL"
+      "Vite 7",
+      "Playwright"
     ],
     "github": "https://github.com/mikechaves/material-explorer",
     "demo": "https://mikechaves.github.io/material-explorer/",
     "gallery": [],
     "details": {
       "client": "Personal Project",
-      "date": "January 2023",
+      "date": "2026 (active)",
       "category": "Web Development",
       "services": [
-        "3D Web Development",
-        "UI/UX Design",
-        "Interactive Tools"
+        "Product Design + Frontend Engineering",
+        "Interactive 3D Tooling",
+        "Developer Experience"
       ],
       "situation": [
         {
@@ -553,38 +554,34 @@
       ],
       "actions": [
         {
-          "title": "Technical Implementation",
-          "description": "Developed the application using TypeScript, React, and Three.js with React Three Fiber for 3D rendering. Implemented a state management system to handle material property changes and updates."
+          "title": "Built a full PBR material lab",
+          "description": "Implemented real-time controls for color, metalness, roughness, emissive, clearcoat, transmission/IOR, opacity, and texture-map channels with instant preview updates."
         },
         {
-          "title": "User Interface Design",
-          "description": "Created an intuitive UI with clear controls for adjusting material properties such as color, metalness, roughness, and more. Designed the layout to provide a large preview area alongside easily accessible controls."
+          "title": "Shipped rapid-iteration workflows",
+          "description": "Added draft autosave/restore, undo/redo history, compare mode, duplicate/randomize utilities, and draft JSON import/export to speed creative exploration."
         },
         {
-          "title": "Performance Optimization",
-          "description": "Implemented efficient rendering techniques to ensure smooth performance, even when making rapid changes to material properties. Optimized the application for various devices and browsers."
+          "title": "Improved sharing and portability",
+          "description": "Added shareable URLs for material state, JSON import/export, and GLB export options for better collaboration and reuse."
         },
         {
-          "title": "User Testing & Iteration",
-          "description": "Conducted user testing with both developers and designers to refine the interface and workflow. Iterated on the design based on feedback to improve usability and functionality."
+          "title": "Hardened quality for ongoing delivery",
+          "description": "Set up CI quality gates (format, lint, type-check, tests, build, bundle checks, Playwright e2e) and tightened release/README hygiene for maintainability."
         }
       ],
       "results": [
         {
-          "title": "Overview",
-          "description": "Material Explorer successfully bridges the gap between technical implementation and visual design for 3D materials on the web:"
+          "title": "Faster iteration loops",
+          "description": "Reduced friction for testing material ideas by combining real-time preview with autosave, history, and one-click power tools."
         },
         {
-          "title": "Intuitive Material Customization",
-          "description": "Users can easily create and customize materials with immediate visual feedback, making the process more accessible and efficient."
+          "title": "Portfolio-ready engineering signal",
+          "description": "Demonstrates modern React/TypeScript architecture, 3D interaction design, and disciplined shipping practices in an actively maintained repo."
         },
         {
-          "title": "Responsive Design",
-          "description": "The application works seamlessly across various devices and screen sizes, ensuring a consistent experience for all users."
-        },
-        {
-          "title": "Educational Value",
-          "description": "Beyond its practical utility, Material Explorer serves as an educational tool for understanding how different material properties affect the appearance of 3D objects."
+          "title": "Better project communication",
+          "description": "Live demo + GitHub source + structured project narrative make the work easier for recruiters and hiring teams to evaluate quickly."
         }
       ]
     }

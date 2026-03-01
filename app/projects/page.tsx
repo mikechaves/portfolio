@@ -107,9 +107,9 @@ export default function ProjectsPage() {
       id: "material-explorer",
       title: "Material Explorer",
       description:
-        "An interactive web application for creating, customizing, and visualizing 3D materials in real-time using Three.js and React Three Fiber.",
+        "An actively maintained 3D material lab with real-time PBR editing, A/B compare, autosave, and share/export workflows built with React + Three.js.",
       image: "/projects/material-explorer/main-image.png?height=400&width=600",
-      technologies: ["TypeScript", "React", "Three.js", "WebGL"],
+      technologies: ["TypeScript", "React 19", "Three.js", "React Three Fiber"],
       category: "web" as const,
     },
     {
