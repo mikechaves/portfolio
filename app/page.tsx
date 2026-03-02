@@ -27,6 +27,15 @@ import { RecentHighlights } from "@/components/recent-highlights"
 
 const allProjects = [
   {
+    id: "astrocade-qa-calibration-tool",
+    title: "Astrocade QA Calibration Tool",
+    description:
+      "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+    image: "/projects/astrocade/main-image.png?height=400&width=600",
+    technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+    category: "development" as const,
+  },
+  {
     id: "wizzo",
     title: "Wizzo",
     description:
@@ -132,6 +141,15 @@ export default function Home() {
   const [focusQuery, setFocusQuery] = useState("")
 
   const featuredProjects = [
+    {
+      id: "astrocade-qa-calibration-tool",
+      title: "Astrocade QA Calibration Tool",
+      description:
+        "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+      image: "/projects/astrocade/main-image.png?height=400&width=600",
+      technologies: ["Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+      category: "development" as const,
+    },
     {
       id: "wizzo",
       title: "Wizzo",
