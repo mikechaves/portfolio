@@ -1534,6 +1534,37 @@ const applyTransforms = () => {
         </div>
       </header>
 
+      {/* Mobile dropdown menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.16 }}
+            className="md:hidden border-b border-border/40 bg-black/95 backdrop-blur-sm"
+          >
+            <ul className="container mx-auto px-4 py-3 space-y-2">
+              {navItems.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    href={item.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block px-2 py-2 rounded-md transition-colors ${
+                      pathname === item.path
+                        ? "text-primary bg-primary/10"
+                        : "text-white hover:text-primary hover:bg-white/5"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Overlay navigation (The Street) */}
       <motion.nav
         aria-label="Metaverse navigation"
