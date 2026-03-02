@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { ADAPTIVE_FOCUS_EXAMPLES, runAdaptiveFocus } from "@/features/adaptive-focus"
 import { PROJECTS } from "@/data/projects"
 import type { Project } from "@/types/project"
+import { NeonSeparator } from "@/components/neon-separator"
 
 const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
@@ -127,6 +128,8 @@ export default function ProjectsPage() {
           <p className="text-xs text-muted-foreground">Adaptive Focus is now available for natural-language personalization.</p>
         </div>
       </div>
+
+      <NeonSeparator intensity="medium" />
 
       <div className="flex flex-wrap gap-2">
         {CATEGORIES.map((category) => (

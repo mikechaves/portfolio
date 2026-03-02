@@ -18,6 +18,7 @@ import { sendContactEmail } from "@/app/actions/contact"
 import { useToast } from "@/hooks/use-toast"
 import { experiences, volunteerExperiences, skills, talksRecognition } from "./data"
 import { FocusContextBadge } from "@/components/focus-context-badge"
+import { NeonSeparator } from "@/components/neon-separator"
 
 export default function AboutPage() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -99,7 +100,7 @@ export default function AboutPage() {
 
         {introComplete && (
           <Terminal
-            text="Hello, I'm MIKE_CHAVES. Creative Technologist and AI Systems & Workflow Engineer focused on human-in-the-loop AI workflows, moderation infrastructure, and evaluation frameworks. I design production systems that combine automation, structured measurement, and human judgment to improve quality and throughput."
+            text="I’m an AI-native product and experience engineer focused on forward-deployed execution inside complex organizations. I work across product, design, and engineering to take ambiguous ideas from prototype to production—fast, with measurable impact."
             typingSpeed={20}
             className="max-w-3xl mx-auto mt-4"
             showPrompt={false}
@@ -110,6 +111,7 @@ export default function AboutPage() {
 
       {bioComplete && (
         <>
+          <NeonSeparator intensity="high" />
           <section>
             <h2 className="text-2xl font-bold mb-6">Professional Experience</h2>
             <div className="space-y-6">

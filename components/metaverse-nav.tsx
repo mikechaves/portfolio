@@ -1409,9 +1409,9 @@ export function MetaverseNav() {
   }, [])
 
   const navItems = [
-    { name: "home", path: "/" },
-    { name: "projects", path: "/projects" },
-    { name: "blog", path: "/blog" },
+    { name: "impact", path: "/" },
+    { name: "systems", path: "/projects" },
+    { name: "writing", path: "/blog" },
     { name: "about", path: "/about" },
   ]
 

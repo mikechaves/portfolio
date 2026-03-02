@@ -24,6 +24,7 @@ const HeroBackground = dynamic(
   }
 )
 import { RecentHighlights } from "@/components/recent-highlights"
+import { NeonSeparator } from "@/components/neon-separator"
 
 const allProjects = [
   {
@@ -202,7 +203,7 @@ export default function Home() {
       <section className="py-12 relative">
         <HeroBackground />
         <Terminal
-          text="Hello, World. I am MIKE_CHAVES. I design immersive, user-centered experiences that push boundaries."
+          text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
           typingSpeed={40}
           className="max-w-3xl mx-auto"
           onComplete={() => setIntroComplete(true)}
@@ -214,11 +215,31 @@ export default function Home() {
               href="/about"
               className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
             >
-              Learn more about me <ArrowRight size={16} />
+View Impact <ArrowRight size={16} />
             </Link>
           </div>
         )}
       </section>
+
+      <NeonSeparator intensity="low" />
+
+      <section className="terminal-window">
+        <div className="terminal-header">
+          <div className="terminal-button terminal-button-red"></div>
+          <div className="terminal-button terminal-button-yellow"></div>
+          <div className="terminal-button terminal-button-green"></div>
+          <div className="terminal-title">what_im_built_for.sh</div>
+        </div>
+        <div className="terminal-content space-y-2">
+          <h2 className="text-xl font-bold">What I’m Built For</h2>
+          <p><span className="text-primary">$</span> Forward-deployed AI engineering</p>
+          <p><span className="text-primary">$</span> 0→1 prototyping and production hardening</p>
+          <p><span className="text-primary">$</span> Product + design + engineering alignment</p>
+          <p><span className="text-primary">$</span> Shipping measurable outcomes under ambiguity</p>
+        </div>
+      </section>
+
+      <NeonSeparator intensity="medium" />
 
       <section className="space-y-4">
         <div className="terminal-window">
@@ -229,7 +250,7 @@ export default function Home() {
             <div className="terminal-title">adaptive_focus.sh</div>
           </div>
           <div className="terminal-content space-y-3">
-            <p className="text-sm text-muted-foreground">Describe what you want to evaluate and jump into a focused projects view.</p>
+            <p className="text-sm text-muted-foreground">I build AI-native product systems from prototype to production across design, engineering, and execution.</p>
             <form
               className="flex flex-col sm:flex-row gap-2"
               onSubmit={(e) => {
@@ -242,10 +263,10 @@ export default function Home() {
               <Input
                 value={focusQuery}
                 onChange={(e) => setFocusQuery(e.target.value)}
-                placeholder="e.g. I'm hiring for an AI design engineer"
+                placeholder="e.g. I'm hiring for a forward-deployed AI engineer"
                 className="flex-1"
               />
-              <Button type="submit">Focus Projects</Button>
+              <Button type="submit">Show Role Fit</Button>
             </form>
             <div className="flex flex-wrap gap-2">
               {ADAPTIVE_FOCUS_EXAMPLES.slice(0, 3).map((example) => (
@@ -263,6 +284,8 @@ export default function Home() {
         </div>
       </section>
 
+      <NeonSeparator intensity="medium" />
+
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Featured Projects</h2>
@@ -277,8 +300,10 @@ export default function Home() {
         <ProjectFilter featured={featuredProjects} projects={allProjects} />
       </section>
 
+      <NeonSeparator intensity="low" />
+
       <section>
-        <h2 className="text-2xl font-bold mb-6">Skills</h2>
+        <h2 className="text-2xl font-bold mb-6">Systems</h2>
         <div className="terminal-window">
           <div className="terminal-header">
             <div className="terminal-button terminal-button-red"></div>
@@ -299,9 +324,11 @@ export default function Home() {
         </div>
       </section>
 
+      <NeonSeparator intensity="high" />
+
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Latest from the Blog</h2>
+          <h2 className="text-2xl font-bold">Leadership Brief</h2>
           <Link
             href="/blog"
             className="text-primary hover:underline inline-flex items-center gap-1"

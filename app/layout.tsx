@@ -19,6 +19,7 @@ const SnowCrashEffects = dynamic(
   () => import("@/components/snow-crash-effects").then((m) => m.SnowCrashEffects),
 )
 import { LabelsProvider } from "@/components/labels-provider"
+import { RouteTransition } from "@/components/route-transition"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -65,7 +66,7 @@ export default function RootLayout({
         <SnowCrashEffects />
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
-          {children}
+          <RouteTransition>{children}</RouteTransition>
         </main>
         <Footer />
 
