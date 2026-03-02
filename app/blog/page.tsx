@@ -37,5 +37,5 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </div>
       </section>
     </div>
-  )
+  );
 }

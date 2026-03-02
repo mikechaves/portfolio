@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react"
 import Link from "next/link"
@@ -26,6 +26,15 @@ const HeroBackground = dynamic(
 import { RecentHighlights } from "@/components/recent-highlights"
 
 const allProjects = [
+  {
+    id: "astrocade-qa-calibration-tool",
+    title: "Astrocade QA Calibration Tool",
+    description:
+      "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+    image: "/projects/astrocade/main-image.png?height=400&width=600",
+    technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+    category: "development" as const,
+  },
   {
     id: "wizzo",
     title: "Wizzo",
@@ -133,6 +142,15 @@ export default function Home() {
 
   const featuredProjects = [
     {
+      id: "astrocade-qa-calibration-tool",
+      title: "Astrocade QA Calibration Tool",
+      description:
+        "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+      image: "/projects/astrocade/main-image.png?height=400&width=600",
+      technologies: ["Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+      category: "development" as const,
+    },
+    {
       id: "wizzo",
       title: "Wizzo",
       description:
@@ -159,7 +177,7 @@ export default function Home() {
       technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
       category: "design" as const,
     },
-  ]
+  ];
 
 
   const latestPosts = [
@@ -172,7 +190,7 @@ export default function Home() {
       url: "https://medium.com/@mikejchaves/voice-first-xr-five-lessons-from-the-front-lines-of-inclusive-design-e58dacf49c54",
       publication: "Bootcamp",
     },
-  ]
+  ];
 
   const skills = [
     "UX Design",
@@ -183,7 +201,7 @@ export default function Home() {
     "Creative Direction",
     "Team Leadership",
     "Front-end Development",
-  ]
+  ];
 
   return (
     <div className="space-y-16">
@@ -256,7 +274,10 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Featured Projects</h2>
-          <Link href="/projects" className="text-primary hover:underline inline-flex items-center gap-1">
+          <Link
+            href="/projects"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
             View all <ArrowRight size={16} />
           </Link>
         </div>
@@ -289,7 +310,10 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Latest from the Blog</h2>
-          <Link href="/blog" className="text-primary hover:underline inline-flex items-center gap-1">
+          <Link
+            href="/blog"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
             View all <ArrowRight size={16} />
           </Link>
         </div>
@@ -303,5 +327,5 @@ export default function Home() {
 
       <RecentHighlights />
     </div>
-  )
+  );
 }

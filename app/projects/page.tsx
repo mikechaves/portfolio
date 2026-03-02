@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
@@ -213,5 +213,5 @@ export default function ProjectsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

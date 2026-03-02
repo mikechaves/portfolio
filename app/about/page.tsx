@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState, type FormEvent, useTransition } from "react"
 import { Terminal } from "@/components/terminal"
@@ -123,17 +123,20 @@ export default function AboutPage() {
                   </div>
                   <div className="terminal-content">
                     <p className="mb-1">
-                      <span className="text-primary">$</span> cat job_details.txt
+                      <span className="text-primary">$</span> cat
+                      job_details.txt
                     </p>
                     <div className="mb-2">
                       <p>
                         <span className="text-primary">title:</span> {exp.title}
                       </p>
                       <p>
-                        <span className="text-primary">period:</span> {exp.period}
+                        <span className="text-primary">period:</span>{" "}
+                        {exp.period}
                       </p>
                       <p>
-                        <span className="text-primary">description:</span> {exp.description}
+                        <span className="text-primary">description:</span>{" "}
+                        {exp.description}
                       </p>
                     </div>
                   </div>
@@ -258,10 +261,15 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {skills.map((skillGroup, index) => (
                     <div key={index} className="space-y-2">
-                      <h3 className="text-primary font-bold">{skillGroup.category}</h3>
+                      <h3 className="text-primary font-bold">
+                        {skillGroup.category}
+                      </h3>
                       <ul className="space-y-1">
                         {skillGroup.items.map((skill, skillIndex) => (
-                          <li key={skillIndex} className="flex items-center gap-2">
+                          <li
+                            key={skillIndex}
+                            className="flex items-center gap-2"
+                          >
                             <span className="text-primary">-</span>
                             <span>{skill}</span>
                           </li>
@@ -419,5 +427,5 @@ export default function AboutPage() {
         </>
       )}
     </div>
-  )
+  );
 }

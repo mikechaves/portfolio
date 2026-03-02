@@ -1,4 +1,92 @@
 {
+  "astrocade-qa-calibration-tool": {
+    "title": "Astrocade QA Calibration Tool",
+    "category": "development",
+    "description": "Built and operated a human-in-the-loop QA calibration toolchain for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and speeding daily publishing decisions.",
+    "image": "/projects/astrocade/main-image.png",
+    "technologies": [
+      "Python",
+      "LLM-Assisted Review",
+      "Moderation Tooling",
+      "Analytics",
+      "Human-in-the-Loop QA"
+    ],
+    "github": "",
+    "demo": "https://www.astrocade.com/",
+    "gallery": [
+      "/projects/astrocade/hero-image.png"
+    ],
+    "details": {
+      "client": "Astrocade AI",
+      "date": "2025 - Present",
+      "category": "AI Systems Engineering",
+      "services": [
+        "Moderation Pipeline Engineering",
+        "Calibration & Evaluation",
+        "QA Operations"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "Astrocade needed a reliable moderation workflow that balanced automation speed with reviewer judgment quality while maintaining a one-day review turnaround target."
+        },
+        {
+          "title": "Challenge",
+          "description": "False or repeated rejections and inconsistent reviewer interpretation were creating friction for creators and slowing publishing throughput."
+        },
+        {
+          "title": "Context",
+          "description": "The moderation stack included auto-review logic, multiple human review layers, and creator feedback loops that required measurable calibration over time."
+        }
+      ],
+      "task": [
+        {
+          "title": "Overview",
+          "description": "Design and run a QA calibration system that continuously measures moderation quality and improves decision consistency across automation and human review."
+        },
+        {
+          "title": "Precision/Recall Tuning",
+          "description": "Create operational controls for threshold and policy tuning to reduce false rejects while preserving safety standards."
+        },
+        {
+          "title": "Workflow Throughput",
+          "description": "Identify and remove bottlenecks across review queues, escalation paths, and feedback handling."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Built calibration workflows",
+          "description": "Implemented repeatable QA passes that compare model-assisted and human decisions, then flag disagreement patterns for targeted fixes."
+        },
+        {
+          "title": "Shipped tooling and backend fixes",
+          "description": "Improved queue behavior, triage visibility, and reviewer ergonomics to reduce latency and increase throughput."
+        },
+        {
+          "title": "Ran recurring audits",
+          "description": "Led calibration audits and documentation updates to align enforcement logic with reviewer judgment and policy intent."
+        },
+        {
+          "title": "Closed creator feedback loops",
+          "description": "Integrated rejection feedback into workflow updates so recurring edge cases could be addressed systematically."
+        }
+      ],
+      "results": [
+        {
+          "title": "Higher moderation consistency",
+          "description": "Improved alignment between automated decisions and human reviewers through recurring calibration and audit cycles."
+        },
+        {
+          "title": "Reduced repeat/false rejections",
+          "description": "Precision and recall tuning cut unnecessary friction for creators and improved trust in review outcomes."
+        },
+        {
+          "title": "Faster daily operations",
+          "description": "Pipeline and tooling improvements supported reliable day-level turnaround targets for publishing review."
+        }
+      ]
+    }
+  },
   "gaia": {
     "title": "Gaia",
     "category": "ar-vr",
