@@ -3,7 +3,7 @@
     "title": "Astrocade QA Calibration Tool",
     "category": "development",
     "description": "Built and operated a human-in-the-loop QA calibration toolchain for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and speeding daily publishing decisions.",
-    "image": "/projects/astrocade/main-image.png",
+    "image": "/projects/astrocade/main-image.jpg",
     "technologies": [
       "Python",
       "LLM-Assisted Review",
@@ -14,7 +14,7 @@
     "github": "",
     "demo": "https://www.astrocade.com/",
     "gallery": [
-      "/projects/astrocade/hero-image.png"
+      "/projects/astrocade/hero-image.jpg"
     ],
     "details": {
       "client": "Astrocade AI",
