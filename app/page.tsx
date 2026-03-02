@@ -147,7 +147,7 @@ export default function Home() {
       description:
         "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
       image: "/projects/astrocade/main-image.jpg?height=400&width=600",
-      technologies: ["Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+      technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
       category: "development" as const,
     },
     {

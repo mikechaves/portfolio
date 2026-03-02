@@ -14,7 +14,6 @@ const nextConfig = {
         hostname: "placeholder.com",
       },
     ],
-    unoptimized: true,
   },
   transpilePackages: [
     "lucide-react",

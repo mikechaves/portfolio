@@ -20,6 +20,7 @@ const Canvas = dynamic(
 
 // Import R3F hooks directly
 import { useFrame, useThree } from "@react-three/fiber";
+import type { ThreeEvent } from "@react-three/fiber";
 
 // 3D navigation item that communicates position to parent
 function NavItem3D({
@@ -80,7 +81,7 @@ function NavItem3D({
       ref={mesh}
       position={position}
       onClick={onClick}
-      onPointerOver={(event: any) => {
+      onPointerOver={(event: ThreeEvent<PointerEvent>) => {
         event.stopPropagation();
         setIsHovered(true);
         if (document.body) document.body.style.cursor = "pointer";
@@ -140,6 +141,7 @@ function CyberCity() {
         ] as [number, number, number],
         height: Math.random() * 8 + 2,
         width: Math.random() * 2 + 0.5,
+        isWireframe: Math.random() > 0.7,
       })),
     [],
   );
@@ -155,7 +157,7 @@ function CyberCity() {
             color="#111111"
             emissive="#00ff8c"
             emissiveIntensity={0.1}
-            wireframe={Math.random() > 0.7}
+            wireframe={building.isWireframe}
           />
         </mesh>
       ))}
@@ -213,6 +215,15 @@ function Street({
   ) => void;
 }) {
   const { camera } = useThree();
+  const dataStreamPositions = React.useMemo(
+    () =>
+      Array.from({ length: 10 }, () => [
+        (Math.random() - 0.5) * 15,
+        Math.random() * 10 - 5,
+        (Math.random() - 0.5) * 10,
+      ] as [number, number, number]),
+    [],
+  );
 
   useEffect(() => {
     if (!camera) return;
@@ -233,15 +244,8 @@ function Street({
       <CyberCity />
       <FloatingCode />
 
-      {Array.from({ length: 10 }, (_, i) => (
-        <DataStream
-          key={i}
-          position={[
-            (Math.random() - 0.5) * 15,
-            Math.random() * 10 - 5,
-            (Math.random() - 0.5) * 10,
-          ]}
-        />
+      {dataStreamPositions.map((position, i) => (
+        <DataStream key={i} position={position} />
       ))}
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
@@ -291,17 +295,13 @@ class ThreeErrorBoundary extends React.Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("MetaverseNav 3D Error:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      return (
-        <div className="w-full h-screen bg-black flex items-center justify-center text-red-500">
-          3D Navigation Error - Please refresh the page
-        </div>
-      );
+      return this.props.fallback;
     }
     return this.props.children;
   }
