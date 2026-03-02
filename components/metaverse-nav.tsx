@@ -1024,6 +1024,55 @@ function BuildingMesh({
   )
 }
 
+function HoloMoon({ color = "#ff00ff", motion, paused = false }: { color?: string; motion: (typeof MOTION_PRESETS)[MotionLevel]; paused?: boolean }) {
+  const moon = useRef<THREE.Mesh>(null!)
+  const ring = useRef<THREE.Mesh>(null!)
+  const motionRef = useRef(motion)
+  const pausedRef = useRef(paused)
+  useEffect(() => void (motionRef.current = motion), [motion])
+  useEffect(() => void (pausedRef.current = paused), [paused])
+
+  useFrame((state) => {
+    if (pausedRef.current) return
+    const t = state.clock.elapsedTime
+    const m = motionRef.current
+    if (moon.current) {
+      moon.current.rotation.y += 0.002 + m.speeds.rotate * 0.001
+      ;(moon.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.16 + Math.sin(t * 0.8) * 0.06
+    }
+    if (ring.current) {
+      ring.current.rotation.z += 0.003
+      ring.current.rotation.x = Math.sin(t * 0.25) * 0.2
+    }
+  })
+
+  return (
+    <group position={[8, 5.5, -20]}>
+      <mesh ref={moon}>
+        <sphereGeometry args={[1.6, 28, 28]} />
+        <meshStandardMaterial color="#140018" emissive={color} emissiveIntensity={0.18} transparent opacity={0.85} />
+      </mesh>
+      <mesh ref={ring} rotation={[0.5, 0, 0]}>
+        <torusGeometry args={[2.4, 0.05, 16, 80]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.45} blending={THREE.AdditiveBlending} />
+      </mesh>
+    </group>
+  )
+}
+
+function NeonHorizon({ color = "#00ffff" }: { color?: string }) {
+  return (
+    <group position={[0, 0.8, -18]}>
+      {[0, 1, 2].map((i) => (
+        <mesh key={i} position={[0, i * 0.35, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[8 + i * 2.2, 8.05 + i * 2.2, 96]} />
+          <meshBasicMaterial color={color} transparent opacity={0.18 - i * 0.04} blending={THREE.AdditiveBlending} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
 // -----------------------------------------------------------------------------
 // Scene wrapper
 // -----------------------------------------------------------------------------
@@ -1079,6 +1128,8 @@ function Street({
       <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
 
       <StreetPlane color={accent} />
+      <NeonHorizon color={accent} />
+      <HoloMoon color={accent === "#00ff8c" ? "#ff00ff" : accent} motion={motion} paused={paused} />
       <MonoRail motion={motion} paused={paused} color={accent} />
       <Billboard position={[-6, 3.2, -8]} color="#00ffff" mouse={mousePosition} />
       <Billboard position={[5, 2.6, -9]} color="#00ff8c" mouse={mousePosition} size={[2.4, 1.0]} />

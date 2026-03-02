@@ -18,12 +18,14 @@ const MetaverseNav = dynamic(
 // bundle small while ensuring the main navigation is present immediately.
 const SumerianVirus = dynamic(() => import('./sumerian-virus').then(m => m.SumerianVirus), { ssr: false })
 const KatanaCursor = dynamic(() => import('./katana-cursor').then(m => m.KatanaCursor), { ssr: false })
+const SnowCrashTakeover = dynamic(() => import('./snow-crash-takeover').then(m => m.SnowCrashTakeover), { ssr: false })
 
 export function SnowCrashEffects() {
   return (
     <>
       <MetaverseNav />
       <Suspense>
+        <SnowCrashTakeover />
         <SumerianVirus />
         <KatanaCursor />
       </Suspense>
