@@ -168,15 +168,7 @@ export default function Home() {
       technologies: ["UX Design", "AR/VR", "Unity3D"],
       category: "ar-vr" as const,
     },
-    {
-      id: "apt-plus",
-      title: "APT+",
-      description:
-        "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
-      image: "/projects/apt-plus/main-image.png?height=400&width=600",
-      technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
-      category: "design" as const,
-    },
+
   ];
 
 

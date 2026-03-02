@@ -865,32 +865,6 @@
       ]
     }
   },
-  "digitalhous": {
-    "title": "Digitalhous XR Applications",
-    "category": "development",
-    "description": "Founded Digitalhous, a tech-focused LLC, where I lead end-to-end development of innovative apps, software, games, and XR solutions powered by AI. Specializing in immersive VR/AR technologies and AI-driven features, I drive user-centered design with a focus on accessibility.",
-    "image": "/api/placeholder?width=1200&height=600&text=Digitalhous%20XR%20Applications",
-    "technologies": [
-      "XR",
-      "AI",
-      "Entrepreneurship"
-    ],
-    "github": "https://github.com/mikechaves",
-    "demo": "https://mikechaves.vercel.app"
-  },
-  "voice-first-ar": {
-    "title": "Voice-First AR Prototypes",
-    "category": "research",
-    "description": "Developing voice-first AR prototypes leveraging transformer-based speech models for accessibility. This research explores how voice interfaces can make augmented reality more accessible and intuitive for all users.",
-    "image": "/api/placeholder?width=1200&height=600&text=Voice-First%20AR%20Prototypes",
-    "technologies": [
-      "AR",
-      "Voice UI",
-      "Accessibility"
-    ],
-    "github": "https://github.com/mikechaves",
-    "demo": "https://mikechaves.vercel.app"
-  },
   "ai-energy-consumption": {
     "title": "AI Energy Consumption",
     "category": "web",
