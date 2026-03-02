@@ -197,7 +197,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 relative">
+      <div className="home-corruption-overlay" aria-hidden="true" />
+      <div className="home-scan-distortion" aria-hidden="true" />
       <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
 
       <section className="py-12 relative">
@@ -223,7 +225,8 @@ View Impact <ArrowRight size={16} />
 
       <NeonSeparator intensity="low" />
 
-      <section className="terminal-window">
+      <section className="terminal-window relative">
+        <div className="infection-badge infection-badge-medium">INFECTION_INDEX: 34%</div>
         <div className="terminal-header">
           <div className="terminal-button terminal-button-red"></div>
           <div className="terminal-button terminal-button-yellow"></div>
@@ -241,7 +244,8 @@ View Impact <ArrowRight size={16} />
 
       <NeonSeparator intensity="medium" />
 
-      <section className="space-y-4">
+      <section className="space-y-4 relative">
+        <div className="infection-badge infection-badge-medium">INFECTION_INDEX: 41%</div>
         <div className="terminal-window">
           <div className="terminal-header">
             <div className="terminal-button terminal-button-red"></div>
@@ -286,7 +290,8 @@ View Impact <ArrowRight size={16} />
 
       <NeonSeparator intensity="medium" />
 
-      <section>
+      <section className="relative">
+        <div className="infection-badge infection-badge-high">INFECTION_INDEX: 58%</div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Featured Projects</h2>
           <Link
@@ -302,7 +307,8 @@ View Impact <ArrowRight size={16} />
 
       <NeonSeparator intensity="low" />
 
-      <section>
+      <section className="relative">
+        <div className="infection-badge infection-badge-high">INFECTION_INDEX: 67%</div>
         <h2 className="text-2xl font-bold mb-6">Systems</h2>
         <div className="terminal-window">
           <div className="terminal-header">
@@ -326,7 +332,8 @@ View Impact <ArrowRight size={16} />
 
       <NeonSeparator intensity="high" />
 
-      <section>
+      <section className="relative">
+        <div className="infection-badge infection-badge-critical">INFECTION_INDEX: 82%</div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Leadership Brief</h2>
           <Link
