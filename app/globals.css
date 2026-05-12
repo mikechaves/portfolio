@@ -1101,6 +1101,18 @@ html {
   background: #080808;
 }
 
+.industrial-project-image {
+  transition: filter 220ms ease, transform 220ms ease;
+}
+
+.industrial-card:hover .industrial-project-image,
+.industrial-card:focus-visible .industrial-project-image,
+.industrial-card-media:hover .industrial-project-image,
+.industrial-card-media:focus-visible .industrial-project-image {
+  filter: grayscale(0) saturate(1.08) contrast(1.02);
+  transform: scale(1.025);
+}
+
 .industrial-card-media::after {
   content: "";
   position: absolute;
