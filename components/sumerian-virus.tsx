@@ -53,22 +53,20 @@ const getSumerianGlyphs = () => {
 }
 
 const glyphs = getSumerianGlyphs()
+const messages = [
+  "Initializing nam-shub protocol...",
+  "Scanning for linguistic vulnerabilities...",
+  "Metavirus detected in neural pathways...",
+  "Deploying countermeasures...",
+  "Sumerian defense activated...",
+  "System protected.",
+]
 
 export function SumerianVirus() {
   const [isActive, setIsActive] = useState(false)
   const [glyphStream, setGlyphStream] = useState<string[]>([])
   const [message, setMessage] = useState("")
   const viewport = useViewportSize()
-
-  // Messages that will be displayed during the "infection"
-  const messages = [
-    "Initializing nam-shub protocol...",
-    "Scanning for linguistic vulnerabilities...",
-    "Metavirus detected in neural pathways...",
-    "Deploying countermeasures...",
-    "Sumerian defense activated...",
-    "System protected.",
-  ]
 
   useEffect(() => {
     // Random chance to trigger the virus effect when navigating to a new page

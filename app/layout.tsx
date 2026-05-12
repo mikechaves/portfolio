@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
-import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"

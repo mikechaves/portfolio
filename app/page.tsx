@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Terminal } from "@/components/terminal"
-import { ProjectCard } from "@/components/project-card"
 import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"

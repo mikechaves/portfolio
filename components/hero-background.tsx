@@ -58,7 +58,8 @@ export function HeroBackground() {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     renderer.setSize(viewport.width, viewport.height)
     renderer.setClearColor(0x000000, 0) // Transparent background
-    containerRef.current.appendChild(renderer.domElement)
+    const container = containerRef.current
+    container.appendChild(renderer.domElement)
     rendererRef.current = renderer
 
     // Create cyberpunk grid
@@ -338,8 +339,8 @@ export function HeroBackground() {
       window.removeEventListener("mousemove", handleMouseMove)
       cancelAnimationFrame(frameRef.current)
 
-      if (rendererRef.current && containerRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement)
+      if (rendererRef.current) {
+        container.removeChild(rendererRef.current.domElement)
       }
 
       if (particlesRef.current) {
@@ -352,7 +353,7 @@ export function HeroBackground() {
         ;(gridRef.current.material as THREE.Material).dispose()
       }
     }
-  }, [isMobile]) // Re-run effect when isMobile changes
+  }, [isMobile, viewport.height, viewport.width]) // Re-run effect when viewport-dependent scene dimensions change
 
   return <div ref={containerRef} className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 }

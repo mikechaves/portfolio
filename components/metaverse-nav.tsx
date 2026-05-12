@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo, Suspense } from "react"
+import React, { useState, useEffect, useRef, useMemo, Suspense, useCallback } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
@@ -340,11 +340,15 @@ function NavItem3D({
       onPointerOver={(e) => {
         e.stopPropagation()
         setIsHovered(true)
-        document.body && (document.body.style.cursor = "pointer")
+        if (document.body) {
+          document.body.style.cursor = "pointer"
+        }
       }}
       onPointerOut={() => {
         setIsHovered(false)
-        document.body && (document.body.style.cursor = "auto")
+        if (document.body) {
+          document.body.style.cursor = "auto"
+        }
       }}
     >
       <boxGeometry args={[1.5, 0.3, 0.1]} />
@@ -647,7 +651,7 @@ function AsciiGlyphs({
         depthWrite: false,
         blending: THREE.AdditiveBlending,
       }),
-    [uniforms]
+    [frag, uniforms, vert]
   )
 
   const motionRef = useRef(motion)
@@ -693,10 +697,10 @@ function AsciiGlyphs({
 function StreetPlane({ color = "#00ffff" as string }) {
   const grid = useMemo(() => {
     const g = new THREE.GridHelper(1000, 200, color, color) as THREE.GridHelper & {
-      material: THREE.Material & { opacity?: number; transparent?: boolean }
+      material: THREE.Material & { opacity: number; transparent: boolean }
     }
     g.material.transparent = true
-    ;(g.material as any).opacity = 0.15
+    g.material.opacity = 0.15
     return g
   }, [color])
   return <primitive object={grid} position={[0, -1, 0]} />
@@ -1184,7 +1188,7 @@ class ThreeErrorBoundary extends React.Component<
     return { hasError: true }
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  componentDidCatch(error: unknown, errorInfo: React.ErrorInfo) {
     console.error("MetaverseNav 3D Error:", error, errorInfo)
   }
 
@@ -1285,24 +1289,24 @@ function HudDock({
         <div className="flex items-center">
           <button
             className={segBtn(motionLevel === "off")}
-            aria-pressed={motionLevel === "off"}
             role="radio"
+            aria-checked={motionLevel === "off"}
             onClick={() => setMotionLevel("off")}
           >
             OFF
           </button>
           <button
             className={segBtn(motionLevel === "calm")}
-            aria-pressed={motionLevel === "calm"}
             role="radio"
+            aria-checked={motionLevel === "calm"}
             onClick={() => setMotionLevel("calm")}
           >
             CALM
           </button>
           <button
             className={segBtn(motionLevel === "normal")}
-            aria-pressed={motionLevel === "normal"}
             role="radio"
+            aria-checked={motionLevel === "normal"}
             onClick={() => setMotionLevel("normal")}
           >
             NORM
@@ -1408,14 +1412,14 @@ export function MetaverseNav() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { name: "impact", path: "/" },
     { name: "systems", path: "/projects" },
     { name: "writing", path: "/blog" },
     { name: "about", path: "/about" },
-  ]
+  ], [])
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = useCallback((path: string) => {
     if (path === pathname) {
       // If clicking on current page, just close metaverse
       setShowMetaverse(false)
@@ -1430,11 +1434,11 @@ export function MetaverseNav() {
       setShowMetaverse(false)
       setTransitioning(false)
     }, 500)
-  }
+  }, [pathname, router])
 
   // --- Tweaked applyTransforms: per-chip hue on center chips ---
 const lastStyles = useRef<Record<string, { x: number; y: number }>>({})
-const applyTransforms = () => {
+const applyTransforms = useCallback(() => {
   rafRef.current = null
 
   navItems.forEach((item) => {
@@ -1496,18 +1500,18 @@ const applyTransforms = () => {
       el.style.display = "none"
     }
   })
-}
+}, [navItems, pathname])
 
 
-  const handleNavPositionUpdate = (name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
+  const handleNavPositionUpdate = useCallback((name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
     navPositionsRef.current[name] = { ...screenPos, hovered }
     if (rafRef.current === null) rafRef.current = requestAnimationFrame(applyTransforms)
-  }
+  }, [applyTransforms])
 
   useEffect(() => {
     const id = requestAnimationFrame(applyTransforms)
     return () => cancelAnimationFrame(id)
-  }, [pathname, showMetaverse, transitioning])
+  }, [applyTransforms, pathname, showMetaverse, transitioning])
 
   // Hotkeys
   useEffect(() => {
@@ -1518,7 +1522,7 @@ const applyTransforms = () => {
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [showMetaverse])
+  }, [handleNavigate, showMetaverse])
 
   const toggleMetaverse = () => {
     setTransitioning(false)
@@ -1528,8 +1532,6 @@ const applyTransforms = () => {
     setTransitioning(false)
     setShowMetaverse(false)
   }
-
-  const brandRim = pageAccent(pathname)
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -1700,8 +1702,8 @@ const applyTransforms = () => {
                           top: 0,
                           transform: "translate(-50%, -50%)",
                           display: "none",
-                          ["--hud" as any]: pageAccent(pathname),
-                        } as React.CSSProperties}
+                          "--hud": pageAccent(pathname),
+                        } as React.CSSProperties & Record<"--hud", string>}
                         aria-hidden
                       >
                         {item.name.toUpperCase()}
