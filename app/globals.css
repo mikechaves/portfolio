@@ -1109,7 +1109,7 @@ html {
 .industrial-card:focus-visible .industrial-project-image,
 .industrial-card-media:hover .industrial-project-image,
 .industrial-card-media:focus-visible .industrial-project-image {
-  filter: grayscale(0) saturate(1.08) contrast(1.02) !important;
+  filter: grayscale(0) saturate(1.08) contrast(1.02);
   transform: scale(1.025);
 }
 

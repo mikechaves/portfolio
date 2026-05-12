@@ -165,7 +165,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               onClick={() => setSelectedIndex(index + 1)}
               aria-label={`Open gallery image ${index + 1}`}
             >
-              <Image src={img} alt={`${project.title} gallery image ${index + 1}`} fill className="industrial-project-image object-cover grayscale" sizes="33vw" />
+              <Image src={img} alt={`${project.title} gallery image ${index + 1}`} fill className="industrial-project-image object-cover grayscale" sizes="(min-width: 768px) 33vw, 100vw" />
             </button>
           ))}
         </section>
