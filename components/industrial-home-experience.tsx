@@ -5,6 +5,28 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import * as THREE from "three"
 import { featuredPortfolioProjects, portfolioCapabilities } from "@/data/portfolio"
 
+const tunnelRings = Array.from({ length: 18 }, (_, index) => index)
+const stageRails = Array.from({ length: 14 }, (_, index) => index)
+const towerPositions = [
+  [-6.8, 1.6, -4],
+  [6.6, 2.2, -6],
+  [7.4, 3.4, -13],
+  [-7.2, 2.8, -15],
+] as const
+const cableRuns = [
+  [-4.8, 5.1, 5, -0.52, 0.18, 0.08, 22],
+  [-2.5, 5.8, 3, -0.36, -0.12, -0.06, 24],
+  [1.6, 5.5, 4, -0.22, 0.22, 0.03, 26],
+  [4.7, 5.2, 2, -0.42, -0.18, -0.08, 23],
+] as const
+const floorLightPositions = Array.from({ length: 12 }, (_, index) => index)
+const smokePlumes = [
+  [-3.6, -0.65, -4, 1.2],
+  [3.5, -0.72, -7, 1.5],
+  [-2.2, -0.7, -14, 1.35],
+  [4.8, -0.7, -18, 1.1],
+] as const
+
 function useScrollProgress() {
   const [progress, setProgress] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -73,11 +95,15 @@ function IndustrialScene({ progress, reducedMotion }: { progress: number; reduce
       <pointLight position={[-7, 2, 3]} intensity={8} color={red} distance={20} />
       <pointLight position={[8, 3, -8]} intensity={5} color={amber} distance={24} />
       <group ref={groupRef}>
+        <OverheadCables />
         <Tunnel />
         <StageArchitecture />
+        <IndustrialSideScreens />
         <ProjectSlabs />
         <CapabilityField />
         <ContactBeacon />
+        <FloorRunway />
+        <SmokeLayer />
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.25, -5]}>
           <planeGeometry args={[42, 80, 20, 20]} />
           <meshStandardMaterial color={steel} roughness={0.82} metalness={0.7} />
@@ -88,11 +114,9 @@ function IndustrialScene({ progress, reducedMotion }: { progress: number; reduce
 }
 
 function Tunnel() {
-  const rings = Array.from({ length: 16 }, (_, index) => index)
-
   return (
     <group position={[0, 0, 0]}>
-      {rings.map((index) => (
+      {tunnelRings.map((index) => (
         <group key={index}>
           <mesh position={[0, 0, -index * 1.85]} rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[4.8 + index * 0.03, 0.035, 8, 72]} />
@@ -127,25 +151,23 @@ function Tunnel() {
 }
 
 function StageArchitecture() {
-  const rails = Array.from({ length: 12 }, (_, index) => index)
-
   return (
     <group>
-      {rails.map((index) => (
+      {stageRails.map((index) => (
         <mesh key={`rail-${index}`} position={[0, -1.03, -index * 2.6]} rotation={[0, 0, 0]}>
           <boxGeometry args={[9.5, 0.018, 0.018]} />
           <meshBasicMaterial color={index % 2 === 0 ? "#8a7d6e" : "#3b332e"} />
         </mesh>
       ))}
       {[-5.8, 5.8].map((x) =>
-        rails.map((index) => (
+        stageRails.map((index) => (
           <mesh key={`walk-${x}-${index}`} position={[x, -0.75, -index * 2.4]}>
             <boxGeometry args={[0.05, 1.8, 0.05]} />
             <meshStandardMaterial color="#2d2924" emissive="#120d0c" emissiveIntensity={0.18} metalness={0.85} roughness={0.48} />
           </mesh>
         )),
       )}
-      {[[-6.8, 1.6, -4], [6.6, 2.2, -6], [7.4, 3.4, -13], [-7.2, 2.8, -15]].map(([x, y, z], index) => (
+      {towerPositions.map(([x, y, z], index) => (
         <group key={`tower-${index}`} position={[x, y, z]}>
           <mesh>
             <boxGeometry args={[0.16, 4.8, 0.16]} />
@@ -170,6 +192,77 @@ function StageArchitecture() {
         <boxGeometry args={[1.8, 1.8, 0.08]} />
         <meshBasicMaterial color="#5b1013" />
       </mesh>
+    </group>
+  )
+}
+
+function OverheadCables() {
+  return (
+    <group>
+      {cableRuns.map(([x, y, z, rotX, rotY, rotZ, length], index) => (
+        <mesh key={`cable-${index}`} position={[x, y, z]} rotation={[rotX, rotY, rotZ]}>
+          <boxGeometry args={[0.035, 0.035, length]} />
+          <meshStandardMaterial color="#070707" metalness={0.55} roughness={0.8} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+function IndustrialSideScreens() {
+  return (
+    <group>
+      {[
+        [-4.9, 1.5, -4.8, 0.36],
+        [6.1, 1.8, -7.5, -0.45],
+      ].map(([x, y, z, rotationY], index) => (
+        <group key={`screen-${index}`} position={[x, y, z]} rotation={[0, rotationY, 0]}>
+          <mesh>
+            <boxGeometry args={[3.4, 1.9, 0.09]} />
+            <meshStandardMaterial color="#080807" emissive="#111111" emissiveIntensity={0.9} metalness={0.55} roughness={0.48} />
+          </mesh>
+          <mesh position={[0, 0, 0.058]}>
+            <planeGeometry args={[3.05, 1.55]} />
+            <meshBasicMaterial color={index === 0 ? "#f1ede3" : "#8d1115"} transparent opacity={index === 0 ? 0.28 : 0.24} />
+          </mesh>
+          {Array.from({ length: 7 }, (_, line) => (
+            <mesh key={`screen-line-${index}-${line}`} position={[0, -0.58 + line * 0.18, 0.07]}>
+              <boxGeometry args={[2.62 - (line % 3) * 0.42, 0.012, 0.01]} />
+              <meshBasicMaterial color={index === 0 ? "#eee7d8" : "#ff2028"} transparent opacity={0.36} />
+            </mesh>
+          ))}
+        </group>
+      ))}
+    </group>
+  )
+}
+
+function FloorRunway() {
+  return (
+    <group position={[0, -1.16, -9]}>
+      {floorLightPositions.map((index) => (
+        <mesh key={`floor-light-${index}`} position={[(index % 2 === 0 ? -1 : 1) * 1.72, 0.05, 4 - index * 2.2]}>
+          <boxGeometry args={[0.62, 0.018, 0.035]} />
+          <meshBasicMaterial color={index % 3 === 0 ? "#e6ded0" : "#b51218"} transparent opacity={0.62} />
+        </mesh>
+      ))}
+      <mesh position={[0, 0.02, -8]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.7, 1.9, 48]} />
+        <meshBasicMaterial color="#b51218" transparent opacity={0.22} side={THREE.DoubleSide} />
+      </mesh>
+    </group>
+  )
+}
+
+function SmokeLayer() {
+  return (
+    <group>
+      {smokePlumes.map(([x, y, z, scale], index) => (
+        <mesh key={`smoke-${index}`} position={[x, y, z]} rotation={[0, 0, index * 0.3]}>
+          <planeGeometry args={[3.2 * scale, 1.1 * scale]} />
+          <meshBasicMaterial color="#d7d0c4" transparent opacity={0.055} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+      ))}
     </group>
   )
 }
