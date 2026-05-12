@@ -1366,8 +1366,6 @@ export function MetaverseNav() {
   const navPositionsRef = useRef<Record<string, { x: number; y: number; hovered: boolean }>>({})
   const overlayRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const rafRef = useRef<number | null>(null)
-  const hasShownInitialMetaverse = useRef(false)
-
   const prefersReduced = useReducedMotion()
   const [motionLevel, setMotionLevel] = useState<MotionLevel>("normal")
   const [paused, setPaused] = useState(false)
@@ -1381,19 +1379,6 @@ export function MetaverseNav() {
     document.addEventListener("visibilitychange", onVis)
     return () => document.removeEventListener("visibilitychange", onVis)
   }, [])
-
-  // Auto-show metaverse ONLY on initial visit/refresh to homepage
-  useEffect(() => {
-    // Only show metaverse on homepage if it's the initial load and we haven't shown it yet
-    if (pathname === "/" && !showMetaverse && !hasShownInitialMetaverse.current) {
-      console.log("MetaverseNav: Initial visit to homepage, showing metaverse")
-      hasShownInitialMetaverse.current = true
-      setTransitioning(false)
-      setTimeout(() => {
-        setShowMetaverse(true)
-      }, 100)
-    }
-  }, [pathname, showMetaverse])
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)

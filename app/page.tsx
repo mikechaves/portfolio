@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import Link from "next/link"
 import { Terminal } from "@/components/terminal"
 import { ProjectFilter } from "@/components/project-filter"
@@ -139,6 +139,7 @@ const allProjects = [
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
   const [focusQuery, setFocusQuery] = useState("")
+  const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
 
   const featuredProjects = [
     {
@@ -207,19 +208,19 @@ export default function Home() {
           text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
           typingSpeed={40}
           className="max-w-3xl mx-auto"
-          onComplete={() => setIntroComplete(true)}
+          onComplete={handleIntroComplete}
         />
 
-        {introComplete && (
-          <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex min-h-10 justify-center">
+          {introComplete && (
             <Link
               href="/about"
               className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
             >
-View Impact <ArrowRight size={16} />
+              View Impact <ArrowRight size={16} />
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </section>
 
       <NeonSeparator intensity="low" />
