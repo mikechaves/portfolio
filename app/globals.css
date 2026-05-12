@@ -23,6 +23,8 @@
   --border: 24 8% 18%;
   --input: 24 8% 18%;
   --ring: 358 78% 39%;
+  --industrial-red-glow-soft: 0 0 24px rgba(255,37,43,0.8), 0 0 70px rgba(181,18,24,0.45);
+  --industrial-red-glow-intense: 0 0 28px rgba(255,37,43,0.95), 0 0 100px rgba(181,18,24,0.68), 0 0 180px rgba(181,18,24,0.28);
 }
 
 /* Dark theme variables */
@@ -409,7 +411,7 @@ html {
   height: 9rem;
   top: 22%;
   background: linear-gradient(180deg, transparent, #ff252b 18%, #ff252b 78%, transparent);
-  box-shadow: 0 0 24px rgba(255,37,43,0.8), 0 0 70px rgba(181,18,24,0.45);
+  box-shadow: var(--industrial-red-glow-soft);
 }
 
 .industrial-atmosphere-tower::after {
@@ -483,7 +485,7 @@ html {
 
 .industrial-home[data-active-section="contact"] .industrial-atmosphere-light-b {
   opacity: 1;
-  box-shadow: 0 0 28px rgba(255,37,43,0.95), 0 0 100px rgba(181,18,24,0.68), 0 0 180px rgba(181,18,24,0.28);
+  box-shadow: var(--industrial-red-glow-intense);
 }
 
 .industrial-stage-illustration {
@@ -954,6 +956,7 @@ html {
 }
 
 .industrial-contact-section {
+  --industrial-contact-beam-x: 50.5%; /* Optical center between writing and contact columns in the concept outro. */
   position: relative;
   grid-template-columns: minmax(16rem, 0.86fr) minmax(20rem, 0.95fr);
 }
@@ -961,14 +964,14 @@ html {
 .industrial-contact-section::before {
   content: "";
   position: absolute;
-  left: 50.5%;
+  left: var(--industrial-contact-beam-x);
   top: 18%;
   bottom: 10%;
   z-index: 0;
   width: 0.24rem;
   transform: translateX(-50%);
   background: linear-gradient(180deg, transparent, #ff252b 14%, #ff252b 84%, transparent);
-  box-shadow: 0 0 28px rgba(255,37,43,0.95), 0 0 100px rgba(181,18,24,0.62), 0 0 180px rgba(181,18,24,0.3);
+  box-shadow: var(--industrial-red-glow-intense);
 }
 
 .industrial-contact-section::after {

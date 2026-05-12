@@ -54,6 +54,13 @@ const gantryLadderRungs = Array.from({ length: 10 }, (_, index) => index)
 const apertureSpokes = Array.from({ length: 28 }, (_, index) => index)
 const lowPowerApertureSpokes = apertureSpokes.filter((index) => index % 2 === 0)
 const verticalLightStackRows = Array.from({ length: 9 }, (_, index) => index)
+const lowPowerVerticalLightStackRows = verticalLightStackRows.filter((index) => index % 2 === 0)
+const industrialLightStacks = [
+  [-6.3, 1.2, -9.2, 0.18],
+  [6.8, 1.6, -8.4, -0.18],
+  [7.75, 2.4, -14.6, -0.28],
+  [-7.4, 2.2, -16.2, 0.22],
+] as const
 const slabCableIndices = Array.from({ length: 4 }, (_, index) => index)
 const beaconSteps = Array.from({ length: 5 }, (_, index) => index)
 const smokePlumes = [
@@ -296,17 +303,11 @@ function HeroSetPieces({ lowPower, progress }: { lowPower: boolean; progress: nu
 }
 
 function IndustrialLightStacks({ lowPower, progress }: { lowPower: boolean; progress: number }) {
-  const rows = lowPower ? verticalLightStackRows.filter((index) => index % 2 === 0) : verticalLightStackRows
-  const stacks = [
-    [-6.3, 1.2, -9.2, 0.18],
-    [6.8, 1.6, -8.4, -0.18],
-    [7.75, 2.4, -14.6, -0.28],
-    [-7.4, 2.2, -16.2, 0.22],
-  ] as const
+  const rows = useMemo(() => (lowPower ? lowPowerVerticalLightStackRows : verticalLightStackRows), [lowPower])
 
   return (
     <group>
-      {stacks.map(([x, y, z, rotY], stackIndex) => (
+      {industrialLightStacks.map(([x, y, z, rotY], stackIndex) => (
         <group key={`industrial-light-stack-${stackIndex}`} position={[x, y, z]} rotation={[0, rotY, 0]}>
           <mesh position={[0, 1.5, 0]}>
             <boxGeometry args={[0.16, 4.1, 0.12]} />
@@ -813,12 +814,23 @@ function ProjectSlabs() {
 }
 
 function CapabilityField() {
-  const nodePositions = portfolioCapabilities.map((capability, index) => {
-    const angle = (index / portfolioCapabilities.length) * Math.PI * 2
-    const x = Math.cos(angle) * 3.4
-    const z = Math.sin(angle) * 2.6
-    return { capability, index, x, z }
-  })
+  const nodePositions = useMemo(
+    () =>
+      portfolioCapabilities.map((capability, index) => {
+        const angle = (index / portfolioCapabilities.length) * Math.PI * 2
+        const x = Math.cos(angle) * 3.4
+        const z = Math.sin(angle) * 2.6
+        return {
+          capability,
+          index,
+          x,
+          z,
+          linkAngle: Math.atan2(z, x),
+          linkLength: Math.sqrt(x * x + z * z),
+        }
+      }),
+    [],
+  )
 
   return (
     <group position={[2.3, -0.2, -19]}>
@@ -836,12 +848,10 @@ function CapabilityField() {
           </group>
         )
       })}
-      {nodePositions.map(({ capability, x, z }) => {
-        const length = Math.sqrt(x * x + z * z)
-        const angle = Math.atan2(z, x)
+      {nodePositions.map(({ capability, linkAngle, linkLength, x, z }) => {
         return (
-          <mesh key={`capability-link-${capability.id}`} position={[x / 2, 0.62, z / 2]} rotation={[0, -angle, 0]}>
-            <boxGeometry args={[length, 0.018, 0.018]} />
+          <mesh key={`capability-link-${capability.id}`} position={[x / 2, 0.62, z / 2]} rotation={[0, -linkAngle, 0]}>
+            <boxGeometry args={[linkLength, 0.018, 0.018]} />
             <meshBasicMaterial color="#918578" transparent opacity={0.22} />
           </mesh>
         )
