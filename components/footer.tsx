@@ -5,19 +5,18 @@ import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 py-6">
+    <footer className="relative z-10 border-t border-[#e8e1d2]/10 bg-black/70 py-6">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} MIKE_CHAVES. All rights
-              reserved.
+            <p className="text-xs uppercase tracking-[0.18em] text-[#8f8678]">
+              &copy; {new Date().getFullYear()} Mike Chaves. Built with intent. Deployed for impact.
             </p>
           </div>
           <div className="flex space-x-4">
             <Link
               href="https://github.com/mikechaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-[#8f8678] hover:text-[#eee7d8] transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -26,7 +25,7 @@ export function Footer() {
             </Link>
             <a
               href="https://x.com/mikechaves_io"
-              className="text-zinc-400 hover:text-primary transition-colors"
+              className="text-[#8f8678] hover:text-[#eee7d8] transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -37,7 +36,7 @@ export function Footer() {
             </a>
             <Link
               href="https://www.linkedin.com/in/mikejchaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-[#8f8678] hover:text-[#eee7d8] transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -46,7 +45,7 @@ export function Footer() {
             </Link>
             <Link
               href="mailto:founder@gowizzo.io"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-[#8f8678] hover:text-[#eee7d8] transition-colors"
             >
               <Mail size={20} />
               <span className="sr-only">Email</span>
