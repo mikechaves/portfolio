@@ -23,40 +23,71 @@ const IndustrialHomeExperience = dynamic(
 const waveformBars = Array.from({ length: 22 }, (_, index) => index)
 const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
 
-function useActiveSceneSection(sections: SceneSection[]) {
+function useHomeScrollProgress() {
   const [progress, setProgress] = useState(0)
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const updateMotion = () => setReducedMotion(media.matches)
+
+    updateMotion()
+    media.addEventListener("change", updateMotion)
+    return () => media.removeEventListener("change", updateMotion)
+  }, [])
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setProgress(0)
+      return
+    }
+
     let frame = 0
+    let maxScroll = 1
+
+    const updateMaxScroll = () => {
+      maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
+    }
+
     const update = () => {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
-        setProgress(Math.min(window.scrollY / max, 1))
+        setProgress(Math.min(window.scrollY / maxScroll, 1))
       })
     }
 
+    const handleResize = () => {
+      updateMaxScroll()
+      update()
+    }
+
+    updateMaxScroll()
     update()
     window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", update)
+    window.addEventListener("resize", handleResize)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", update)
+      window.removeEventListener("resize", handleResize)
     }
-  }, [])
+  }, [reducedMotion])
 
+  return { progress, reducedMotion }
+}
+
+function useActiveSceneSection(sections: SceneSection[], progress: number) {
   return useMemo(() => {
     return sections.find((section) => progress >= section.range[0] && progress <= section.range[1]) ?? sections[0]
   }, [progress, sections])
 }
 
 export default function Home() {
-  const activeSection = useActiveSceneSection(sceneSections)
+  const { progress, reducedMotion } = useHomeScrollProgress()
+  const activeSection = useActiveSceneSection(sceneSections, progress)
 
   return (
     <div className="industrial-home" data-active-section={activeSection.id}>
-      <IndustrialHomeExperience />
+      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} />
       <div className="industrial-atmosphere" aria-hidden="true">
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />

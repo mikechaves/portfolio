@@ -1,7 +1,7 @@
 "use client"
 
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef } from "react"
 import * as THREE from "three"
 import { featuredPortfolioProjects, portfolioCapabilities } from "@/data/portfolio"
 
@@ -27,44 +27,9 @@ const smokePlumes = [
   [4.8, -0.7, -18, 1.1],
 ] as const
 
-function useScrollProgress() {
-  const [progress, setProgress] = useState(0)
-  const [reducedMotion, setReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const updateMotion = () => setReducedMotion(media.matches)
-    updateMotion()
-    media.addEventListener("change", updateMotion)
-    return () => media.removeEventListener("change", updateMotion)
-  }, [])
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setProgress(0)
-      return
-    }
-
-    let frame = 0
-    const update = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
-        setProgress(Math.min(window.scrollY / max, 1))
-      })
-    }
-
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", update)
-    return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", update)
-    }
-  }, [reducedMotion])
-
-  return { progress, reducedMotion }
+type IndustrialHomeExperienceProps = {
+  progress: number
+  reducedMotion: boolean
 }
 
 function lerp(start: number, end: number, progress: number) {
@@ -331,9 +296,7 @@ function ContactBeacon() {
   )
 }
 
-export function IndustrialHomeExperience() {
-  const { progress, reducedMotion } = useScrollProgress()
-
+export function IndustrialHomeExperience({ progress, reducedMotion }: IndustrialHomeExperienceProps) {
   return (
     <div className="industrial-canvas" aria-hidden="true">
       <Canvas
