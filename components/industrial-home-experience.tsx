@@ -1,14 +1,17 @@
 "use client"
 
 import { Canvas, useFrame } from "@react-three/fiber"
+import { AdaptiveDpr, PerformanceMonitor, Preload, Sparkles } from "@react-three/drei"
 import { Bloom, ChromaticAberration, EffectComposer, Noise, Scanline, Vignette } from "@react-three/postprocessing"
-import { useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import * as THREE from "three"
 import { BlendFunction } from "postprocessing"
 import { featuredPortfolioProjects, portfolioCapabilities } from "@/data/portfolio"
 
 const tunnelRings = Array.from({ length: 18 }, (_, index) => index)
+const lowPowerTunnelRings = tunnelRings.filter((index) => index < 16 && index % 2 === 0)
 const stageRails = Array.from({ length: 14 }, (_, index) => index)
+const lowPowerStageRails = stageRails.filter((index) => index % 2 === 0)
 const towerPositions = [
   [-6.8, 1.6, -4],
   [6.6, 2.2, -6],
@@ -29,13 +32,25 @@ const cableCurveSeeds = [
   [7.1, 4.4, -1, 3.2, 3.2, -12, 0.2, 3.9, -27],
 ] as const
 const floorLightPositions = Array.from({ length: 12 }, (_, index) => index)
+const lowPowerFloorLightPositions = floorLightPositions.filter((index) => index % 2 === 0)
 const runwayPlatePositions = Array.from({ length: 18 }, (_, index) => index)
+const lowPowerRunwayPlatePositions = runwayPlatePositions.filter((index) => index % 2 === 0)
 const screenLineIndices = Array.from({ length: 12 }, (_, index) => index)
 const tunnelStruts = Array.from({ length: 24 }, (_, index) => index)
+const lowPowerTunnelStruts = tunnelStruts.filter((index) => index % 2 === 0)
 const wallRibs = Array.from({ length: 14 }, (_, index) => index)
+const lowPowerWallRibs = wallRibs.filter((index) => index % 2 === 0)
 const scaffoldLevels = Array.from({ length: 6 }, (_, index) => index)
 const runwayGrates = Array.from({ length: 22 }, (_, index) => index)
+const lowPowerRunwayGrates = runwayGrates.filter((index) => index % 2 === 0)
 const rearSpokeIndices = Array.from({ length: 16 }, (_, index) => index)
+const lowPowerRearSpokeIndices = rearSpokeIndices.filter((index) => index % 2 === 0)
+const heroTowerRows = Array.from({ length: 9 }, (_, index) => index)
+const heroTrussRuns = Array.from({ length: 7 }, (_, index) => index)
+const heroLightStacks = Array.from({ length: 8 }, (_, index) => index)
+const foregroundRailPosts = Array.from({ length: 12 }, (_, index) => index)
+const lowPowerForegroundRailPosts = foregroundRailPosts.filter((index) => index % 2 === 0)
+const gantryLadderRungs = Array.from({ length: 10 }, (_, index) => index)
 const smokePlumes = [
   [-3.6, -0.65, -4, 1.2],
   [3.5, -0.72, -7, 1.5],
@@ -117,18 +132,50 @@ const screenVertexShader = `
 type IndustrialHomeExperienceProps = {
   progress: number
   reducedMotion: boolean
+  sceneActive: boolean
 }
 
 function lerp(start: number, end: number, progress: number) {
   return start + (end - start) * progress
 }
 
-function IndustrialScene({ progress, reducedMotion }: { progress: number; reducedMotion: boolean }) {
+function canUseWebGL() {
+  if (typeof window === "undefined") return false
+  try {
+    const canvas = document.createElement("canvas")
+    return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl") ?? canvas.getContext("experimental-webgl"))
+  } catch {
+    return false
+  }
+}
+
+function shouldStartLowPower() {
+  if (typeof window === "undefined") return false
+  const cores = window.navigator.hardwareConcurrency || 4
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches
+  const compactViewport = window.matchMedia("(max-width: 760px)").matches
+  return cores <= 4 || (coarsePointer && compactViewport)
+}
+
+function IndustrialScene({
+  lowPower,
+  onPerformanceDecline,
+  progress,
+  reducedMotion,
+  sceneActive,
+}: {
+  lowPower: boolean
+  onPerformanceDecline: () => void
+  progress: number
+  reducedMotion: boolean
+  sceneActive: boolean
+}) {
   const groupRef = useRef<THREE.Group>(null)
   const red = useMemo(() => new THREE.Color("#b51218"), [])
   const amber = useMemo(() => new THREE.Color("#b88556"), [])
 
   useFrame(({ camera, clock }) => {
+    if (!sceneActive) return
     const t = reducedMotion ? 0 : progress
     camera.position.set(lerp(0, 7, t), lerp(1.4, 4.6, t), lerp(18, -10, t))
     camera.rotation.set(lerp(-0.05, -0.2, t), lerp(0, -0.3, t), 0)
@@ -150,27 +197,156 @@ function IndustrialScene({ progress, reducedMotion }: { progress: number; reduce
         <CinematicLightVolume progress={progress} />
         <OverheadCables />
         <CableCurtain />
-        <Tunnel />
-        <RearTunnelCore progress={progress} />
-        <IndustrialWallScaffolds progress={progress} />
-        <StageArchitecture />
+        <IndustrialParticles lowPower={lowPower} />
+        <Tunnel lowPower={lowPower} />
+        <HeroSetPieces lowPower={lowPower} progress={progress} />
+        <ForegroundRunwayRig lowPower={lowPower} progress={progress} />
+        <RearTunnelCore lowPower={lowPower} progress={progress} />
+        <IndustrialWallScaffolds lowPower={lowPower} progress={progress} />
+        <StageArchitecture lowPower={lowPower} />
         <IndustrialSideScreens progress={progress} />
         <ProjectSlabs />
         <CapabilityField />
         <ContactBeacon />
-        <FloorRunway progress={progress} />
-        <SmokeLayer />
-        <ShaderFloor progress={progress} />
+        <FloorRunway lowPower={lowPower} progress={progress} />
+        <SmokeLayer lowPower={lowPower} />
+        <ShaderFloor lowPower={lowPower} progress={progress} />
       </group>
-      <CinematicEffects reducedMotion={reducedMotion} />
+      <PerformanceMonitor onDecline={onPerformanceDecline} onFallback={onPerformanceDecline} />
+      <AdaptiveDpr pixelated />
+      <Preload all />
+      <CinematicEffects lowPower={lowPower} reducedMotion={reducedMotion} />
     </>
   )
 }
 
-function Tunnel() {
+function IndustrialParticles({ lowPower }: { lowPower: boolean }) {
+  return (
+    <group visible={!lowPower}>
+      <Sparkles count={72} speed={0.18} opacity={0.42} color="#eee7d8" size={1.7} scale={[8.5, 3.2, 24]} position={[1.1, 1.15, -11]} />
+      <Sparkles count={28} speed={0.28} opacity={0.36} color="#b51218" size={2.2} scale={[7, 2.6, 20]} position={[3.2, 1.5, -13]} />
+    </group>
+  )
+}
+
+function HeroSetPieces({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const activeRows = lowPower ? heroTowerRows.filter((index) => index % 2 === 0) : heroTowerRows
+  const activeTrusses = lowPower ? heroTrussRuns.filter((index) => index % 2 === 0) : heroTrussRuns
+
+  return (
+    <group>
+      {[-1, 1].map((side) => (
+        <group key={`hero-side-${side}`} position={[side * 5.85, 0.45, -5.2]} rotation={[0, side * -0.08, 0]}>
+          {activeRows.map((index) => (
+            <group key={`hero-rib-${side}-${index}`} position={[side * (0.12 + (index % 2) * 0.32), 0.15, -index * 1.95]}>
+              <mesh position={[0, 1.8, 0]}>
+                <boxGeometry args={[0.09, 4.8 + (index % 3) * 0.9, 0.08]} />
+                <meshStandardMaterial color="#12100e" emissive="#060303" emissiveIntensity={0.35} metalness={0.9} roughness={0.42} />
+              </mesh>
+              <mesh position={[side * -0.42, 3.82, -0.16]} rotation={[0, side * 0.12, side * 0.2]}>
+                <boxGeometry args={[1.35, 0.045, 0.055]} />
+                <meshStandardMaterial color="#2f2924" emissive="#0e0807" emissiveIntensity={0.26} metalness={0.9} roughness={0.38} />
+              </mesh>
+              <mesh position={[side * -0.2, 0.62, 0.18]}>
+                <boxGeometry args={[0.78, 0.18, 0.26]} />
+                <meshStandardMaterial color="#0b0a09" emissive={index % 4 === 0 ? "#210708" : "#030202"} emissiveIntensity={0.42 + progress * 0.2} metalness={0.72} roughness={0.55} />
+              </mesh>
+              {heroLightStacks.map((light) => (
+                <mesh key={`hero-light-${side}-${index}-${light}`} position={[side * -0.15, 0.85 + light * 0.34, 0.34]} visible={index % 3 === 0 && light < 5}>
+                  <boxGeometry args={[0.035, 0.12, 0.025]} />
+                  <meshBasicMaterial color={light % 2 === 0 ? "#ff252b" : "#b88556"} transparent opacity={0.72} />
+                </mesh>
+              ))}
+            </group>
+          ))}
+          <mesh position={[side * -0.55, -0.72, -7.4]} rotation={[-Math.PI / 2, 0, side * 0.03]}>
+            <boxGeometry args={[1.2, 18, 0.035]} />
+            <meshStandardMaterial color="#181512" emissive="#080404" emissiveIntensity={0.2} metalness={0.9} roughness={0.4} />
+          </mesh>
+        </group>
+      ))}
+      {activeTrusses.map((index) => (
+        <group key={`hero-truss-${index}`} position={[0.9, 4.45 - (index % 2) * 0.22, -2.4 - index * 2.7]} rotation={[0.05, 0, index % 2 === 0 ? 0.04 : -0.04]}>
+          <mesh>
+            <boxGeometry args={[10.8, 0.055, 0.055]} />
+            <meshStandardMaterial color="#090807" metalness={0.78} roughness={0.58} />
+          </mesh>
+          <mesh position={[0, -0.32, 0]} rotation={[0, 0, 0.18]}>
+            <boxGeometry args={[10.2, 0.028, 0.034]} />
+            <meshStandardMaterial color="#15110f" metalness={0.82} roughness={0.5} />
+          </mesh>
+        </group>
+      ))}
+      <mesh position={[1.35, -0.78, -8.8]} rotation={[-Math.PI / 2, 0, 0]}>
+        <boxGeometry args={[1.65, 22, 0.03]} />
+        <meshStandardMaterial color="#171411" emissive="#110606" emissiveIntensity={0.34} metalness={0.94} roughness={0.33} />
+      </mesh>
+      <mesh position={[1.35, -0.735, -8.8]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[1.28, 20, 3, 28]} />
+        <meshBasicMaterial color="#82796b" transparent opacity={0.18} side={THREE.DoubleSide} />
+      </mesh>
+    </group>
+  )
+}
+
+function ForegroundRunwayRig({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const activePosts = lowPower ? lowPowerForegroundRailPosts : foregroundRailPosts
+  const glowOpacity = 0.42 + progress * 0.18
+
+  return (
+    <group position={[0, -0.92, 0.4]}>
+      {[-1, 1].map((side) => (
+        <group key={`runway-rig-${side}`} position={[side * 3.05, 0, -5.2]} rotation={[0, side * -0.04, 0]}>
+          {activePosts.map((index) => (
+            <group key={`runway-post-${side}-${index}`} position={[side * (0.24 + (index % 2) * 0.12), 0.1, -index * 2.05]}>
+              <mesh position={[0, 0.62, 0]}>
+                <boxGeometry args={[0.045, 1.34, 0.045]} />
+                <meshStandardMaterial color="#171411" emissive="#060404" emissiveIntensity={0.18} metalness={0.88} roughness={0.46} />
+              </mesh>
+              <mesh position={[side * -0.28, 1.18, -0.2]} rotation={[0, side * 0.04, 0]}>
+                <boxGeometry args={[0.82, 0.035, 0.035]} />
+                <meshStandardMaterial color="#3d352e" emissive="#120c0b" emissiveIntensity={0.22} metalness={0.9} roughness={0.38} />
+              </mesh>
+              <mesh position={[side * -0.04, 1.42, 0.04]} visible={index % 3 === 0}>
+                <boxGeometry args={[0.05, 0.22, 0.05]} />
+                <meshBasicMaterial color="#ff252b" transparent opacity={glowOpacity} />
+              </mesh>
+              <pointLight position={[side * -0.04, 1.42, 0.2]} intensity={index % 3 === 0 ? 1.55 + progress : 0} color="#b51218" distance={3.2} />
+            </group>
+          ))}
+          <mesh position={[side * -0.1, 1.22, -11.4]}>
+            <boxGeometry args={[0.035, 0.035, 25.5]} />
+            <meshStandardMaterial color="#5b5045" emissive="#1a1110" emissiveIntensity={0.24} metalness={0.9} roughness={0.38} />
+          </mesh>
+          <mesh position={[side * -0.26, 0.82, -11.4]}>
+            <boxGeometry args={[0.026, 0.026, 25.5]} />
+            <meshStandardMaterial color="#221e1a" metalness={0.82} roughness={0.52} />
+          </mesh>
+        </group>
+      ))}
+      <group position={[0.8, 4.2, -7.5]} rotation={[0.05, 0, 0]}>
+        <mesh>
+          <boxGeometry args={[8.6, 0.07, 0.07]} />
+          <meshStandardMaterial color="#11100e" emissive="#060303" emissiveIntensity={0.22} metalness={0.9} roughness={0.42} />
+        </mesh>
+        {gantryLadderRungs.map((index) => (
+          <mesh key={`gantry-ladder-${index}`} position={[-3.9 + index * 0.86, -0.34, -0.04]} rotation={[0, 0, index % 2 === 0 ? 0.62 : -0.62]}>
+            <boxGeometry args={[0.92, 0.022, 0.028]} />
+            <meshStandardMaterial color="#211c18" metalness={0.84} roughness={0.48} />
+          </mesh>
+        ))}
+      </group>
+    </group>
+  )
+}
+
+function Tunnel({ lowPower }: { lowPower: boolean }) {
+  const activeTunnelRings = lowPower ? lowPowerTunnelRings : tunnelRings
+  const activeTunnelStruts = lowPower ? lowPowerTunnelStruts : tunnelStruts
+
   return (
     <group position={[1.35, 0, 0]}>
-      {tunnelRings.map((index) => (
+      {activeTunnelRings.map((index) => (
         <group key={index}>
           <mesh position={[0, 0.4, -index * 1.85]}>
             <torusGeometry args={[4.8 + index * 0.03, 0.035, 8, 72]} />
@@ -194,7 +370,7 @@ function Tunnel() {
           <meshStandardMaterial color="#49443d" metalness={0.9} roughness={0.45} />
         </mesh>
       ))}
-      {tunnelStruts.map((index) => (
+      {activeTunnelStruts.map((index) => (
         <mesh key={index} position={[(index % 2 ? -5.4 : 5.4), 2.9 + (index % 4) * 0.4, -index * 1.5]}>
           <cylinderGeometry args={[0.015, 0.015, 4.5, 8]} />
           <meshStandardMaterial color="#26211f" metalness={0.8} roughness={0.5} />
@@ -227,8 +403,9 @@ function CinematicLightVolume({ progress }: { progress: number }) {
   )
 }
 
-function RearTunnelCore({ progress }: { progress: number }) {
+function RearTunnelCore({ lowPower, progress }: { lowPower: boolean; progress: number }) {
   const materialRef = useRef<THREE.MeshBasicMaterial>(null)
+  const activeSpokes = lowPower ? lowPowerRearSpokeIndices : rearSpokeIndices
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
@@ -250,7 +427,7 @@ function RearTunnelCore({ progress }: { progress: number }) {
         <circleGeometry args={[1.22, 64]} />
         <meshBasicMaterial ref={materialRef} color="#eee7d8" transparent opacity={0.2} depthWrite={false} blending={THREE.AdditiveBlending} />
       </mesh>
-      {rearSpokeIndices.map((index) => {
+      {activeSpokes.map((index) => {
         const angle = (index / 16) * Math.PI * 2
         return (
           <mesh key={`rear-spoke-${index}`} position={[Math.cos(angle) * 1.95, Math.sin(angle) * 1.95, 0]} rotation={[0, 0, angle]}>
@@ -263,12 +440,14 @@ function RearTunnelCore({ progress }: { progress: number }) {
   )
 }
 
-function IndustrialWallScaffolds({ progress }: { progress: number }) {
+function IndustrialWallScaffolds({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const activeWallRibs = lowPower ? lowPowerWallRibs : wallRibs
+
   return (
     <group>
       {[-1, 1].map((side) => (
         <group key={`wall-side-${side}`} position={[side * 7.25, 1.2, -1.5]} rotation={[0, side * -0.12, 0]}>
-          {wallRibs.map((index) => (
+          {activeWallRibs.map((index) => (
             <WallRib key={`wall-rib-${side}-${index}`} index={index} progress={progress} side={side} />
           ))}
           {scaffoldLevels.map((level) => (
@@ -283,17 +462,19 @@ function IndustrialWallScaffolds({ progress }: { progress: number }) {
   )
 }
 
-function StageArchitecture() {
+function StageArchitecture({ lowPower }: { lowPower: boolean }) {
+  const activeStageRails = lowPower ? lowPowerStageRails : stageRails
+
   return (
     <group>
-      {stageRails.map((index) => (
+      {activeStageRails.map((index) => (
         <mesh key={`rail-${index}`} position={[0, -1.03, -index * 2.6]} rotation={[0, 0, 0]}>
           <boxGeometry args={[9.5, 0.018, 0.018]} />
           <meshBasicMaterial color={index % 2 === 0 ? "#8a7d6e" : "#3b332e"} />
         </mesh>
       ))}
       {[-5.8, 5.8].map((x) =>
-        stageRails.map((index) => (
+        activeStageRails.map((index) => (
           <mesh key={`walk-${x}-${index}`} position={[x, -0.75, -index * 2.4]}>
             <boxGeometry args={[0.05, 1.8, 0.05]} />
             <meshStandardMaterial color="#2d2924" emissive="#120d0c" emissiveIntensity={0.18} metalness={0.85} roughness={0.48} />
@@ -447,7 +628,11 @@ function IndustrialSideScreens({ progress }: { progress: number }) {
   )
 }
 
-function FloorRunway({ progress }: { progress: number }) {
+function FloorRunway({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const activeRunwayPlates = lowPower ? lowPowerRunwayPlatePositions : runwayPlatePositions
+  const activeRunwayGrates = lowPower ? lowPowerRunwayGrates : runwayGrates
+  const activeFloorLights = lowPower ? lowPowerFloorLightPositions : floorLightPositions
+
   return (
     <group position={[0, -1.16, -9]}>
       {[-1, 1].map((side) => (
@@ -462,19 +647,19 @@ function FloorRunway({ progress }: { progress: number }) {
           </mesh>
         </group>
       ))}
-      {runwayPlatePositions.map((index) => (
+      {activeRunwayPlates.map((index) => (
         <mesh key={`runway-plate-${index}`} position={[0, 0.025, 8 - index * 2.15]} rotation={[-Math.PI / 2, 0, 0]}>
           <boxGeometry args={[1.95 + (index % 2) * 0.28, 1.18, 0.018]} />
           <meshStandardMaterial color="#10100f" emissive={index % 5 === 0 ? "#221110" : "#050505"} emissiveIntensity={0.22 + progress * 0.18} metalness={0.9} roughness={0.38} />
         </mesh>
       ))}
-      {runwayGrates.map((index) => (
+      {activeRunwayGrates.map((index) => (
         <mesh key={`runway-grate-${index}`} position={[0, 0.058, 7.2 - index * 1.5]} rotation={[-Math.PI / 2, 0, 0]}>
           <boxGeometry args={[1.34, 0.018, 0.016]} />
           <meshBasicMaterial color={index % 6 === 0 ? "#b51218" : "#74695d"} transparent opacity={index % 6 === 0 ? 0.44 : 0.22} />
         </mesh>
       ))}
-      {floorLightPositions.map((index) => (
+      {activeFloorLights.map((index) => (
         <mesh key={`floor-light-${index}`} position={[(index % 2 === 0 ? -1 : 1) * 1.72, 0.05, 4 - index * 2.2]}>
           <boxGeometry args={[0.62, 0.018, 0.035]} />
           <meshBasicMaterial color={index % 3 === 0 ? "#e6ded0" : "#b51218"} transparent opacity={0.62} />
@@ -488,7 +673,7 @@ function FloorRunway({ progress }: { progress: number }) {
   )
 }
 
-function ShaderFloor({ progress }: { progress: number }) {
+function ShaderFloor({ lowPower, progress }: { lowPower: boolean; progress: number }) {
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const uniforms = useMemo(
     () => ({
@@ -506,7 +691,7 @@ function ShaderFloor({ progress }: { progress: number }) {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.245, -6]}>
-      <planeGeometry args={[42, 84, 28, 64]} />
+      <planeGeometry args={lowPower ? [42, 84, 14, 28] : [42, 84, 28, 64]} />
       <shaderMaterial
         ref={materialRef}
         uniforms={uniforms}
@@ -520,10 +705,12 @@ function ShaderFloor({ progress }: { progress: number }) {
   )
 }
 
-function SmokeLayer() {
+function SmokeLayer({ lowPower }: { lowPower: boolean }) {
+  const activeSmokePlumes = lowPower ? smokePlumes.slice(0, 2) : smokePlumes
+
   return (
     <group>
-      {smokePlumes.map(([x, y, z, scale], index) => (
+      {activeSmokePlumes.map(([x, y, z, scale], index) => (
         <mesh key={`smoke-${index}`} position={[x, y, z]} rotation={[0, 0, index * 0.3]}>
           <planeGeometry args={[3.2 * scale, 1.1 * scale]} />
           <meshBasicMaterial color="#d7d0c4" transparent opacity={0.055} depthWrite={false} side={THREE.DoubleSide} />
@@ -597,8 +784,8 @@ function ContactBeacon() {
   )
 }
 
-function CinematicEffects({ reducedMotion }: { reducedMotion: boolean }) {
-  if (reducedMotion) return null
+function CinematicEffects({ lowPower, reducedMotion }: { lowPower: boolean; reducedMotion: boolean }) {
+  if (reducedMotion || lowPower) return null
 
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
@@ -611,16 +798,51 @@ function CinematicEffects({ reducedMotion }: { reducedMotion: boolean }) {
   )
 }
 
-export function IndustrialHomeExperience({ progress, reducedMotion }: IndustrialHomeExperienceProps) {
+export function IndustrialHomeExperience({ progress, reducedMotion, sceneActive }: IndustrialHomeExperienceProps) {
+  const [webglSupported, setWebglSupported] = useState<boolean | null>(null)
+  const [canvasReady, setCanvasReady] = useState(false)
+  const [deviceLowPower, setDeviceLowPower] = useState(false)
+  const [adaptiveLowPower, setAdaptiveLowPower] = useState(false)
+  const lowPower = deviceLowPower || adaptiveLowPower
+  const dpr: [number, number] = lowPower ? [1, 1.15] : [1, 1.45]
+  const frameloop = sceneActive && !reducedMotion ? "always" : "demand"
+  const handlePerformanceDecline = useCallback(() => setAdaptiveLowPower(true), [])
+
+  useEffect(() => {
+    setWebglSupported(canUseWebGL())
+    setDeviceLowPower(shouldStartLowPower())
+  }, [])
+
+  if (webglSupported === false) {
+    return (
+      <div className="industrial-canvas industrial-canvas-fallback industrial-canvas-unavailable" aria-hidden="true">
+        <div className="industrial-fallback-stage" />
+      </div>
+    )
+  }
+
   return (
-    <div className="industrial-canvas" aria-hidden="true">
-      <Canvas
-        camera={{ position: [0, 1.4, 18], fov: 42, near: 0.1, far: 90 }}
-        dpr={[1, 1.45]}
-        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
-      >
-        <IndustrialScene progress={progress} reducedMotion={reducedMotion} />
-      </Canvas>
+    <div className={`industrial-canvas ${canvasReady ? "is-ready" : "is-loading"} ${lowPower ? "is-low-power" : ""}`} aria-hidden="true">
+      {webglSupported ? (
+        <Canvas
+          camera={{ position: [0, 1.4, 18], fov: 42, near: 0.1, far: 90 }}
+          dpr={dpr}
+          frameloop={frameloop}
+          gl={{ antialias: !lowPower, alpha: false, powerPreference: lowPower ? "default" : "high-performance" }}
+          onCreated={({ gl }) => {
+            gl.setClearColor("#030303")
+            window.requestAnimationFrame(() => setCanvasReady(true))
+          }}
+        >
+          <IndustrialScene lowPower={lowPower} onPerformanceDecline={handlePerformanceDecline} progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
+        </Canvas>
+      ) : null}
+      {!canvasReady ? (
+        <div className="industrial-canvas-loader">
+          <span>Initializing WebGL stage</span>
+          <i />
+        </div>
+      ) : null}
       <div className="industrial-stage-illustration" />
     </div>
   )
