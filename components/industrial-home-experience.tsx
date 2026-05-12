@@ -61,7 +61,6 @@ const industrialLightStacks = [
   [7.75, 2.4, -14.6, -0.28],
   [-7.4, 2.2, -16.2, 0.22],
 ] as const
-const slabCableIndices = Array.from({ length: 4 }, (_, index) => index)
 const beaconSteps = Array.from({ length: 5 }, (_, index) => index)
 const smokePlumes = [
   [-3.6, -0.65, -4, 1.2],
@@ -141,6 +140,42 @@ const screenVertexShader = `
   }
 `
 
+const slabFragmentShader = `
+  uniform float uTime;
+  uniform float uSignal;
+  uniform vec3 uAccent;
+  varying vec2 vUv;
+
+  float random(vec2 p) {
+    return fract(sin(dot(p.xy, vec2(41.73, 289.31))) * 19183.193);
+  }
+
+  float line(float value, float width) {
+    return 1.0 - smoothstep(0.0, width, abs(fract(value) - 0.5));
+  }
+
+  void main() {
+    float scan = line(vUv.y * 38.0 + uTime * 0.16, 0.028) * 0.22;
+    float vertical = line(vUv.x * 7.0, 0.035) * 0.08;
+    float grit = random(floor(vUv * vec2(76.0, 120.0)) + uTime) * 0.16;
+    float slash = smoothstep(0.0, 0.04, abs((vUv.x - 0.32) - (vUv.y * 0.28))) * 0.08;
+    float edge = smoothstep(0.0, 0.12, vUv.x) * smoothstep(1.0, 0.88, vUv.x) * smoothstep(0.0, 0.1, vUv.y) * smoothstep(1.0, 0.86, vUv.y);
+    vec3 base = vec3(0.035, 0.033, 0.031);
+    vec3 signal = uAccent * (scan + vertical + grit + uSignal * 0.14);
+    vec3 color = base + signal + vec3(slash);
+    gl_FragColor = vec4(color, edge * (0.56 + uSignal * 0.14));
+  }
+`
+
+const slabVertexShader = `
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`
+
 type IndustrialHomeExperienceProps = {
   progress: number
   reducedMotion: boolean
@@ -149,6 +184,41 @@ type IndustrialHomeExperienceProps = {
 
 function lerp(start: number, end: number, progress: number) {
   return start + (end - start) * progress
+}
+
+type CameraStop = {
+  fov: number
+  position: [number, number, number]
+  progress: number
+  target: [number, number, number]
+}
+
+const cameraStops: CameraStop[] = [
+  { progress: 0, position: [-0.2, 1.75, 17], target: [1.1, 0.25, -12], fov: 41 },
+  { progress: 0.18, position: [0.8, 1.55, 9.8], target: [1.1, 0.65, -10], fov: 39 },
+  { progress: 0.34, position: [-3.8, 1.82, 5.8], target: [0.4, 0.95, -3.4], fov: 35 },
+  { progress: 0.52, position: [1.8, 1.9, 1.2], target: [3.2, 1.05, -7.2], fov: 37 },
+  { progress: 0.72, position: [6.1, 4.7, -13.5], target: [1.9, 0.9, -19], fov: 43 },
+  { progress: 1, position: [7.3, 2.75, -23.5], target: [7.15, 1.05, -28], fov: 39 },
+]
+
+function easedStep(value: number) {
+  return value * value * (3 - 2 * value)
+}
+
+function cameraPoseForProgress(progress: number) {
+  const endIndex = cameraStops.findIndex((stop) => progress <= stop.progress)
+  const nextIndex = endIndex === -1 ? cameraStops.length - 1 : Math.max(endIndex, 1)
+  const previous = cameraStops[nextIndex - 1]
+  const next = cameraStops[nextIndex]
+  const span = Math.max(next.progress - previous.progress, 0.001)
+  const t = easedStep(THREE.MathUtils.clamp((progress - previous.progress) / span, 0, 1))
+
+  return {
+    fov: lerp(previous.fov, next.fov, t),
+    position: previous.position.map((value, index) => lerp(value, next.position[index], t)) as [number, number, number],
+    target: previous.target.map((value, index) => lerp(value, next.target[index], t)) as [number, number, number],
+  }
 }
 
 function canUseWebGL() {
@@ -189,8 +259,13 @@ function IndustrialScene({
   useFrame(({ camera, clock }) => {
     if (!sceneActive) return
     const t = reducedMotion ? 0 : progress
-    camera.position.set(lerp(0, 7, t), lerp(1.4, 4.6, t), lerp(18, -10, t))
-    camera.rotation.set(lerp(-0.05, -0.2, t), lerp(0, -0.3, t), 0)
+    const pose = cameraPoseForProgress(t)
+    camera.position.set(...pose.position)
+    camera.lookAt(...pose.target)
+    if (camera instanceof THREE.PerspectiveCamera && Math.abs(camera.fov - pose.fov) > 0.01) {
+      camera.fov = pose.fov
+      camera.updateProjectionMatrix()
+    }
     if (groupRef.current && !reducedMotion) {
       groupRef.current.rotation.y = Math.sin(clock.elapsedTime * 0.12) * 0.035
     }
@@ -207,6 +282,7 @@ function IndustrialScene({
       <spotLight position={[0, 9, 2]} angle={0.42} penumbra={0.7} intensity={28} color="#f2eadc" distance={38} />
       <group ref={groupRef}>
         <CinematicLightVolume progress={progress} />
+        <HeroSignalMonolith lowPower={lowPower} progress={progress} />
         <OverheadCables />
         <CableCurtain />
         <IndustrialParticles lowPower={lowPower} />
@@ -218,7 +294,7 @@ function IndustrialScene({
         <IndustrialWallScaffolds lowPower={lowPower} progress={progress} />
         <StageArchitecture lowPower={lowPower} />
         <IndustrialSideScreens progress={progress} />
-        <ProjectSlabs />
+        <ProjectSlabs lowPower={lowPower} progress={progress} />
         <CapabilityField />
         <ContactBeacon />
         <FloorRunway lowPower={lowPower} progress={progress} />
@@ -238,6 +314,69 @@ function IndustrialParticles({ lowPower }: { lowPower: boolean }) {
     <group visible={!lowPower}>
       <Sparkles count={72} speed={0.18} opacity={0.42} color="#eee7d8" size={1.7} scale={[8.5, 3.2, 24]} position={[1.1, 1.15, -11]} />
       <Sparkles count={28} speed={0.28} opacity={0.36} color="#b51218" size={2.2} scale={[7, 2.6, 20]} position={[3.2, 1.5, -13]} />
+    </group>
+  )
+}
+
+function HeroSignalMonolith({ progress }: { lowPower: boolean; progress: number }) {
+  const groupRef = useRef<THREE.Group>(null)
+  const faceRef = useRef<THREE.MeshStandardMaterial>(null)
+  const heroPresence = 1 - THREE.MathUtils.clamp(progress / 0.32, 0, 1)
+
+  useFrame(({ clock }) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = 0.22 + Math.sin(clock.elapsedTime * 0.12) * 0.045
+      groupRef.current.position.y = 1.85 + Math.sin(clock.elapsedTime * 0.35) * 0.04
+    }
+    if (faceRef.current) {
+      faceRef.current.opacity = 0.08 + heroPresence * 0.12
+      faceRef.current.emissiveIntensity = 0.35 + heroPresence * 0.28
+    }
+  })
+
+  return (
+    <group ref={groupRef} position={[2.75, 1.45, 6.2]} rotation={[0, 0.22, 0]}>
+      <mesh rotation={[0, Math.PI / 3, 0]}>
+        <coneGeometry args={[2.9, 4.85, 3, 1, true]} />
+        <meshBasicMaterial color="#eee7d8" depthWrite={false} opacity={0.18 + heroPresence * 0.14} side={THREE.DoubleSide} transparent />
+      </mesh>
+      <mesh rotation={[0, Math.PI / 3, 0]}>
+        <coneGeometry args={[2.92, 4.9, 3, 1, true]} />
+        <meshStandardMaterial
+          ref={faceRef}
+          color="#4a453d"
+          depthWrite={false}
+          emissive="#2c1715"
+          emissiveIntensity={0.68}
+          metalness={0.35}
+          opacity={0.32}
+          roughness={0.18}
+          side={THREE.DoubleSide}
+          transparent
+        />
+      </mesh>
+      <mesh rotation={[0, Math.PI / 3, 0]}>
+        <coneGeometry args={[2.98, 4.98, 3, 1, true]} />
+        <meshBasicMaterial color="#eee7d8" opacity={0.62 + heroPresence * 0.26} transparent wireframe />
+      </mesh>
+      <mesh position={[0, -0.88, 0.08]} rotation={[-Math.PI / 2, 0, Math.PI / 3]}>
+        <ringGeometry args={[1.74, 3.55, 3]} />
+        <meshBasicMaterial color="#b51218" opacity={0.24 + heroPresence * 0.18} side={THREE.DoubleSide} transparent />
+      </mesh>
+      <mesh position={[0.15, -0.08, 1.54]} rotation={[0.16, 0, -0.5]}>
+        <boxGeometry args={[0.06, 4.1, 0.05]} />
+        <meshBasicMaterial color="#eee7d8" opacity={0.44 + heroPresence * 0.2} transparent />
+      </mesh>
+      <mesh position={[0.08, -0.05, 0.34]}>
+        <boxGeometry args={[0.12, 4.65, 0.12]} />
+        <meshBasicMaterial color="#ff252b" opacity={0.72 + heroPresence * 0.18} transparent />
+      </mesh>
+      <mesh position={[0.64, -0.44, 1.08]} rotation={[0.14, 0, -0.52]}>
+        <boxGeometry args={[0.05, 2.7, 0.05]} />
+        <meshBasicMaterial color="#ff252b" opacity={0.54 + heroPresence * 0.26} transparent />
+      </mesh>
+      <pointLight position={[0.1, 0.2, 1.55]} color="#eee7d8" distance={9} intensity={2 + heroPresence * 4.5} />
+      <pointLight position={[0.75, -0.4, 1.1]} color="#b51218" distance={7} intensity={1.5 + heroPresence * 3.8} />
     </group>
   )
 }
@@ -783,32 +922,116 @@ function SmokeLayer({ lowPower }: { lowPower: boolean }) {
   )
 }
 
-function ProjectSlabs() {
+function ProjectSlabs({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const activeProjects = lowPower ? featuredPortfolioProjects.slice(0, 3) : featuredPortfolioProjects
+
   return (
-    <group position={[-0.4, 0.55, -8]}>
-      {featuredPortfolioProjects.map((project, index) => (
-        <group key={project.id} position={[-3.8 + index * 2.75, 0.15 + index * 0.18, -index * 2.15]} rotation={[0, -0.22, 0]}>
-          {slabCableIndices.map((cable) => (
-            <mesh key={`slab-cable-${project.id}-${cable}`} position={[-0.64 + cable * 0.42, 2.45, -0.02]}>
-              <boxGeometry args={[0.014, 3.6, 0.014]} />
-              <meshBasicMaterial color="#0b0a09" transparent opacity={0.78} />
-            </mesh>
-          ))}
-          <mesh>
-            <boxGeometry args={[1.75, 2.65, 0.08]} />
-            <meshStandardMaterial color={index === 0 ? "#2b2a27" : "#171716"} metalness={0.75} roughness={0.52} />
+    <group position={[-0.35, 0.68, -7.4]} rotation={[0, -0.16, 0]}>
+      <mesh position={[0.45, 3.65, -2.8]} rotation={[0, -0.04, 0]}>
+        <boxGeometry args={[9.6, 0.07, 0.08]} />
+        <meshStandardMaterial color="#100e0d" emissive="#080303" emissiveIntensity={0.22} metalness={0.92} roughness={0.38} />
+      </mesh>
+      <mesh position={[0.45, 3.2, -2.8]} rotation={[0, -0.04, 0]}>
+        <boxGeometry args={[9.1, 0.028, 0.035]} />
+        <meshStandardMaterial color="#4d443b" emissive="#170b0a" emissiveIntensity={0.26} metalness={0.88} roughness={0.42} />
+      </mesh>
+      {activeProjects.map((project, index) => (
+        <SuspendedProjectSlab key={project.id} index={index} progress={progress} projectId={project.id} />
+      ))}
+    </group>
+  )
+}
+
+function SuspendedProjectSlab({ index, progress, projectId }: { index: number; progress: number; projectId: string }) {
+  const groupRef = useRef<THREE.Group>(null)
+  const faceMaterialRef = useRef<THREE.ShaderMaterial>(null)
+  const accent = useMemo(() => new THREE.Color(index === 0 ? "#eee7d8" : index === 1 ? "#b88556" : "#b51218"), [index])
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uSignal: { value: 0 },
+      uAccent: { value: accent },
+    }),
+    [accent],
+  )
+  const x = -3.7 + index * 2.72
+  const y = 0.08 + index * 0.13
+  const z = -index * 2.05
+  const baseRotation = -0.36 + index * 0.055
+  const localBeat = THREE.MathUtils.clamp(1 - Math.abs(progress - (0.31 + index * 0.035)) / 0.24, 0, 1)
+
+  useFrame(({ clock }) => {
+    if (groupRef.current) {
+      groupRef.current.position.y = y + Math.sin(clock.elapsedTime * 0.58 + index * 0.82) * 0.035
+      groupRef.current.rotation.y = baseRotation + Math.sin(clock.elapsedTime * 0.24 + index) * 0.035 - localBeat * 0.08
+      groupRef.current.rotation.x = -0.035 + Math.sin(clock.elapsedTime * 0.31 + index) * 0.012
+    }
+    if (faceMaterialRef.current) {
+      faceMaterialRef.current.uniforms.uTime.value = clock.elapsedTime + index * 1.7
+      faceMaterialRef.current.uniforms.uSignal.value = 0.18 + localBeat * 0.9
+    }
+  })
+
+  return (
+    <group ref={groupRef} position={[x, y, z]} rotation={[-0.035, baseRotation, index % 2 === 0 ? -0.018 : 0.015]}>
+      {[-0.78, -0.26, 0.26, 0.78].map((cableX, cableIndex) => (
+        <group key={`slab-cable-${projectId}-${cableIndex}`} position={[cableX, 2.52, -0.02]}>
+          <mesh position={[0, 0.72, 0]}>
+            <boxGeometry args={[0.018, 3.95, 0.018]} />
+            <meshStandardMaterial color="#050505" emissive="#020101" emissiveIntensity={0.2} metalness={0.72} roughness={0.68} />
           </mesh>
-          <mesh position={[0, 0, 0.073]}>
-            <boxGeometry args={[1.9, 2.8, 0.018]} />
-            <meshBasicMaterial color={index === 0 ? "#f1eadb" : "#7a7064"} transparent opacity={index === 0 ? 0.13 : 0.07} />
+          <mesh position={[0, -1.3, 0.08]}>
+            <boxGeometry args={[0.11, 0.12, 0.12]} />
+            <meshStandardMaterial color="#1d1815" emissive="#090404" emissiveIntensity={0.26} metalness={0.94} roughness={0.34} />
           </mesh>
-          <mesh position={[0, 0, 0.055]}>
-            <planeGeometry args={[1.55, 2.42]} />
-            <meshStandardMaterial color="#0a0a0a" transparent opacity={0.52} roughness={0.8} />
-          </mesh>
-          <pointLight position={[0.72, 1.16, 0.25]} intensity={index === 0 ? 2.8 : 1.1} color="#a40f15" distance={4} />
         </group>
       ))}
+      <mesh position={[0, 0, -0.08]}>
+        <boxGeometry args={[2.24, 3.34, 0.28]} />
+        <meshStandardMaterial color={index === 0 ? "#2c2924" : "#171514"} emissive="#060303" emissiveIntensity={0.24 + localBeat * 0.08} metalness={0.88} roughness={0.34} />
+      </mesh>
+      <mesh position={[1.16, 0, 0.02]}>
+        <boxGeometry args={[0.12, 3.46, 0.36]} />
+        <meshStandardMaterial color="#0a0908" emissive="#100606" emissiveIntensity={0.22} metalness={0.96} roughness={0.3} />
+      </mesh>
+      <mesh position={[-1.16, 0, 0.02]}>
+        <boxGeometry args={[0.06, 3.38, 0.22]} />
+        <meshStandardMaterial color="#3f3932" emissive="#0a0504" emissiveIntensity={0.16} metalness={0.9} roughness={0.38} />
+      </mesh>
+      <mesh position={[0, 1.7, 0.02]}>
+        <boxGeometry args={[2.42, 0.1, 0.34]} />
+        <meshStandardMaterial color="#4d443a" emissive="#130909" emissiveIntensity={0.2} metalness={0.9} roughness={0.32} />
+      </mesh>
+      <mesh position={[0, 0, 0.12]}>
+        <planeGeometry args={[2.02, 3.08, 10, 18]} />
+        <shaderMaterial
+          ref={faceMaterialRef}
+          fragmentShader={slabFragmentShader}
+          transparent
+          depthWrite={false}
+          uniforms={uniforms}
+          vertexShader={slabVertexShader}
+        />
+      </mesh>
+      <mesh position={[0, 0, 0.145]}>
+        <planeGeometry args={[2.12, 3.18]} />
+        <meshBasicMaterial color="#eee7d8" transparent opacity={0.06 + localBeat * 0.05} depthWrite={false} blending={THREE.AdditiveBlending} />
+      </mesh>
+      {[-1, 1].map((side) => (
+        <mesh key={`slab-side-rail-${projectId}-${side}`} position={[side * 1.02, 0, 0.18]}>
+          <boxGeometry args={[0.025, 3.05, 0.03]} />
+          <meshBasicMaterial color={side > 0 ? "#eee7d8" : "#7b7064"} transparent opacity={0.36} />
+        </mesh>
+      ))}
+      {[-1, 1].map((cornerY) =>
+        [-1, 1].map((cornerX) => (
+          <mesh key={`slab-corner-${projectId}-${cornerX}-${cornerY}`} position={[cornerX * 0.92, cornerY * 1.38, 0.19]}>
+            <boxGeometry args={[0.1, 0.1, 0.035]} />
+            <meshBasicMaterial color={cornerX > 0 && cornerY > 0 ? "#ff252b" : "#75695d"} transparent opacity={cornerX > 0 && cornerY > 0 ? 0.92 : 0.32} />
+          </mesh>
+        )),
+      )}
+      <pointLight position={[0.82, 1.28, 0.52]} intensity={1.1 + localBeat * 3.4} color={index === 0 ? "#eee7d8" : "#b51218"} distance={5.2} />
     </group>
   )
 }

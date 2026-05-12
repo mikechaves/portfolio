@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   featuredPortfolioProjects,
   portfolioCapabilities,
@@ -43,33 +45,37 @@ function useHomeScrollProgress() {
       return
     }
 
-    let frame = 0
-    let maxScroll = 1
+    gsap.registerPlugin(ScrollTrigger)
 
-    const updateMaxScroll = () => {
-      maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
+    const easedProgress = { value: 0 }
+    let lastProgress = -1
+    const syncProgress = () => {
+      if (Math.abs(easedProgress.value - lastProgress) < 0.001) return
+      lastProgress = easedProgress.value
+      setProgress(easedProgress.value)
     }
+    const trigger = ScrollTrigger.create({
+      start: 0,
+      end: () => Math.max(document.documentElement.scrollHeight - window.innerHeight, 1),
+      invalidateOnRefresh: true,
+      scrub: 0.75,
+      onUpdate: (self) => {
+        gsap.to(easedProgress, {
+          duration: 0.55,
+          ease: "power3.out",
+          overwrite: true,
+          value: self.progress,
+        })
+      },
+    })
 
-    const update = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        setProgress(Math.min(window.scrollY / maxScroll, 1))
-      })
-    }
+    gsap.ticker.add(syncProgress)
+    ScrollTrigger.refresh()
 
-    const handleResize = () => {
-      updateMaxScroll()
-      update()
-    }
-
-    updateMaxScroll()
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", handleResize)
     return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", handleResize)
+      gsap.ticker.remove(syncProgress)
+      trigger.kill()
+      gsap.killTweensOf(easedProgress)
     }
   }, [reducedMotion])
 
