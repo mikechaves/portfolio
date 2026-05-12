@@ -74,7 +74,7 @@ function useHomeScrollProgress() {
   }, [reducedMotion])
 
   useEffect(() => {
-    const updateVisibility = () => setSceneActive(document.visibilityState === "visible")
+    const updateVisibility = () => setSceneActive(document.visibilityState === "visible" && document.hasFocus())
 
     updateVisibility()
     document.addEventListener("visibilitychange", updateVisibility)

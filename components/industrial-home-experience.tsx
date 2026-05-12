@@ -828,7 +828,7 @@ export function IndustrialHomeExperience({ progress, reducedMotion, sceneActive 
           camera={{ position: [0, 1.4, 18], fov: 42, near: 0.1, far: 90 }}
           dpr={dpr}
           frameloop={frameloop}
-          gl={{ antialias: !lowPower, alpha: false, powerPreference: lowPower ? "default" : "high-performance" }}
+          gl={{ antialias: !deviceLowPower, alpha: false, powerPreference: deviceLowPower ? "default" : "high-performance" }}
           onCreated={({ gl }) => {
             gl.setClearColor("#030303")
             window.requestAnimationFrame(() => setCanvasReady(true))
