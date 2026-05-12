@@ -234,7 +234,7 @@ html {
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.28;
+  opacity: 0.92;
   transition: opacity 220ms ease;
 }
 
@@ -503,10 +503,6 @@ html {
   mask-image: linear-gradient(90deg, transparent 0 42%, black 54% 100%);
 }
 
-.industrial-canvas.is-ready .industrial-stage-illustration {
-  display: none;
-}
-
 .industrial-stage-illustration::before {
   content: "";
   position: absolute;
@@ -597,46 +593,34 @@ html {
 .industrial-hero-section::before {
   content: "";
   position: absolute;
-  z-index: 1;
-  right: clamp(8rem, 21vw, 21rem);
-  top: 23%;
-  width: 0.16rem;
-  height: min(46vh, 26rem);
-  background: linear-gradient(180deg, transparent, #eee7d8 14%, #ff252b 48%, #eee7d8 82%, transparent);
-  box-shadow:
-    0 0 24px rgba(238,231,216,0.62),
-    0 0 70px rgba(181,18,24,0.52);
-  opacity: 0.72;
-  transform: rotate(-18deg);
-  transform-origin: center;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(3,3,3,0.96) 0 14%, rgba(3,3,3,0.48) 36%, rgba(3,3,3,0.18) 68%, rgba(3,3,3,0.76) 100%),
+    linear-gradient(180deg, rgba(3,3,3,0.22), rgba(3,3,3,0.86) 88%),
+    url("/images/industrial-hero-plate.jpg");
+  background-position: center center;
+  background-size: cover;
+  opacity: 0.82;
+  transform: scale(1.02);
 }
 
 .industrial-hero-section::after {
   content: "";
   position: absolute;
+  inset: 0;
   z-index: 0;
-  right: clamp(1rem, 7vw, 7rem);
-  top: 12%;
-  width: min(43vw, 39rem);
-  height: min(62vh, 38rem);
   background:
-    linear-gradient(122deg, transparent 0 48%, rgba(238,231,216,0.55) 49%, transparent 50% 100%),
-    linear-gradient(238deg, transparent 0 48%, rgba(238,231,216,0.4) 49%, transparent 50% 100%),
-    repeating-linear-gradient(0deg, rgba(238,231,216,0.16) 0 1px, transparent 1px 1.35rem),
-    repeating-linear-gradient(90deg, rgba(181,18,24,0.14) 0 1px, transparent 1px 2.2rem),
-    radial-gradient(circle at 52% 72%, rgba(238,231,216,0.34), transparent 7rem),
-    linear-gradient(180deg, rgba(238,231,216,0.04), rgba(181,18,24,0.18));
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  filter: drop-shadow(0 0 46px rgba(238,231,216,0.16)) drop-shadow(0 0 76px rgba(181,18,24,0.18));
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(238,231,216,0.025) 6px),
+    radial-gradient(circle at 57% 43%, rgba(238,231,216,0.18), transparent 16rem),
+    radial-gradient(circle at 74% 34%, rgba(181,18,24,0.22), transparent 18rem);
   opacity: 0.58;
-  transform: perspective(900px) rotateY(-23deg) rotateX(4deg);
-  transform-origin: center;
   mix-blend-mode: screen;
 }
 
 .industrial-hero-copy {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   max-width: 34rem;
 }
 
@@ -707,7 +691,7 @@ html {
   position: absolute;
   left: 50%;
   bottom: 2rem;
-  z-index: 2;
+  z-index: 1;
   transform: translateX(-50%);
   color: rgba(232, 225, 210, 0.62);
   text-transform: uppercase;

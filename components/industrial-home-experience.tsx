@@ -282,7 +282,6 @@ function IndustrialScene({
       <spotLight position={[0, 9, 2]} angle={0.42} penumbra={0.7} intensity={28} color="#f2eadc" distance={38} />
       <group ref={groupRef}>
         <CinematicLightVolume progress={progress} />
-        <HeroSignalMonolith lowPower={lowPower} progress={progress} />
         <OverheadCables />
         <CableCurtain />
         <IndustrialParticles lowPower={lowPower} />
@@ -314,69 +313,6 @@ function IndustrialParticles({ lowPower }: { lowPower: boolean }) {
     <group visible={!lowPower}>
       <Sparkles count={72} speed={0.18} opacity={0.42} color="#eee7d8" size={1.7} scale={[8.5, 3.2, 24]} position={[1.1, 1.15, -11]} />
       <Sparkles count={28} speed={0.28} opacity={0.36} color="#b51218" size={2.2} scale={[7, 2.6, 20]} position={[3.2, 1.5, -13]} />
-    </group>
-  )
-}
-
-function HeroSignalMonolith({ progress }: { lowPower: boolean; progress: number }) {
-  const groupRef = useRef<THREE.Group>(null)
-  const faceRef = useRef<THREE.MeshStandardMaterial>(null)
-  const heroPresence = 1 - THREE.MathUtils.clamp(progress / 0.32, 0, 1)
-
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = 0.22 + Math.sin(clock.elapsedTime * 0.12) * 0.045
-      groupRef.current.position.y = 1.85 + Math.sin(clock.elapsedTime * 0.35) * 0.04
-    }
-    if (faceRef.current) {
-      faceRef.current.opacity = 0.08 + heroPresence * 0.12
-      faceRef.current.emissiveIntensity = 0.35 + heroPresence * 0.28
-    }
-  })
-
-  return (
-    <group ref={groupRef} position={[2.75, 1.45, 6.2]} rotation={[0, 0.22, 0]}>
-      <mesh rotation={[0, Math.PI / 3, 0]}>
-        <coneGeometry args={[2.9, 4.85, 3, 1, true]} />
-        <meshBasicMaterial color="#eee7d8" depthWrite={false} opacity={0.18 + heroPresence * 0.14} side={THREE.DoubleSide} transparent />
-      </mesh>
-      <mesh rotation={[0, Math.PI / 3, 0]}>
-        <coneGeometry args={[2.92, 4.9, 3, 1, true]} />
-        <meshStandardMaterial
-          ref={faceRef}
-          color="#4a453d"
-          depthWrite={false}
-          emissive="#2c1715"
-          emissiveIntensity={0.68}
-          metalness={0.35}
-          opacity={0.32}
-          roughness={0.18}
-          side={THREE.DoubleSide}
-          transparent
-        />
-      </mesh>
-      <mesh rotation={[0, Math.PI / 3, 0]}>
-        <coneGeometry args={[2.98, 4.98, 3, 1, true]} />
-        <meshBasicMaterial color="#eee7d8" opacity={0.62 + heroPresence * 0.26} transparent wireframe />
-      </mesh>
-      <mesh position={[0, -0.88, 0.08]} rotation={[-Math.PI / 2, 0, Math.PI / 3]}>
-        <ringGeometry args={[1.74, 3.55, 3]} />
-        <meshBasicMaterial color="#b51218" opacity={0.24 + heroPresence * 0.18} side={THREE.DoubleSide} transparent />
-      </mesh>
-      <mesh position={[0.15, -0.08, 1.54]} rotation={[0.16, 0, -0.5]}>
-        <boxGeometry args={[0.06, 4.1, 0.05]} />
-        <meshBasicMaterial color="#eee7d8" opacity={0.44 + heroPresence * 0.2} transparent />
-      </mesh>
-      <mesh position={[0.08, -0.05, 0.34]}>
-        <boxGeometry args={[0.12, 4.65, 0.12]} />
-        <meshBasicMaterial color="#ff252b" opacity={0.72 + heroPresence * 0.18} transparent />
-      </mesh>
-      <mesh position={[0.64, -0.44, 1.08]} rotation={[0.14, 0, -0.52]}>
-        <boxGeometry args={[0.05, 2.7, 0.05]} />
-        <meshBasicMaterial color="#ff252b" opacity={0.54 + heroPresence * 0.26} transparent />
-      </mesh>
-      <pointLight position={[0.1, 0.2, 1.55]} color="#eee7d8" distance={9} intensity={2 + heroPresence * 4.5} />
-      <pointLight position={[0.75, -0.4, 1.1]} color="#b51218" distance={7} intensity={1.5 + heroPresence * 3.8} />
     </group>
   )
 }
