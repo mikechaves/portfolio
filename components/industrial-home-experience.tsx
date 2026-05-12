@@ -35,6 +35,7 @@ const tunnelStruts = Array.from({ length: 24 }, (_, index) => index)
 const wallRibs = Array.from({ length: 14 }, (_, index) => index)
 const scaffoldLevels = Array.from({ length: 6 }, (_, index) => index)
 const runwayGrates = Array.from({ length: 22 }, (_, index) => index)
+const rearSpokeIndices = Array.from({ length: 16 }, (_, index) => index)
 const smokePlumes = [
   [-3.6, -0.65, -4, 1.2],
   [3.5, -0.72, -7, 1.5],
@@ -249,7 +250,7 @@ function RearTunnelCore({ progress }: { progress: number }) {
         <circleGeometry args={[1.22, 64]} />
         <meshBasicMaterial ref={materialRef} color="#eee7d8" transparent opacity={0.2} depthWrite={false} blending={THREE.AdditiveBlending} />
       </mesh>
-      {Array.from({ length: 16 }, (_, index) => {
+      {rearSpokeIndices.map((index) => {
         const angle = (index / 16) * Math.PI * 2
         return (
           <mesh key={`rear-spoke-${index}`} position={[Math.cos(angle) * 1.95, Math.sin(angle) * 1.95, 0]} rotation={[0, 0, angle]}>
@@ -268,29 +269,7 @@ function IndustrialWallScaffolds({ progress }: { progress: number }) {
       {[-1, 1].map((side) => (
         <group key={`wall-side-${side}`} position={[side * 7.25, 1.2, -1.5]} rotation={[0, side * -0.12, 0]}>
           {wallRibs.map((index) => (
-            <group key={`wall-rib-${side}-${index}`} position={[0, 0, -index * 2.35]}>
-              <mesh position={[0, 1.3, 0]}>
-                <boxGeometry args={[0.08, 4.3 + (index % 3) * 0.7, 0.08]} />
-                <meshStandardMaterial color="#151210" metalness={0.86} roughness={0.5} />
-              </mesh>
-              <mesh position={[side * -0.72, 0.9, 0]} rotation={[0, 0, side * 0.34]}>
-                <boxGeometry args={[1.7, 0.035, 0.04]} />
-                <meshStandardMaterial color="#1e1916" metalness={0.82} roughness={0.48} />
-              </mesh>
-              <mesh position={[side * -0.4, 2.72, 0]}>
-                <boxGeometry args={[1.2, 0.03, 0.04]} />
-                <meshStandardMaterial color="#2d2722" metalness={0.85} roughness={0.46} />
-              </mesh>
-              {index % 4 === 0 ? (
-                <>
-                  <mesh position={[side * -0.08, 2.35, 0.08]}>
-                    <boxGeometry args={[0.055, 0.42, 0.055]} />
-                    <meshBasicMaterial color="#ff2229" transparent opacity={0.84} />
-                  </mesh>
-                  <pointLight position={[side * -0.08, 2.35, 0.25]} intensity={2.4 + progress * 1.2} color="#b51218" distance={4.2} />
-                </>
-              ) : null}
-            </group>
+            <WallRib key={`wall-rib-${side}-${index}`} index={index} progress={progress} side={side} />
           ))}
           {scaffoldLevels.map((level) => (
             <mesh key={`wall-level-${side}-${level}`} position={[side * -0.42, -0.1 + level * 0.72, -14.6]}>
@@ -350,6 +329,32 @@ function StageArchitecture() {
   )
 }
 
+function WallRib({ index, progress, side }: { index: number; progress: number; side: number }) {
+  const markerVisible = index % 4 === 0
+
+  return (
+    <group position={[0, 0, -index * 2.35]}>
+      <mesh position={[0, 1.3, 0]}>
+        <boxGeometry args={[0.08, 4.3 + (index % 3) * 0.7, 0.08]} />
+        <meshStandardMaterial color="#151210" metalness={0.86} roughness={0.5} />
+      </mesh>
+      <mesh position={[side * -0.72, 0.9, 0]} rotation={[0, 0, side * 0.34]}>
+        <boxGeometry args={[1.7, 0.035, 0.04]} />
+        <meshStandardMaterial color="#1e1916" metalness={0.82} roughness={0.48} />
+      </mesh>
+      <mesh position={[side * -0.4, 2.72, 0]}>
+        <boxGeometry args={[1.2, 0.03, 0.04]} />
+        <meshStandardMaterial color="#2d2722" metalness={0.85} roughness={0.46} />
+      </mesh>
+      <mesh position={[side * -0.08, 2.35, 0.08]} visible={markerVisible}>
+        <boxGeometry args={[0.055, 0.42, 0.055]} />
+        <meshBasicMaterial color="#ff2229" transparent opacity={0.84} />
+      </mesh>
+      <pointLight position={[side * -0.08, 2.35, 0.25]} intensity={2.4 + progress * 1.2} color="#b51218" distance={4.2} visible={markerVisible} />
+    </group>
+  )
+}
+
 function OverheadCables() {
   return (
     <group>
@@ -390,6 +395,15 @@ function CableCurtain() {
 
 function IndustrialSideScreens({ progress }: { progress: number }) {
   const materialRefs = useRef<Array<THREE.ShaderMaterial | null>>([])
+  const screenUniforms = useMemo(
+    () =>
+      sideScreenSpecs.map(({ tint }) => ({
+        uTime: { value: 0 },
+        uTint: { value: new THREE.Color(tint) },
+        uSignal: { value: 0 },
+      })),
+    [],
+  )
 
   useFrame(({ clock }) => {
     materialRefs.current.forEach((material, index) => {
@@ -401,7 +415,7 @@ function IndustrialSideScreens({ progress }: { progress: number }) {
 
   return (
     <group>
-      {sideScreenSpecs.map(({ position, rotationY, width, height, tint }, index) => (
+      {sideScreenSpecs.map(({ position, rotationY, width, height }, index) => (
         <group key={`screen-${index}`} position={position} rotation={[0, rotationY, 0]}>
           <mesh>
             <boxGeometry args={[width, height, 0.09]} />
@@ -415,11 +429,7 @@ function IndustrialSideScreens({ progress }: { progress: number }) {
               }}
               vertexShader={screenVertexShader}
               fragmentShader={screenFragmentShader}
-              uniforms={{
-                uTime: { value: 0 },
-                uTint: { value: new THREE.Color(tint) },
-                uSignal: { value: 0 },
-              }}
+              uniforms={screenUniforms[index]}
               transparent
               depthWrite={false}
               blending={THREE.AdditiveBlending}
