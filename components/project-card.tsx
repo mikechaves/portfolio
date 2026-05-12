@@ -6,7 +6,7 @@ type ProjectCardProps = Project & {
   priority?: boolean
 }
 
-export function ProjectCard({ id, title, description, image, technologies, category, priority }: ProjectCardProps) {
+export function ProjectCard({ id, title, description, image, technologies, priority }: ProjectCardProps) {
   return (
     <Link href={`/projects/${id}`}>
       <div className="card-hover bg-card rounded-md overflow-hidden h-full flex flex-col">

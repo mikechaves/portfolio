@@ -67,7 +67,7 @@ export function KatanaCursor() {
       // Reset cursor to default when component unmounts
       document.body.classList.remove("cursor-none")
     }
-  }, [isTouchDevice])
+  }, [isTouchDevice, viewport.width])
 
   // Don't render anything on touch devices
   if (isTouchDevice) {

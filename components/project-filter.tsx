@@ -21,7 +21,7 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
     setDisplay(featured)
   }, [featured])
 
-  const handlePersonalize = () => {
+  const handlePersonalize = useCallback(() => {
     const text = query.trim().toLowerCase()
     if (!text) {
       setDisplay(featured)
@@ -43,7 +43,7 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
       setDisplay(featured)
       setPersonalized(false)
     }
-  }
+  }, [featured, projects, query])
 
   const handleReset = () => {
     setQuery("")
