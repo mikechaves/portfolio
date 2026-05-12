@@ -14,25 +14,19 @@ export function HeroBackground() {
   const gridRef = useRef<THREE.LineSegments | null>(null)
   const frameRef = useRef<number>(0)
   const mousePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
-  const [isMobile, setIsMobile] = useState(false)
+  const viewportRef = useRef({ width: 1, height: 1 })
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  )
   const viewport = useViewportSize()
 
   useEffect(() => {
-    // Check if we're on a mobile device
-    const checkMobile = () => {
-      setIsMobile(viewport.width < 768)
+    viewportRef.current = {
+      width: Math.max(viewport.width, 1),
+      height: Math.max(viewport.height, 1),
     }
-
-    // Initial check
-    checkMobile()
-
-    // Add resize listener
-    window.addEventListener("resize", checkMobile)
-
-    return () => {
-      window.removeEventListener("resize", checkMobile)
-    }
-  }, [viewport])
+    setIsMobile(viewport.width < 768)
+  }, [viewport.height, viewport.width])
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -47,7 +41,7 @@ export function HeroBackground() {
     // Initialize camera
     const camera = new THREE.PerspectiveCamera(
       60,
-      viewport.width / viewport.height,
+      viewportRef.current.width / viewportRef.current.height,
       0.1,
       1000,
     )
@@ -56,7 +50,7 @@ export function HeroBackground() {
 
     // Initialize renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    renderer.setSize(viewport.width, viewport.height)
+    renderer.setSize(viewportRef.current.width, viewportRef.current.height)
     renderer.setClearColor(0x000000, 0) // Transparent background
     const container = containerRef.current
     container.appendChild(renderer.domElement)
@@ -252,8 +246,8 @@ export function HeroBackground() {
 
     // Track mouse movement for subtle interactivity
     const handleMouseMove = (event: MouseEvent) => {
-      mousePosition.current.x = (event.clientX / viewport.width) * 2 - 1
-      mousePosition.current.y = -(event.clientY / viewport.height) * 2 + 1
+      mousePosition.current.x = (event.clientX / viewportRef.current.width) * 2 - 1
+      mousePosition.current.y = -(event.clientY / viewportRef.current.height) * 2 + 1
     }
 
     window.addEventListener("mousemove", handleMouseMove)
@@ -318,24 +312,8 @@ export function HeroBackground() {
 
     animate()
 
-    // Handle window resize
-    const handleResize = () => {
-      if (!cameraRef.current || !rendererRef.current) return
-
-      cameraRef.current.aspect = viewport.width / viewport.height
-      cameraRef.current.updateProjectionMatrix()
-      rendererRef.current.setSize(viewport.width, viewport.height)
-
-      if (particleMaterial.uniforms) {
-        particleMaterial.uniforms.pixelRatio.value = window.devicePixelRatio
-      }
-    }
-
-    window.addEventListener("resize", handleResize)
-
     // Cleanup
     return () => {
-      window.removeEventListener("resize", handleResize)
       window.removeEventListener("mousemove", handleMouseMove)
       cancelAnimationFrame(frameRef.current)
 
@@ -352,8 +330,30 @@ export function HeroBackground() {
         gridRef.current.geometry.dispose()
         ;(gridRef.current.material as THREE.Material).dispose()
       }
+
+      sceneRef.current = null
+      cameraRef.current = null
+      rendererRef.current = null
+      particlesRef.current = null
+      gridRef.current = null
     }
-  }, [isMobile, viewport.height, viewport.width]) // Re-run effect when viewport-dependent scene dimensions change
+  }, [isMobile])
+
+  useEffect(() => {
+    if (!cameraRef.current || !rendererRef.current) return
+
+    const width = Math.max(viewport.width, 1)
+    const height = Math.max(viewport.height, 1)
+
+    cameraRef.current.aspect = width / height
+    cameraRef.current.updateProjectionMatrix()
+    rendererRef.current.setSize(width, height)
+
+    const material = particlesRef.current?.material as THREE.ShaderMaterial | undefined
+    if (material?.uniforms) {
+      material.uniforms.pixelRatio.value = window.devicePixelRatio
+    }
+  }, [viewport.height, viewport.width])
 
   return <div ref={containerRef} className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true" />
 }

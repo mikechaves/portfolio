@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import { usePathname } from 'next/navigation'
 const MetaverseNav = dynamic(
   () => import('./metaverse-nav').then((m) => m.MetaverseNav),
   {
@@ -13,6 +14,7 @@ const MetaverseNav = dynamic(
     ),
   },
 )
+const SiteNav = dynamic(() => import('./site-nav').then((m) => m.SiteNav), { ssr: false })
 
 // Only non-essential effects are dynamically loaded to keep the initial
 // bundle small while ensuring the main navigation is present immediately.
@@ -21,14 +23,19 @@ const KatanaCursor = dynamic(() => import('./katana-cursor').then(m => m.KatanaC
 const SnowCrashTakeover = dynamic(() => import('./snow-crash-takeover').then(m => m.SnowCrashTakeover), { ssr: false })
 
 export function SnowCrashEffects() {
+  const pathname = usePathname()
+  const showAmbientEffects = pathname === "/"
+
   return (
     <>
-      <MetaverseNav />
-      <Suspense>
-        <SnowCrashTakeover />
-        <SumerianVirus />
-        <KatanaCursor />
-      </Suspense>
+      {showAmbientEffects ? <MetaverseNav /> : <SiteNav />}
+      {showAmbientEffects && (
+        <Suspense>
+          <SnowCrashTakeover />
+          <SumerianVirus />
+          <KatanaCursor />
+        </Suspense>
+      )}
     </>
   )
 }

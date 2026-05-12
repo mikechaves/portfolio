@@ -51,10 +51,17 @@ export function Terminal({
         <div className="terminal-button terminal-button-green"></div>
         <div className="terminal-title">terminal</div>
       </div>
-      <div className="terminal-content">
-        {showPrompt && <span className="text-primary">$ </span>}
-        <span>{displayedText}</span>
-        {isTyping && <span className="terminal-cursor"></span>}
+      <div className="terminal-content grid">
+        <span className="invisible col-start-1 row-start-1" aria-hidden="true">
+          {showPrompt && <span className="text-primary">$ </span>}
+          <span>{text}</span>
+          <span className="terminal-cursor"></span>
+        </span>
+        <span className="col-start-1 row-start-1">
+          {showPrompt && <span className="text-primary">$ </span>}
+          <span>{displayedText}</span>
+          {isTyping && <span className="terminal-cursor"></span>}
+        </span>
       </div>
     </div>
   );
