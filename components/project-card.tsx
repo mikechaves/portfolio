@@ -17,7 +17,7 @@ export function ProjectCard({ id, title, description, image, technologies, prior
           }
           alt={title}
           fill
-          className="object-cover grayscale"
+          className="industrial-project-image object-cover grayscale"
           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           priority={priority}
         />
