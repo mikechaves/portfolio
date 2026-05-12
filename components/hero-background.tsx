@@ -342,9 +342,12 @@ export function HeroBackground() {
   useEffect(() => {
     if (!cameraRef.current || !rendererRef.current) return
 
-    cameraRef.current.aspect = viewportRef.current.width / viewportRef.current.height
+    const width = Math.max(viewport.width, 1)
+    const height = Math.max(viewport.height, 1)
+
+    cameraRef.current.aspect = width / height
     cameraRef.current.updateProjectionMatrix()
-    rendererRef.current.setSize(viewportRef.current.width, viewportRef.current.height)
+    rendererRef.current.setSize(width, height)
 
     const material = particlesRef.current?.material as THREE.ShaderMaterial | undefined
     if (material?.uniforms) {

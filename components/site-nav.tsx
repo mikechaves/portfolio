@@ -29,7 +29,7 @@ export function SiteNav() {
 
             <div className="flex items-center gap-4">
               <Link
-                href="/"
+                href="/?metaverse=true"
                 className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md hover:bg-primary/20 transition-colors"
               >
                 Enter Metaverse
