@@ -14,6 +14,8 @@ import { FocusContextBadge } from "@/components/focus-context-badge"
 import { experiences, skills, talksRecognition, volunteerExperiences } from "./data"
 import { portfolioCapabilities } from "@/data/portfolio"
 
+const fellowshipsAndRecognition = [...volunteerExperiences, ...talksRecognition]
+
 export default function AboutPage() {
   const [isPending, startTransition] = useTransition()
   const [focus, setFocus] = useState("")
@@ -48,7 +50,8 @@ export default function AboutPage() {
             variant: "destructive",
           })
         }
-      } catch {
+      } catch (error) {
+        console.error("Contact form submission failed:", error)
         setFormStatus({ success: false, message: "An unexpected error occurred. Please try again." })
       }
     })
@@ -102,7 +105,7 @@ export default function AboutPage() {
         <div className="industrial-card">
           <h2 className="text-3xl font-black uppercase text-[#f1ede3]">Fellowships & Recognition</h2>
           <div className="mt-6 grid gap-5">
-            {[...volunteerExperiences, ...talksRecognition].map((item) => (
+            {fellowshipsAndRecognition.map((item) => (
               <div key={`${item.title}-${item.period}`} className="border-t border-[#e8e1d2]/10 pt-4">
                 <h3 className="!text-xl">{item.title}</h3>
                 <p className="!mt-1 text-sm uppercase tracking-[0.14em] text-[#8f8678]">{item.period}</p>

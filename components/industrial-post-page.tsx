@@ -8,7 +8,25 @@ type IndustrialPostPageProps = {
   preview: string[]
 }
 
+function getPostImageSrc(src: string) {
+  try {
+    const url = new URL(src, "http://portfolio.local")
+    url.searchParams.set("width", "1200")
+    url.searchParams.set("height", "700")
+
+    if (url.origin === "http://portfolio.local") {
+      return `${url.pathname}${url.search}${url.hash}`
+    }
+
+    return url.toString()
+  } catch {
+    return src
+  }
+}
+
 export function IndustrialPostPage({ post, preview }: IndustrialPostPageProps) {
+  const postImageSrc = getPostImageSrc(post.image)
+
   return (
     <article className="industrial-page">
       <Link href="/blog" className="industrial-text-link !mt-0">
@@ -29,7 +47,7 @@ export function IndustrialPostPage({ post, preview }: IndustrialPostPageProps) {
         </div>
         <div className="industrial-card-media m-0 min-h-[24rem]">
           <Image
-            src={post.image.replace(/width=\d+/, "width=1200").replace(/height=\d+/, "height=700")}
+            src={postImageSrc}
             alt={post.title}
             fill
             className="object-cover grayscale"
