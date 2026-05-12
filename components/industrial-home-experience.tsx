@@ -8,8 +8,8 @@ import * as THREE from "three"
 import { BlendFunction } from "postprocessing"
 import { featuredPortfolioProjects, portfolioCapabilities } from "@/data/portfolio"
 
-const tunnelRings = Array.from({ length: 18 }, (_, index) => index)
-const lowPowerTunnelRings = tunnelRings.filter((index) => index < 16 && index % 2 === 0)
+const tunnelRings = Array.from({ length: 24 }, (_, index) => index)
+const lowPowerTunnelRings = tunnelRings.filter((index) => index < 22 && index % 2 === 0)
 const stageRails = Array.from({ length: 14 }, (_, index) => index)
 const lowPowerStageRails = stageRails.filter((index) => index % 2 === 0)
 const towerPositions = [
@@ -51,6 +51,18 @@ const heroLightStacks = Array.from({ length: 8 }, (_, index) => index)
 const foregroundRailPosts = Array.from({ length: 12 }, (_, index) => index)
 const lowPowerForegroundRailPosts = foregroundRailPosts.filter((index) => index % 2 === 0)
 const gantryLadderRungs = Array.from({ length: 10 }, (_, index) => index)
+const apertureSpokes = Array.from({ length: 28 }, (_, index) => index)
+const lowPowerApertureSpokes = apertureSpokes.filter((index) => index % 2 === 0)
+const verticalLightStackRows = Array.from({ length: 9 }, (_, index) => index)
+const lowPowerVerticalLightStackRows = verticalLightStackRows.filter((index) => index % 2 === 0)
+const industrialLightStacks = [
+  [-6.3, 1.2, -9.2, 0.18],
+  [6.8, 1.6, -8.4, -0.18],
+  [7.75, 2.4, -14.6, -0.28],
+  [-7.4, 2.2, -16.2, 0.22],
+] as const
+const slabCableIndices = Array.from({ length: 4 }, (_, index) => index)
+const beaconSteps = Array.from({ length: 5 }, (_, index) => index)
 const smokePlumes = [
   [-3.6, -0.65, -4, 1.2],
   [3.5, -0.72, -7, 1.5],
@@ -200,6 +212,7 @@ function IndustrialScene({
         <IndustrialParticles lowPower={lowPower} />
         <Tunnel lowPower={lowPower} />
         <HeroSetPieces lowPower={lowPower} progress={progress} />
+        <IndustrialLightStacks lowPower={lowPower} progress={progress} />
         <ForegroundRunwayRig lowPower={lowPower} progress={progress} />
         <RearTunnelCore lowPower={lowPower} progress={progress} />
         <IndustrialWallScaffolds lowPower={lowPower} progress={progress} />
@@ -289,6 +302,30 @@ function HeroSetPieces({ lowPower, progress }: { lowPower: boolean; progress: nu
   )
 }
 
+function IndustrialLightStacks({ lowPower, progress }: { lowPower: boolean; progress: number }) {
+  const rows = useMemo(() => (lowPower ? lowPowerVerticalLightStackRows : verticalLightStackRows), [lowPower])
+
+  return (
+    <group>
+      {industrialLightStacks.map(([x, y, z, rotY], stackIndex) => (
+        <group key={`industrial-light-stack-${stackIndex}`} position={[x, y, z]} rotation={[0, rotY, 0]}>
+          <mesh position={[0, 1.5, 0]}>
+            <boxGeometry args={[0.16, 4.1, 0.12]} />
+            <meshStandardMaterial color="#090807" emissive="#120606" emissiveIntensity={0.26} metalness={0.86} roughness={0.48} />
+          </mesh>
+          {rows.map((row) => (
+            <mesh key={`stack-light-${stackIndex}-${row}`} position={[0, -0.05 + row * 0.38, 0.08]}>
+              <boxGeometry args={[0.05, 0.15, 0.035]} />
+              <meshBasicMaterial color={row % 3 === 0 ? "#eee7d8" : "#ff252b"} transparent opacity={0.54 + progress * 0.18} />
+            </mesh>
+          ))}
+          <pointLight position={[0, 1.45, 0.4]} intensity={2.2 + progress * 1.4} color="#b51218" distance={5.8} />
+        </group>
+      ))}
+    </group>
+  )
+}
+
 function ForegroundRunwayRig({ lowPower, progress }: { lowPower: boolean; progress: number }) {
   const activePosts = lowPower ? lowPowerForegroundRailPosts : foregroundRailPosts
   const glowOpacity = 0.42 + progress * 0.18
@@ -364,6 +401,20 @@ function Tunnel({ lowPower }: { lowPower: boolean }) {
           </mesh>
         </group>
       ))}
+      {activeTunnelRings
+        .filter((index) => index % 3 === 0)
+        .map((index) => (
+          <group key={`tunnel-cross-${index}`} position={[0, 0.4, -index * 1.85]}>
+            <mesh rotation={[0, 0, Math.PI / 4]}>
+              <boxGeometry args={[7.2, 0.018, 0.018]} />
+              <meshStandardMaterial color="#1b1714" emissive="#080504" emissiveIntensity={0.2} metalness={0.8} roughness={0.5} />
+            </mesh>
+            <mesh rotation={[0, 0, -Math.PI / 4]}>
+              <boxGeometry args={[7.2, 0.018, 0.018]} />
+              <meshStandardMaterial color="#1b1714" emissive="#080504" emissiveIntensity={0.2} metalness={0.8} roughness={0.5} />
+            </mesh>
+          </group>
+        ))}
       {[-3.2, 3.2].map((x) => (
         <mesh key={x} position={[x, -0.8, -12]} rotation={[0, 0, 0]}>
           <boxGeometry args={[0.08, 0.08, 34]} />
@@ -406,6 +457,7 @@ function CinematicLightVolume({ progress }: { progress: number }) {
 function RearTunnelCore({ lowPower, progress }: { lowPower: boolean; progress: number }) {
   const materialRef = useRef<THREE.MeshBasicMaterial>(null)
   const activeSpokes = lowPower ? lowPowerRearSpokeIndices : rearSpokeIndices
+  const activeApertureSpokes = lowPower ? lowPowerApertureSpokes : apertureSpokes
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
@@ -415,6 +467,7 @@ function RearTunnelCore({ lowPower, progress }: { lowPower: boolean; progress: n
 
   return (
     <group position={[1.35, 0.56, -24.5]}>
+      <pointLight position={[0, 0.1, 1.3]} intensity={13 + progress * 7} color="#f1efe6" distance={18} />
       <mesh>
         <torusGeometry args={[2.55, 0.045, 8, 96]} />
         <meshStandardMaterial color="#eee7d8" emissive="#4b3027" emissiveIntensity={0.65} metalness={0.92} roughness={0.34} />
@@ -433,6 +486,16 @@ function RearTunnelCore({ lowPower, progress }: { lowPower: boolean; progress: n
           <mesh key={`rear-spoke-${index}`} position={[Math.cos(angle) * 1.95, Math.sin(angle) * 1.95, 0]} rotation={[0, 0, angle]}>
             <boxGeometry args={[1.25, 0.018, 0.018]} />
             <meshBasicMaterial color={index % 4 === 0 ? "#8f8172" : "#332a25"} transparent opacity={0.72} />
+          </mesh>
+        )
+      })}
+      {activeApertureSpokes.map((index) => {
+        const angle = (index / apertureSpokes.length) * Math.PI * 2
+        const radius = index % 2 === 0 ? 3.05 : 3.42
+        return (
+          <mesh key={`aperture-spoke-${index}`} position={[Math.cos(angle) * radius * 0.5, Math.sin(angle) * radius * 0.5, -0.18]} rotation={[0, 0, angle]}>
+            <boxGeometry args={[radius, 0.012, 0.012]} />
+            <meshBasicMaterial color={index % 4 === 0 ? "#6f655a" : "#211a17"} transparent opacity={0.48} />
           </mesh>
         )
       })}
@@ -725,9 +788,19 @@ function ProjectSlabs() {
     <group position={[-0.4, 0.55, -8]}>
       {featuredPortfolioProjects.map((project, index) => (
         <group key={project.id} position={[-3.8 + index * 2.75, 0.15 + index * 0.18, -index * 2.15]} rotation={[0, -0.22, 0]}>
+          {slabCableIndices.map((cable) => (
+            <mesh key={`slab-cable-${project.id}-${cable}`} position={[-0.64 + cable * 0.42, 2.45, -0.02]}>
+              <boxGeometry args={[0.014, 3.6, 0.014]} />
+              <meshBasicMaterial color="#0b0a09" transparent opacity={0.78} />
+            </mesh>
+          ))}
           <mesh>
             <boxGeometry args={[1.75, 2.65, 0.08]} />
             <meshStandardMaterial color={index === 0 ? "#2b2a27" : "#171716"} metalness={0.75} roughness={0.52} />
+          </mesh>
+          <mesh position={[0, 0, 0.073]}>
+            <boxGeometry args={[1.9, 2.8, 0.018]} />
+            <meshBasicMaterial color={index === 0 ? "#f1eadb" : "#7a7064"} transparent opacity={index === 0 ? 0.13 : 0.07} />
           </mesh>
           <mesh position={[0, 0, 0.055]}>
             <planeGeometry args={[1.55, 2.42]} />
@@ -741,12 +814,27 @@ function ProjectSlabs() {
 }
 
 function CapabilityField() {
-  return (
-    <group position={[2.3, -0.2, -19]}>
-      {portfolioCapabilities.map((capability, index) => {
+  const nodePositions = useMemo(
+    () =>
+      portfolioCapabilities.map((capability, index) => {
         const angle = (index / portfolioCapabilities.length) * Math.PI * 2
         const x = Math.cos(angle) * 3.4
         const z = Math.sin(angle) * 2.6
+        return {
+          capability,
+          index,
+          x,
+          z,
+          linkAngle: Math.atan2(z, x),
+          linkLength: Math.sqrt(x * x + z * z),
+        }
+      }),
+    [],
+  )
+
+  return (
+    <group position={[2.3, -0.2, -19]}>
+      {nodePositions.map(({ capability, index, x, z }) => {
         return (
           <group key={capability.id} position={[x, 0.1 + (index % 2) * 0.45, z]}>
             <mesh>
@@ -758,6 +846,14 @@ function CapabilityField() {
               <meshStandardMaterial color="#7f1014" emissive="#5f0609" emissiveIntensity={1.2} />
             </mesh>
           </group>
+        )
+      })}
+      {nodePositions.map(({ capability, linkAngle, linkLength, x, z }) => {
+        return (
+          <mesh key={`capability-link-${capability.id}`} position={[x / 2, 0.62, z / 2]} rotation={[0, -linkAngle, 0]}>
+            <boxGeometry args={[linkLength, 0.018, 0.018]} />
+            <meshBasicMaterial color="#918578" transparent opacity={0.22} />
+          </mesh>
         )
       })}
       <mesh position={[0, 0.95, 0]}>
@@ -780,6 +876,28 @@ function ContactBeacon() {
         <cylinderGeometry args={[1.35, 1.35, 0.08, 48]} />
         <meshStandardMaterial color="#151210" metalness={0.8} roughness={0.4} />
       </mesh>
+      <mesh position={[0, -0.08, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[1.55, 2.15, 64]} />
+        <meshBasicMaterial color="#b51218" transparent opacity={0.28} side={THREE.DoubleSide} />
+      </mesh>
+      {beaconSteps.map((step) => (
+        <mesh key={`beacon-step-${step}`} position={[0, -0.18 - step * 0.05, 1.15 + step * 0.58]}>
+          <boxGeometry args={[3.1 + step * 0.5, 0.04, 0.26]} />
+          <meshStandardMaterial color="#12100e" emissive={step % 2 === 0 ? "#170707" : "#050303"} emissiveIntensity={0.22} metalness={0.84} roughness={0.44} />
+        </mesh>
+      ))}
+      {[-1, 1].map((side) => (
+        <group key={`beacon-side-${side}`} position={[side * 2.6, 0.1, 0.2]}>
+          <mesh position={[0, 0.8, 0]}>
+            <boxGeometry args={[0.1, 1.9, 0.1]} />
+            <meshStandardMaterial color="#100e0d" emissive="#070303" emissiveIntensity={0.24} metalness={0.9} roughness={0.44} />
+          </mesh>
+          <mesh position={[0, 1.55, 0.04]}>
+            <boxGeometry args={[0.05, 0.28, 0.04]} />
+            <meshBasicMaterial color="#ff252b" transparent opacity={0.72} />
+          </mesh>
+        </group>
+      ))}
     </group>
   )
 }
