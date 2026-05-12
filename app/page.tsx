@@ -26,6 +26,7 @@ const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
 function useHomeScrollProgress() {
   const [progress, setProgress] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [sceneActive, setSceneActive] = useState(true)
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -72,7 +73,22 @@ function useHomeScrollProgress() {
     }
   }, [reducedMotion])
 
-  return { progress, reducedMotion }
+  useEffect(() => {
+    const updateVisibility = () => setSceneActive(document.visibilityState === "visible" && document.hasFocus())
+
+    updateVisibility()
+    document.addEventListener("visibilitychange", updateVisibility)
+    window.addEventListener("focus", updateVisibility)
+    window.addEventListener("blur", updateVisibility)
+
+    return () => {
+      document.removeEventListener("visibilitychange", updateVisibility)
+      window.removeEventListener("focus", updateVisibility)
+      window.removeEventListener("blur", updateVisibility)
+    }
+  }, [])
+
+  return { progress, reducedMotion, sceneActive }
 }
 
 function useActiveSceneSection(sections: SceneSection[], progress: number) {
@@ -82,12 +98,12 @@ function useActiveSceneSection(sections: SceneSection[], progress: number) {
 }
 
 export default function Home() {
-  const { progress, reducedMotion } = useHomeScrollProgress()
+  const { progress, reducedMotion, sceneActive } = useHomeScrollProgress()
   const activeSection = useActiveSceneSection(sceneSections, progress)
 
   return (
     <div className="industrial-home" data-active-section={activeSection.id}>
-      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} />
+      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
       <div className="industrial-atmosphere" aria-hidden="true">
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />
@@ -95,6 +111,9 @@ export default function Home() {
         <span className="industrial-atmosphere-light industrial-atmosphere-light-b" />
         <span className="industrial-atmosphere-cables" />
         <span className="industrial-atmosphere-floor" />
+        <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-left" />
+        <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-right" />
+        <span className="industrial-atmosphere-smoke" />
       </div>
       <aside className="industrial-section-rail" aria-hidden="true">
         {sceneSections.map((section) => (
