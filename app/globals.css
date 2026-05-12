@@ -866,7 +866,14 @@ html {
   left: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent calc(50% - 3.2rem), rgba(238,231,216,0.42) calc(50% - 3.16rem), transparent calc(50% - 3.1rem) calc(50% + 3.1rem), rgba(238,231,216,0.38) calc(50% + 3.16rem), transparent calc(50% + 3.22rem)),
+    linear-gradient(
+      90deg,
+      transparent calc(50% - 3.2rem),
+      rgba(238,231,216,0.42) calc(50% - 3.16rem),
+      transparent calc(50% - 3.1rem) calc(50% + 3.1rem),
+      rgba(238,231,216,0.38) calc(50% + 3.16rem),
+      transparent calc(50% + 3.22rem)
+    ),
     linear-gradient(90deg, transparent calc(100% - 0.65rem), rgba(238,231,216,0.16) calc(100% - 0.62rem), rgba(0,0,0,0.55) 100%),
     linear-gradient(180deg, rgba(238,231,216,0.16), transparent 17%);
   background-repeat: no-repeat;
