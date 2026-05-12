@@ -242,10 +242,10 @@ html {
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(90deg, rgba(0,0,0,0.98) 0 8%, rgba(0,0,0,0.76) 26%, transparent 50%, rgba(0,0,0,0.42) 76%, rgba(0,0,0,0.66) 100%),
-    radial-gradient(circle at 52% 31%, rgba(239,231,216,0.16), transparent 11rem),
-    radial-gradient(circle at 79% 35%, rgba(181,18,24,0.24), transparent 13rem),
-    radial-gradient(ellipse at 62% 78%, rgba(238,231,216,0.11), transparent 20rem),
+    linear-gradient(90deg, rgba(0,0,0,0.98) 0 7%, rgba(0,0,0,0.7) 24%, transparent 50%, rgba(0,0,0,0.34) 72%, rgba(0,0,0,0.72) 100%),
+    radial-gradient(circle at 56% 34%, rgba(239,231,216,0.22), transparent 9rem),
+    radial-gradient(circle at 79% 35%, rgba(181,18,24,0.28), transparent 12rem),
+    radial-gradient(ellipse at 58% 78%, rgba(238,231,216,0.14), transparent 18rem),
     linear-gradient(180deg, transparent 0 57%, rgba(0,0,0,0.65) 82%, #030303 100%);
 }
 
@@ -313,9 +313,10 @@ html {
 }
 
 .industrial-atmosphere-light-b {
-  left: 45%;
-  bottom: 8%;
-  height: 24rem;
+  left: 50%;
+  bottom: 11%;
+  width: 0.22rem;
+  height: 28rem;
   transform: translateX(-50%);
   opacity: 0;
 }
@@ -332,7 +333,7 @@ html {
     radial-gradient(ellipse at 42% 0%, transparent 0 54%, rgba(0,0,0,0.9) 55% 56%, transparent 57%),
     radial-gradient(ellipse at 70% 0%, transparent 0 48%, rgba(0,0,0,0.92) 49% 50%, transparent 51%),
     repeating-linear-gradient(104deg, transparent 0 5rem, rgba(0,0,0,0.85) 5.05rem 5.18rem, transparent 5.24rem 9rem);
-  opacity: 0.72;
+  opacity: 0.86;
 }
 
 .industrial-atmosphere-floor {
@@ -348,7 +349,7 @@ html {
     linear-gradient(180deg, transparent, rgba(238,231,216,0.16));
   transform: perspective(760px) rotateX(66deg);
   transform-origin: bottom;
-  opacity: 0.58;
+  opacity: 0.72;
 }
 
 .industrial-atmosphere-gantry {
@@ -381,6 +382,70 @@ html {
   transform: perspective(820px) rotateY(-22deg);
   transform-origin: right center;
   mask-image: linear-gradient(90deg, transparent 0, black 42% 100%);
+}
+
+.industrial-atmosphere-tower {
+  position: absolute;
+  z-index: 2;
+  top: 3%;
+  bottom: 10%;
+  width: min(23vw, 22rem);
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, rgba(238,231,216,0.12) 0 1px, transparent 1px 2.1rem),
+    repeating-linear-gradient(0deg, rgba(238,231,216,0.08) 0 1px, transparent 1px 2.8rem),
+    linear-gradient(25deg, transparent 0 47%, rgba(0,0,0,0.95) 47.4% 49%, transparent 49.4%),
+    linear-gradient(155deg, transparent 0 51%, rgba(0,0,0,0.9) 51.4% 52.8%, transparent 53.2%),
+    linear-gradient(90deg, rgba(0,0,0,0.94), rgba(0,0,0,0.16));
+  opacity: 0.44;
+  box-shadow: inset 0 0 80px rgba(0,0,0,0.95);
+}
+
+.industrial-atmosphere-tower::before,
+.industrial-atmosphere-tower::after {
+  content: "";
+  position: absolute;
+  width: 0.22rem;
+  height: 9rem;
+  top: 22%;
+  background: linear-gradient(180deg, transparent, #ff252b 18%, #ff252b 78%, transparent);
+  box-shadow: 0 0 24px rgba(255,37,43,0.8), 0 0 70px rgba(181,18,24,0.45);
+}
+
+.industrial-atmosphere-tower::after {
+  top: 47%;
+  height: 5.8rem;
+  opacity: 0.64;
+}
+
+.industrial-atmosphere-tower-left {
+  left: -1%;
+  transform: perspective(900px) rotateY(30deg);
+  transform-origin: left center;
+  mask-image: linear-gradient(90deg, black 0 66%, transparent 100%);
+}
+
+.industrial-atmosphere-tower-left::before {
+  right: 3.8rem;
+}
+
+.industrial-atmosphere-tower-left::after {
+  right: 7.2rem;
+}
+
+.industrial-atmosphere-tower-right {
+  right: -1%;
+  transform: perspective(900px) rotateY(-28deg);
+  transform-origin: right center;
+  mask-image: linear-gradient(90deg, transparent 0, black 32% 100%);
+}
+
+.industrial-atmosphere-tower-right::before {
+  left: 3.4rem;
+}
+
+.industrial-atmosphere-tower-right::after {
+  left: 7.8rem;
 }
 
 .industrial-atmosphere-smoke {
@@ -418,6 +483,7 @@ html {
 
 .industrial-home[data-active-section="contact"] .industrial-atmosphere-light-b {
   opacity: 1;
+  box-shadow: 0 0 28px rgba(255,37,43,0.95), 0 0 100px rgba(181,18,24,0.68), 0 0 180px rgba(181,18,24,0.28);
 }
 
 .industrial-stage-illustration {
@@ -425,13 +491,13 @@ html {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(0,0,0,0.9) 0 16%, transparent 44%, rgba(0,0,0,0.72) 100%),
-    radial-gradient(circle at 56% 42%, rgba(232,225,210,0.13), transparent 7rem),
+    linear-gradient(90deg, rgba(0,0,0,0.9) 0 15%, transparent 46%, rgba(0,0,0,0.72) 100%),
+    radial-gradient(circle at 57% 41%, rgba(232,225,210,0.2), transparent 6.2rem),
     radial-gradient(circle at 78% 40%, rgba(181,18,24,0.2), transparent 14rem),
     repeating-radial-gradient(ellipse at 57% 43%, rgba(232,225,210,0.16) 0 1px, transparent 1px 22px),
     linear-gradient(115deg, transparent 0 48%, rgba(232,225,210,0.18) 49%, transparent 50% 100%),
     linear-gradient(75deg, transparent 0 52%, rgba(232,225,210,0.12) 53%, transparent 54% 100%);
-  opacity: 0.26;
+  opacity: 0.22;
   mask-image: linear-gradient(90deg, transparent 0 42%, black 54% 100%);
 }
 
@@ -516,11 +582,12 @@ html {
 
 .industrial-hero-section {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: clamp(11.6rem, 24vh, 15.6rem);
 }
 
 .industrial-hero-copy {
-  max-width: 46rem;
+  max-width: 34rem;
 }
 
 .industrial-hero-copy h1,
@@ -537,16 +604,16 @@ html {
 }
 
 .industrial-hero-copy h1 {
-  max-width: 8ch;
-  font-size: clamp(4.8rem, 12vw, 9.8rem);
-  text-shadow: 0 0 18px rgba(255,255,255,0.12);
+  max-width: 6.7ch;
+  font-size: clamp(4.15rem, 8.5vw, 7.35rem);
+  text-shadow: 0 0 14px rgba(255,255,255,0.11), 0 0 44px rgba(0,0,0,0.8);
 }
 
 .industrial-hero-copy p {
-  max-width: 34rem;
+  max-width: 29rem;
   margin-top: 1.2rem;
   color: #d4cbbb;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.92rem, 1.35vw, 1.06rem);
   line-height: 1.75;
 }
 
@@ -600,22 +667,22 @@ html {
 .industrial-section-rail {
   position: fixed;
   left: clamp(1rem, 3vw, 2rem);
-  top: 24%;
+  top: 27%;
   z-index: 4;
   display: grid;
-  gap: 3.3rem;
-  color: rgba(232, 225, 210, 0.56);
-  font-size: 0.72rem;
+  gap: 3.6rem;
+  color: rgba(232, 225, 210, 0.7);
+  font-size: 0.68rem;
 }
 
 .industrial-section-rail::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: 1rem;
-  bottom: 1rem;
+  top: 0.95rem;
+  bottom: 0.95rem;
   width: 1px;
-  background: linear-gradient(#b51218, rgba(232,225,210,0.2), transparent);
+  background: linear-gradient(#b51218, rgba(232,225,210,0.42), transparent);
 }
 
 .industrial-section-rail span {
@@ -887,7 +954,43 @@ html {
 }
 
 .industrial-contact-section {
+  position: relative;
   grid-template-columns: minmax(16rem, 0.86fr) minmax(20rem, 0.95fr);
+}
+
+.industrial-contact-section::before {
+  content: "";
+  position: absolute;
+  left: 50.5%;
+  top: 18%;
+  bottom: 10%;
+  z-index: 0;
+  width: 0.24rem;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, #ff252b 14%, #ff252b 84%, transparent);
+  box-shadow: 0 0 28px rgba(255,37,43,0.95), 0 0 100px rgba(181,18,24,0.62), 0 0 180px rgba(181,18,24,0.3);
+}
+
+.industrial-contact-section::after {
+  content: "";
+  position: absolute;
+  left: 35%;
+  right: 26%;
+  bottom: 9%;
+  z-index: 0;
+  height: 7rem;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(181,18,24,0.32), transparent 9rem),
+    repeating-linear-gradient(90deg, rgba(238,231,216,0.12) 0 1px, transparent 1px 3.5rem),
+    linear-gradient(180deg, transparent, rgba(238,231,216,0.1));
+  transform: perspective(760px) rotateX(66deg);
+  transform-origin: bottom;
+  opacity: 0.58;
+}
+
+.industrial-contact-section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .industrial-writing-list {
@@ -1088,6 +1191,16 @@ html {
     left: 4%;
     right: -20%;
     opacity: 0.28;
+  }
+
+  .industrial-atmosphere-tower-left {
+    opacity: 0.18;
+  }
+
+  .industrial-atmosphere-tower-right {
+    right: -20%;
+    width: 52vw;
+    opacity: 0.24;
   }
 
   .industrial-hero-copy {

@@ -113,6 +113,8 @@ export default function Home() {
         <span className="industrial-atmosphere-floor" />
         <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-left" />
         <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-right" />
+        <span className="industrial-atmosphere-tower industrial-atmosphere-tower-left" />
+        <span className="industrial-atmosphere-tower industrial-atmosphere-tower-right" />
         <span className="industrial-atmosphere-smoke" />
       </div>
       <aside className="industrial-section-rail" aria-hidden="true">
