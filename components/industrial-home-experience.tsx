@@ -273,7 +273,6 @@ function IndustrialScene({
 
   return (
     <>
-      <color attach="background" args={["#030303"]} />
       <fog attach="fog" args={["#030303", 10, 42]} />
       <ambientLight intensity={0.22} />
       <pointLight position={[0, 8, 8]} intensity={15} color="#f1efe6" distance={36} />
@@ -1105,9 +1104,9 @@ export function IndustrialHomeExperience({ progress, reducedMotion, sceneActive 
           camera={{ position: [0, 1.4, 18], fov: 42, near: 0.1, far: 90 }}
           dpr={dpr}
           frameloop={frameloop}
-          gl={{ antialias: !deviceLowPower, alpha: false, powerPreference: deviceLowPower ? "default" : "high-performance" }}
+          gl={{ antialias: !deviceLowPower, alpha: true, powerPreference: deviceLowPower ? "default" : "high-performance" }}
           onCreated={({ gl }) => {
-            gl.setClearColor("#030303")
+            gl.setClearColor("#030303", 0)
             window.requestAnimationFrame(() => setCanvasReady(true))
           }}
         >

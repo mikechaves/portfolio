@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { gsap } from "gsap"
@@ -24,6 +25,19 @@ const IndustrialHomeExperience = dynamic(
 
 const waveformBars = Array.from({ length: 22 }, (_, index) => index)
 const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
+const enableInteractiveLightingLayer = false
+const homepageBackdropPlates = [
+  { id: "hero", image: "/media/home/scene-hero-v2.jpg", center: 0, position: "68% 50%" },
+  { id: "work", image: "/media/home/scene-02.jpg", center: 0.34, position: "58% 50%" },
+  { id: "systems", image: "/media/home/scene-03.jpg", center: 0.66, position: "56% 50%" },
+  { id: "contact", image: "/media/home/scene-04.jpg", center: 1, position: "50% 50%" },
+] as const
+
+function getBackdropOpacity(progress: number, center: number) {
+  const blendWidth = 0.34
+  const distance = Math.abs(progress - center)
+  return Math.max(0, Math.min(1, 1 - distance / blendWidth))
+}
 
 function useHomeScrollProgress() {
   const [progress, setProgress] = useState(0)
@@ -109,7 +123,39 @@ export default function Home() {
 
   return (
     <div className="industrial-home" data-active-section={activeSection.id}>
-      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
+      <div className="industrial-backdrop" aria-hidden="true">
+        {homepageBackdropPlates.map((plate) => {
+          const opacity = reducedMotion && plate.id !== "hero" ? 0 : getBackdropOpacity(progress, plate.center)
+          const drift = reducedMotion ? 0 : (plate.center - progress) * 4.5
+
+          return (
+            <span
+              key={plate.id}
+              className="industrial-backdrop-plate"
+              style={{
+                opacity,
+                transform: `translate3d(0, ${drift}vh, 0) scale(1.035)`,
+              }}
+            >
+              <Image
+                src={plate.image}
+                alt=""
+                fill
+                priority={plate.id === "hero"}
+                quality={86}
+                sizes="100vw"
+                style={{ objectFit: "cover", objectPosition: plate.position }}
+              />
+            </span>
+          )
+        })}
+        <span className="industrial-backdrop-transition industrial-backdrop-transition-top" />
+        <span className="industrial-backdrop-transition industrial-backdrop-transition-bottom" />
+        <span className="industrial-backdrop-vignette" />
+      </div>
+      {enableInteractiveLightingLayer ? (
+        <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
+      ) : null}
       <div className="industrial-atmosphere" aria-hidden="true">
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />
