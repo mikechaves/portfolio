@@ -596,13 +596,14 @@ html {
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(90deg, rgba(3,3,3,0.96) 0 14%, rgba(3,3,3,0.48) 36%, rgba(3,3,3,0.18) 68%, rgba(3,3,3,0.76) 100%),
-    linear-gradient(180deg, rgba(3,3,3,0.22), rgba(3,3,3,0.86) 88%),
-    url("/images/industrial-hero-plate.jpg");
-  background-position: center center;
-  background-size: cover;
-  opacity: 0.82;
-  transform: scale(1.02);
+    linear-gradient(90deg, rgba(3,3,3,0.98) 0 13%, rgba(3,3,3,0.58) 35%, rgba(3,3,3,0.24) 68%, rgba(3,3,3,0.72) 100%),
+    linear-gradient(180deg, rgba(3,3,3,0.08), rgba(3,3,3,0.8) 88%),
+    radial-gradient(ellipse at 58% 38%, rgba(238,231,216,0.32), transparent 4.4rem),
+    repeating-radial-gradient(ellipse at 58% 41%, rgba(238,231,216,0.23) 0 1px, transparent 1px 1.15rem),
+    radial-gradient(ellipse at 68% 35%, rgba(181,18,24,0.23), transparent 17rem),
+    radial-gradient(ellipse at 54% 76%, rgba(238,231,216,0.18), transparent 20rem),
+    #030303;
+  opacity: 0.86;
 }
 
 .industrial-hero-section::after {
@@ -611,10 +612,13 @@ html {
   inset: 0;
   z-index: 0;
   background:
+    linear-gradient(90deg, transparent 0 39%, rgba(238,231,216,0.13) 40%, transparent 41% 100%),
+    linear-gradient(115deg, transparent 0 48%, rgba(238,231,216,0.13) 49%, transparent 50% 100%),
+    linear-gradient(68deg, transparent 0 51%, rgba(238,231,216,0.11) 52%, transparent 53% 100%),
     repeating-linear-gradient(0deg, transparent 0 5px, rgba(238,231,216,0.025) 6px),
-    radial-gradient(circle at 57% 43%, rgba(238,231,216,0.18), transparent 16rem),
-    radial-gradient(circle at 74% 34%, rgba(181,18,24,0.22), transparent 18rem);
-  opacity: 0.58;
+    repeating-linear-gradient(90deg, transparent 0 5rem, rgba(238,231,216,0.07) 5.05rem 5.1rem, transparent 5.15rem 9rem);
+  mask-image: linear-gradient(90deg, transparent 0 31%, black 46%, transparent 100%);
+  opacity: 0.52;
   mix-blend-mode: screen;
 }
 
