@@ -162,23 +162,22 @@ html {
   bottom: auto;
   left: 0;
   height: 100vh;
-  z-index: 0;
-  background:
-    radial-gradient(circle at 50% 22%, rgba(255,255,255,0.07), transparent 16rem),
-    #030303;
+  z-index: 1;
+  background: transparent;
 }
 
 .industrial-canvas canvas {
   opacity: 0;
   transition: opacity 480ms ease;
+  mix-blend-mode: screen;
 }
 
 .industrial-canvas.is-ready canvas {
-  opacity: 0.98;
+  opacity: 0.16;
 }
 
 .industrial-canvas.is-low-power canvas {
-  opacity: 0.92;
+  opacity: 0.12;
 }
 
 .industrial-canvas-loader {
@@ -214,6 +213,95 @@ html {
   animation: industrial-loader-scan 1.1s ease-in-out infinite;
 }
 
+.industrial-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 70% 42%, rgba(181,18,24,0.14), transparent 34rem),
+    radial-gradient(ellipse at 58% 40%, rgba(238,231,216,0.12), transparent 28rem),
+    linear-gradient(90deg, #030303 0 26%, rgba(3,3,3,0.86) 44%, #030303 100%);
+}
+
+.industrial-backdrop-plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  z-index: 1;
+  will-change: opacity, transform;
+  transition: opacity 420ms ease;
+}
+
+.industrial-backdrop-plate img {
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 50% !important;
+  right: 0 !important;
+  width: min(100vw, 1672px) !important;
+  height: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  transform: translateY(-50%) !important;
+  filter: saturate(1.04) contrast(1.08) brightness(1.55);
+}
+
+.industrial-backdrop-plate-work img,
+.industrial-backdrop-plate-systems img {
+  right: -2vw;
+}
+
+.industrial-backdrop-plate-contact img {
+  right: 50% !important;
+  transform: translate(50%, -50%) !important;
+}
+
+.industrial-backdrop-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.78) 0 23%, rgba(0,0,0,0.24) 45%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.64) 100%),
+    linear-gradient(180deg, rgba(3,3,3,0.22), transparent 26% 72%, rgba(3,3,3,0.42)),
+    radial-gradient(ellipse at 58% 24%, rgba(238,231,216,0.12), transparent 18rem),
+    radial-gradient(ellipse at 74% 42%, rgba(181,18,24,0.18), transparent 22rem);
+  opacity: 0.06;
+  z-index: 1;
+}
+
+.industrial-backdrop-vignette,
+.industrial-backdrop-transition {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.industrial-backdrop-vignette {
+  background:
+    radial-gradient(ellipse at 50% 48%, transparent 0 38%, rgba(0,0,0,0.58) 76%, rgba(0,0,0,0.9) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 5px);
+  mix-blend-mode: multiply;
+  opacity: 0.04;
+}
+
+.industrial-backdrop-transition {
+  z-index: 1;
+  opacity: 0.22;
+}
+
+.industrial-backdrop-transition-top {
+  background: linear-gradient(180deg, #030303, rgba(3,3,3,0.12) 18%, transparent 34%);
+}
+
+.industrial-backdrop-transition-bottom {
+  background:
+    radial-gradient(ellipse at 50% 92%, rgba(238,231,216,0.1), transparent 22rem),
+    linear-gradient(180deg, transparent 68%, rgba(3,3,3,0.3) 90%, rgba(3,3,3,0.72));
+}
+
 @keyframes industrial-loader-scan {
   0% {
     transform: translateX(-105%);
@@ -231,10 +319,10 @@ html {
   bottom: auto;
   left: 0;
   height: 100vh;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.92;
+  opacity: 0;
   transition: opacity 220ms ease;
 }
 
@@ -276,7 +364,7 @@ html {
   box-shadow:
     inset 0 0 54px rgba(0,0,0,0.76),
     0 0 70px rgba(238,231,216,0.2);
-  opacity: 0.32;
+  opacity: 0.14;
   mix-blend-mode: screen;
 }
 
@@ -284,7 +372,7 @@ html {
   left: 52%;
   top: 31%;
   width: min(17vw, 18rem);
-  opacity: 0.28;
+  opacity: 0.1;
   transform: perspective(780px) rotateY(34deg) rotateZ(-1deg);
 }
 
@@ -499,7 +587,7 @@ html {
     repeating-radial-gradient(ellipse at 57% 43%, rgba(232,225,210,0.16) 0 1px, transparent 1px 22px),
     linear-gradient(115deg, transparent 0 48%, rgba(232,225,210,0.18) 49%, transparent 50% 100%),
     linear-gradient(75deg, transparent 0 52%, rgba(232,225,210,0.12) 53%, transparent 54% 100%);
-  opacity: 0.22;
+  opacity: 0.1;
   mask-image: linear-gradient(90deg, transparent 0 42%, black 54% 100%);
 }
 
@@ -515,7 +603,7 @@ html {
     repeating-linear-gradient(0deg, rgba(232,225,210,0.12) 0 1px, transparent 1px 34px),
     linear-gradient(180deg, rgba(181,18,24,0.25), transparent 28%);
   transform: perspective(700px) rotateY(-24deg) rotateX(4deg);
-  opacity: 0.52;
+  opacity: 0.24;
   box-shadow: inset 0 0 80px rgba(0,0,0,0.9), 0 0 80px rgba(181,18,24,0.12);
 }
 
@@ -531,7 +619,7 @@ html {
     linear-gradient(180deg, transparent, rgba(232,225,210,0.15));
   transform: perspective(700px) rotateX(64deg);
   transform-origin: bottom;
-  opacity: 0.46;
+  opacity: 0.22;
 }
 
 .industrial-canvas-fallback {
@@ -577,7 +665,7 @@ html {
 .industrial-hero-section,
 .industrial-story-section {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   min-height: 100vh;
   padding: clamp(7rem, 11vh, 10rem) clamp(1.25rem, 6vw, 5.5rem);
 }
@@ -586,9 +674,38 @@ html {
   display: flex;
   align-items: flex-start;
   padding-top: clamp(11.6rem, 24vh, 15.6rem);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.industrial-hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(3,3,3,0.58) 0 25%, rgba(3,3,3,0.08) 48%, transparent 72%, rgba(3,3,3,0.14) 100%),
+    linear-gradient(180deg, rgba(3,3,3,0.08), transparent 34% 78%, rgba(3,3,3,0.16));
+  opacity: 1;
+}
+
+.industrial-hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 58% 40%, rgba(238,231,216,0.12), transparent 14rem),
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(238,231,216,0.025) 6px),
+    repeating-linear-gradient(90deg, transparent 0 5rem, rgba(238,231,216,0.07) 5.05rem 5.1rem, transparent 5.15rem 9rem);
+  mask-image: linear-gradient(90deg, transparent 0 31%, black 46%, transparent 100%);
+  opacity: 0.08;
+  mix-blend-mode: screen;
 }
 
 .industrial-hero-copy {
+  position: relative;
+  z-index: 1;
   max-width: 34rem;
 }
 
@@ -659,6 +776,7 @@ html {
   position: absolute;
   left: 50%;
   bottom: 2rem;
+  z-index: 1;
   transform: translateX(-50%);
   color: rgba(232, 225, 210, 0.62);
   text-transform: uppercase;
@@ -724,6 +842,48 @@ html {
   gap: clamp(2rem, 6vw, 6rem);
 }
 
+.industrial-work-section {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.industrial-work-section::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  right: -2%;
+  bottom: 3%;
+  width: min(70vw, 64rem);
+  height: 42vh;
+  background:
+    repeating-linear-gradient(90deg, rgba(238,231,216,0.16) 0 1px, transparent 1px 5.4rem),
+    repeating-linear-gradient(0deg, rgba(238,231,216,0.11) 0 1px, transparent 1px 3rem),
+    linear-gradient(90deg, transparent, rgba(181,18,24,0.16), transparent),
+    linear-gradient(180deg, transparent, rgba(238,231,216,0.12));
+  opacity: 0.38;
+  transform: perspective(820px) rotateX(65deg) rotateZ(-1deg);
+  transform-origin: bottom right;
+  mask-image: linear-gradient(90deg, transparent 0, black 22% 74%, transparent 100%);
+}
+
+.industrial-work-section::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 4% 2% 8% 30%;
+  background:
+    radial-gradient(ellipse at 46% 28%, rgba(238,231,216,0.16), transparent 12rem),
+    radial-gradient(ellipse at 72% 80%, rgba(181,18,24,0.16), transparent 14rem),
+    repeating-linear-gradient(105deg, transparent 0 6rem, rgba(0,0,0,0.9) 6.06rem 6.18rem, transparent 6.24rem 11rem);
+  opacity: 0.46;
+  pointer-events: none;
+}
+
+.industrial-work-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 .industrial-section-copy {
   max-width: 22rem;
 }
@@ -769,6 +929,26 @@ html {
   transform-style: preserve-3d;
 }
 
+.industrial-work-section .industrial-project-list {
+  transform: translateY(4vh);
+}
+
+.industrial-work-section .industrial-project-slab {
+  border-color: rgba(238,231,216,0.04);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  text-shadow: 0 0 18px rgba(0,0,0,0.92), 0 0 28px rgba(0,0,0,0.86);
+}
+
+.industrial-work-section .industrial-project-slab::before {
+  opacity: 0.12;
+}
+
+.industrial-work-section .industrial-project-slab::after {
+  opacity: 0.08;
+}
+
 .industrial-project-slab,
 .industrial-capability-panel,
 .industrial-card {
@@ -801,11 +981,15 @@ html {
   transform-origin: 50% 14%;
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   will-change: transform;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.055), transparent 42%),
+    rgba(7, 7, 7, 0.36);
+  backdrop-filter: blur(2px);
   box-shadow:
-    inset 0 0 26px rgba(255,255,255,0.035),
-    inset -18px 0 34px rgba(0,0,0,0.42),
-    calc(var(--slab-depth) * -0.55) calc(var(--slab-depth) * 0.7) 0 rgba(20,16,14,0.74),
-    0 34px 80px rgba(0,0,0,0.44);
+    inset 0 0 22px rgba(255,255,255,0.025),
+    inset -18px 0 34px rgba(0,0,0,0.25),
+    calc(var(--slab-depth) * -0.42) calc(var(--slab-depth) * 0.52) 0 rgba(20,16,14,0.42),
+    0 34px 80px rgba(0,0,0,0.28);
 }
 
 .industrial-project-slab:nth-child(1) {
@@ -838,11 +1022,11 @@ html {
   border-color: rgba(238, 231, 216, 0.36);
   transform: rotateY(calc(var(--slab-rotate-y) - 2deg)) rotateX(calc(var(--slab-rotate-x) - 0.8deg)) translateY(calc(var(--slab-translate-y) - 0.35rem)) translateZ(2.2rem);
   box-shadow:
-    inset 0 0 28px rgba(255,255,255,0.055),
-    inset -18px 0 34px rgba(0,0,0,0.42),
-    calc(var(--slab-depth) * -0.55) calc(var(--slab-depth) * 0.7) 0 rgba(24,18,15,0.82),
+    inset 0 0 28px rgba(255,255,255,0.04),
+    inset -18px 0 34px rgba(0,0,0,0.28),
+    calc(var(--slab-depth) * -0.45) calc(var(--slab-depth) * 0.62) 0 rgba(24,18,15,0.48),
     0 0 34px rgba(181,18,24,0.22),
-    0 38px 92px rgba(0,0,0,0.58);
+    0 38px 92px rgba(0,0,0,0.36);
 }
 
 .industrial-project-slab::before {
@@ -854,7 +1038,7 @@ html {
     repeating-linear-gradient(0deg, rgba(238,231,216,0.035) 0 1px, transparent 1px 5px),
     radial-gradient(circle at 22% 16%, rgba(238,231,216,0.14), transparent 8rem),
     linear-gradient(115deg, transparent 0 42%, rgba(238,231,216,0.08) 43%, transparent 46% 100%);
-  opacity: 0.78;
+  opacity: 0.58;
 }
 
 .industrial-project-slab::after {
@@ -879,7 +1063,7 @@ html {
   background-repeat: no-repeat;
   background-size: 100% 4.9rem, 100% calc(100% - 4.2rem), 100% calc(100% - 4.2rem);
   background-position: 0 0, 0 4.2rem, 0 4.2rem;
-  opacity: 0.72;
+  opacity: 0.5;
   transform: translateZ(0.2rem);
   filter: drop-shadow(0 1rem 1.2rem rgba(0,0,0,0.42));
 }
@@ -1240,6 +1424,17 @@ html {
 }
 
 @media (max-width: 720px) {
+  .industrial-backdrop-plate img,
+  .industrial-backdrop-plate-work img,
+  .industrial-backdrop-plate-systems img,
+  .industrial-backdrop-plate-contact img {
+    right: 50% !important;
+    width: auto !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    transform: translate(50%, -50%) !important;
+  }
+
   .industrial-nav-links {
     display: none;
   }

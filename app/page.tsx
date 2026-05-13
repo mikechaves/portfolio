@@ -1,8 +1,10 @@
 "use client"
 
-import dynamic from "next/dynamic"
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   featuredPortfolioProjects,
   portfolioCapabilities,
@@ -12,21 +14,24 @@ import {
 } from "@/data/portfolio"
 import { ArrowRight } from "lucide-react"
 
-const IndustrialHomeExperience = dynamic(
-  () => import("@/components/industrial-home-experience").then((m) => m.IndustrialHomeExperience),
-  {
-    ssr: false,
-    loading: () => <div className="industrial-canvas industrial-canvas-fallback" aria-hidden="true" />,
-  },
-)
-
 const waveformBars = Array.from({ length: 22 }, (_, index) => index)
 const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
+const homepageBackdropPlates = [
+  { id: "hero", image: "/media/home/scene-hero-v2.jpg", center: 0 },
+  { id: "work", image: "/media/home/scene-02.jpg", center: 0.34 },
+  { id: "systems", image: "/media/home/scene-03.jpg", center: 0.66 },
+  { id: "contact", image: "/media/home/scene-04.jpg", center: 1 },
+] as const
+
+function getBackdropOpacity(progress: number, center: number) {
+  const blendWidth = 0.34
+  const distance = Math.abs(progress - center)
+  return Math.max(0, Math.min(1, 1 - distance / blendWidth))
+}
 
 function useHomeScrollProgress() {
   const [progress, setProgress] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
-  const [sceneActive, setSceneActive] = useState(true)
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -43,52 +48,41 @@ function useHomeScrollProgress() {
       return
     }
 
-    let frame = 0
-    let maxScroll = 1
+    gsap.registerPlugin(ScrollTrigger)
 
-    const updateMaxScroll = () => {
-      maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
+    const easedProgress = { value: 0 }
+    let lastProgress = -1
+    const syncProgress = () => {
+      if (Math.abs(easedProgress.value - lastProgress) < 0.001) return
+      lastProgress = easedProgress.value
+      setProgress(easedProgress.value)
     }
+    const trigger = ScrollTrigger.create({
+      start: 0,
+      end: () => Math.max(document.documentElement.scrollHeight - window.innerHeight, 1),
+      invalidateOnRefresh: true,
+      scrub: 0.75,
+      onUpdate: (self) => {
+        gsap.to(easedProgress, {
+          duration: 0.55,
+          ease: "power3.out",
+          overwrite: true,
+          value: self.progress,
+        })
+      },
+    })
 
-    const update = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        setProgress(Math.min(window.scrollY / maxScroll, 1))
-      })
-    }
+    gsap.ticker.add(syncProgress)
+    ScrollTrigger.refresh()
 
-    const handleResize = () => {
-      updateMaxScroll()
-      update()
-    }
-
-    updateMaxScroll()
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", handleResize)
     return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", handleResize)
+      gsap.ticker.remove(syncProgress)
+      trigger.kill()
+      gsap.killTweensOf(easedProgress)
     }
   }, [reducedMotion])
 
-  useEffect(() => {
-    const updateVisibility = () => setSceneActive(document.visibilityState === "visible" && document.hasFocus())
-
-    updateVisibility()
-    document.addEventListener("visibilitychange", updateVisibility)
-    window.addEventListener("focus", updateVisibility)
-    window.addEventListener("blur", updateVisibility)
-
-    return () => {
-      document.removeEventListener("visibilitychange", updateVisibility)
-      window.removeEventListener("focus", updateVisibility)
-      window.removeEventListener("blur", updateVisibility)
-    }
-  }, [])
-
-  return { progress, reducedMotion, sceneActive }
+  return { progress, reducedMotion }
 }
 
 function useActiveSceneSection(sections: SceneSection[], progress: number) {
@@ -98,12 +92,40 @@ function useActiveSceneSection(sections: SceneSection[], progress: number) {
 }
 
 export default function Home() {
-  const { progress, reducedMotion, sceneActive } = useHomeScrollProgress()
+  const { progress, reducedMotion } = useHomeScrollProgress()
   const activeSection = useActiveSceneSection(sceneSections, progress)
 
   return (
     <div className="industrial-home" data-active-section={activeSection.id}>
-      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
+      <div className="industrial-backdrop" aria-hidden="true">
+        {homepageBackdropPlates.map((plate) => {
+          const opacity = reducedMotion && plate.id !== "hero" ? 0 : getBackdropOpacity(progress, plate.center)
+          const drift = reducedMotion ? 0 : (plate.center - progress) * 4.5
+
+          return (
+            <span
+              key={plate.id}
+              className={`industrial-backdrop-plate industrial-backdrop-plate-${plate.id}`}
+              style={{
+                opacity,
+                transform: `translate3d(0, ${drift}vh, 0)`,
+              }}
+            >
+              <img
+                src={plate.image}
+                alt=""
+                width={1672}
+                height={941}
+                decoding="async"
+                loading={plate.id === "hero" ? "eager" : "lazy"}
+              />
+            </span>
+          )
+        })}
+        <span className="industrial-backdrop-transition industrial-backdrop-transition-top" />
+        <span className="industrial-backdrop-transition industrial-backdrop-transition-bottom" />
+        <span className="industrial-backdrop-vignette" />
+      </div>
       <div className="industrial-atmosphere" aria-hidden="true">
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />
