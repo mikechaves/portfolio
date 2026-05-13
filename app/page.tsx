@@ -1,7 +1,6 @@
 "use client"
 
-import dynamic from "next/dynamic"
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { gsap } from "gsap"
@@ -15,22 +14,13 @@ import {
 } from "@/data/portfolio"
 import { ArrowRight } from "lucide-react"
 
-const IndustrialHomeExperience = dynamic(
-  () => import("@/components/industrial-home-experience").then((m) => m.IndustrialHomeExperience),
-  {
-    ssr: false,
-    loading: () => <div className="industrial-canvas industrial-canvas-fallback" aria-hidden="true" />,
-  },
-)
-
 const waveformBars = Array.from({ length: 22 }, (_, index) => index)
 const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
-const enableInteractiveLightingLayer = false
 const homepageBackdropPlates = [
-  { id: "hero", image: "/media/home/scene-hero-v2.jpg", center: 0, position: "68% 50%" },
-  { id: "work", image: "/media/home/scene-02.jpg", center: 0.34, position: "58% 50%" },
-  { id: "systems", image: "/media/home/scene-03.jpg", center: 0.66, position: "56% 50%" },
-  { id: "contact", image: "/media/home/scene-04.jpg", center: 1, position: "50% 50%" },
+  { id: "hero", image: "/media/home/scene-hero-v2.jpg", center: 0 },
+  { id: "work", image: "/media/home/scene-02.jpg", center: 0.34 },
+  { id: "systems", image: "/media/home/scene-03.jpg", center: 0.66 },
+  { id: "contact", image: "/media/home/scene-04.jpg", center: 1 },
 ] as const
 
 function getBackdropOpacity(progress: number, center: number) {
@@ -42,7 +32,6 @@ function getBackdropOpacity(progress: number, center: number) {
 function useHomeScrollProgress() {
   const [progress, setProgress] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
-  const [sceneActive, setSceneActive] = useState(true)
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -93,22 +82,7 @@ function useHomeScrollProgress() {
     }
   }, [reducedMotion])
 
-  useEffect(() => {
-    const updateVisibility = () => setSceneActive(document.visibilityState === "visible" && document.hasFocus())
-
-    updateVisibility()
-    document.addEventListener("visibilitychange", updateVisibility)
-    window.addEventListener("focus", updateVisibility)
-    window.addEventListener("blur", updateVisibility)
-
-    return () => {
-      document.removeEventListener("visibilitychange", updateVisibility)
-      window.removeEventListener("focus", updateVisibility)
-      window.removeEventListener("blur", updateVisibility)
-    }
-  }, [])
-
-  return { progress, reducedMotion, sceneActive }
+  return { progress, reducedMotion }
 }
 
 function useActiveSceneSection(sections: SceneSection[], progress: number) {
@@ -118,7 +92,7 @@ function useActiveSceneSection(sections: SceneSection[], progress: number) {
 }
 
 export default function Home() {
-  const { progress, reducedMotion, sceneActive } = useHomeScrollProgress()
+  const { progress, reducedMotion } = useHomeScrollProgress()
   const activeSection = useActiveSceneSection(sceneSections, progress)
 
   return (
@@ -131,20 +105,19 @@ export default function Home() {
           return (
             <span
               key={plate.id}
-              className="industrial-backdrop-plate"
+              className={`industrial-backdrop-plate industrial-backdrop-plate-${plate.id}`}
               style={{
                 opacity,
-                transform: `translate3d(0, ${drift}vh, 0) scale(1.035)`,
+                transform: `translate3d(0, ${drift}vh, 0)`,
               }}
             >
-              <Image
+              <img
                 src={plate.image}
                 alt=""
-                fill
-                priority={plate.id === "hero"}
-                quality={86}
-                sizes="100vw"
-                style={{ objectFit: "cover", objectPosition: plate.position }}
+                width={1672}
+                height={941}
+                decoding="async"
+                loading={plate.id === "hero" ? "eager" : "lazy"}
               />
             </span>
           )
@@ -153,9 +126,6 @@ export default function Home() {
         <span className="industrial-backdrop-transition industrial-backdrop-transition-bottom" />
         <span className="industrial-backdrop-vignette" />
       </div>
-      {enableInteractiveLightingLayer ? (
-        <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
-      ) : null}
       <div className="industrial-atmosphere" aria-hidden="true">
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
         <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />

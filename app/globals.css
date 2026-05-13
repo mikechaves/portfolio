@@ -164,7 +164,6 @@ html {
   height: 100vh;
   z-index: 1;
   background: transparent;
-  opacity: 0;
 }
 
 .industrial-canvas canvas {
@@ -220,20 +219,44 @@ html {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: #030303;
+  background:
+    radial-gradient(ellipse at 70% 42%, rgba(181,18,24,0.14), transparent 34rem),
+    radial-gradient(ellipse at 58% 40%, rgba(238,231,216,0.12), transparent 28rem),
+    linear-gradient(90deg, #030303 0 26%, rgba(3,3,3,0.86) 44%, #030303 100%);
 }
 
 .industrial-backdrop-plate {
   position: absolute;
-  inset: -4vh -4vw;
+  inset: 0;
   display: block;
+  overflow: hidden;
+  z-index: 1;
   will-change: opacity, transform;
   transition: opacity 420ms ease;
 }
 
 .industrial-backdrop-plate img {
-  object-fit: cover;
-  filter: saturate(1) contrast(1.03) brightness(1.28);
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 50% !important;
+  right: 0 !important;
+  width: min(100vw, 1672px) !important;
+  height: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  transform: translateY(-50%) !important;
+  filter: saturate(1.04) contrast(1.08) brightness(1.55);
+}
+
+.industrial-backdrop-plate-work img,
+.industrial-backdrop-plate-systems img {
+  right: -2vw;
+}
+
+.industrial-backdrop-plate-contact img {
+  right: 50% !important;
+  transform: translate(50%, -50%) !important;
 }
 
 .industrial-backdrop-plate::after {
@@ -245,7 +268,8 @@ html {
     linear-gradient(180deg, rgba(3,3,3,0.22), transparent 26% 72%, rgba(3,3,3,0.42)),
     radial-gradient(ellipse at 58% 24%, rgba(238,231,216,0.12), transparent 18rem),
     radial-gradient(ellipse at 74% 42%, rgba(181,18,24,0.18), transparent 22rem);
-  opacity: 0.18;
+  opacity: 0.06;
+  z-index: 1;
 }
 
 .industrial-backdrop-vignette,
@@ -260,12 +284,12 @@ html {
     radial-gradient(ellipse at 50% 48%, transparent 0 38%, rgba(0,0,0,0.58) 76%, rgba(0,0,0,0.9) 100%),
     repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 5px);
   mix-blend-mode: multiply;
-  opacity: 0.1;
+  opacity: 0.04;
 }
 
 .industrial-backdrop-transition {
   z-index: 1;
-  opacity: 0.46;
+  opacity: 0.22;
 }
 
 .industrial-backdrop-transition-top {
@@ -298,7 +322,7 @@ html {
   z-index: 2;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.22;
+  opacity: 0;
   transition: opacity 220ms ease;
 }
 
@@ -660,8 +684,8 @@ html {
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(90deg, rgba(3,3,3,0.66) 0 25%, rgba(3,3,3,0.16) 48%, transparent 72%, rgba(3,3,3,0.2) 100%),
-    linear-gradient(180deg, rgba(3,3,3,0.12), transparent 32% 76%, rgba(3,3,3,0.22));
+    linear-gradient(90deg, rgba(3,3,3,0.58) 0 25%, rgba(3,3,3,0.08) 48%, transparent 72%, rgba(3,3,3,0.14) 100%),
+    linear-gradient(180deg, rgba(3,3,3,0.08), transparent 34% 78%, rgba(3,3,3,0.16));
   opacity: 1;
 }
 
@@ -675,7 +699,7 @@ html {
     repeating-linear-gradient(0deg, transparent 0 5px, rgba(238,231,216,0.025) 6px),
     repeating-linear-gradient(90deg, transparent 0 5rem, rgba(238,231,216,0.07) 5.05rem 5.1rem, transparent 5.15rem 9rem);
   mask-image: linear-gradient(90deg, transparent 0 31%, black 46%, transparent 100%);
-  opacity: 0.34;
+  opacity: 0.08;
   mix-blend-mode: screen;
 }
 
@@ -1400,6 +1424,17 @@ html {
 }
 
 @media (max-width: 720px) {
+  .industrial-backdrop-plate img,
+  .industrial-backdrop-plate-work img,
+  .industrial-backdrop-plate-systems img,
+  .industrial-backdrop-plate-contact img {
+    right: 50% !important;
+    width: auto !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    transform: translate(50%, -50%) !important;
+  }
+
   .industrial-nav-links {
     display: none;
   }
