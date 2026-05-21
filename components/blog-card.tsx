@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { CalendarIcon, Clock, ArrowRight } from "lucide-react"
 
 interface BlogCardProps {
   id: string
@@ -18,16 +18,33 @@ export function BlogCard({ id, title, excerpt, date, readingTime, url, publicati
   const linkProps = url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: `/blog/${id}` }
 
   return (
-    <Component {...linkProps} className="industrial-card">
-      <div className="flex items-center justify-between gap-4 text-xs uppercase tracking-[0.16em] text-[#8f8678]">
-        <span>{publication}</span>
-        <span>{date} / {readingTime}</span>
+    <Component {...linkProps} className="block h-full">
+      <div className="card-hover bg-card p-4 rounded-md h-full flex flex-col">
+        {publication && (
+          <div className="inline-block px-2 py-1 mb-2 text-xs border border-zinc-700 rounded-full text-zinc-400">
+            {publication}
+          </div>
+        )}
+        <div className="flex items-center gap-4 text-xs text-zinc-400 mb-2">
+          <div className="flex items-center">
+            <CalendarIcon size={12} className="mr-1" />
+            {date}
+          </div>
+          <div className="flex items-center">
+            <Clock size={12} className="mr-1" />
+            {readingTime}
+          </div>
+        </div>
+        <h3 className="text-lg font-bold mb-2 glitch" data-text={title}>
+          {title}
+        </h3>
+        <p className="text-sm text-zinc-400 mb-4 flex-grow line-clamp-3">{excerpt}</p>
+        {url && (
+          <div className="text-primary text-sm flex items-center gap-1 mt-auto">
+            Read on Medium <ArrowRight size={14} />
+          </div>
+        )}
       </div>
-      <h3 className="mt-5">{title}</h3>
-      <p className="line-clamp-3 text-sm">{excerpt}</p>
-      <span className="industrial-text-link mt-auto">
-        Read signal <ArrowRight size={14} />
-      </span>
     </Component>
   )
 }

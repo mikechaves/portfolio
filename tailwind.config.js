@@ -24,7 +24,7 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#b51218",
+          DEFAULT: "#00ff8c", // Keep the direct hex value that's currently working
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -51,6 +51,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        neon: "#00ff8c",
       },
       borderRadius: {
         lg: "var(--radius)",

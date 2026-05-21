@@ -1,185 +1,433 @@
-"use client"
+"use client";
 
 import { useEffect, useState, type FormEvent, useTransition } from "react"
-import Link from "next/link"
-import { Github, Linkedin, Mail } from "lucide-react"
+import { Terminal } from "@/components/terminal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { sendContactEmail } from "@/app/actions/contact"
-import { useToast } from "@/hooks/use-toast"
+import { Github, Linkedin, Mail } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { FocusContextBadge } from "@/components/focus-context-badge"
-import { experiences, skills, talksRecognition, volunteerExperiences } from "./data"
-import { portfolioCapabilities } from "@/data/portfolio"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
+// Prevent Font Awesome from adding its CSS since we did it manually above
+config.autoAddCss = false
 
-const fellowshipsAndRecognition = [...volunteerExperiences, ...talksRecognition]
+import { sendContactEmail } from "@/app/actions/contact"
+import { useToast } from "@/hooks/use-toast"
+import { experiences, volunteerExperiences, skills, talksRecognition } from "./data"
+import { FocusContextBadge } from "@/components/focus-context-badge"
+import { NeonSeparator } from "@/components/neon-separator"
 
 export default function AboutPage() {
+  const [introComplete, setIntroComplete] = useState(false)
+  const [bioComplete, setBioComplete] = useState(false)
   const [isPending, startTransition] = useTransition()
-  const [focus, setFocus] = useState("")
   const [formStatus, setFormStatus] = useState<{
     success: boolean | null
     message: string | null
-  }>({ success: null, message: null })
+  }>({
+    success: null,
+    message: null,
+  })
   const { toast } = useToast()
+  const [focus, setFocus] = useState("")
 
   useEffect(() => {
+    if (typeof window === "undefined") return
     const query = new URLSearchParams(window.location.search).get("focus")
     if (query) setFocus(query)
   }, [])
 
+  // Data arrays are imported from ./data to keep them outside the component
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setFormStatus({ success: null, message: null })
+
+    // Reset form status
+    setFormStatus({
+      success: null,
+      message: null,
+    })
+
     const form = e.currentTarget
     const formData = new FormData(form)
 
     startTransition(async () => {
       try {
         const response = await sendContactEmail(formData)
-        setFormStatus({ success: response.success, message: response.message })
+
+        setFormStatus({
+          success: response.success,
+          message: response.message,
+        })
+
         if (response.success) {
           form.reset()
-          toast({ title: "Message sent", description: response.message })
+          toast({
+            title: "Success!",
+            description: response.message,
+          })
         } else {
           toast({
-            title: "Message failed",
+            title: "Error",
             description: response.message || "Something went wrong. Please try again.",
             variant: "destructive",
           })
         }
       } catch (error) {
-        console.error("Contact form submission failed:", error)
-        setFormStatus({ success: false, message: "An unexpected error occurred. Please try again." })
+        console.error("Form submission error:", error)
+        setFormStatus({
+          success: false,
+          message: "An unexpected error occurred. Please try again.",
+        })
       }
     })
   }
 
   return (
-    <div className="industrial-page industrial-page-wide">
+    <div className="space-y-16 pt-8">
+      <h1 className="sr-only">About Mike Chaves</h1>
       {focus && <FocusContextBadge focus={focus} />}
-      <p className="industrial-page-kicker">Systems</p>
-      <h1 className="industrial-page-title">Operator profile</h1>
-      <p className="industrial-page-intro">
-        AI-native product and experience engineer focused on forward-deployed execution inside complex organizations.
-        I work across product, design, and engineering to move ambiguous ideas from prototype to production.
-      </p>
+      <section>
+        <Terminal
+          text="Initializing personal profile... Access granted. Loading bio data..."
+          typingSpeed={30}
+          className="max-w-3xl mx-auto"
+          onComplete={() => setIntroComplete(true)}
+        />
 
-      <div className="industrial-rule" />
-
-      <section className="industrial-grid md:grid-cols-4">
-        {portfolioCapabilities.map((capability) => (
-          <div key={capability.id} className="industrial-card">
-            <h3>{capability.label}</h3>
-            <p>{capability.summary}</p>
-          </div>
-        ))}
+        {introComplete && (
+          <Terminal
+            text="I’m an AI-native product and experience engineer focused on forward-deployed execution inside complex organizations. I work across product, design, and engineering to take ambiguous ideas from prototype to production—fast, with measurable impact."
+            typingSpeed={20}
+            className="max-w-3xl mx-auto mt-4"
+            showPrompt={false}
+            onComplete={() => setBioComplete(true)}
+          />
+        )}
       </section>
 
-      <section className="mt-20 grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <p className="industrial-page-kicker">Experience</p>
-          <h2 className="mt-3 text-4xl font-black uppercase leading-none text-[#f1ede3] md:text-6xl">
-            Built under pressure
-          </h2>
-        </div>
-        <div className="grid gap-4">
-          {experiences.map((experience) => (
-            <article key={`${experience.company}-${experience.title}`} className="industrial-card">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <h3>{experience.title}</h3>
-                  <p className="!mt-2 text-sm uppercase tracking-[0.14em] text-[#8f8678]">{experience.company}</p>
+      {bioComplete && (
+        <>
+          <NeonSeparator intensity="high" />
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Professional Experience</h2>
+            <div className="space-y-6">
+              {experiences.map((exp, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">{exp.company}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat
+                      job_details.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {exp.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span>{" "}
+                        {exp.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">description:</span>{" "}
+                        {exp.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-xs uppercase tracking-[0.14em] text-[#8f8678]">{experience.period}</span>
-              </div>
-              <p>{experience.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+              ))}
+            </div>
+          </section>
 
-      <section className="mt-20 grid gap-6 lg:grid-cols-2">
-        <div className="industrial-card">
-          <h2 className="text-3xl font-black uppercase text-[#f1ede3]">Fellowships & Recognition</h2>
-          <div className="mt-6 grid gap-5">
-            {fellowshipsAndRecognition.map((item) => (
-              <div key={`${item.title}-${item.period}`} className="border-t border-[#e8e1d2]/10 pt-4">
-                <h3 className="!text-xl">{item.title}</h3>
-                <p className="!mt-1 text-sm uppercase tracking-[0.14em] text-[#8f8678]">{item.period}</p>
-                <p>{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Fellowships & Leadership</h2>
+            <div className="space-y-6">
+              {volunteerExperiences.map((exp, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">{exp.company}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat volunteer_details.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {exp.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span> {exp.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">description:</span> {exp.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <div className="industrial-card">
-          <h2 className="text-3xl font-black uppercase text-[#f1ede3]">System Specs</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            {skills.map((skillGroup) => (
-              <div key={skillGroup.category}>
-                <h3 className="!text-xl">{skillGroup.category}</h3>
-                <ul className="mt-3 grid gap-2 text-sm text-[#b9b0a2]">
-                  {skillGroup.items.map((skill) => (
-                    <li key={skill}>— {skill}</li>
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Education</h2>
+            <div className="space-y-6">
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button terminal-button-red"></div>
+                  <div className="terminal-button terminal-button-yellow"></div>
+                  <div className="terminal-button terminal-button-green"></div>
+                  <div className="terminal-title">education.sh</div>
+                </div>
+                <div className="terminal-content">
+                  <p className="mb-1">
+                    <span className="text-primary">$</span> cat education.txt
+                  </p>
+                  <div className="mb-4">
+                    <p className="mb-2">
+                      <span className="text-primary">degree:</span> Master of Design, Experience Design, May 2025
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">institution:</span> San José State University
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2">
+                      <span className="text-primary">degree:</span> Bachelor of Science, Games, Interactive Media & Mobile
+                      Technology, May 2020
+                    </p>
+                    <p className="mb-2">
+                      <span className="text-primary">institution:</span> Boise State University
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Talks & Recognition</h2>
+            <div className="space-y-6">
+              {talksRecognition.map((item, index) => (
+                <div key={index} className="terminal-window">
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">recognition_{index + 1}.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-1">
+                      <span className="text-primary">$</span> cat talk.txt
+                    </p>
+                    <div className="mb-2">
+                      <p>
+                        <span className="text-primary">title:</span> {item.title}
+                      </p>
+                      <p>
+                        <span className="text-primary">period:</span> {item.period}
+                      </p>
+                      <p>
+                        <span className="text-primary">focus:</span> {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">System Specs</h2>
+            <div className="terminal-window">
+              <div className="terminal-header">
+                <div className="terminal-button terminal-button-red"></div>
+                <div className="terminal-button terminal-button-yellow"></div>
+                <div className="terminal-button terminal-button-green"></div>
+                <div className="terminal-title">skills.sh</div>
+              </div>
+              <div className="terminal-content">
+                <p className="mb-4">
+                  <span className="text-primary">$</span> cat /proc/skills
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {skills.map((skillGroup, index) => (
+                    <div key={index} className="space-y-2">
+                      <h3 className="text-primary font-bold">
+                        {skillGroup.category}
+                      </h3>
+                      <ul className="space-y-1">
+                        {skillGroup.items.map((skill, skillIndex) => (
+                          <li
+                            key={skillIndex}
+                            className="flex items-center gap-2"
+                          >
+                            <span className="text-primary">-</span>
+                            <span>{skill}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      <section id="contact" className="mt-20 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
-          <p className="industrial-page-kicker">Contact</p>
-          <h2 className="mt-3 text-4xl font-black uppercase leading-none text-[#f1ede3] md:text-6xl">
-            Let&apos;s build something real.
-          </h2>
-          <p className="industrial-page-intro">
-            Send a signal for AI product systems, spatial UX, prototyping, or production hardening work.
-          </p>
-          <div className="mt-8 grid gap-4 text-[#b9b0a2]">
-            <Link href="https://github.com/mikechaves" target="_blank" className="inline-flex items-center gap-3 hover:text-[#eee7d8]">
-              <Github size={18} /> github.com/mikechaves
-            </Link>
-            <Link href="https://x.com/mikechaves_io" target="_blank" className="inline-flex items-center gap-3 hover:text-[#eee7d8]">
-              <FontAwesomeIcon icon={faXTwitter} className="h-4 w-4" /> x.com/mikechaves_io
-            </Link>
-            <Link href="https://www.linkedin.com/in/mikejchaves" target="_blank" className="inline-flex items-center gap-3 hover:text-[#eee7d8]">
-              <Linkedin size={18} /> linkedin.com/in/mikejchaves
-            </Link>
-            <Link href="mailto:founder@gowizzo.io" className="inline-flex items-center gap-3 hover:text-[#eee7d8]">
-              <Mail size={18} /> founder@gowizzo.io
-            </Link>
-          </div>
-        </div>
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Contact</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button terminal-button-red"></div>
+                  <div className="terminal-button terminal-button-yellow"></div>
+                  <div className="terminal-button terminal-button-green"></div>
+                  <div className="terminal-title">contact_form.sh</div>
+                </div>
+                <div className="terminal-content">
+                  <p className="mb-4">
+                    <span className="text-primary">$</span> ./send_message.sh
+                  </p>
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                      <label htmlFor="name" className="block text-sm mb-1">
+                        <span className="text-primary">name:</span>
+                      </label>
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        className="bg-background border-border"
+                        required
+                        disabled={isPending}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm mb-1">
+                        <span className="text-primary">email:</span>
+                      </label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="bg-background border-border"
+                        required
+                        disabled={isPending}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-sm mb-1">
+                        <span className="text-primary">message:</span>
+                      </label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="Enter your message"
+                        rows={4}
+                        className="bg-background border-border"
+                        required
+                        disabled={isPending}
+                      />
+                    </div>
+                    <Button type="submit" className="w-full" disabled={isPending}>
+                      {isPending ? "Sending..." : "Send Message"}
+                    </Button>
 
-        <form className="industrial-card grid gap-4" onSubmit={handleSubmit}>
-          <div className="industrial-form-field">
-            <label htmlFor="name">Name</label>
-            <Input id="name" name="name" required disabled={isPending} className="border-[#e8e1d2]/20 bg-black/60" />
-          </div>
-          <div className="industrial-form-field">
-            <label htmlFor="email">Email</label>
-            <Input id="email" name="email" type="email" required disabled={isPending} className="border-[#e8e1d2]/20 bg-black/60" />
-          </div>
-          <div className="industrial-form-field">
-            <label htmlFor="message">Message</label>
-            <Textarea id="message" name="message" rows={5} required disabled={isPending} className="border-[#e8e1d2]/20 bg-black/60" />
-          </div>
-          <Button type="submit" disabled={isPending}>
-            {isPending ? "Sending..." : "Start a conversation"}
-          </Button>
-          {formStatus.message && (
-            <p className={formStatus.success ? "text-sm text-green-400" : "text-sm text-red-400"}>
-              {formStatus.message}
-            </p>
-          )}
-        </form>
-      </section>
+                    {formStatus.message && (
+                      <div
+                        className={`mt-2 p-2 text-sm rounded ${
+                          formStatus.success
+                            ? "bg-green-900/20 text-green-500 border border-green-900"
+                            : formStatus.success === false
+                              ? "bg-red-900/20 text-red-500 border border-red-900"
+                              : ""
+                        }`}
+                      >
+                        {formStatus.message}
+                      </div>
+                    )}
+                  </form>
+                </div>
+              </div>
+
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button terminal-button-red"></div>
+                  <div className="terminal-button terminal-button-yellow"></div>
+                  <div className="terminal-button terminal-button-green"></div>
+                  <div className="terminal-title">network_connections.sh</div>
+                </div>
+                <div className="terminal-content">
+                  <p className="mb-4">
+                    <span className="text-primary">$</span> ifconfig
+                  </p>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="mb-1 text-primary">github0:</p>
+
+                      <Link
+                        href="https://github.com/mikechaves"
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                        target="_blank"
+                      >
+                        <Github size={16} />
+                        github.com/mikechaves
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="mb-1 text-primary">x0:</p>
+                      <Link
+                        href="https://x.com/mikechaves_io"
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                        target="_blank"
+                        //rel="noopener noreferrer"
+                      >
+                        <span className="w-4 h-4 flex items-center justify-center">
+                          <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
+                        </span>
+                        x.com/mikechaves_io
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="mb-1 text-primary">linkedin0:</p>
+                      <Link
+                        href="https://www.linkedin.com/in/mikejchaves"
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                        target="_blank"
+                      >
+                        <Linkedin size={16} />
+                        linkedin.com/in/mikejchaves
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="mb-1 text-primary">mail0:</p>
+                      {/* Use regular anchor tag for mailto link */}
+                      <Link
+                        href="mailto:founder@gowizzo.io"
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                      >
+                        <Mail size={16} />
+                        founder@gowizzo.io
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
     </div>
-  )
+  );
 }

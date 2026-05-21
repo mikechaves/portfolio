@@ -1,227 +1,357 @@
-"use client"
+"use client";
 
-import dynamic from "next/dynamic"
+import { useCallback, useState } from "react"
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
-import {
-  featuredPortfolioProjects,
-  portfolioCapabilities,
-  portfolioWriting,
-  type SceneSection,
-  sceneSections,
-} from "@/data/portfolio"
+import { Terminal } from "@/components/terminal"
+import { ProjectFilter } from "@/components/project-filter"
+import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
-
-const IndustrialHomeExperience = dynamic(
-  () => import("@/components/industrial-home-experience").then((m) => m.IndustrialHomeExperience),
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ADAPTIVE_FOCUS_EXAMPLES } from "@/features/adaptive-focus"
+import dynamic from "next/dynamic"
+const HeroBackground = dynamic(
+  () => import("@/components/hero-background").then((m) => m.HeroBackground),
   {
     ssr: false,
-    loading: () => <div className="industrial-canvas industrial-canvas-fallback" aria-hidden="true" />,
-  },
+    loading: () => (
+      <div
+        className="absolute inset-0 -z-10 overflow-hidden"
+        aria-hidden="true"
+      />
+    ),
+  }
 )
+import { RecentHighlights } from "@/components/recent-highlights"
+import { NeonSeparator } from "@/components/neon-separator"
 
-const waveformBars = Array.from({ length: 22 }, (_, index) => index)
-const nodeReadoutValues = ["-10", "-12", "-09", "-13", "-08", "-11"]
-
-function useHomeScrollProgress() {
-  const [progress, setProgress] = useState(0)
-  const [reducedMotion, setReducedMotion] = useState(false)
-  const [sceneActive, setSceneActive] = useState(true)
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const updateMotion = () => setReducedMotion(media.matches)
-
-    updateMotion()
-    media.addEventListener("change", updateMotion)
-    return () => media.removeEventListener("change", updateMotion)
-  }, [])
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setProgress(0)
-      return
-    }
-
-    let frame = 0
-    let maxScroll = 1
-
-    const updateMaxScroll = () => {
-      maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
-    }
-
-    const update = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        setProgress(Math.min(window.scrollY / maxScroll, 1))
-      })
-    }
-
-    const handleResize = () => {
-      updateMaxScroll()
-      update()
-    }
-
-    updateMaxScroll()
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", handleResize)
-    return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [reducedMotion])
-
-  useEffect(() => {
-    const updateVisibility = () => setSceneActive(document.visibilityState === "visible" && document.hasFocus())
-
-    updateVisibility()
-    document.addEventListener("visibilitychange", updateVisibility)
-    window.addEventListener("focus", updateVisibility)
-    window.addEventListener("blur", updateVisibility)
-
-    return () => {
-      document.removeEventListener("visibilitychange", updateVisibility)
-      window.removeEventListener("focus", updateVisibility)
-      window.removeEventListener("blur", updateVisibility)
-    }
-  }, [])
-
-  return { progress, reducedMotion, sceneActive }
-}
-
-function useActiveSceneSection(sections: SceneSection[], progress: number) {
-  return useMemo(() => {
-    return sections.find((section) => progress >= section.range[0] && progress <= section.range[1]) ?? sections[0]
-  }, [progress, sections])
-}
+const allProjects = [
+  {
+    id: "astrocade-qa-calibration-tool",
+    title: "Astrocade QA Calibration Tool",
+    description:
+      "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+    image: "/projects/astrocade/main-image.jpg?height=400&width=600",
+    technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+    category: "development" as const,
+  },
+  {
+    id: "wizzo",
+    title: "Wizzo",
+    description:
+      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+    image: "/projects/wizzo/main-image.png?height=400&width=600",
+    technologies: ["SaaS Platform", "Goal Tracking", "Productivity Tools", "AI Integration"],
+    category: "web" as const,
+  },
+  {
+    id: "geovoice",
+    title: "GeoVoice",
+    description:
+      "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
+    image: "/projects/geovoice/main-image.png?height=400&width=600",
+    technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
+    category: "web" as const,
+  },
+  {
+    id: "transcribe",
+    title: "Transcribe",
+    description:
+      "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
+    image: "/projects/transcribe/main-image.png?height=400&width=600",
+    technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
+    category: "web" as const,
+  },
+  {
+    id: "gaia",
+    title: "Gaia",
+    description:
+      "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+    image: "/projects/gaia/main-image.png?height=400&width=600",
+    technologies: ["UX Design", "AR/VR", "Unity3D"],
+    category: "ar-vr" as const,
+  },
+  {
+    id: "apt-plus",
+    title: "APT+",
+    description:
+      "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
+    image: "/projects/apt-plus/main-image.png?height=400&width=600",
+    technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
+    category: "design" as const,
+  },
+  {
+    id: "speakeasy",
+    title: "SpeakEasy",
+    description:
+      "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
+    image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
+    technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
+    category: "research" as const,
+  },
+  {
+    id: "sound-escape-vr",
+    title: "Sound Escape VR",
+    description:
+      "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
+    image: "/projects/soundescape/main-image.jpg?height=400&width=600",
+    technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
+    category: "ar-vr" as const,
+  },
+  {
+    id: "material-explorer",
+    title: "Material Explorer",
+    description:
+      "An actively maintained 3D material lab with real-time PBR editing, A/B compare, autosave, and share/export workflows built with React + Three.js.",
+    image: "/projects/material-explorer/main-image.png?height=400&width=600",
+    technologies: ["TypeScript", "React 19", "Three.js", "React Three Fiber"],
+    category: "development" as const,
+  },
+  {
+    id: "portals",
+    title: "Portals",
+    description:
+      "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
+    image: "/projects/portals/main-image.png?height=400&width=600",
+    technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
+    category: "ar-vr" as const,
+  },
+  {
+    id: "ai-energy-consumption",
+    title: "AI Energy Consumption",
+    description:
+      "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
+    image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
+    technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
+    category: "development" as const,
+  },
+  {
+    id: "die-ai",
+    title: "Die, AI!",
+    description:
+      "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
+    image: "/projects/die-ai/main-image.png?height=400&width=600",
+    technologies: ["ActionScript", "Adobe Animate", "Ruffle"],
+    category: "development" as const,
+  },
+]
 
 export default function Home() {
-  const { progress, reducedMotion, sceneActive } = useHomeScrollProgress()
-  const activeSection = useActiveSceneSection(sceneSections, progress)
+  const [introComplete, setIntroComplete] = useState(false)
+  const [focusQuery, setFocusQuery] = useState("")
+  const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
+
+  const featuredProjects = [
+    {
+      id: "astrocade-qa-calibration-tool",
+      title: "Astrocade QA Calibration Tool",
+      description:
+        "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
+      image: "/projects/astrocade/main-image.jpg?height=400&width=600",
+      technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
+      category: "development" as const,
+    },
+    {
+      id: "wizzo",
+      title: "Wizzo",
+      description:
+        "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+      image: "/projects/wizzo/main-image.png?height=400&width=600",
+      technologies: ["SaaS Platform", "Productivity Tools", "AI Integration"],
+      category: "web" as const,
+    },
+    {
+      id: "gaia",
+      title: "Gaia",
+      description:
+        "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+      image: "/projects/gaia/main-image.png?height=400&width=600",
+      technologies: ["UX Design", "AR/VR", "Unity3D"],
+      category: "ar-vr" as const,
+    },
+
+  ];
+
+
+  const latestPosts = [
+    {
+      id: "voice-first-xr",
+      title: "Voice-First XR: Five Lessons from the Front Lines of Inclusive Design",
+      excerpt: "Key takeaways for crafting accessible voice interfaces in spatial computing.",
+      date: "Jun 18, 2025",
+      readingTime: "5 min read",
+      url: "https://medium.com/@mikejchaves/voice-first-xr-five-lessons-from-the-front-lines-of-inclusive-design-e58dacf49c54",
+      publication: "Bootcamp",
+    },
+  ];
+
+  const skills = [
+    "UX Design",
+    "UI Development",
+    "AR/VR",
+    "User Research",
+    "Prototyping",
+    "Creative Direction",
+    "Team Leadership",
+    "Front-end Development",
+  ];
 
   return (
-    <div className="industrial-home" data-active-section={activeSection.id}>
-      <IndustrialHomeExperience progress={progress} reducedMotion={reducedMotion} sceneActive={sceneActive} />
-      <div className="industrial-atmosphere" aria-hidden="true">
-        <span className="industrial-atmosphere-screen industrial-atmosphere-screen-left" />
-        <span className="industrial-atmosphere-screen industrial-atmosphere-screen-right" />
-        <span className="industrial-atmosphere-light industrial-atmosphere-light-a" />
-        <span className="industrial-atmosphere-light industrial-atmosphere-light-b" />
-        <span className="industrial-atmosphere-cables" />
-        <span className="industrial-atmosphere-floor" />
-        <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-left" />
-        <span className="industrial-atmosphere-gantry industrial-atmosphere-gantry-right" />
-        <span className="industrial-atmosphere-tower industrial-atmosphere-tower-left" />
-        <span className="industrial-atmosphere-tower industrial-atmosphere-tower-right" />
-        <span className="industrial-atmosphere-smoke" />
-      </div>
-      <aside className="industrial-section-rail" aria-hidden="true">
-        {sceneSections.map((section) => (
-          <span key={section.id} className={section.id === activeSection.id ? "is-active" : undefined}>
-            {section.index}
-          </span>
-        ))}
-      </aside>
+    <div className="space-y-16 relative">
+      <div className="home-corruption-overlay" aria-hidden="true" />
+      <div className="home-scan-distortion" aria-hidden="true" />
+      <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
 
-      <section id="top" className="industrial-hero-section">
-        <div className="industrial-hero-copy">
-          <h1>Mike Chaves</h1>
-          <p>AI product systems, spatial interfaces, and forward-deployed execution.</p>
-          <div className="industrial-actions">
-            <Link href="#work" className="industrial-button industrial-button-primary">
-              Enter the Work <ArrowRight size={16} />
+      <section className="py-12 relative">
+        <HeroBackground />
+        <Terminal
+          text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
+          typingSpeed={40}
+          className="max-w-3xl mx-auto"
+          onComplete={handleIntroComplete}
+        />
+
+        <div className="mt-8 flex min-h-10 justify-center">
+          {introComplete && (
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
+            >
+              View Impact <ArrowRight size={16} />
             </Link>
-            <Link href="/projects" className="industrial-button industrial-button-ghost">
-              View Projects
-            </Link>
-          </div>
+          )}
         </div>
-        <div className="industrial-scroll-hint">Scroll to explore</div>
       </section>
 
-      <section id="work" className="industrial-story-section industrial-work-section">
-        <div className="industrial-section-copy">
-          <span className="industrial-index">02</span>
-          <h2>Selected Work</h2>
-          <p>Scroll through projects where AI systems, spatial interfaces, and product execution meet real operating constraints.</p>
-          <div className="industrial-waveform" aria-hidden="true">
-            {waveformBars.map((index) => (
-              <span key={index} />
-            ))}
+      <NeonSeparator intensity="low" />
+
+      <section className="terminal-window relative">
+        <div className="infection-badge infection-badge-medium">INFECTION_INDEX: 34%</div>
+        <div className="terminal-header">
+          <div className="terminal-button terminal-button-red"></div>
+          <div className="terminal-button terminal-button-yellow"></div>
+          <div className="terminal-button terminal-button-green"></div>
+          <div className="terminal-title">what_im_built_for.sh</div>
+        </div>
+        <div className="terminal-content space-y-2">
+          <h2 className="text-xl font-bold">What I’m Built For</h2>
+          <p><span className="text-primary">$</span> Forward-deployed AI engineering</p>
+          <p><span className="text-primary">$</span> 0→1 prototyping and production hardening</p>
+          <p><span className="text-primary">$</span> Product + design + engineering alignment</p>
+          <p><span className="text-primary">$</span> Shipping measurable outcomes under ambiguity</p>
+        </div>
+      </section>
+
+      <NeonSeparator intensity="medium" />
+
+      <section className="space-y-4 relative">
+        <div className="infection-badge infection-badge-medium">INFECTION_INDEX: 41%</div>
+        <div className="terminal-window">
+          <div className="terminal-header">
+            <div className="terminal-button terminal-button-red"></div>
+            <div className="terminal-button terminal-button-yellow"></div>
+            <div className="terminal-button terminal-button-green"></div>
+            <div className="terminal-title">adaptive_focus.sh</div>
           </div>
-          <Link href="/projects" className="industrial-text-link">
-            View all projects <ArrowRight size={14} />
+          <div className="terminal-content space-y-3">
+            <p className="text-sm text-muted-foreground">I build AI-native product systems from prototype to production across design, engineering, and execution.</p>
+            <form
+              className="flex flex-col sm:flex-row gap-2"
+              onSubmit={(e) => {
+                e.preventDefault()
+                const q = focusQuery.trim()
+                if (!q) return
+                window.location.href = `/projects?focus=${encodeURIComponent(q)}`
+              }}
+            >
+              <Input
+                value={focusQuery}
+                onChange={(e) => setFocusQuery(e.target.value)}
+                placeholder="e.g. I'm hiring for a forward-deployed AI engineer"
+                className="flex-1"
+              />
+              <Button type="submit">Show Role Fit</Button>
+            </form>
+            <div className="flex flex-wrap gap-2">
+              {ADAPTIVE_FOCUS_EXAMPLES.slice(0, 3).map((example) => (
+                <button
+                  key={example}
+                  type="button"
+                  onClick={() => (window.location.href = `/projects?focus=${encodeURIComponent(example)}`)}
+                  className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <NeonSeparator intensity="medium" />
+
+      <section className="relative">
+        <div className="infection-badge infection-badge-high">INFECTION_INDEX: 58%</div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold">Featured Projects</h2>
+          <Link
+            href="/projects"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
+            View all <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="industrial-project-list">
-          {featuredPortfolioProjects.map((project, index) => (
-            <Link href={project.href} className="industrial-project-slab" key={project.id}>
-              <span>{String(index + 1).padStart(2, "0")} / 04</span>
-              <h3>{project.title}</h3>
-              <p>{project.shortDescription}</p>
-            </Link>
+
+        <ProjectFilter featured={featuredProjects} projects={allProjects} />
+      </section>
+
+      <NeonSeparator intensity="low" />
+
+      <section className="relative">
+        <div className="infection-badge infection-badge-high">INFECTION_INDEX: 67%</div>
+        <h2 className="text-2xl font-bold mb-6">Systems</h2>
+        <div className="terminal-window">
+          <div className="terminal-header">
+            <div className="terminal-button terminal-button-red"></div>
+            <div className="terminal-button terminal-button-yellow"></div>
+            <div className="terminal-button terminal-button-green"></div>
+            <div className="terminal-title">system_specs.sh</div>
+          </div>
+          <div className="terminal-content">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {skills.map((skill, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <span className="text-primary">$</span>
+                  <span className="text-white">{skill}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <NeonSeparator intensity="high" />
+
+      <section className="relative">
+        <div className="infection-badge infection-badge-critical">INFECTION_INDEX: 82%</div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold">Leadership Brief</h2>
+          <Link
+            href="/blog"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
+            View all <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6">
+          {latestPosts.map((post) => (
+            <BlogCard key={post.id} {...post} />
           ))}
         </div>
       </section>
 
-      <section id="systems" className="industrial-story-section industrial-systems-section">
-        <div className="industrial-section-copy">
-          <span className="industrial-index">03</span>
-          <h2>Systems I Build</h2>
-          <p>Capabilities and systems thinking that power the work.</p>
-          <div className="industrial-node-readout" aria-hidden="true">
-            {nodeReadoutValues.map((value) => (
-              <span key={value}>{value}</span>
-            ))}
-          </div>
-        </div>
-        <div className="industrial-capability-grid">
-          {portfolioCapabilities.map((capability) => (
-            <div key={capability.id} className="industrial-capability-panel">
-              <h3>{capability.label}</h3>
-              <p>{capability.summary}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="contact" className="industrial-story-section industrial-contact-section">
-        <div className="industrial-writing-list">
-          <span className="industrial-index">04</span>
-          <h2>Writing</h2>
-          {portfolioWriting.slice(0, 4).map((post) => (
-            <a key={post.id} href={post.href} target="_blank" rel="noopener noreferrer">
-              {post.title} <ArrowRight size={14} />
-            </a>
-          ))}
-          <Link href="/blog" className="industrial-text-link">
-            View all writing <ArrowRight size={14} />
-          </Link>
-        </div>
-        <div className="industrial-contact-panel">
-          <h2>Let&apos;s build something real.</h2>
-          <p>I partner on high-impact projects at the intersection of AI, systems, and space.</p>
-          <Link href="/about#contact" className="industrial-button industrial-button-ghost">
-            Start a conversation <ArrowRight size={16} />
-          </Link>
-          <dl>
-            <div>
-              <dt>Email</dt>
-              <dd>founder@gowizzo.io</dd>
-            </div>
-            <div>
-              <dt>Location</dt>
-              <dd>SF Bay Area</dd>
-            </div>
-            <div>
-              <dt>Availability</dt>
-              <dd>Selective partnerships</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
+      <RecentHighlights />
     </div>
-  )
+  );
 }
