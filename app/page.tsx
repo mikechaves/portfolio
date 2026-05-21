@@ -14,12 +14,7 @@ const HeroBackground = dynamic(
   () => import("@/components/hero-background").then((m) => m.HeroBackground),
   {
     ssr: false,
-    loading: () => (
-      <div
-        className="absolute inset-0 -z-10 overflow-hidden"
-        aria-hidden="true"
-      />
-    ),
+    loading: () => null,
   }
 )
 import { RecentHighlights } from "@/components/recent-highlights"
@@ -197,13 +192,12 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-16 relative">
-      <div className="home-corruption-overlay" aria-hidden="true" />
-      <div className="home-scan-distortion" aria-hidden="true" />
+    <div className="home-immersive-page relative isolate">
+      <HeroBackground />
       <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
 
-      <section className="py-12 relative">
-        <HeroBackground />
+      <div className="home-content-layer relative z-10 space-y-16">
+      <section className="relative flex min-h-[42vh] flex-col justify-center py-12 sm:py-16">
         <Terminal
           text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
           typingSpeed={40}
@@ -352,6 +346,7 @@ export default function Home() {
       </section>
 
       <RecentHighlights />
+      </div>
     </div>
   );
 }

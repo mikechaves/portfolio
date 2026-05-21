@@ -5,7 +5,7 @@ import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 py-6">
+    <footer className="relative z-10 border-t border-border/40 bg-black/80 py-6 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
