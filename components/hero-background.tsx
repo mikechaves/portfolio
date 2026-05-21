@@ -261,13 +261,19 @@ export function HeroBackground() {
       grid.rotation.z = lowerDepth * 0.04
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", applyScrollState, { passive: true })
-
     const renderStill = () => {
       applyScrollState()
       renderer.render(scene, camera)
     }
+
+    const handleScroll = () => {
+      if (reducedMotionRef.current) {
+        renderStill()
+      }
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate)
@@ -319,7 +325,7 @@ export function HeroBackground() {
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", applyScrollState)
+      window.removeEventListener("scroll", handleScroll)
       cancelAnimationFrame(frameRef.current)
 
       if (rendererRef.current) {
