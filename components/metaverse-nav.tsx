@@ -19,6 +19,9 @@ const Canvas = dynamic(() => import("@react-three/fiber").then((m) => m.Canvas),
     </div>
   ),
 })
+const SumerianVirus = dynamic(() => import("./sumerian-virus").then((m) => m.SumerianVirus), { ssr: false })
+const KatanaCursor = dynamic(() => import("./katana-cursor").then((m) => m.KatanaCursor), { ssr: false })
+const SnowCrashTakeover = dynamic(() => import("./snow-crash-takeover").then((m) => m.SnowCrashTakeover), { ssr: false })
 
 // -----------------------------------------------------------------------------
 // Shared HUD style tokens (inject once)
@@ -1613,6 +1616,14 @@ const applyTransforms = useCallback(() => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {showMetaverse && (
+        <Suspense fallback={null}>
+          <SnowCrashTakeover />
+          <SumerianVirus />
+          <KatanaCursor />
+        </Suspense>
+      )}
 
       {/* Overlay navigation (The Street) */}
       <motion.nav

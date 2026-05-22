@@ -58,10 +58,7 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
 
-        {/*
-         * SnowCrashEffects includes SumerianVirus and KatanaCursor.
-         * No fallback is needed as the nested MetaverseNav handles its own loading.
-         */}
+        {/* SnowCrashEffects keeps the opt-in Metaverse entry available on the homepage. */}
         <SnowCrashEffects />
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
