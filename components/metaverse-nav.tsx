@@ -1617,6 +1617,14 @@ const applyTransforms = useCallback(() => {
         )}
       </AnimatePresence>
 
+      {showMetaverse && (
+        <Suspense fallback={null}>
+          <SnowCrashTakeover />
+          <SumerianVirus />
+          <KatanaCursor />
+        </Suspense>
+      )}
+
       {/* Overlay navigation (The Street) */}
       <motion.nav
         aria-label="Metaverse navigation"
@@ -1654,14 +1662,6 @@ const applyTransforms = useCallback(() => {
           }
         `}
         </style>
-
-        {showMetaverse && (
-          <Suspense fallback={null}>
-            <SnowCrashTakeover />
-            <SumerianVirus />
-            <KatanaCursor />
-          </Suspense>
-        )}
 
         {/* Status HUD (top-left) */}
         {showMetaverse && (
