@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState, type FormEvent, type ReactNode, useTransition } from "react"
-import { Terminal } from "@/components/terminal"
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode, useTransition } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { Download, Github, Linkedin, Mail } from "lucide-react"
+import { Activity, Cpu, Download, Github, Linkedin, Mail, Network, RefreshCw, type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -95,9 +94,243 @@ function TerminalWindow({
   )
 }
 
+type HeroTerminalMode = "profile" | "systems" | "impact"
+
+type HeroTerminalModeConfig = {
+  label: string
+  icon: LucideIcon
+  lines: string[]
+}
+
+const heroTerminalModes: Record<HeroTerminalMode, HeroTerminalModeConfig> = {
+  profile: {
+    label: "Profile",
+    icon: Activity,
+    lines: [
+      "$ boot --profile mike_chaves",
+      "[ok] Initializing personal profile",
+      "[ok] Access granted",
+      "[ok] Loading bio data",
+      "",
+      "Welcome...",
+      "",
+      "I am an AI-native design engineer focused on product systems,",
+      "human-in-the-loop AI, and operational UX.",
+      "",
+      "> current vector: creator workflows, QA calibration, enterprise AI tools",
+      "> operating loop: prototype -> instrument -> ship -> calibrate",
+    ],
+  },
+  systems: {
+    label: "Systems",
+    icon: Cpu,
+    lines: [
+      "$ inspect --systems",
+      "[online] product systems",
+      "[online] human-in-the-loop AI",
+      "[online] operational UX",
+      "[online] UGC review pipelines",
+      "[ready] forward-deployed product execution",
+      "",
+      "> stack preference: fast prototypes with production discipline",
+      "> signal: interfaces that make complex systems usable",
+    ],
+  },
+  impact: {
+    label: "Impact",
+    icon: Network,
+    lines: [
+      "$ trace --impact",
+      "Astrocade_AI .... QA calibration + creator review loops",
+      "Wizzo_Labs_Inc . AI platform architecture + evaluation harnesses",
+      "Ford_Motor ..... global time-study tooling + operational savings",
+      "POWER_Engineers spatial storytelling + WebGL prototypes",
+      "",
+      "[ready] connect product ambiguity to shipped systems",
+    ],
+  },
+}
+
+const heroTerminalModeEntries = Object.entries(heroTerminalModes) as Array<[
+  HeroTerminalMode,
+  HeroTerminalModeConfig,
+]>
+
+function AboutHeroTerminal({ onComplete }: { onComplete: () => void }) {
+  const [activeMode, setActiveMode] = useState<HeroTerminalMode>("profile")
+  const [displayedText, setDisplayedText] = useState("")
+  const [isTyping, setIsTyping] = useState(true)
+  const [sequenceNonce, setSequenceNonce] = useState(0)
+  const hasUnlockedPage = useRef(false)
+
+  const activeConfig = heroTerminalModes[activeMode]
+  const activeText = activeConfig.lines.join("\n")
+  const progress = activeText.length === 0
+    ? 100
+    : Math.min(100, Math.round((displayedText.length / activeText.length) * 100))
+
+  useEffect(() => {
+    let currentIndex = 0
+    let timer: ReturnType<typeof setTimeout> | undefined
+
+    setDisplayedText("")
+    setIsTyping(true)
+
+    const typeNextCharacter = () => {
+      if (currentIndex < activeText.length) {
+        setDisplayedText(activeText.slice(0, currentIndex + 1))
+        const typedCharacter = activeText[currentIndex]
+        currentIndex += 1
+        timer = setTimeout(
+          typeNextCharacter,
+          typedCharacter === "\n" ? 180 : activeMode === "profile" ? 20 : 12,
+        )
+        return
+      }
+
+      setIsTyping(false)
+      if (!hasUnlockedPage.current) {
+        hasUnlockedPage.current = true
+        onComplete()
+      }
+    }
+
+    timer = setTimeout(typeNextCharacter, 180)
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [activeMode, activeText, onComplete, sequenceNonce])
+
+  const renderedLines = displayedText.split("\n")
+
+  return (
+    <div className="terminal-window relative mx-auto max-w-3xl overflow-hidden shadow-[0_0_44px_rgba(0,255,140,0.16)]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,255,140,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-primary/80" />
+
+      <div className="terminal-header relative z-10">
+        <div className="terminal-button terminal-button-red"></div>
+        <div className="terminal-button terminal-button-yellow"></div>
+        <div className="terminal-button terminal-button-green"></div>
+        <div className="terminal-title">mike_chaves.profile</div>
+        <div className="ml-auto hidden items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-primary/70 sm:flex">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+          {isTyping ? "streaming" : "ready"}
+        </div>
+      </div>
+
+      <div className="terminal-content relative z-10 space-y-4">
+        <div className="grid grid-cols-3 gap-2 text-[0.7rem] uppercase tracking-[0.14em] text-zinc-400">
+          <div className="rounded border border-primary/20 bg-black/35 p-2">
+            <span className="block text-primary">access</span>
+            granted
+          </div>
+          <div className="rounded border border-primary/20 bg-black/35 p-2">
+            <span className="block text-primary">signal</span>
+            AI-native
+          </div>
+          <div className="rounded border border-primary/20 bg-black/35 p-2">
+            <span className="block text-primary">boot</span>
+            {progress}%
+          </div>
+        </div>
+
+        <div className="min-h-[18rem] rounded border border-primary/20 bg-black/55 p-4 text-sm leading-7 text-zinc-100 sm:text-base">
+          <div className="sr-only">
+            I am an AI-native design engineer focused on product systems, human-in-the-loop AI, and operational UX.
+          </div>
+          <div className="whitespace-pre-wrap break-words">
+            {renderedLines.map((line, index) => {
+              if (line.startsWith("$")) {
+                return (
+                  <div key={`${line}-${index}`}>
+                    <span className="text-primary">$</span>
+                    {line.slice(1)}
+                  </div>
+                )
+              }
+
+              if (line.startsWith("[")) {
+                const closingBracket = line.indexOf("]")
+
+                return (
+                  <div key={`${line}-${index}`}>
+                    <span className="text-primary">
+                      {closingBracket > -1 ? line.slice(0, closingBracket + 1) : line}
+                    </span>
+                    {closingBracket > -1 ? line.slice(closingBracket + 1) : ""}
+                  </div>
+                )
+              }
+
+              if (line.startsWith(">")) {
+                return (
+                  <div key={`${line}-${index}`} className="text-zinc-300">
+                    <span className="text-primary">{">"}</span>
+                    {line.slice(1)}
+                  </div>
+                )
+              }
+
+              return <div key={`${line}-${index}`}>{line || "\u00a0"}</div>
+            })}
+            {isTyping && <span className="terminal-cursor" />}
+          </div>
+        </div>
+
+        <div className="h-1 overflow-hidden rounded bg-primary/10" aria-hidden="true">
+          <div
+            className="h-full bg-primary transition-[width] duration-150"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-3 border-t border-primary/20 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Profile terminal commands">
+            {heroTerminalModeEntries.map(([mode, config]) => {
+              const Icon = config.icon
+              const isActive = activeMode === mode
+
+              return (
+                <Button
+                  key={mode}
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  aria-pressed={isActive}
+                  className={`h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary ${
+                    isActive ? "border-primary/70 bg-primary/15 text-primary" : ""
+                  }`}
+                  onClick={() => {
+                    setActiveMode(mode)
+                    setSequenceNonce((value) => value + 1)
+                  }}
+                >
+                  <Icon aria-hidden="true" />
+                  {config.label}
+                </Button>
+              )
+            })}
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary"
+            onClick={() => setSequenceNonce((value) => value + 1)}
+          >
+            <RefreshCw aria-hidden="true" />
+            Replay
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function AboutPage() {
-  const [introComplete, setIntroComplete] = useState(false)
-  const [bioComplete, setBioComplete] = useState(false)
+  const [heroComplete, setHeroComplete] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [formStatus, setFormStatus] = useState<{
     success: boolean | null
@@ -113,6 +346,10 @@ export default function AboutPage() {
     if (typeof window === "undefined") return
     const query = new URLSearchParams(window.location.search).get("focus")
     if (query) setFocus(query)
+  }, [])
+
+  const handleHeroComplete = useCallback(() => {
+    setHeroComplete(true)
   }, [])
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -164,25 +401,10 @@ export default function AboutPage() {
       <h1 className="sr-only">About Mike Chaves</h1>
       {focus && <FocusContextBadge focus={focus} />}
       <section>
-        <Terminal
-          text="Initializing personal profile... Access granted. Loading bio data..."
-          typingSpeed={30}
-          className="max-w-3xl mx-auto"
-          onComplete={() => setIntroComplete(true)}
-        />
-
-        {introComplete && (
-          <Terminal
-            text="AI-native design engineer focused on product systems, human-in-the-loop AI, and operational UX."
-            typingSpeed={20}
-            className="max-w-3xl mx-auto mt-4"
-            showPrompt={false}
-            onComplete={() => setBioComplete(true)}
-          />
-        )}
+        <AboutHeroTerminal onComplete={handleHeroComplete} />
       </section>
 
-      {bioComplete && (
+      {heroComplete && (
         <>
           <NeonSeparator intensity="high" />
           <section>
