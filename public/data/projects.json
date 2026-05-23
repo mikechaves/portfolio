@@ -762,6 +762,102 @@
       ]
     }
   },
+  "creative-supply-engine": {
+    "title": "Creative Supply Engine",
+    "category": "development",
+    "description": "Built a Python creative automation pipeline that turns structured campaign briefs and reusable product assets into localized AI-assisted social creatives across 1:1, 9:16, and 16:9 formats, with deterministic logo/text overlays, compliance checks, run logs, and review galleries.",
+    "image": "/projects/creative-supply-engine/main-image.jpg",
+    "technologies": [
+      "Python",
+      "Pillow",
+      "PyYAML",
+      "OpenAI Images API",
+      "Creative Automation",
+      "Localization"
+    ],
+    "github": "https://github.com/mikechaves/creative-supply-engine",
+    "demo": "/projects/creative-supply-engine/review-gallery.html",
+    "gallery": [
+      "/projects/creative-supply-engine/citrus-en-1x1.jpg",
+      "/projects/creative-supply-engine/citrus-en-9x16.jpg",
+      "/projects/creative-supply-engine/oat-es-1x1.jpg",
+      "/projects/creative-supply-engine/oat-es-9x16.jpg",
+      "/projects/creative-supply-engine/oat-es-16x9.jpg",
+      "/projects/creative-supply-engine/pulse-beverages-logo.png",
+      "/projects/creative-supply-engine/cli-run-summary.png"
+    ],
+    "details": {
+      "client": "Pulse Beverages",
+      "date": "2026",
+      "category": "AI Creative Operations",
+      "services": [
+        "Creative Automation",
+        "AI Image Generation Workflow",
+        "Localization",
+        "Review Tooling"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "Campaign teams need to produce consistent, localized social creative across multiple formats without rebuilding every asset by hand."
+        },
+        {
+          "title": "Challenge",
+          "description": "AI image generation can help create campaign hero assets, but brand, copy, compliance, sizing, and review requirements still need deterministic controls."
+        },
+        {
+          "title": "Context",
+          "description": "The sample Pulse Beverages campaign uses reusable product assets, structured YAML briefs, localized market copy, and required logo/compliance rules."
+        }
+      ],
+      "task": [
+        {
+          "title": "Reusable Creative Pipeline",
+          "description": "Create a CLI workflow that can read a campaign brief, reuse existing hero assets when available, generate missing assets when configured, and output production-ready social ratios."
+        },
+        {
+          "title": "Localized Output System",
+          "description": "Support multiple products and locales while preserving brand rules, CTA text, campaign messages, and safe layout behavior across each ratio."
+        },
+        {
+          "title": "Review and Compliance",
+          "description": "Produce reviewable outputs, run logs, and compliance checks so generated creative can be inspected before campaign use."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Built the CLI",
+          "description": "Packaged the workflow as the pulse-cse Python command with structured brief loading, campaign logging, and repeatable output paths."
+        },
+        {
+          "title": "Created reusable asset logic",
+          "description": "Implemented local asset reuse first, with an OpenAI image generation path and graceful placeholder fallback when live generation is unavailable."
+        },
+        {
+          "title": "Generated responsive creative sets",
+          "description": "Used Pillow to crop and compose 1:1, 9:16, and 16:9 outputs with deterministic logo placement, localized text overlays, and brand color treatment."
+        },
+        {
+          "title": "Added review outputs",
+          "description": "Produced run logs, compliance summaries, and a browser-friendly review gallery for checking localized creative sets quickly."
+        }
+      ],
+      "results": [
+        {
+          "title": "Twelve creative outputs",
+          "description": "Generated a sample Summer Citrus Reset campaign covering two products, two locales, and three social ratios per locale."
+        },
+        {
+          "title": "Passed compliance checks",
+          "description": "The run confirmed expected dimensions, required logo application, message presence, and prohibited-word checks across the generated assets."
+        },
+        {
+          "title": "AI workflow proof",
+          "description": "Shows a practical AI-assisted creative operations system where generation, localization, deterministic layout, and human review work together."
+        }
+      ]
+    }
+  },
   "material-explorer": {
     "title": "Material Explorer",
     "category": "web",

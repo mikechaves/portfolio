@@ -49,6 +49,12 @@ export const PROJECT_FOCUS_METADATA: Record<string, ProjectFocusMetadata> = {
     signals: ["xr", "creative-tech", "prototyping"],
     weight: 0.95,
   },
+  "creative-supply-engine": {
+    id: "creative-supply-engine",
+    tags: ["ai", "creative-automation", "campaign", "localization", "python", "marketing"],
+    signals: ["ai", "creative-tech", "design-engineering", "product"],
+    weight: 1.15,
+  },
   "material-explorer": {
     id: "material-explorer",
     tags: ["threejs", "webgl", "tooling", "prototype", "frontend"],
