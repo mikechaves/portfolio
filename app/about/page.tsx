@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent, useTransition } from "react"
 import { Terminal } from "@/components/terminal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { Github, Linkedin, Mail } from "lucide-react"
+import { Download, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,9 +16,33 @@ config.autoAddCss = false
 
 import { sendContactEmail } from "@/app/actions/contact"
 import { useToast } from "@/hooks/use-toast"
-import { experiences, volunteerExperiences, skills, talksRecognition } from "./data"
 import { FocusContextBadge } from "@/components/focus-context-badge"
 import { NeonSeparator } from "@/components/neon-separator"
+
+const introParagraphs = [
+  "I design and build product systems for workflows where software, automation, and human judgment have to work together.",
+  "My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I have built and shipped systems across AI-powered creator platforms, enterprise internal tools, spatial interfaces, and founder-led product development.",
+  "Most recently, I owned UGC review systems for an AI-powered game creation platform, including auto-review logic, QA annotation workflows, calibration processes, final review behavior, creator feedback loops, and operational guardrails.",
+  "I am strongest in ambiguous product environments where the work requires both systems thinking and hands-on execution: defining workflows, designing interfaces, building prototypes, improving review loops, documenting process, and turning messy human/AI interactions into usable product systems.",
+]
+
+const currentFocusItems = [
+  "AI-assisted workflows",
+  "Human-in-the-loop systems",
+  "Product and design engineering",
+  "Internal tools and operational UX",
+  "Moderation and QA calibration systems",
+  "Creator workflows",
+  "Accessibility-focused interaction design",
+  "XR, voice UI, and emerging interface systems",
+]
+
+const selectedProofPoints = [
+  "Owned UGC review systems at Astrocade, spanning QA annotation workflows, calibration, final review behavior, creator feedback loops, and operational guardrails.",
+  "Built Wizzo, an AI-driven social productivity platform using Next.js, TypeScript, Postgres, Drizzle ORM, Neon, and Vercel.",
+  "Designed SpeakEasy, a voice-controlled mixed reality accessibility system for users with low muscle tone.",
+  "Built enterprise internal tools and immersive systems for Starbucks, Ford, and POWER Engineers.",
+]
 
 export default function AboutPage() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -39,8 +63,6 @@ export default function AboutPage() {
     const query = new URLSearchParams(window.location.search).get("focus")
     if (query) setFocus(query)
   }, [])
-
-  // Data arrays are imported from ./data to keep them outside the component
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -100,7 +122,7 @@ export default function AboutPage() {
 
         {introComplete && (
           <Terminal
-            text="I’m an AI-native product and experience engineer focused on forward-deployed execution inside complex organizations. I work across product, design, and engineering to take ambiguous ideas from prototype to production—fast, with measurable impact."
+            text="AI-native design engineer focused on product systems, human-in-the-loop AI, and operational UX."
             typingSpeed={20}
             className="max-w-3xl mx-auto mt-4"
             showPrompt={false}
@@ -113,173 +135,116 @@ export default function AboutPage() {
         <>
           <NeonSeparator intensity="high" />
           <section>
-            <h2 className="text-2xl font-bold mb-6">Professional Experience</h2>
-            <div className="space-y-6">
-              {experiences.map((exp, index) => (
-                <div key={index} className="terminal-window">
-                  <div className="terminal-header">
-                    <div className="terminal-button terminal-button-red"></div>
-                    <div className="terminal-button terminal-button-yellow"></div>
-                    <div className="terminal-button terminal-button-green"></div>
-                    <div className="terminal-title">{exp.company}.sh</div>
-                  </div>
-                  <div className="terminal-content">
-                    <p className="mb-1">
-                      <span className="text-primary">$</span> cat
-                      job_details.txt
-                    </p>
-                    <div className="mb-2">
-                      <p>
-                        <span className="text-primary">title:</span> {exp.title}
-                      </p>
-                      <p>
-                        <span className="text-primary">period:</span>{" "}
-                        {exp.period}
-                      </p>
-                      <p>
-                        <span className="text-primary">description:</span>{" "}
-                        {exp.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Fellowships & Leadership</h2>
-            <div className="space-y-6">
-              {volunteerExperiences.map((exp, index) => (
-                <div key={index} className="terminal-window">
-                  <div className="terminal-header">
-                    <div className="terminal-button terminal-button-red"></div>
-                    <div className="terminal-button terminal-button-yellow"></div>
-                    <div className="terminal-button terminal-button-green"></div>
-                    <div className="terminal-title">{exp.company}.sh</div>
-                  </div>
-                  <div className="terminal-content">
-                    <p className="mb-1">
-                      <span className="text-primary">$</span> cat volunteer_details.txt
-                    </p>
-                    <div className="mb-2">
-                      <p>
-                        <span className="text-primary">title:</span> {exp.title}
-                      </p>
-                      <p>
-                        <span className="text-primary">period:</span> {exp.period}
-                      </p>
-                      <p>
-                        <span className="text-primary">description:</span> {exp.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Education</h2>
-            <div className="space-y-6">
-              <div className="terminal-window">
-                <div className="terminal-header">
-                  <div className="terminal-button terminal-button-red"></div>
-                  <div className="terminal-button terminal-button-yellow"></div>
-                  <div className="terminal-button terminal-button-green"></div>
-                  <div className="terminal-title">education.sh</div>
-                </div>
-                <div className="terminal-content">
-                  <p className="mb-1">
-                    <span className="text-primary">$</span> cat education.txt
-                  </p>
-                  <div className="mb-4">
-                    <p className="mb-2">
-                      <span className="text-primary">degree:</span> Master of Design, Experience Design, May 2025
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">institution:</span> San José State University
-                    </p>
-                  </div>
-                  <div>
-                    <p className="mb-2">
-                      <span className="text-primary">degree:</span> Bachelor of Science, Games, Interactive Media & Mobile
-                      Technology, May 2020
-                    </p>
-                    <p className="mb-2">
-                      <span className="text-primary">institution:</span> Boise State University
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Talks & Recognition</h2>
-            <div className="space-y-6">
-              {talksRecognition.map((item, index) => (
-                <div key={index} className="terminal-window">
-                  <div className="terminal-header">
-                    <div className="terminal-button terminal-button-red"></div>
-                    <div className="terminal-button terminal-button-yellow"></div>
-                    <div className="terminal-button terminal-button-green"></div>
-                    <div className="terminal-title">recognition_{index + 1}.sh</div>
-                  </div>
-                  <div className="terminal-content">
-                    <p className="mb-1">
-                      <span className="text-primary">$</span> cat talk.txt
-                    </p>
-                    <div className="mb-2">
-                      <p>
-                        <span className="text-primary">title:</span> {item.title}
-                      </p>
-                      <p>
-                        <span className="text-primary">period:</span> {item.period}
-                      </p>
-                      <p>
-                        <span className="text-primary">focus:</span> {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-6">System Specs</h2>
+            <h2 className="text-2xl font-bold mb-6">Product Systems for Human Judgment</h2>
             <div className="terminal-window">
               <div className="terminal-header">
                 <div className="terminal-button terminal-button-red"></div>
                 <div className="terminal-button terminal-button-yellow"></div>
                 <div className="terminal-button terminal-button-green"></div>
-                <div className="terminal-title">skills.sh</div>
+                <div className="terminal-title">positioning.sh</div>
+              </div>
+              <div className="terminal-content space-y-4">
+                <p>
+                  <span className="text-primary">$</span> cat professional_identity.txt
+                </p>
+                {introParagraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-muted-foreground">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Current Focus</h2>
+            <div className="terminal-window">
+              <div className="terminal-header">
+                <div className="terminal-button terminal-button-red"></div>
+                <div className="terminal-button terminal-button-yellow"></div>
+                <div className="terminal-button terminal-button-green"></div>
+                <div className="terminal-title">current_focus.sh</div>
               </div>
               <div className="terminal-content">
                 <p className="mb-4">
-                  <span className="text-primary">$</span> cat /proc/skills
+                  <span className="text-primary">$</span> cat focus_areas.txt
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {skills.map((skillGroup, index) => (
-                    <div key={index} className="space-y-2">
-                      <h3 className="text-primary font-bold">
-                        {skillGroup.category}
-                      </h3>
-                      <ul className="space-y-1">
-                        {skillGroup.items.map((skill, skillIndex) => (
-                          <li
-                            key={skillIndex}
-                            className="flex items-center gap-2"
-                          >
-                            <span className="text-primary">-</span>
-                            <span>{skill}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {currentFocusItems.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="text-primary">-</span>
+                      <span>{item}</span>
+                    </li>
                   ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Selected Proof Points</h2>
+            <div className="terminal-window">
+              <div className="terminal-header">
+                <div className="terminal-button terminal-button-red"></div>
+                <div className="terminal-button terminal-button-yellow"></div>
+                <div className="terminal-button terminal-button-green"></div>
+                <div className="terminal-title">proof_points.sh</div>
+              </div>
+              <div className="terminal-content">
+                <p className="mb-4">
+                  <span className="text-primary">$</span> cat selected_work.txt
+                </p>
+                <ul className="space-y-3">
+                  {selectedProofPoints.map((proofPoint) => (
+                    <li key={proofPoint} className="flex items-start gap-2">
+                      <span className="text-primary">$</span>
+                      <span>{proofPoint}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Location & Availability</h2>
+            <div className="grid md:grid-cols-[1fr_auto] gap-6 items-stretch">
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button terminal-button-red"></div>
+                  <div className="terminal-button terminal-button-yellow"></div>
+                  <div className="terminal-button terminal-button-green"></div>
+                  <div className="terminal-title">availability.sh</div>
                 </div>
+                <div className="terminal-content">
+                  <p className="mb-4">
+                    <span className="text-primary">$</span> cat availability.txt
+                  </p>
+                  <p>
+                    Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
+                  </p>
+                </div>
+              </div>
+              <div className="terminal-window flex flex-col justify-between">
+                <div>
+                  <div className="terminal-header">
+                    <div className="terminal-button terminal-button-red"></div>
+                    <div className="terminal-button terminal-button-yellow"></div>
+                    <div className="terminal-button terminal-button-green"></div>
+                    <div className="terminal-title">resume.sh</div>
+                  </div>
+                  <div className="terminal-content">
+                    <p className="mb-4">
+                      <span className="text-primary">$</span> open resume.pdf
+                    </p>
+                  </div>
+                </div>
+                <Button asChild>
+                  <a href="/Michael_Chaves_Resume_min.pdf" download>
+                    <Download size={16} />
+                    Download Resume
+                  </a>
+                </Button>
               </div>
             </div>
           </section>
