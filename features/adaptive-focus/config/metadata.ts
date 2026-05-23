@@ -55,6 +55,12 @@ export const PROJECT_FOCUS_METADATA: Record<string, ProjectFocusMetadata> = {
     signals: ["creative-tech", "design-engineering", "prototyping", "product"],
     weight: 1.2,
   },
+  "vulnerability-visualizer": {
+    id: "vulnerability-visualizer",
+    tags: ["security", "vulnerability", "ai", "data", "visualization", "frontend"],
+    signals: ["ai", "data-viz", "design-engineering", "product"],
+    weight: 1.15,
+  },
   portals: {
     id: "portals",
     tags: ["ar", "voice", "accessibility", "climate"],
