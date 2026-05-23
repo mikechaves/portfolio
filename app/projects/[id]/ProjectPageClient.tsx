@@ -4,7 +4,9 @@ import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import { ImageModal } from "@/components/image-modal"
+import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
+import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
 
 interface DetailItem {
   title: string
@@ -44,13 +46,19 @@ interface ProjectPageClientProps {
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
-  const images = useMemo(
+  const media = useMemo(
     () =>
-      Array.from(
-        new Set([project.image, ...(project.gallery || [])].filter((image): image is string => Boolean(image)))
-      ),
-    [project.gallery, project.image]
+      buildProjectMedia({
+        gallery: project.gallery,
+        id: project.id,
+        image: project.image,
+        title: project.title,
+      }),
+    [project.gallery, project.id, project.image, project.title]
   )
+
+  const images = useMemo(() => media.map((item) => item.src), [media])
+  const selectedMedia = selectedIndex !== null ? media[selectedIndex] : undefined
 
   const closeModal = useCallback(() => setSelectedIndex(null), [])
 
@@ -79,6 +87,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
   }, [handleNext, handlePrev])
+
+  const renderEvidence = (section: ProjectEvidenceSection, title: string) => {
+    const sectionMedia = getSectionMedia(media, section)
+    return sectionMedia.length > 0 ? (
+      <ProjectEvidenceStrip media={sectionMedia} onOpen={setSelectedIndex} title={title} />
+    ) : null
+  }
 
   return (
     <div className="space-y-8 pt-8">
@@ -151,8 +166,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         </div>
 
         <ProjectMediaShowcase
-          title={project.title}
-          images={images}
+          media={media}
           onOpen={setSelectedIndex}
           className="lg:order-1"
         />
@@ -164,6 +178,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <div className="border border-zinc-800 rounded-md p-4 bg-black">
             <p className="text-zinc-300">{project.details.situation}</p>
           </div>
+          {renderEvidence("situation", "Situation")}
         </div>
       )}
 
@@ -180,6 +195,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               </div>
             ))}
           </div>
+          {renderEvidence("situation", "Situation")}
         </div>
       )}
 
@@ -189,6 +205,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <div className="border border-zinc-800 rounded-md p-4 bg-black">
             <p className="text-zinc-300">{project.details.task}</p>
           </div>
+          {renderEvidence("task", "Task")}
         </div>
       )}
 
@@ -205,6 +222,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               </div>
             ))}
           </div>
+          {renderEvidence("task", "Task")}
         </div>
       )}
 
@@ -221,6 +239,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               </div>
             ))}
           </div>
+          {renderEvidence("action", "Action")}
         </div>
       )}
 
@@ -237,6 +256,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               </div>
             ))}
           </div>
+          {renderEvidence("result", "Result")}
         </div>
       )}
 
@@ -246,6 +266,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <div className="border border-zinc-800 rounded-md p-4 bg-black">
             <p className="text-zinc-300">{project.details.result}</p>
           </div>
+          {renderEvidence("result", "Result")}
         </div>
       )}
 
@@ -262,13 +283,14 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               </div>
             ))}
           </div>
+          {renderEvidence("exhibition", "Exhibition")}
         </div>
       )}
       <ImageModal
         open={selectedIndex !== null}
         onOpenChange={(o) => !o && closeModal()}
-        src={selectedIndex !== null ? images[selectedIndex] : ""}
-        alt={project.title}
+        src={selectedMedia?.src || ""}
+        alt={selectedMedia?.alt || project.title}
         onPrev={handlePrev}
         onNext={handleNext}
       />
