@@ -28,9 +28,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Mike Chaves | UX Designer & Developer",
+  title: "Mike Chaves | AI-Native Design Engineer",
   description:
-    "Portfolio of Mike Chaves - Designer of immersive, user-centered experiences that push boundaries",
+    "Portfolio of Mike Chaves, designing and building AI-native product systems, human-in-the-loop workflows, operational UX, and immersive interface prototypes.",
   manifest: "/favicon/site.webmanifest",
   icons: {
     icon: "/favicon/favicon.ico",

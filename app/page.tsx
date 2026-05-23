@@ -34,7 +34,7 @@ const allProjects = [
     id: "wizzo",
     title: "Wizzo",
     description:
-      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+      "Built an AI-driven social productivity platform using Next.js, TypeScript, Postgres, Drizzle ORM, Neon, and Vercel as product proof for AI-assisted workflow design.",
     image: "/projects/wizzo/main-image.png?height=400&width=600",
     technologies: ["SaaS Platform", "Goal Tracking", "Productivity Tools", "AI Integration"],
     category: "web" as const,
@@ -61,7 +61,7 @@ const allProjects = [
     id: "gaia",
     title: "Gaia",
     description:
-      "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+      "Turned Starbucks store data into spatial operations and training workflows, connecting analytics, prototyping, and enterprise internal-tool UX.",
     image: "/projects/gaia/main-image.png?height=400&width=600",
     technologies: ["UX Design", "AR/VR", "Unity3D"],
     category: "ar-vr" as const,
@@ -150,7 +150,7 @@ export default function Home() {
       id: "wizzo",
       title: "Wizzo",
       description:
-        "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
+        "Built an AI-driven social productivity platform using Next.js, TypeScript, Postgres, Drizzle ORM, Neon, and Vercel as product proof for AI-assisted workflow design.",
       image: "/projects/wizzo/main-image.png?height=400&width=600",
       technologies: ["SaaS Platform", "Productivity Tools", "AI Integration"],
       category: "web" as const,
@@ -159,7 +159,7 @@ export default function Home() {
       id: "gaia",
       title: "Gaia",
       description:
-        "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
+        "Turned Starbucks store data into spatial operations and training workflows, connecting analytics, prototyping, and enterprise internal-tool UX.",
       image: "/projects/gaia/main-image.png?height=400&width=600",
       technologies: ["UX Design", "AR/VR", "Unity3D"],
       category: "ar-vr" as const,
@@ -181,25 +181,25 @@ export default function Home() {
   ];
 
   const skills = [
-    "UX Design",
-    "UI Development",
-    "AR/VR",
-    "User Research",
-    "Prototyping",
-    "Creative Direction",
-    "Team Leadership",
-    "Front-end Development",
+    "AI-assisted workflows",
+    "Human-in-the-loop systems",
+    "Product and design engineering",
+    "Internal tools and operational UX",
+    "Moderation and QA calibration",
+    "Creator workflows",
+    "Accessibility-focused interaction",
+    "XR, voice UI, and emerging interfaces",
   ];
 
   return (
     <div className="home-immersive-page relative isolate">
       <HeroBackground />
-      <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
+      <h1 className="sr-only">Mike Chaves - AI-Native Design Engineer</h1>
 
       <div className="home-content-layer relative z-10 space-y-16">
       <section className="relative flex min-h-[42vh] flex-col justify-center py-12 sm:py-16">
         <Terminal
-          text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
+          text="$ AI-native design engineer for product systems, human-in-the-loop AI, and operational UX."
           typingSpeed={40}
           className="max-w-3xl mx-auto"
           onComplete={handleIntroComplete}
@@ -211,7 +211,7 @@ export default function Home() {
               href="/about"
               className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
             >
-              View Impact <ArrowRight size={16} />
+              View About <ArrowRight size={16} />
             </Link>
           )}
         </div>
@@ -229,10 +229,10 @@ export default function Home() {
         </div>
         <div className="terminal-content space-y-2">
           <h2 className="text-xl font-bold">What I’m Built For</h2>
-          <p><span className="text-primary">$</span> Forward-deployed AI engineering</p>
-          <p><span className="text-primary">$</span> 0→1 prototyping and production hardening</p>
+          <p><span className="text-primary">$</span> Human-in-the-loop AI systems</p>
+          <p><span className="text-primary">$</span> Internal tools and operational UX</p>
           <p><span className="text-primary">$</span> Product + design + engineering alignment</p>
-          <p><span className="text-primary">$</span> Shipping measurable outcomes under ambiguity</p>
+          <p><span className="text-primary">$</span> Creator workflows, moderation, and QA calibration</p>
         </div>
       </section>
 
@@ -248,7 +248,7 @@ export default function Home() {
             <div className="terminal-title">adaptive_focus.sh</div>
           </div>
           <div className="terminal-content space-y-3">
-            <p className="text-sm text-muted-foreground">I build AI-native product systems from prototype to production across design, engineering, and execution.</p>
+            <p className="text-sm text-muted-foreground">I design and build AI-native product systems for messy workflows where automation, human judgment, and operational tooling have to work together.</p>
             <form
               className="flex flex-col sm:flex-row gap-2"
               onSubmit={(e) => {
@@ -261,7 +261,7 @@ export default function Home() {
               <Input
                 value={focusQuery}
                 onChange={(e) => setFocusQuery(e.target.value)}
-                placeholder="e.g. I'm hiring for a forward-deployed AI engineer"
+                placeholder="e.g. I'm hiring for an AI-native design engineer"
                 className="flex-1"
               />
               <Button type="submit">Show Role Fit</Button>
