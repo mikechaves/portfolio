@@ -859,9 +859,9 @@
     "description": "Built a React + TypeScript security dashboard for analyzing large vulnerability datasets, with AI analysis modes, manual vs AI triage comparisons, severity filtering, virtualized lists, comparison workflows, and export tools for security review.",
     "image": "/projects/vulnerability-visualizer/main-image.jpg",
     "technologies": [
-      "React",
+      "React 18",
       "TypeScript",
-      "Vite",
+      "Vite 5",
       "React Query",
       "Recharts",
       "AI Triage"
