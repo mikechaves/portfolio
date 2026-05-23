@@ -8,7 +8,9 @@ import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PROJECTS } from "@/data/projects"
 import { ADAPTIVE_FOCUS_EXAMPLES } from "@/features/adaptive-focus"
+import type { Project } from "@/types/project"
 import dynamic from "next/dynamic"
 const HeroBackground = dynamic(
   () => import("@/components/hero-background").then((m) => m.HeroBackground),
@@ -20,153 +22,16 @@ const HeroBackground = dynamic(
 import { RecentHighlights } from "@/components/recent-highlights"
 import { NeonSeparator } from "@/components/neon-separator"
 
-const allProjects = [
-  {
-    id: "astrocade-qa-calibration-tool",
-    title: "Astrocade QA Calibration Tool",
-    description:
-      "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
-    image: "/projects/astrocade/main-image.jpg?height=400&width=600",
-    technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
-    category: "development" as const,
-  },
-  {
-    id: "wizzo",
-    title: "Wizzo",
-    description:
-      "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
-    image: "/projects/wizzo/main-image.png?height=400&width=600",
-    technologies: ["SaaS Platform", "Goal Tracking", "Productivity Tools", "AI Integration"],
-    category: "web" as const,
-  },
-  {
-    id: "geovoice",
-    title: "GeoVoice",
-    description:
-      "A platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. The result is a more transparent and efficient way to collaborate.",
-    image: "/projects/geovoice/main-image.png?height=400&width=600",
-    technologies: ["Geospatial Mapping", "UX/UI Design", "Data Visualization"],
-    category: "web" as const,
-  },
-  {
-    id: "transcribe",
-    title: "Transcribe",
-    description:
-      "Improved communication in Starbucks stores with real-time speech-to-text transcription, enhancing inclusivity and operational efficiency.",
-    image: "/projects/transcribe/main-image.png?height=400&width=600",
-    technologies: ["React.js", "UX/UI Design", "Speech-to-Text API"],
-    category: "web" as const,
-  },
-  {
-    id: "gaia",
-    title: "Gaia",
-    description:
-      "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
-    image: "/projects/gaia/main-image.png?height=400&width=600",
-    technologies: ["UX Design", "AR/VR", "Unity3D"],
-    category: "ar-vr" as const,
-  },
-  {
-    id: "apt-plus",
-    title: "APT+",
-    description:
-      "Streamlined manufacturing workflows for Ford by improving time studies, saving approximately $1M per plant annually.",
-    image: "/projects/apt-plus/main-image.png?height=400&width=600",
-    technologies: ["UX/UI Design", "Data Visualization", "Process Optimization"],
-    category: "design" as const,
-  },
-  {
-    id: "speakeasy",
-    title: "SpeakEasy",
-    description:
-      "Reimagining XR for a more inclusive future with voice-driven AI interfaces for users with physical challenges.",
-    image: "/projects/speakeasy/thesis-defense.jpg?height=400&width=600",
-    technologies: ["Voice-Driven AI", "XR Accessibility", "Inclusive Design"],
-    category: "research" as const,
-  },
-  {
-    id: "sound-escape-vr",
-    title: "Sound Escape VR",
-    description:
-      "An immersive VR music creation and visualization experience with a retro 80s synthwave aesthetic, allowing users to compose music and see the environment transform in response.",
-    image: "/projects/soundescape/main-image.jpg?height=400&width=600",
-    technologies: ["Unity3D", "C#", "VR Development", "Audio Visualization"],
-    category: "ar-vr" as const,
-  },
-  {
-    id: "material-explorer",
-    title: "Material Explorer",
-    description:
-      "An actively maintained 3D material lab with real-time PBR editing, A/B compare, autosave, and share/export workflows built with React + Three.js.",
-    image: "/projects/material-explorer/main-image.png?height=400&width=600",
-    technologies: ["TypeScript", "React 19", "Three.js", "React Three Fiber"],
-    category: "development" as const,
-  },
-  {
-    id: "portals",
-    title: "Portals",
-    description:
-      "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features.",
-    image: "/projects/portals/main-image.png?height=400&width=600",
-    technologies: ["AR", "Snap Spectacles", "Spatial Audio", "Voice UI", "Accessibility"],
-    category: "ar-vr" as const,
-  },
-  {
-    id: "ai-energy-consumption",
-    title: "AI Energy Consumption",
-    description:
-      "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions.",
-    image: "/projects/ai-energy-consumption/main-image.png?height=400&width=600",
-    technologies: ["A-Frame", "D3.js", "3D Visualization", "Data Storytelling"],
-    category: "development" as const,
-  },
-  {
-    id: "die-ai",
-    title: "Die, AI!",
-    description:
-      "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
-    image: "/projects/die-ai/main-image.png?height=400&width=600",
-    technologies: ["ActionScript", "Adobe Animate", "Ruffle"],
-    category: "development" as const,
-  },
-]
+const FEATURED_PROJECT_IDS = ["astrocade-qa-calibration-tool", "wizzo", "gaia"]
+
+const featuredProjects = FEATURED_PROJECT_IDS.map((id) =>
+  PROJECTS.find((project) => project.id === id)
+).filter((project): project is Project => Boolean(project))
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
   const [focusQuery, setFocusQuery] = useState("")
   const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
-
-  const featuredProjects = [
-    {
-      id: "astrocade-qa-calibration-tool",
-      title: "Astrocade QA Calibration Tool",
-      description:
-        "Built and operated a human-in-the-loop QA calibration system for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and accelerating daily review throughput.",
-      image: "/projects/astrocade/main-image.jpg?height=400&width=600",
-      technologies: ["Python", "Moderation Tooling", "Analytics", "Human-in-the-Loop QA"],
-      category: "development" as const,
-    },
-    {
-      id: "wizzo",
-      title: "Wizzo",
-      description:
-        "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI and web interfaces while leading fundraising, strategy, and early team formation.",
-      image: "/projects/wizzo/main-image.png?height=400&width=600",
-      technologies: ["SaaS Platform", "Productivity Tools", "AI Integration"],
-      category: "web" as const,
-    },
-    {
-      id: "gaia",
-      title: "Gaia",
-      description:
-        "Transformed data analytics into practical, experiential contexts through spatial computing for Starbucks, enhancing store operations and training.",
-      image: "/projects/gaia/main-image.png?height=400&width=600",
-      technologies: ["UX Design", "AR/VR", "Unity3D"],
-      category: "ar-vr" as const,
-    },
-
-  ];
-
 
   const latestPosts = [
     {
@@ -181,25 +46,25 @@ export default function Home() {
   ];
 
   const skills = [
-    "UX Design",
-    "UI Development",
-    "AR/VR",
-    "User Research",
-    "Prototyping",
-    "Creative Direction",
-    "Team Leadership",
-    "Front-end Development",
+    "AI-assisted workflows",
+    "Human-in-the-loop systems",
+    "Product and design engineering",
+    "Internal tools and operational UX",
+    "Moderation and QA calibration",
+    "Creator workflows",
+    "Accessibility-focused interaction",
+    "XR, voice UI, and emerging interfaces",
   ];
 
   return (
     <div className="home-immersive-page relative isolate">
       <HeroBackground />
-      <h1 className="sr-only">Mike Chaves - UX Designer & Developer</h1>
+      <h1 className="sr-only">Mike Chaves - AI-Native Design Engineer</h1>
 
       <div className="home-content-layer relative z-10 space-y-16">
       <section className="relative flex min-h-[42vh] flex-col justify-center py-12 sm:py-16">
         <Terminal
-          text="$ Forward-deployed AI/product operator for teams shipping at enterprise scale."
+          text="AI-native design engineer for product systems, human-in-the-loop AI, and operational UX."
           typingSpeed={40}
           className="max-w-3xl mx-auto"
           onComplete={handleIntroComplete}
@@ -211,7 +76,7 @@ export default function Home() {
               href="/about"
               className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
             >
-              View Impact <ArrowRight size={16} />
+              View About <ArrowRight size={16} />
             </Link>
           )}
         </div>
@@ -229,10 +94,10 @@ export default function Home() {
         </div>
         <div className="terminal-content space-y-2">
           <h2 className="text-xl font-bold">What I’m Built For</h2>
-          <p><span className="text-primary">$</span> Forward-deployed AI engineering</p>
-          <p><span className="text-primary">$</span> 0→1 prototyping and production hardening</p>
+          <p><span className="text-primary">$</span> Human-in-the-loop AI systems</p>
+          <p><span className="text-primary">$</span> Internal tools and operational UX</p>
           <p><span className="text-primary">$</span> Product + design + engineering alignment</p>
-          <p><span className="text-primary">$</span> Shipping measurable outcomes under ambiguity</p>
+          <p><span className="text-primary">$</span> Creator workflows, moderation, and QA calibration</p>
         </div>
       </section>
 
@@ -248,7 +113,7 @@ export default function Home() {
             <div className="terminal-title">adaptive_focus.sh</div>
           </div>
           <div className="terminal-content space-y-3">
-            <p className="text-sm text-muted-foreground">I build AI-native product systems from prototype to production across design, engineering, and execution.</p>
+            <p className="text-sm text-muted-foreground">I design and build AI-native product systems for messy workflows where automation, human judgment, and operational tooling have to work together.</p>
             <form
               className="flex flex-col sm:flex-row gap-2"
               onSubmit={(e) => {
@@ -261,7 +126,7 @@ export default function Home() {
               <Input
                 value={focusQuery}
                 onChange={(e) => setFocusQuery(e.target.value)}
-                placeholder="e.g. I'm hiring for a forward-deployed AI engineer"
+                placeholder="e.g. I'm hiring for an AI-native design engineer"
                 className="flex-1"
               />
               <Button type="submit">Show Role Fit</Button>
@@ -296,7 +161,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <ProjectFilter featured={featuredProjects} projects={allProjects} />
+        <ProjectFilter featured={featuredProjects} projects={PROJECTS} />
       </section>
 
       <NeonSeparator intensity="low" />
