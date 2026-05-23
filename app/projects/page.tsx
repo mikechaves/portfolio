@@ -22,6 +22,8 @@ const AI_PROJECT_IDS = [
   "vulnerability-visualizer",
 ]
 
+const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]))
+
 const CATEGORIES = [
   { id: "all", name: "All Projects" },
   { id: "ai", name: "AI" },
@@ -89,9 +91,8 @@ export default function ProjectsPage() {
       }
 
       if (activeFilter === "ai") {
-        const projectById = new Map(PROJECTS.map((project) => [project.id, project]))
         return AI_PROJECT_IDS
-          .map((id) => projectById.get(id))
+          .map((id) => PROJECTS_BY_ID.get(id))
           .filter((project): project is Project => Boolean(project))
       }
 
