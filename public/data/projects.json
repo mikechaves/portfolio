@@ -90,13 +90,15 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Founded Wizzo Labs, building a SaaS platform for goal tracking and personal productivity currently in beta launch. Driving product vision and technical prototyping across AI, andweb interfaces while leading fundraising, strategy, and early team formation. Focused on creating accessible, adaptive tools that empower individuals and teams to reach their goals.",
+    "description": "Built an AI-driven social productivity platform using Next.js, TypeScript, Postgres, Drizzle ORM, Neon, and Vercel as product proof for AI-assisted workflow design.",
     "image": "/projects/wizzo/main-image.png",
     "technologies": [
-      "SaaS Platform",
-      "Goal Tracking",
-      "Productivity Tools",
-      "AI Integration"
+      "Next.js",
+      "TypeScript",
+      "Postgres",
+      "Drizzle ORM",
+      "Neon",
+      "Vercel"
     ],
     "github": "",
     "demo": "https://gowizzo.io",
@@ -183,7 +185,7 @@
   "gaia": {
     "title": "Gaia",
     "category": "ar-vr",
-    "description": "Starbucks aimed to transform data analytics into practical, experiential contexts through spatial computing, enhancing store operations, design, and training using AR/VR technology. As the Lead UX/UI Designer and Unity3D Developer, I was tasked with crafting user-friendly interfaces for advanced spatial computing systems and developing AR/VR applications integrated into Starbucks' environment.",
+    "description": "Turned Starbucks store data into spatial operations and training workflows, connecting analytics, prototyping, and enterprise internal-tool UX.",
     "image": "/projects/gaia/main-image.png",
     "technologies": [
       "UX Design",
