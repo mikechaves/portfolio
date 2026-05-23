@@ -853,6 +853,94 @@
       ]
     }
   },
+  "vulnerability-visualizer": {
+    "title": "Vulnerability Visualizer",
+    "category": "web",
+    "description": "Built a React + TypeScript security dashboard for analyzing large vulnerability datasets, with AI analysis modes, manual vs AI triage comparisons, severity filtering, virtualized lists, comparison workflows, and export tools for security review.",
+    "image": "/projects/vulnerability-visualizer/main-image.jpg",
+    "technologies": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "React Query",
+      "Recharts",
+      "AI Triage"
+    ],
+    "github": "https://github.com/mikechaves/vulnerability-visualizer",
+    "demo": "https://vulnerability-visualizer.vercel.app/",
+    "gallery": [],
+    "details": {
+      "client": "Personal Project",
+      "date": "2025 - 2026",
+      "category": "Security Data Visualization",
+      "services": [
+        "Frontend Engineering",
+        "Data Visualization",
+        "Security Workflow UX",
+        "AI Analysis UI"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "Security review teams need to inspect large vulnerability datasets quickly while separating urgent issues from low-risk noise."
+        },
+        {
+          "title": "Challenge",
+          "description": "The interface had to make hundreds of thousands of vulnerability records searchable, filterable, comparable, and readable without overwhelming reviewers."
+        },
+        {
+          "title": "Context",
+          "description": "The dataset includes manual and AI-assisted status signals, severity levels, package metadata, risk factors, and export needs across review workflows."
+        }
+      ],
+      "task": [
+        {
+          "title": "Dashboard Workflow",
+          "description": "Create a dashboard that turns raw vulnerability data into a usable review surface for filtering, analysis, comparison, and export."
+        },
+        {
+          "title": "AI Analysis Visibility",
+          "description": "Make AI-assisted triage behavior visible through analysis modes, manual vs AI comparison charts, and clear status filtering."
+        },
+        {
+          "title": "Large Dataset Performance",
+          "description": "Keep the interface responsive while rendering and searching large datasets with virtualized lists and optimized state handling."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Built interactive filtering",
+          "description": "Implemented severity, status, search, and analysis-mode controls that let reviewers narrow large vulnerability datasets quickly."
+        },
+        {
+          "title": "Visualized AI and manual triage",
+          "description": "Added charts for severity distribution, risk factor frequency, and manual vs AI assessment relationships to make review patterns easier to inspect."
+        },
+        {
+          "title": "Supported comparison workflows",
+          "description": "Created a compare flow that lets reviewers select multiple vulnerabilities, inspect them side by side, and preserve context while moving through the dataset."
+        },
+        {
+          "title": "Hardened the data experience",
+          "description": "Used React Query, persisted preferences, export utilities, resilient data loading, and virtualized rendering to keep the app usable at production-scale data volume."
+        }
+      ],
+      "results": [
+        {
+          "title": "Security review at scale",
+          "description": "The dashboard can load and analyze hundreds of thousands of vulnerability records while keeping filters, charts, and review controls usable."
+        },
+        {
+          "title": "Clear AI workflow signal",
+          "description": "The project demonstrates how AI-assisted security triage can be exposed through practical reviewer-facing UI instead of hidden automation."
+        },
+        {
+          "title": "Recruiter-friendly proof",
+          "description": "The live demo and GitHub repo show hands-on frontend engineering across TypeScript, data visualization, performance, and operational security workflows."
+        }
+      ]
+    }
+  },
   "portals": {
     "title": "Portals",
     "category": "ar-vr",
