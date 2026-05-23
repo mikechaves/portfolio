@@ -213,7 +213,7 @@ function AboutHeroTerminal({ onComplete }: { onComplete: () => void }) {
         <div className="terminal-button terminal-button-red"></div>
         <div className="terminal-button terminal-button-yellow"></div>
         <div className="terminal-button terminal-button-green"></div>
-        <div className="terminal-title">mike_chaves.profile</div>
+        <div className="terminal-title">mike_chaves.{activeMode}</div>
         <div className="ml-auto hidden items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-primary/70 sm:flex">
           <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
           {isTyping ? "streaming" : "ready"}
@@ -237,10 +237,10 @@ function AboutHeroTerminal({ onComplete }: { onComplete: () => void }) {
         </div>
 
         <div className="min-h-[18rem] rounded border border-primary/20 bg-black/55 p-4 text-sm leading-7 text-zinc-100 sm:text-base">
-          <div className="sr-only">
-            I am an AI-native design engineer focused on product systems, human-in-the-loop AI, and operational UX.
+          <div className="sr-only" aria-live="polite" aria-atomic="true">
+            {activeText}
           </div>
-          <div className="whitespace-pre-wrap break-words">
+          <div className="whitespace-pre-wrap break-words" aria-hidden="true">
             {renderedLines.map((line, index) => {
               if (line.startsWith("$")) {
                 return (
@@ -299,9 +299,10 @@ function AboutHeroTerminal({ onComplete }: { onComplete: () => void }) {
                   variant="ghost"
                   size="sm"
                   aria-pressed={isActive}
-                  className={`h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary ${
-                    isActive ? "border-primary/70 bg-primary/15 text-primary" : ""
-                  }`}
+                  className={cn(
+                    "h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary",
+                    isActive && "border-primary/70 bg-primary/15 text-primary",
+                  )}
                   onClick={() => {
                     setActiveMode(mode)
                     setSequenceNonce((value) => value + 1)
