@@ -22,7 +22,7 @@ const HeroBackground = dynamic(
 import { RecentHighlights } from "@/components/recent-highlights"
 import { NeonSeparator } from "@/components/neon-separator"
 
-const FEATURED_PROJECT_IDS = ["astrocade-qa-calibration-tool", "wizzo", "gaia"]
+const FEATURED_PROJECT_IDS = ["astrocade-qa-calibration-tool", "wizzo", "x-games"]
 
 const featuredProjects = FEATURED_PROJECT_IDS.map((id) =>
   PROJECTS.find((project) => project.id === id)

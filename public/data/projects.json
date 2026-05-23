@@ -1,6 +1,6 @@
 {
   "astrocade-qa-calibration-tool": {
-    "title": "Astrocade QA Calibration Tool",
+    "title": "Astrocade AI QA Calibration Tool",
     "category": "development",
     "description": "Built and operated a human-in-the-loop QA calibration toolchain for Astrocade's UGC moderation pipeline, improving precision/recall tuning, reducing repeat rejections, and speeding daily publishing decisions.",
     "image": "/projects/astrocade/main-image.jpg",
@@ -178,6 +178,90 @@
         {
           "title": "Strategic Foundation",
           "description": "Built comprehensive business strategy and team structure to support long-term growth and market expansion."
+        }
+      ]
+    }
+  },
+  "x-games": {
+    "title": "X Games",
+    "category": "web",
+    "description": "Built an AI-first social game platform that turns any X post into an instant browser game, using Grok-powered concept generation, playable game cards, social sharing, and leaderboards to make AI game creation feel native to X.",
+    "image": "/projects/x-games/main-image.jpg",
+    "technologies": [
+      "AI Game Generation",
+      "Grok",
+      "Next.js",
+      "Vercel",
+      "Social Game UX",
+      "Leaderboards"
+    ],
+    "github": "",
+    "demo": "https://x-games-six.vercel.app/",
+    "gallery": [],
+    "details": {
+      "client": "X Games",
+      "date": "2026",
+      "category": "AI Game Platform",
+      "services": [
+        "AI Product Prototyping",
+        "Game UX",
+        "Social Platform Design",
+        "Web App Development"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "X Games explores a compact AI-native loop: turn social posts from X into playable browser games that can be discovered, shared, and ranked."
+        },
+        {
+          "title": "Challenge",
+          "description": "The product needed to make AI game generation feel immediate and understandable while still supporting recognizable game cards, trending discovery, and leaderboard behavior."
+        },
+        {
+          "title": "Context",
+          "description": "The experience sits at the intersection of AI-assisted creation, social distribution, and lightweight game UX, with Grok positioned as the generation engine."
+        }
+      ],
+      "task": [
+        {
+          "title": "AI-First Product Loop",
+          "description": "Design a clear path from an X post to an instant playable game, keeping the AI promise visible in the hero, game cards, and calls to action."
+        },
+        {
+          "title": "Discovery and Ranking",
+          "description": "Support a browsing surface where generated games can trend, accumulate engagement, and move users toward play."
+        },
+        {
+          "title": "Shareable Game UX",
+          "description": "Make each generated game feel like a social object that can be played, shared, and evaluated quickly."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Built AI-forward positioning",
+          "description": "Centered the interface around the promise that any X post can become an instant game, with repeated Grok-powered AI signals throughout the experience."
+        },
+        {
+          "title": "Designed game-card discovery",
+          "description": "Created a trending game surface with genre labels, generated thumbnails, creator attribution, play counts, and direct play actions."
+        },
+        {
+          "title": "Connected social mechanics",
+          "description": "Integrated sign-in, sharing, and leaderboard affordances so AI-generated games feel connected to the X ecosystem."
+        }
+      ],
+      "results": [
+        {
+          "title": "AI-first portfolio proof",
+          "description": "Adds a visible example of AI-assisted product design and game generation to the portfolio homepage and project archive."
+        },
+        {
+          "title": "Fast concept-to-play loop",
+          "description": "Shows how AI can compress ideation, generation, discovery, and play into a lightweight browser experience."
+        },
+        {
+          "title": "Social game platform direction",
+          "description": "Establishes a foundation for AI-generated games with trending discovery, shareability, and ranking behavior."
         }
       ]
     }
