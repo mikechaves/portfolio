@@ -1,10 +1,10 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useMemo } from "react"
 import { ImageModal } from "@/components/image-modal"
+import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 
 interface DetailItem {
   title: string
@@ -44,7 +44,13 @@ interface ProjectPageClientProps {
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
-  const images = project ? [project.image, ...(project.gallery || [])] : []
+  const images = useMemo(
+    () =>
+      Array.from(
+        new Set([project.image, ...(project.gallery || [])].filter((image): image is string => Boolean(image)))
+      ),
+    [project.gallery, project.image]
+  )
 
   const closeModal = useCallback(() => setSelectedIndex(null), [])
 
@@ -117,68 +123,39 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         </div>
       </div>
 
-      <div
-        className="relative h-80 rounded-md overflow-hidden cursor-pointer"
-        onClick={() => setSelectedIndex(0)}
-      >
-        <Image
-          src={
-            project.image ||
-            `/api/placeholder?width=1200&height=600&text=${encodeURIComponent(project.title)}`
-          }
-          alt={project.title}
-          fill
-          className="object-cover"
-          sizes="(min-width: 1024px) 960px, 100vw"
-          priority
-        />
-      </div>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+        <div className="space-y-5 lg:order-2">
+          <div className="prose prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
+            <p className="text-muted-foreground">{project.description || "No description available."}</p>
+          </div>
 
-      {project.gallery && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {project.gallery.map((img: string, index: number) => (
-            <div
-              key={index}
-              className="relative bg-zinc-100 rounded-md overflow-hidden h-[200px] cursor-pointer"
-              onClick={() => setSelectedIndex(index + 1)}
+          <div className="flex flex-wrap gap-4">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-md transition-colors"
             >
-              <Image
-                src={
-                  img ||
-                  `/api/placeholder?width=800&height=600&text=${encodeURIComponent(project.title)}`
-                }
-                alt={`${project.title} gallery image ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 320px, (min-width: 768px) 33vw, 100vw"
-              />
-            </div>
-          ))}
+              <Github size={16} /> View on GitHub
+            </a>
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-md transition-colors border border-primary/30"
+            >
+              <ExternalLink size={16} /> Live Demo
+            </a>
+          </div>
         </div>
-      )}
 
-      <div className="flex flex-wrap gap-4">
-        <a
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-md transition-colors"
-        >
-          <Github size={16} /> View on GitHub
-        </a>
-        <a
-          href={project.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-md transition-colors border border-primary/30"
-        >
-          <ExternalLink size={16} /> Live Demo
-        </a>
-      </div>
-
-      <div className="prose prose-invert max-w-none">
-        <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
-        <p className="text-muted-foreground">{project.description || "No description available."}</p>
+        <ProjectMediaShowcase
+          title={project.title}
+          images={images}
+          onOpen={setSelectedIndex}
+          className="lg:order-1"
+        />
       </div>
 
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
