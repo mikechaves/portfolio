@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
-import { Terminal } from "@/components/terminal"
 import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
@@ -27,6 +26,86 @@ const FEATURED_PROJECT_IDS = ["astrocade-qa-calibration-tool", "wizzo", "x-games
 const featuredProjects = FEATURED_PROJECT_IDS.map((id) =>
   PROJECTS.find((project) => project.id === id)
 ).filter((project): project is Project => Boolean(project))
+
+const HOME_HERO_LINES = [
+  "$ identify --mike_chaves",
+  "AI-native design engineer for product systems,",
+  "human-in-the-loop AI, and operational UX.",
+  "",
+  "$ route --next",
+  "View work, systems, or full profile.",
+]
+
+function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
+  const [displayedText, setDisplayedText] = useState("")
+  const [isTyping, setIsTyping] = useState(true)
+  const fullText = HOME_HERO_LINES.join("\n")
+
+  useEffect(() => {
+    let currentIndex = 0
+    let timer: ReturnType<typeof setTimeout> | undefined
+
+    setDisplayedText("")
+    setIsTyping(true)
+
+    const typeNextCharacter = () => {
+      if (currentIndex < fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex + 1))
+        const typedCharacter = fullText[currentIndex]
+        currentIndex += 1
+        timer = setTimeout(typeNextCharacter, typedCharacter === "\n" ? 160 : 24)
+        return
+      }
+
+      setIsTyping(false)
+      onComplete()
+    }
+
+    timer = setTimeout(typeNextCharacter, 180)
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [fullText, onComplete])
+
+  const renderedLines = displayedText.split("\n")
+
+  return (
+    <div className="terminal-window relative mx-auto max-w-3xl overflow-hidden shadow-[0_0_34px_rgba(0,255,140,0.12)]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,255,140,0.09),transparent_38%)]" />
+      <div className="terminal-header relative z-10">
+        <div className="terminal-button terminal-button-red"></div>
+        <div className="terminal-button terminal-button-yellow"></div>
+        <div className="terminal-button terminal-button-green"></div>
+        <div className="terminal-title">homepage.launch</div>
+        <div className="ml-auto hidden items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-primary/70 sm:flex">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+          {isTyping ? "routing" : "ready"}
+        </div>
+      </div>
+      <div className="terminal-content relative z-10 min-h-[11rem] rounded border border-primary/20 bg-black/45 p-4 text-sm leading-7 text-zinc-100 sm:text-base">
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          {fullText}
+        </div>
+        <div className="whitespace-pre-wrap break-words" aria-hidden="true">
+          {renderedLines.map((line, index) => {
+            if (line.startsWith("$")) {
+              return (
+                <div key={`${line}-${index}`}>
+                  <span className="text-primary">$</span>
+                  {line.slice(1)}
+                </div>
+              )
+            }
+
+            return <div key={`${line}-${index}`}>{line || "\u00a0"}</div>
+          })}
+          {isTyping && <span className="terminal-cursor" />}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -63,21 +142,22 @@ export default function Home() {
 
       <div className="home-content-layer relative z-10 space-y-16">
       <section className="relative flex min-h-[42vh] flex-col justify-center py-12 sm:py-16">
-        <Terminal
-          text="AI-native design engineer for product systems, human-in-the-loop AI, and operational UX."
-          typingSpeed={40}
-          className="max-w-3xl mx-auto"
-          onComplete={handleIntroComplete}
-        />
+        <HomeHeroTerminal onComplete={handleIntroComplete} />
 
-        <div className="mt-8 flex min-h-10 justify-center">
+        <div className="mt-8 flex min-h-10 flex-wrap justify-center gap-3">
           {introComplete && (
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-md transition-colors border border-primary/40 shadow-[0_0_10px_rgba(0,255,140,0.2)]"
-            >
-              View About <ArrowRight size={16} />
-            </Link>
+            <>
+              <Button asChild>
+                <Link href="/projects">
+                  View Work <ArrowRight size={16} />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-primary/40 bg-black/30 text-primary hover:bg-primary/10 hover:text-primary">
+                <Link href="/about">
+                  View About <ArrowRight size={16} />
+                </Link>
+              </Button>
+            </>
           )}
         </div>
       </section>
