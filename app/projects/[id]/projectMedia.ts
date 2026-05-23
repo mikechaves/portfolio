@@ -244,7 +244,7 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       caption: "Result artifact showing the accessibility and interaction findings from the prototype.",
       section: "result",
     },
-    "/projects/speakeasy/thesis-exhibition.HEIC": {
+    "/projects/speakeasy/thesis-exhibition.jpg": {
       label: "Thesis exhibition",
       caption: "Live exhibition context where visitors could experience the prototype and research story.",
       section: "exhibition",
@@ -308,12 +308,37 @@ function getDefaultMediaCopy(title: string, index: number): ProjectMediaCopy {
   }
 }
 
+function getMediaCopyKey(src: string) {
+  return src.split(/[?#]/)[0] || src
+}
+
+function getMediaDisplaySrc(src: string, copyKey: string) {
+  return src.startsWith("/projects/") ? copyKey : src
+}
+
 export function buildProjectMedia({ gallery = [], id, image, title }: ProjectMediaSource): ProjectMediaItem[] {
   const copyBySrc = PROJECT_MEDIA_COPY[id] || {}
-  const sources = Array.from(new Set([image, ...gallery, ...Object.keys(copyBySrc)].filter(Boolean)))
+  const seen = new Set<string>()
+  const sources = [image, ...gallery, ...Object.keys(copyBySrc)].reduce<Array<{ copyKey: string; src: string }>>(
+    (items, source) => {
+      if (!source) return items
+      const copyKey = getMediaCopyKey(source)
 
-  return sources.map((src, index) => {
-    const copy = copyBySrc[src] || getDefaultMediaCopy(title, index)
+      if (seen.has(copyKey)) return items
+
+      seen.add(copyKey)
+      items.push({
+        copyKey,
+        src: getMediaDisplaySrc(source, copyKey),
+      })
+
+      return items
+    },
+    []
+  )
+
+  return sources.map(({ copyKey, src }, index) => {
+    const copy = copyBySrc[copyKey] || getDefaultMediaCopy(title, index)
 
     return {
       alt: `${title}: ${copy.label}`,
