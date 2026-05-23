@@ -12,7 +12,7 @@ interface ProjectMediaShowcaseProps {
 }
 
 function getImageAlt(title: string, index: number) {
-  return index === 0 ? `${title} primary project image` : `${title} supporting artifact ${index}`
+  return index === 0 ? `${title} primary project image` : `${title} supporting artifact ${index + 1}`
 }
 
 function getThumbnailLabel(title: string, index: number) {
