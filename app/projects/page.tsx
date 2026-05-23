@@ -13,8 +13,18 @@ const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
 const PROJECTS_LIMIT_DESKTOP = 6
 
+const AI_PROJECT_IDS = [
+  "astrocade-qa-calibration-tool",
+  "wizzo",
+  "x-games",
+  "speakeasy",
+  "creative-supply-engine",
+  "vulnerability-visualizer",
+]
+
 const CATEGORIES = [
   { id: "all", name: "All Projects" },
+  { id: "ai", name: "AI" },
   { id: "design", name: "UX/UI Design" },
   { id: "ar-vr", name: "AR/VR" },
   { id: "web", name: "Web Development" },
@@ -73,10 +83,20 @@ export default function ProjectsPage() {
   }, [])
 
   const filteredProjects = useMemo(
-    () =>
-      activeFilter === "all"
-        ? PROJECTS
-        : PROJECTS.filter((project) => project.category === activeFilter),
+    () => {
+      if (activeFilter === "all") {
+        return PROJECTS
+      }
+
+      if (activeFilter === "ai") {
+        const projectById = new Map(PROJECTS.map((project) => [project.id, project]))
+        return AI_PROJECT_IDS
+          .map((id) => projectById.get(id))
+          .filter((project): project is Project => Boolean(project))
+      }
+
+      return PROJECTS.filter((project) => project.category === activeFilter)
+    },
     [activeFilter]
   )
 
