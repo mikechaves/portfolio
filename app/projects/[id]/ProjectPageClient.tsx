@@ -26,6 +26,11 @@ interface ProjectDetails {
   exhibition?: DetailItem[]
 }
 
+interface ProjectLink {
+  label: string
+  url: string
+}
+
 interface Project {
   id: string
   title: string
@@ -34,8 +39,10 @@ interface Project {
   category: string
   description: string
   technologies: string[]
-  github: string
-  demo: string
+  github?: string
+  demo?: string
+  demoLabel?: string
+  links?: ProjectLink[]
   details: ProjectDetails
 }
 
@@ -45,6 +52,37 @@ interface ProjectPageClientProps {
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const projectLinks = [
+    ...(project.github
+      ? [
+          {
+            href: project.github,
+            label: "View on GitHub",
+            style:
+              "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
+            type: "github" as const,
+          },
+        ]
+      : []),
+    ...(project.demo
+      ? [
+          {
+            href: project.demo,
+            label: project.demoLabel || "Live Demo",
+            style:
+              "bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30",
+            type: "external" as const,
+          },
+        ]
+      : []),
+    ...(project.links || []).map((link) => ({
+      href: link.url,
+      label: link.label,
+      style:
+        "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
+      type: "external" as const,
+    })),
+  ]
 
   const media = useMemo(
     () =>
@@ -145,24 +183,22 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             <p className="text-muted-foreground">{project.description || "No description available."}</p>
           </div>
 
-          <div className="flex flex-wrap gap-4">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-md transition-colors"
-            >
-              <Github size={16} /> View on GitHub
-            </a>
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-md transition-colors border border-primary/30"
-            >
-              <ExternalLink size={16} /> Live Demo
-            </a>
-          </div>
+          {projectLinks.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {projectLinks.map((link) => (
+                <a
+                  key={`${link.label}-${link.href}`}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${link.style}`}
+                >
+                  {link.type === "github" ? <Github size={16} /> : <ExternalLink size={16} />}
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <ProjectMediaShowcase

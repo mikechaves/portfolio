@@ -99,7 +99,7 @@ export function ProjectFilter({ featured, projects }: ProjectFilterProps) {
             image={project.image}
             technologies={project.technologies}
             category={project.category}
-            priority={index === 0}
+            priority={!personalized && index < 3}
           />
         ))}
       </div>

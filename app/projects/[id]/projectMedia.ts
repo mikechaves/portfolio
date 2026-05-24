@@ -282,9 +282,15 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
   },
   wizzo: {
+    "/projects/wizzo/app-interface.png": {
+      label: "Current AI mentor interface",
+      caption: "Current Wizzo product surface from the public beta, centered on chat, goals, voice, and quest follow-through.",
+      section: "action",
+    },
     "/projects/wizzo/main-image.png": {
-      label: "AI social productivity system",
-      caption: "Primary product surface for the AI-driven social productivity platform.",
+      label: "Beta product cockpit",
+      caption: "Earlier beta interface showing the AI adventure mentor, quest status, and progress-oriented navigation.",
+      section: "result",
     },
   },
   "x-games": {
