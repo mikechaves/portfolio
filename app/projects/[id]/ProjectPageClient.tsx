@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import { ImageModal } from "@/components/image-modal"
+import type { Project as ProjectSummary } from "@/types/project"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
@@ -36,7 +37,7 @@ interface Project {
   title: string
   image: string
   gallery?: string[]
-  category: string
+  category: ProjectSummary["category"]
   description: string
   technologies: string[]
   github?: string
@@ -52,37 +53,37 @@ interface ProjectPageClientProps {
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  const projectLinks = [
-    ...(project.github
-      ? [
-          {
-            href: project.github,
-            label: "View on GitHub",
-            style:
-              "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
-            type: "github" as const,
-          },
-        ]
-      : []),
-    ...(project.demo
-      ? [
-          {
-            href: project.demo,
-            label: project.demoLabel || "Live Demo",
-            style:
-              "bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30",
-            type: "external" as const,
-          },
-        ]
-      : []),
-    ...(project.links || []).map((link) => ({
-      href: link.url,
-      label: link.label,
-      style:
-        "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
-      type: "external" as const,
-    })),
-  ]
+  const projectLinks = useMemo(
+    () => [
+      ...(project.github
+        ? [
+            {
+              href: project.github,
+              label: "View on GitHub",
+              style: "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
+              type: "github" as const,
+            },
+          ]
+        : []),
+      ...(project.demo
+        ? [
+            {
+              href: project.demo,
+              label: project.demoLabel || "Live Demo",
+              style: "bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30",
+              type: "external" as const,
+            },
+          ]
+        : []),
+      ...(project.links || []).map((link) => ({
+        href: link.url,
+        label: link.label,
+        style: "bg-secondary hover:bg-secondary/80 text-secondary-foreground",
+        type: "external" as const,
+      })),
+    ],
+    [project.demo, project.demoLabel, project.github, project.links]
+  )
 
   const media = useMemo(
     () =>
