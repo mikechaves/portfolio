@@ -27,10 +27,7 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Immersive And Metaverse Ideas
 
-- [ ] Expand the opt-in Metaverse screen into a portfolio navigation mode for selected projects.
 - [ ] Add a guided immersive walkthrough for the strongest case studies.
-- [ ] Add WebGL interactions that react to project categories or active filters.
-- [ ] Evaluate whether the Snow Crash-inspired effects need a clearer opt-in explanation inside Metaverse mode.
 - [ ] Explore 3D project artifacts for XR, voice UI, and accessibility work.
 
 ## Career Conversion And Packaging
