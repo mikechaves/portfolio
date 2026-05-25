@@ -2,7 +2,7 @@
 
 > Deferred and long-range portfolio programs that are not in the active execution queue.
 
-_Current as of: 2026-05-24_
+_Current as of: 2026-05-25_
 
 ---
 
@@ -51,7 +51,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Engineering And Operations
 
-- [ ] Add a lightweight internal link checker for project demos, resume, and social/contact links.
 - [ ] Add image optimization rules for large project screenshots and gallery assets.
 - [ ] Add automated screenshot smoke tests for homepage, projects index, and top case studies.
 - [ ] Evaluate privacy-preserving analytics for CTA clicks, adaptive-focus searches, and project visits.
