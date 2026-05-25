@@ -259,8 +259,7 @@ const METAVERSE_PROJECTS = METAVERSE_PROJECT_IDS.map((id) =>
 const categoryLabel = (category: Project["category"]) => {
   if (category === "development") return "AI Ops"
   if (category === "web") return "Web"
-  if (category === "research") return "Research"
-  if (category === "ar-vr") return "XR"
+  if (category === "research" || category === "ar-vr") return "XR"
   return "Design"
 }
 
@@ -1690,7 +1689,13 @@ export function MetaverseNav() {
 
   const filteredMetaverseProjects = useMemo(() => {
     if (projectFilter === "all") return METAVERSE_PROJECTS
-    return METAVERSE_PROJECTS.filter((project) => project.category === projectFilter)
+    return METAVERSE_PROJECTS.filter((project) => {
+      if (projectFilter === "research") {
+        return project.category === "research" || project.category === "ar-vr"
+      }
+
+      return project.category === projectFilter
+    })
   }, [projectFilter])
 
   const metaverseTheme = METAVERSE_FILTER_THEMES[projectFilter]
