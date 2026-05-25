@@ -7,6 +7,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import dynamic from "next/dynamic"
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
+import { PROJECTS } from "@/data/projects"
+import type { Project } from "@/types/project"
 
 // -----------------------------------------------------------------------------
 // R3F Canvas
@@ -198,6 +200,70 @@ const rgba = (hex: string, a: number) => {
 const pageAccent = (path: string) =>
   path === "/about" ? "#ff00ff" : path === "/blog" ? "#ff8c00" : path === "/projects" ? "#00ff8c" : "#00ffff"
 
+type MetaverseProjectFilter = "all" | "development" | "web" | "research"
+
+type MetaverseFilterTheme = {
+  accent: string
+  label: string
+  secondary: string
+  signal: string
+}
+
+const METAVERSE_PROJECT_IDS = [
+  "astrocade-qa-calibration-tool",
+  "wizzo",
+  "x-games",
+  "creative-supply-engine",
+  "vulnerability-visualizer",
+  "speakeasy",
+]
+
+const METAVERSE_FILTER_THEMES: Record<MetaverseProjectFilter, MetaverseFilterTheme> = {
+  all: {
+    accent: "#00ffff",
+    label: "All Signals",
+    secondary: "#00ff8c",
+    signal: "portfolio mesh",
+  },
+  development: {
+    accent: "#00ff8c",
+    label: "AI Ops",
+    secondary: "#b6ff00",
+    signal: "automation systems",
+  },
+  web: {
+    accent: "#4ea8ff",
+    label: "Web Systems",
+    secondary: "#00ffff",
+    signal: "product interfaces",
+  },
+  research: {
+    accent: "#ff00ff",
+    label: "XR Research",
+    secondary: "#8c5cff",
+    signal: "accessibility lab",
+  },
+}
+
+const METAVERSE_FILTERS: Array<{ id: MetaverseProjectFilter; label: string }> = [
+  { id: "all", label: "All" },
+  { id: "development", label: "AI Ops" },
+  { id: "web", label: "Web" },
+  { id: "research", label: "XR" },
+]
+
+const METAVERSE_PROJECTS = METAVERSE_PROJECT_IDS.map((id) =>
+  PROJECTS.find((project) => project.id === id),
+).filter((project): project is Project => Boolean(project))
+
+const categoryLabel = (category: Project["category"]) => {
+  if (category === "development") return "AI Ops"
+  if (category === "web") return "Web"
+  if (category === "research") return "Research"
+  if (category === "ar-vr") return "XR"
+  return "Design"
+}
+
 const MOTION_PRESETS: Record<
   MotionLevel,
   {
@@ -234,10 +300,12 @@ function HUDOverlay({
   motionLabel,
   pathname,
   accent = pageAccent(pathname),
+  signalLabel,
 }: {
   motionLabel: string
   pathname: string
   accent?: string
+  signalLabel?: string
 }) {
   return (
     <div
@@ -270,6 +338,7 @@ function HUDOverlay({
       {/* white text like the dock */}
       <span style={{ color: "#eaf6f6" }}>
         STREET • {pathname.toUpperCase()} • MOTION {motionLabel.toUpperCase()}
+        {signalLabel ? ` • ${signalLabel.toUpperCase()}` : ""}
       </span>
 
       {/* subtle scanlines, but crisp (1px lines, no blur) */}
@@ -285,6 +354,119 @@ function HUDOverlay({
         }}
       />
     </div>
+  )
+}
+
+function MetaverseProjectNavigator({
+  activeFilter,
+  onFilterChange,
+  onProjectSelect,
+  projects,
+  theme,
+}: {
+  activeFilter: MetaverseProjectFilter
+  onFilterChange: (filter: MetaverseProjectFilter) => void
+  onProjectSelect: (projectId: string) => void
+  projects: Project[]
+  theme: MetaverseFilterTheme
+}) {
+  return (
+    <aside
+      className="pointer-events-auto fixed bottom-28 left-3 right-3 top-24 z-[82] max-h-[calc(100vh-13rem)] overflow-y-auto border bg-black/70 p-3 font-mono text-xs text-zinc-200 backdrop-blur-md md:bottom-auto md:left-auto md:max-h-[calc(100vh-8rem)] md:w-[24rem]"
+      style={{
+        borderColor: rgba(theme.accent, 0.42),
+        boxShadow: `inset 0 0 0 1px ${rgba(theme.accent, 0.18)}, 0 0 22px ${rgba(theme.accent, 0.14)}`,
+        clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)",
+      }}
+      aria-label="Metaverse project navigation"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(180deg, transparent 0, transparent 2px, rgba(255,255,255,0.14) 2px, rgba(255,255,255,0.14) 3px)",
+        }}
+      />
+      <div className="relative space-y-4">
+        <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+          <div>
+            <p className="hud-font text-[10px] text-white/50">PROJECT ROUTES</p>
+            <h2 className="mt-1 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: theme.accent }}>
+              {theme.label}
+            </h2>
+          </div>
+          <span
+            className="border px-2 py-1 text-[10px] uppercase tracking-[0.14em]"
+            style={{ borderColor: rgba(theme.accent, 0.42), color: theme.accent }}
+          >
+            {projects.length} live
+          </span>
+        </div>
+
+        <div className="border border-white/10 bg-black/45 p-3 text-[11px] leading-5 text-zinc-300">
+          Opt-in immersive layer. Snow Crash-style glitches, glyphs, and takeover effects are intentional
+          theatrical UI, not a site error.
+        </div>
+
+        <div className="grid grid-cols-4 gap-1.5" role="group" aria-label="Metaverse project filters">
+          {METAVERSE_FILTERS.map((filter) => {
+            const isActive = activeFilter === filter.id
+            const filterTheme = METAVERSE_FILTER_THEMES[filter.id]
+
+            return (
+              <button
+                key={filter.id}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => onFilterChange(filter.id)}
+                className="min-h-10 border px-2 py-2 text-[10px] uppercase tracking-[0.12em] transition-colors hover:text-white"
+                style={{
+                  borderColor: isActive ? rgba(filterTheme.accent, 0.78) : rgba(filterTheme.accent, 0.28),
+                  color: isActive ? "#ffffff" : rgba(filterTheme.accent, 0.78),
+                  background: isActive ? rgba(filterTheme.accent, 0.16) : "rgba(0,0,0,0.2)",
+                  boxShadow: isActive ? `inset 0 0 14px ${rgba(filterTheme.accent, 0.16)}` : "none",
+                }}
+              >
+                {filter.label}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="space-y-2">
+          {projects.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              onClick={() => onProjectSelect(project.id)}
+              className="group w-full border border-white/10 bg-black/45 p-3 text-left transition-colors hover:border-white/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2"
+              style={{ outlineColor: theme.accent }}
+              aria-label={`Open ${project.title} project`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-bold text-white group-hover:text-primary">{project.title}</h3>
+                  <p className="mt-1 line-clamp-2 text-[11px] leading-5 text-zinc-400">{project.description}</p>
+                </div>
+                <span
+                  className="shrink-0 border px-2 py-1 text-[10px] uppercase tracking-[0.12em]"
+                  style={{ borderColor: rgba(theme.accent, 0.32), color: theme.accent }}
+                >
+                  {categoryLabel(project.category)}
+                </span>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {project.technologies.slice(0, 3).map((tech) => (
+                  <span key={tech} className="border border-white/10 px-1.5 py-1 text-[10px] text-white/60">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </aside>
   )
 }
 
@@ -372,17 +554,16 @@ function NavItem3D({
 // -----------------------------------------------------------------------------
 function CodeLine({
   position,
-  currentPage,
+  color,
   motion,
   paused = false,
 }: {
   position: [number, number, number]
-  currentPage: string
+  color: string
   motion: (typeof MOTION_PRESETS)[MotionLevel]
   paused?: boolean
 }) {
   const mesh = useRef<THREE.Mesh>(null!)
-  const color = pageAccent(currentPage)
 
   const motionRef = useRef(motion)
   const pausedRef = useRef(paused)
@@ -877,13 +1058,13 @@ function MonoRail({ motion, paused = false, color = "#00ffff" }: { motion: (type
 
 function CyberCity({
   mousePosition,
-  currentPage,
+  accent,
   motion,
   paused = false,
   buildingCount,
 }: {
   mousePosition: [number, number]
-  currentPage: string
+  accent: string
   motion: (typeof MOTION_PRESETS)[MotionLevel]
   paused?: boolean
   buildingCount: number
@@ -906,7 +1087,7 @@ function CyberCity({
     [buildingCount]
   )
 
-  const theme = { color: pageAccent(currentPage), emissive: pageAccent(currentPage) }
+  const theme = { color: accent, emissive: accent }
 
   return (
     <group>
@@ -1080,10 +1261,88 @@ function NeonHorizon({ color = "#00ffff" }: { color?: string }) {
   )
 }
 
+function ProjectBeaconField({
+  color,
+  count,
+  motion,
+  paused = false,
+  secondary,
+}: {
+  color: string
+  count: number
+  motion: (typeof MOTION_PRESETS)[MotionLevel]
+  paused?: boolean
+  secondary: string
+}) {
+  const group = useRef<THREE.Group>(null!)
+  const motionRef = useRef(motion)
+  const pausedRef = useRef(paused)
+  useEffect(() => void (motionRef.current = motion), [motion])
+  useEffect(() => void (pausedRef.current = paused), [paused])
+
+  const beacons = useMemo(() => {
+    const safeCount = Math.max(1, count)
+    return Array.from({ length: safeCount }, (_, index) => {
+      const angle = (index / safeCount) * Math.PI * 2
+      const radius = safeCount > 3 ? 3.2 : 2.35
+      return {
+        index,
+        position: [Math.cos(angle) * radius, -0.72 + (index % 2) * 0.16, Math.sin(angle) * radius - 2.5] as [
+          number,
+          number,
+          number,
+        ],
+      }
+    })
+  }, [count])
+
+  useFrame((state, delta) => {
+    if (!group.current || pausedRef.current) return
+    const m = motionRef.current
+    group.current.rotation.y += delta * (0.08 + m.speeds.rotate * 0.12)
+    group.current.position.y = -0.08 + Math.sin(state.clock.elapsedTime * (0.5 + m.speeds.float)) * 0.08
+  })
+
+  return (
+    <group ref={group} position={[0, 0, -1.8]}>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.88, -2.5]}>
+        <torusGeometry args={[3.85, 0.018, 8, 96]} />
+        <meshBasicMaterial color={color} transparent opacity={0.32} blending={THREE.AdditiveBlending} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.86, -2.5]}>
+        <torusGeometry args={[2.25, 0.012, 8, 96]} />
+        <meshBasicMaterial color={secondary} transparent opacity={0.22} blending={THREE.AdditiveBlending} />
+      </mesh>
+      {beacons.map((beacon) => (
+        <group key={beacon.index} position={beacon.position}>
+          <mesh position={[0, 0.48, 0]}>
+            <boxGeometry args={[0.1, 0.88, 0.1]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={color}
+              emissiveIntensity={0.45}
+              transparent
+              opacity={0.38}
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+            />
+          </mesh>
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.22, 0.24, 32]} />
+            <meshBasicMaterial color={secondary} transparent opacity={0.42} blending={THREE.AdditiveBlending} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  )
+}
+
 // -----------------------------------------------------------------------------
 // Scene wrapper
 // -----------------------------------------------------------------------------
 function Street({
+  activeProjectCount,
+  filterTheme,
   navItems,
   pathname,
   onNavigate,
@@ -1092,6 +1351,8 @@ function Street({
   motion,
   paused,
 }: {
+  activeProjectCount: number
+  filterTheme: MetaverseFilterTheme
   navItems: { name: string; path: string }[]
   pathname: string
   onNavigate: (path: string) => void
@@ -1126,30 +1387,38 @@ function Street({
 
   const buildingCount = isMobile ? motion.counts.buildingsMobile : motion.counts.buildingsDesktop
   const streamCount = isMobile ? motion.counts.streamsMobile : motion.counts.streamsDesktop
-  const accent = pageAccent(pathname)
+  const accent = filterTheme.accent
+  const activeSignalCount = Math.max(activeProjectCount, 1)
 
   return (
     <>
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.5} />
-      <pointLight position={[-10, -10, -10]} color="#00ff8c" intensity={0.2} />
+      <pointLight position={[-10, -10, -10]} color={filterTheme.secondary} intensity={0.24} />
 
       <StreetPlane color={accent} />
       <NeonHorizon color={accent} />
-      <HoloMoon color={accent === "#00ff8c" ? "#ff00ff" : accent} motion={motion} paused={paused} />
+      <HoloMoon color={accent === "#00ff8c" ? filterTheme.secondary : accent} motion={motion} paused={paused} />
       <MonoRail motion={motion} paused={paused} color={accent} />
       <Billboard position={[-6, 3.2, -8]} color="#00ffff" mouse={mousePosition} />
-      <Billboard position={[5, 2.6, -9]} color="#00ff8c" mouse={mousePosition} size={[2.4, 1.0]} />
+      <Billboard position={[5, 2.6, -9]} color={filterTheme.secondary} mouse={mousePosition} size={[2.4, 1.0]} />
+      <ProjectBeaconField
+        color={accent}
+        count={activeSignalCount}
+        motion={motion}
+        paused={paused}
+        secondary={filterTheme.secondary}
+      />
 
-      <CyberCity mousePosition={mousePosition} currentPage={pathname} motion={motion} paused={paused} buildingCount={buildingCount} />
-      <GlyphParticles motion={motion} paused={paused} color={accent} count={140} />
-      <AsciiGlyphs motion={motion} paused={paused} color={accent} count={260} spread={26} size={20} />
+      <CyberCity mousePosition={mousePosition} accent={accent} motion={motion} paused={paused} buildingCount={buildingCount + activeSignalCount} />
+      <GlyphParticles motion={motion} paused={paused} color={accent} count={120 + activeSignalCount * 18} />
+      <AsciiGlyphs motion={motion} paused={paused} color={accent} count={220 + activeSignalCount * 10} spread={26} size={20} />
 
       {Array.from({ length: streamCount }).map((_, i) => (
         <CodeLine
           key={i}
           position={[((Math.random() - 0.5) * 15) as number, (Math.random() * 12 - 6) as number, ((Math.random() - 0.5) * 10) as number]}
-          currentPage={pathname}
+          color={accent}
           motion={motion}
           paused={paused}
         />
@@ -1336,7 +1605,7 @@ function HudDock({
         className="hidden md:block text-[10px] text-white/60 px-2 py-1 border rounded-none"
         style={{ borderColor: `${pageColor}33` }}
       >
-        1–4 to jump • Click bars to travel
+        1-4 pages | Filters retune the city
       </div>
 
       {/* Local keyframes for the scanline */}
@@ -1366,6 +1635,7 @@ export function MetaverseNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [canRender3D, setCanRender3D] = useState(false)
+  const [projectFilter, setProjectFilter] = useState<MetaverseProjectFilter>("all")
 
   const navPositionsRef = useRef<Record<string, { x: number; y: number; hovered: boolean }>>({})
   const overlayRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -1418,6 +1688,13 @@ export function MetaverseNav() {
     { name: "about", path: "/about" },
   ], [])
 
+  const filteredMetaverseProjects = useMemo(() => {
+    if (projectFilter === "all") return METAVERSE_PROJECTS
+    return METAVERSE_PROJECTS.filter((project) => project.category === projectFilter)
+  }, [projectFilter])
+
+  const metaverseTheme = METAVERSE_FILTER_THEMES[projectFilter]
+
   const handleNavigate = useCallback((path: string) => {
     if (path === pathname) {
       // If clicking on current page, just close metaverse
@@ -1435,6 +1712,10 @@ export function MetaverseNav() {
     }, 500)
   }, [pathname, router])
 
+  const handleProjectNavigate = useCallback((projectId: string) => {
+    handleNavigate(`/projects/${projectId}`)
+  }, [handleNavigate])
+
   // --- Tweaked applyTransforms: per-chip hue on center chips ---
 const lastStyles = useRef<Record<string, { x: number; y: number }>>({})
 const applyTransforms = useCallback(() => {
@@ -1444,6 +1725,11 @@ const applyTransforms = useCallback(() => {
     const pos = navPositionsRef.current[item.name]
     const el = overlayRefs.current[item.name]
     if (!el) return
+
+    if (isMobile) {
+      el.style.display = "none"
+      return
+    }
 
     if (pos) {
       // simple smoothing
@@ -1499,7 +1785,7 @@ const applyTransforms = useCallback(() => {
       el.style.display = "none"
     }
   })
-}, [navItems, pathname])
+}, [isMobile, navItems, pathname])
 
 
   const handleNavPositionUpdate = useCallback((name: string, screenPos: { x: number; y: number }, hovered: boolean) => {
@@ -1668,12 +1954,23 @@ const applyTransforms = useCallback(() => {
           <HUDOverlay
             motionLabel={motionLevel}
             pathname={pathname}
-            accent={pageAccent(pathname)}   // same mapping as the dock
+            accent={metaverseTheme.accent}
+            signalLabel={metaverseTheme.signal}
           />
         )}
 
         {/* Control Dock (bottom-left) */}
-        <HudDock motionLevel={motionLevel} setMotionLevel={setMotionLevel} onExit={exitMetaverse} pageColor={pageAccent(pathname)} />
+        <HudDock motionLevel={motionLevel} setMotionLevel={setMotionLevel} onExit={exitMetaverse} pageColor={metaverseTheme.accent} />
+
+        {showMetaverse && (
+          <MetaverseProjectNavigator
+            activeFilter={projectFilter}
+            onFilterChange={setProjectFilter}
+            onProjectSelect={handleProjectNavigate}
+            projects={filteredMetaverseProjects}
+            theme={metaverseTheme}
+          />
+        )}
 
         <div className="w-full h-screen relative">
           {showMetaverse && (
@@ -1683,6 +1980,8 @@ const applyTransforms = useCallback(() => {
                   <Canvas camera={{ fov: 75, near: 0.1, far: 1000 }}>
                     <Suspense fallback={null}>
                       <Street
+                        activeProjectCount={filteredMetaverseProjects.length}
+                        filterTheme={metaverseTheme}
                         navItems={navItems}
                         pathname={pathname}
                         onNavigate={handleNavigate}
@@ -1709,7 +2008,7 @@ const applyTransforms = useCallback(() => {
                           top: 0,
                           transform: "translate(-50%, -50%)",
                           display: "none",
-                          "--hud": pageAccent(pathname),
+                          "--hud": metaverseTheme.accent,
                         } as React.CSSProperties & Record<"--hud", string>}
                         aria-hidden
                       >
