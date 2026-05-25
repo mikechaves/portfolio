@@ -5,6 +5,9 @@ project detail media, navigation, or global styling.
 
 ## Required Routes
 
+- Run `pnpm check:links` before browser QA.
+- Use `pnpm check:links -- --check-external` when you want a non-blocking HTTP status report
+  for external project, writing, and social links.
 - `/`
 - `/projects`
 - `/projects/astrocade-qa-calibration-tool`
