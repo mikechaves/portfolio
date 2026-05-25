@@ -73,7 +73,7 @@ function CaseStudySection({
 function DetailTextCard({ text }: { text: string }) {
   return (
     <div className="case-study-detail-card">
-      <p className="case-study-detail-body mt-0">{text}</p>
+      <p className="case-study-detail-body">{text}</p>
     </div>
   )
 }
@@ -85,7 +85,7 @@ function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) 
         <span className="case-study-detail-marker">{marker}</span>
         <span>{item.title}</span>
       </h3>
-      <p className="case-study-detail-body">{item.description}</p>
+      <p className="case-study-detail-body mt-2">{item.description}</p>
     </div>
   )
 }
@@ -222,7 +222,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div className="space-y-5 lg:order-2">
           <div className="case-study-overview space-y-3">
             <h2 className="case-study-section-title">Project Overview</h2>
-            <p className="case-study-detail-body mt-0">{project.description || "No description available."}</p>
+            <p className="case-study-detail-body">{project.description || "No description available."}</p>
           </div>
 
           {projectLinks.length > 0 && (
