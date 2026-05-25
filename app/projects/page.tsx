@@ -28,7 +28,7 @@ const CATEGORIES = [
   { id: "all", name: "All Projects" },
   { id: "ai", name: "AI" },
   { id: "design", name: "UX/UI Design" },
-  { id: "ar-vr", name: "AR/VR" },
+  { id: "ar-vr", name: "XR & Spatial" },
   { id: "web", name: "Web Development" },
   { id: "research", name: "Research" },
 ]

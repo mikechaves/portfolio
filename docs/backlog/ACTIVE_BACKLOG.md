@@ -42,7 +42,6 @@ Rules:
 
 | Priority | Area                  | Item                                                                 | Status   | Validation / Exit Criteria                                                                                                                                             |
 | -------- | --------------------- | -------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0       | Trust & Positioning   | Audit public copy for stale founder-first, XR-first, or generalist language. | TODO     | Homepage, About, Projects, and Wizzo/Astrocade/X Games detail pages reinforce AI-native design engineering; no stale headline-level positioning remains.              |
 | P0       | Link & Asset Hygiene  | Verify all portfolio links, demos, resume download, contact mailto, and project media paths. | TODO     | Link check or manual validation confirms expected 200/intentional external outcomes; no empty GitHub buttons, missing media, or broken resume/demo links remain.       |
 | P1       | Project Evidence      | Polish project media captions and section placement across the highest-signal case studies. | TODO     | At minimum Astrocade, Wizzo, X Games, Creative Supply Engine, Vulnerability Visualizer, SpeakEasy, and Transcribe have useful captions, labels, and modal behavior.    |
 | P1       | Astrocade Case Study  | Strengthen Astrocade AI QA Calibration Tool as the clearest human-in-the-loop AI proof point. | TODO     | Case study clearly explains QA annotation workflows, calibration, final review behavior, creator feedback loops, operational guardrails, and measurable product value. |
@@ -60,4 +59,3 @@ The following remain intentionally non-active:
 - Project-specific Open Graph image generation.
 
 See [Future Backlog](./FUTURE_BACKLOG.md) for the full parking lot.
-

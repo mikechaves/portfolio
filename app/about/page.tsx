@@ -26,7 +26,7 @@ const introParagraphs = [
   },
   {
     id: "cross-functional-systems",
-    text: "My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I have built and shipped systems across AI-powered creator platforms, enterprise internal tools, spatial interfaces, and founder-led product development.",
+    text: "My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I have built and shipped systems across AI-powered creator platforms, enterprise internal tools, spatial interfaces, and AI-native product prototypes.",
   },
   {
     id: "ugc-review-systems",
@@ -56,7 +56,7 @@ const selectedProofPoints = [
   },
   {
     id: "wizzo-product",
-    text: "Built Wizzo, an AI-driven social productivity platform using Next.js, TypeScript, Postgres, Drizzle ORM, Neon, and Vercel.",
+    text: "Built Wizzo, an AI mentor product system using Next.js, TypeScript, OpenAI, Google APIs, Postgres, Drizzle ORM, Neon, and Vercel.",
   },
   {
     id: "speakeasy-accessibility",
@@ -64,7 +64,7 @@ const selectedProofPoints = [
   },
   {
     id: "enterprise-systems",
-    text: "Built enterprise internal tools and immersive systems for Starbucks, Ford, and POWER Engineers.",
+    text: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
   },
 ]
 

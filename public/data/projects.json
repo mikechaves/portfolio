@@ -283,7 +283,7 @@
     "image": "/projects/gaia/main-image.png",
     "technologies": [
       "UX Design",
-      "AR/VR",
+      "Operations UX",
       "Unity3D",
       "Spatial Computing"
     ],
@@ -314,7 +314,7 @@
         },
         {
           "title": "Development",
-          "description": "Developed AR/VR applications using Unity3D, ensuring seamless integration with Starbucks' systems."
+          "description": "Developed spatial computing prototypes using Unity3D, ensuring seamless integration with Starbucks' systems."
         },
         {
           "title": "Testing",
@@ -571,7 +571,7 @@
   "speakeasy": {
     "title": "SpeakEasy",
     "category": "research",
-    "description": "SpeakEasy is an immersive research and design project that reimagines Extended Reality (XR) for a more inclusive future. By integrating a voice-driven AI interface into XR environments, SpeakEasy addresses the complex interaction barriers faced by users with low muscle tone and other physical challenges. This project is dedicated to making XR more accessible, intuitive, and engaging.",
+    "description": "Designed a voice-controlled mixed reality accessibility system for users with low muscle tone, using AI-assisted interaction patterns to reduce physical input demands in XR environments.",
     "image": "/projects/speakeasy/thesis-defense.jpg",
     "technologies": [
       "Voice-Driven AI",
@@ -588,7 +588,7 @@
     "details": {
       "client": "Master of Design in Experience Design, SJSU",
       "date": "Oct 14, 2024",
-      "category": "XR Projects",
+      "category": "Accessible AI/XR Research",
       "services": [
         "Experience Design",
         "XR Development",
@@ -681,7 +681,7 @@
   "sound-escape-vr": {
     "title": "Sound Escape VR",
     "category": "ar-vr",
-    "description": "Sound Escape VR is an immersive virtual reality music-making and exploration experience that channels a retro 80s synthwave aesthetic while blending real-time audio visualization and interactive world-building. Users can craft their own musical tracks on a grid-based sequencer and watch as the environment reacts and transforms in sync with every note.",
+    "description": "Built a VR music creation prototype that combines a grid-based sequencer, real-time audio visualization, and responsive world-building to make spatial composition feel approachable.",
     "image": "/projects/soundescape/main-image.jpg",
     "technologies": [
       "Unity3D",
@@ -696,7 +696,7 @@
     "details": {
       "client": "Personal Project",
       "date": "March 2023",
-      "category": "XR Development",
+      "category": "Spatial Interaction Prototype",
       "services": [
         "VR Development",
         "Audio Programming",
@@ -1050,7 +1050,7 @@
   "portals": {
     "title": "Portals",
     "category": "ar-vr",
-    "description": "An immersive AR experience for Snap Spectacles designed to bring music, culture, and climate awareness to life through interactive and accessible features. Utilizing spatial audio and computer vision, Portals allows users to engage with cultural and musical experiences in a unique way.",
+    "description": "Built an accessible Snap Spectacles AR prototype that uses spatial audio and computer vision to connect music, culture, collaboration, and climate awareness.",
     "image": "/projects/portals/main-image.png",
     "technologies": [
       "AR",
@@ -1148,7 +1148,7 @@
   "ai-energy-consumption": {
     "title": "AI Energy Consumption",
     "category": "web",
-    "description": "An interactive 3D data visualization showcasing the global impact of AI's energy consumption and CO2 emissions across different countries and regions. Built using A-Frame and D3.js, this project combines immersive 3D graphics with data storytelling to highlight the rising energy demands associated with AI technologies.",
+    "description": "Built an interactive 3D data visualization that explains AI energy consumption and CO2 emissions across countries and regions using A-Frame, D3.js, and clear data storytelling.",
     "image": "/projects/ai-energy-consumption/main-image.png",
     "technologies": [
       "A-Frame",

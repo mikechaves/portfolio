@@ -3,7 +3,7 @@ import type { ProjectFocusMetadata } from "../types"
 export const PROJECT_FOCUS_METADATA: Record<string, ProjectFocusMetadata> = {
   wizzo: {
     id: "wizzo",
-    tags: ["saas", "productivity", "ai", "startup", "product"],
+    tags: ["saas", "productivity", "ai", "product-system", "mentor"],
     signals: ["ai", "product", "design-engineering"],
     weight: 1.2,
   },
