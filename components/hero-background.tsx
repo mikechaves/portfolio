@@ -53,10 +53,10 @@ export function HeroBackground() {
     if (sceneRef.current) return
 
     const random = createSeededRandom(isMobile ? 2407 : 8713)
-    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    reducedMotionRef.current = reducedMotionQuery.matches
 
     const scene = new THREE.Scene()
-    sceneRef.current = scene
 
     const camera = new THREE.PerspectiveCamera(
       58,
@@ -65,13 +65,20 @@ export function HeroBackground() {
       1000,
     )
     camera.position.set(0, 0, 26)
-    cameraRef.current = camera
 
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: !isMobile,
-      powerPreference: "high-performance",
-    })
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: !isMobile,
+        powerPreference: "high-performance",
+      })
+    } catch {
+      return
+    }
+
+    sceneRef.current = scene
+    cameraRef.current = camera
     renderer.setSize(viewportRef.current.width, viewportRef.current.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.15 : 1.5))
     renderer.setClearColor(0x000000, 0)
@@ -272,13 +279,25 @@ export function HeroBackground() {
       }
     }
 
+    const handleReducedMotionChange = () => {
+      reducedMotionRef.current = reducedMotionQuery.matches
+      if (reducedMotionRef.current) {
+        renderStill()
+      }
+    }
+
     window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("scroll", handleScroll, { passive: true })
+    reducedMotionQuery.addEventListener("change", handleReducedMotionChange)
 
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate)
 
       if (document.hidden) return
+      if (reducedMotionRef.current) {
+        renderStill()
+        return
+      }
 
       const time = performance.now() * 0.001
       applyScrollState()
@@ -326,6 +345,7 @@ export function HeroBackground() {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("scroll", handleScroll)
+      reducedMotionQuery.removeEventListener("change", handleReducedMotionChange)
       cancelAnimationFrame(frameRef.current)
 
       if (rendererRef.current) {

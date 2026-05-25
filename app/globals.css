@@ -451,14 +451,36 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+
   .home-corruption-overlay,
   .home-scan-distortion,
   .infection-badge,
-  .neon-separator {
-    animation: none;
+  .neon-separator,
+  .terminal-cursor,
+  .animate-blink,
+  .glitch:hover::before,
+  .glitch:hover::after,
+  .glitch-active::before,
+  .glitch-active::after {
+    animation: none !important;
   }
 
   .home-scan-distortion {
     opacity: 0.12;
+  }
+
+  .card-hover,
+  .card-hover:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .terminal-cursor {
+    opacity: 1;
   }
 }

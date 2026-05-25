@@ -1919,6 +1919,7 @@ const applyTransforms = useCallback(() => {
       {/* Overlay navigation (The Street) */}
       <motion.nav
         aria-label="Metaverse navigation"
+        aria-hidden={!showMetaverse}
         className="fixed inset-0 bg-black/90 z-50"
         initial={{ opacity: 0, clipPath: "circle(0% at 50% 0%)" }}
         animate={{
@@ -1965,7 +1966,9 @@ const applyTransforms = useCallback(() => {
         )}
 
         {/* Control Dock (bottom-left) */}
-        <HudDock motionLevel={motionLevel} setMotionLevel={setMotionLevel} onExit={exitMetaverse} pageColor={metaverseTheme.accent} />
+        {showMetaverse && (
+          <HudDock motionLevel={motionLevel} setMotionLevel={setMotionLevel} onExit={exitMetaverse} pageColor={metaverseTheme.accent} />
+        )}
 
         {showMetaverse && (
           <MetaverseProjectNavigator

@@ -48,18 +48,14 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Engineering And Operations
 
-- [ ] Add image optimization rules for large project screenshots and gallery assets.
 - [ ] Add automated screenshot smoke tests for homepage, projects index, and top case studies.
 - [ ] Evaluate privacy-preserving analytics for CTA clicks, adaptive-focus searches, and project visits.
-- [ ] Add a preview QA checklist for every portfolio content PR.
 - [ ] Add a release checklist for production deploys, domains, and DNS checks.
 
 ## Design System And UI Polish
 
 - [ ] Review terminal-window spacing and typography consistency across case studies.
-- [ ] Evaluate whether project cards need better aspect-ratio handling for wide screenshots.
 - [ ] Add clearer active states for project filters if usage testing shows confusion.
-- [ ] Refine mobile project pages after more screenshots and evidence strips are added.
 - [ ] Consider alternate thumbnails for projects whose primary image reads poorly in card crops.
 
 ## Strategic Framing
