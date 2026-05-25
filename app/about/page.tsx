@@ -467,8 +467,13 @@ export default function AboutPage() {
               </ol>
               <div className="flex flex-wrap gap-3 border-t border-primary/20 pt-4">
                 <Button asChild size="sm">
-                  <Link href="/projects?focus=human-in-the-loop%20AI%20systems">
-                    Open AI Proof <ArrowRight size={14} />
+                  <Link
+                    href={{
+                      pathname: "/projects",
+                      query: { focus: "human-in-the-loop AI systems" },
+                    }}
+                  >
+                    View AI Proofs <ArrowRight size={14} />
                   </Link>
                 </Button>
                 <Button asChild size="sm" variant="outline">
