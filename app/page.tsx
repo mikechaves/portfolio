@@ -33,8 +33,9 @@ const HOME_HERO_LINES = [
   "AI-native design engineer for product systems,",
   "human-in-the-loop AI, and operational UX.",
   "",
-  "$ route --next",
-  "View work, systems, or full profile.",
+  "$ trace --portfolio",
+  "Start with the thesis, inspect the operating model,",
+  "then open the proof in project case studies.",
 ]
 
 function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
@@ -188,6 +189,18 @@ export default function Home() {
           <p><span className="text-primary">$</span> Internal tools and operational UX</p>
           <p><span className="text-primary">$</span> Product + design + engineering alignment</p>
           <p><span className="text-primary">$</span> Creator workflows, moderation, and QA calibration</p>
+          <div className="mt-4 flex flex-wrap gap-3 border-t border-primary/20 pt-4">
+            <Button asChild size="sm">
+              <Link href="/about">
+                Read Positioning <ArrowRight size={14} />
+              </Link>
+            </Button>
+            <Button asChild size="sm" variant="outline">
+              <Link href="/projects">
+                Inspect Proof <ArrowRight size={14} />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 

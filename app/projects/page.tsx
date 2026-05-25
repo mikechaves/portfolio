@@ -145,9 +145,17 @@ export default function ProjectsPage() {
         </div>
         <div className="terminal-content">
           <p className="mb-2">
-            <span className="text-primary">$</span> Displaying projects directory. Select category to filter results.
+            <span className="text-primary">$</span> open proof_layer
           </p>
-          <p className="text-xs text-muted-foreground">Adaptive Focus is now available for natural-language personalization.</p>
+          <p className="text-sm text-muted-foreground">
+            These projects are the evidence layer for the same thesis:
+            AI-native product systems, human-in-the-loop workflows, and
+            operational tools that make complex work usable.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Use filters or Adaptive Focus to match proof to a role, client need,
+            or collaboration.
+          </p>
         </div>
       </div>
 
