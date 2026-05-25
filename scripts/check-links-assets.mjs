@@ -26,6 +26,10 @@ const PUBLIC_ASSET_EXTENSIONS = new Set([
 const CHECK_EXTERNAL = process.argv.includes("--check-external")
 const STRICT_EXTERNAL = process.argv.includes("--strict-external")
 const EXTERNAL_TIMEOUT_MS = 8000
+const EXTERNAL_REQUEST_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+}
 
 const issues = []
 const warnings = []
@@ -68,6 +72,7 @@ const REQUIRED_SOURCE_LINKS = [
 ]
 
 const IGNORED_EXTERNAL_REFERENCES = new Set(["http://www.w3.org/2000/svg"])
+const readdirCache = new Map()
 
 function addIssue(context, message) {
   issues.push(`${context}: ${message}`)
@@ -128,7 +133,7 @@ async function fileExistsCaseSensitive(absolutePath) {
   for (const segment of segments) {
     let entries
     try {
-      entries = await fs.readdir(current)
+      entries = await cachedReaddir(current)
     } catch {
       return { exists: false, reason: `missing directory ${path.relative(ROOT_DIR, current)}` }
     }
@@ -152,6 +157,16 @@ async function fileExistsCaseSensitive(absolutePath) {
   } catch {
     return { exists: false, reason: "missing file" }
   }
+}
+
+async function cachedReaddir(dir) {
+  if (readdirCache.has(dir)) {
+    return readdirCache.get(dir)
+  }
+
+  const entries = await fs.readdir(dir)
+  readdirCache.set(dir, entries)
+  return entries
 }
 
 async function checkPublicAsset(value, context) {
@@ -247,10 +262,21 @@ async function buildRouteSet(projectIds) {
     routes.add(`/projects/${projectId}`)
   }
 
+  for (const postId of await getBlogPostIds()) {
+    routes.add(`/blog/${postId}`)
+  }
+
   const blogDir = path.join(ROOT_DIR, "app", "blog")
-  const blogEntries = await fs.readdir(blogDir, { withFileTypes: true })
+  let blogEntries = []
+  try {
+    blogEntries = await fs.readdir(blogDir, { withFileTypes: true })
+  } catch {
+    addWarning("blog routes", "app/blog is missing")
+  }
+
   for (const entry of blogEntries) {
     if (!entry.isDirectory()) continue
+    if (isDynamicRouteSegment(entry.name)) continue
 
     const pagePath = path.join(blogDir, entry.name, "page.tsx")
     try {
@@ -262,6 +288,20 @@ async function buildRouteSet(projectIds) {
   }
 
   return routes
+}
+
+function isDynamicRouteSegment(segment) {
+  return segment.startsWith("[") && segment.endsWith("]")
+}
+
+async function getBlogPostIds() {
+  const postsPath = path.join(ROOT_DIR, "lib", "posts.ts")
+  try {
+    const postsText = await fs.readFile(postsPath, "utf8")
+    return [...postsText.matchAll(/id:\s*"([^"]+)"/g)].map((match) => match[1])
+  } catch {
+    return []
+  }
 }
 
 async function validateProjectData(projects, routeSet) {
@@ -325,7 +365,7 @@ async function validateProjectData(projects, routeSet) {
   }
 }
 
-function extractStaticInternalReferences(fileText) {
+function extractStaticInternalReferences(fileText, isMarkdown = false) {
   const references = new Set()
   const quotedPathPattern = /["'`]((?:\/)(?!\/)[^"'`\s<>{}]*)["'`]/g
   for (const match of fileText.matchAll(quotedPathPattern)) {
@@ -333,15 +373,32 @@ function extractStaticInternalReferences(fileText) {
     if (value.includes("${")) continue
     if (value === "/" || value.length > 1) references.add(value)
   }
+
+  if (isMarkdown) {
+    const markdownPathPattern = /\]\(((?:\/)(?!\/)[^)\s<>{}]*)\)/g
+    for (const match of fileText.matchAll(markdownPathPattern)) {
+      const value = match[1]
+      if (value === "/" || value.length > 1) references.add(value)
+    }
+  }
+
   return references
 }
 
-function extractExternalReferences(fileText) {
+function extractExternalReferences(fileText, isMarkdown = false) {
   const references = new Set()
   const externalPattern = /["'`]((?:https?:\/\/|mailto:)[^"'`\s<>{}]+)["'`]/g
   for (const match of fileText.matchAll(externalPattern)) {
     references.add(match[1])
   }
+
+  if (isMarkdown) {
+    const markdownExternalPattern = /\]\(((?:https?:\/\/|mailto:)[^)\s<>{}]+)\)/g
+    for (const match of fileText.matchAll(markdownExternalPattern)) {
+      references.add(match[1])
+    }
+  }
+
   return references
 }
 
@@ -361,7 +418,9 @@ async function validateSourceReferences(routeSet) {
       sourceTextForRequiredLinks.push(text)
     }
 
-    for (const value of extractStaticInternalReferences(text)) {
+    const isMarkdown = path.extname(absolutePath).toLowerCase() === ".md"
+
+    for (const value of extractStaticInternalReferences(text, isMarkdown)) {
       const context = `${relativePath} reference ${value}`
       if (hasPublicAssetExtension(value)) {
         await checkPublicAsset(value, context)
@@ -370,7 +429,7 @@ async function validateSourceReferences(routeSet) {
       }
     }
 
-    for (const value of extractExternalReferences(text)) {
+    for (const value of extractExternalReferences(text, isMarkdown)) {
       checkExternalSyntax(value, `${relativePath} external reference`)
     }
   }
@@ -386,16 +445,12 @@ async function validateSourceReferences(routeSet) {
 }
 
 async function validatePosts(routeSet) {
-  const postsPath = path.join(ROOT_DIR, "lib", "posts.ts")
-  let postsText
-  try {
-    postsText = await fs.readFile(postsPath, "utf8")
-  } catch {
+  const postIds = await getBlogPostIds()
+  if (postIds.length === 0) {
     addIssue("blog posts", "lib/posts.ts is missing")
     return
   }
 
-  const postIds = [...postsText.matchAll(/id:\s*"([^"]+)"/g)].map((match) => match[1])
   for (const postId of postIds) {
     await checkRoute(`/blog/${postId}`, routeSet, `blog post ${postId}`)
   }
@@ -414,6 +469,7 @@ async function checkExternalLink(url, contexts) {
   try {
     let response = await fetch(url, {
       method: "HEAD",
+      headers: EXTERNAL_REQUEST_HEADERS,
       redirect: "follow",
       signal: controller.signal,
     })
@@ -421,6 +477,7 @@ async function checkExternalLink(url, contexts) {
     if (response.status === 405 || response.status === 403) {
       response = await fetch(url, {
         method: "GET",
+        headers: EXTERNAL_REQUEST_HEADERS,
         redirect: "follow",
         signal: controller.signal,
       })
