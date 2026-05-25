@@ -14,7 +14,7 @@ export function ProjectEvidenceStrip({ media, onOpen, title }: ProjectEvidenceSt
   if (media.length === 0) return null
 
   return (
-    <section className="terminal-window mt-4" aria-label={`${title} media evidence`}>
+    <section className="terminal-window case-study-terminal mt-4" aria-label={`${title} media evidence`}>
       <div className="terminal-header">
         <div className="terminal-button terminal-button-red"></div>
         <div className="terminal-button terminal-button-yellow"></div>
