@@ -40,7 +40,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Content And Case Study Depth
 
-- [ ] Add a clearer narrative thread from homepage to About to project pages.
 - [ ] Add outcome metrics where safe and credible, especially for Astrocade and operational UX work.
 - [ ] Add a short "how I work" page only if it does not duplicate About or resume content.
 - [ ] Add more explicit accessibility process evidence for SpeakEasy and Transcribe.

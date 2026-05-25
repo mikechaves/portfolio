@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, Github, ExternalLink } from "lucide-react"
+import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
 import { ImageModal } from "@/components/image-modal"
@@ -214,6 +214,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 </span>
               ))}
             </p>
+            <p>
+              <span className="text-primary">proof role:</span> concrete
+              evidence for the operating model
+            </p>
           </div>
         </div>
       </div>
@@ -223,6 +227,12 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <div className="case-study-overview space-y-3">
             <h2 className="case-study-section-title">Project Overview</h2>
             <p className="case-study-detail-body">{project.description || "No description available."}</p>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80"
+            >
+              Revisit operating model <ArrowRight size={14} />
+            </Link>
           </div>
 
           {projectLinks.length > 0 && (

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode, useTransition } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { Activity, Cpu, Download, Github, Linkedin, Mail, Network, RefreshCw, type LucideIcon } from "lucide-react"
+import { Activity, ArrowRight, Cpu, Download, Github, Linkedin, Mail, Network, RefreshCw, type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -65,6 +65,24 @@ const selectedProofPoints = [
   {
     id: "enterprise-systems",
     text: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
+  },
+]
+
+const narrativeThreadItems = [
+  {
+    id: "thesis",
+    label: "01 / Thesis",
+    text: "The homepage frames the core position: AI-native product systems for messy workflows where automation and judgment meet.",
+  },
+  {
+    id: "operating-model",
+    label: "02 / Operating Model",
+    text: "This page explains the working model: define workflows, design interfaces, build prototypes, calibrate loops, and ship usable systems.",
+  },
+  {
+    id: "proof",
+    label: "03 / Proof",
+    text: "Project pages show the artifacts behind that model across AI QA, creator tools, automation, accessibility, and immersive systems.",
   },
 ]
 
@@ -419,6 +437,51 @@ export default function AboutPage() {
                   {paragraph.text}
                 </p>
               ))}
+            </TerminalWindow>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold mb-6">From Positioning To Proof</h2>
+            <TerminalWindow title="narrative_thread.sh" contentClassName="space-y-5">
+              <div className="space-y-2">
+                <p>
+                  <span className="text-primary">$</span> trace portfolio_throughline
+                </p>
+                <p className="text-muted-foreground">
+                  The throughline is simple: I turn ambiguous human/AI workflows
+                  into product systems people can operate, evaluate, and improve.
+                </p>
+              </div>
+              <ol className="grid gap-3 md:grid-cols-3">
+                {narrativeThreadItems.map((item) => (
+                  <li
+                    key={item.id}
+                    className="rounded border border-primary/20 bg-background/50 p-4"
+                  >
+                    <p className="mb-2 font-mono text-xs uppercase text-primary">
+                      {item.label}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{item.text}</p>
+                  </li>
+                ))}
+              </ol>
+              <div className="flex flex-wrap gap-3 border-t border-primary/20 pt-4">
+                <Button asChild size="sm">
+                  <Link
+                    href={{
+                      pathname: "/projects",
+                      query: { focus: "human-in-the-loop AI systems" },
+                    }}
+                  >
+                    View AI Proofs <ArrowRight size={14} />
+                  </Link>
+                </Button>
+                <Button asChild size="sm" variant="outline">
+                  <Link href="/projects/astrocade-qa-calibration-tool">
+                    Start With Astrocade <ArrowRight size={14} />
+                  </Link>
+                </Button>
+              </div>
             </TerminalWindow>
           </section>
 
