@@ -273,6 +273,16 @@ export function HeroBackground() {
       renderer.render(scene, camera)
     }
 
+    let animationActive = false
+
+    const stopAnimation = () => {
+      if (!animationActive) return
+
+      cancelAnimationFrame(frameRef.current)
+      frameRef.current = 0
+      animationActive = false
+    }
+
     const handleScroll = () => {
       if (reducedMotionRef.current) {
         renderStill()
@@ -282,7 +292,10 @@ export function HeroBackground() {
     const handleReducedMotionChange = () => {
       reducedMotionRef.current = reducedMotionQuery.matches
       if (reducedMotionRef.current) {
+        stopAnimation()
         renderStill()
+      } else {
+        startAnimation()
       }
     }
 
@@ -291,11 +304,10 @@ export function HeroBackground() {
     reducedMotionQuery.addEventListener("change", handleReducedMotionChange)
 
     const animate = () => {
-      frameRef.current = requestAnimationFrame(animate)
+      if (!animationActive) return
 
-      if (document.hidden) return
-      if (reducedMotionRef.current) {
-        renderStill()
+      if (document.hidden) {
+        frameRef.current = requestAnimationFrame(animate)
         return
       }
 
@@ -334,12 +346,20 @@ export function HeroBackground() {
       grid.rotation.x = Math.PI / 5 + Math.sin(time * 0.08) * (isMobile ? 0.02 : 0.035)
 
       renderer.render(scene, camera)
+      frameRef.current = requestAnimationFrame(animate)
+    }
+
+    function startAnimation() {
+      if (animationActive || reducedMotionRef.current) return
+
+      animationActive = true
+      frameRef.current = requestAnimationFrame(animate)
     }
 
     if (reducedMotionRef.current) {
       renderStill()
     } else {
-      animate()
+      startAnimation()
     }
 
     return () => {
