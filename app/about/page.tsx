@@ -566,6 +566,7 @@ export default function AboutPage() {
                       href="https://github.com/mikechaves"
                       className="flex items-center gap-2 hover:text-primary transition-colors"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <Github size={16} />
                       github.com/mikechaves
@@ -577,7 +578,7 @@ export default function AboutPage() {
                       href="https://x.com/mikechaves_io"
                       className="flex items-center gap-2 hover:text-primary transition-colors"
                       target="_blank"
-                      //rel="noopener noreferrer"
+                      rel="noopener noreferrer"
                     >
                       <span className="w-4 h-4 flex items-center justify-center">
                         <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
@@ -591,6 +592,7 @@ export default function AboutPage() {
                       href="https://www.linkedin.com/in/mikejchaves"
                       className="flex items-center gap-2 hover:text-primary transition-colors"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <Linkedin size={16} />
                       linkedin.com/in/mikejchaves
@@ -598,14 +600,13 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="mb-1 text-primary">mail0:</p>
-                    {/* Use regular anchor tag for mailto link */}
-                    <Link
+                    <a
                       href="mailto:founder@gowizzo.io"
                       className="flex items-center gap-2 hover:text-primary transition-colors"
                     >
                       <Mail size={16} />
                       founder@gowizzo.io
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </TerminalWindow>

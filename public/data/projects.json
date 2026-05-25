@@ -343,7 +343,7 @@
     "gallery": [
       "/projects/apt-plus/aptplus-prototype.png",
       "/projects/apt-plus/aptplus-interface.png",
-      "/projects/apt-plus/aptplus-walkpatternanalysis.png"
+      "/projects/apt-plus/aptplus-walkpatternanalysis.PNG"
     ],
     "details": {
       "client": "Ford Motor Company",
@@ -440,7 +440,7 @@
       "Accessibility"
     ],
     "github": "",
-    "demo": "https://mikechaves.vercel.app",
+    "demo": "",
     "gallery": [
       "/projects/transcribe/situation.png",
       "/projects/transcribe/action.png",

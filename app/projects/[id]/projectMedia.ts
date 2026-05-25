@@ -59,7 +59,7 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       caption: "Core UI evidence for the time-study capture and review workflow.",
       section: "action",
     },
-    "/projects/apt-plus/aptplus-walkpatternanalysis.png": {
+    "/projects/apt-plus/aptplus-walkpatternanalysis.PNG": {
       label: "Walk-pattern analysis",
       caption: "Analysis view connecting captured movement data to operational decisions.",
       section: "result",
