@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
+import type { ReactNode } from "react"
 import { ImageModal } from "@/components/image-modal"
 import type { Project as ProjectSummary } from "@/types/project"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
@@ -49,6 +50,44 @@ interface Project {
 
 interface ProjectPageClientProps {
   project: Project
+}
+
+function CaseStudySection({
+  children,
+  evidence,
+  title,
+}: {
+  children: ReactNode
+  evidence?: ReactNode
+  title: string
+}) {
+  return (
+    <section className="case-study-section space-y-4">
+      <h2 className="case-study-section-title">{title}</h2>
+      {children}
+      {evidence}
+    </section>
+  )
+}
+
+function DetailTextCard({ text }: { text: string }) {
+  return (
+    <div className="case-study-detail-card">
+      <p className="case-study-detail-body">{text}</p>
+    </div>
+  )
+}
+
+function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) {
+  return (
+    <div className="case-study-detail-card">
+      <h3 className="case-study-detail-title">
+        <span className="case-study-detail-marker">{marker}</span>
+        <span>{item.title}</span>
+      </h3>
+      <p className="case-study-detail-body mt-2">{item.description}</p>
+    </div>
+  )
 }
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
@@ -143,18 +182,18 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <ArrowLeft size={16} /> Back to projects
       </Link>
 
-      <div className="terminal-window">
+      <div className="terminal-window case-study-terminal">
         <div className="terminal-header">
           <div className="terminal-button terminal-button-red"></div>
           <div className="terminal-button terminal-button-yellow"></div>
           <div className="terminal-button terminal-button-green"></div>
           <div className="terminal-title">project_details.sh</div>
         </div>
-        <div className="terminal-content">
-          <p className="mb-2">
+        <div className="terminal-content case-study-meta">
+          <p className="case-study-command">
             <span className="text-primary">$</span> cat {project.id}.json
           </p>
-          <div className="mb-4">
+          <div className="case-study-meta-grid">
             <p>
               <span className="text-primary">title:</span> {project.title}
             </p>
@@ -167,7 +206,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             <p>
               <span className="text-primary">date:</span> {project.details.date}
             </p>
-            <p className="flex flex-wrap gap-2 mt-2">
+            <p className="case-study-stack-row">
               <span className="text-primary">stack:</span>
               {project.technologies.map((tech: string, index: number) => (
                 <span key={index} className="text-xs px-2 py-1 bg-secondary text-secondary-foreground rounded">
@@ -181,9 +220,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
         <div className="space-y-5 lg:order-2">
-          <div className="prose prose-invert max-w-none">
-            <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
-            <p className="text-muted-foreground">{project.description || "No description available."}</p>
+          <div className="case-study-overview space-y-3">
+            <h2 className="case-study-section-title">Project Overview</h2>
+            <p className="case-study-detail-body">{project.description || "No description available."}</p>
           </div>
 
           {projectLinks.length > 0 && (
@@ -212,118 +251,71 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       </div>
 
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Situation</h2>
-          <div className="border border-zinc-800 rounded-md p-4 bg-black">
-            <p className="text-zinc-300">{project.details.situation}</p>
-          </div>
-          {renderEvidence("situation", "Situation")}
-        </div>
+        <CaseStudySection title="Situation" evidence={renderEvidence("situation", "Situation")}>
+          <DetailTextCard text={project.details.situation} />
+        </CaseStudySection>
       )}
 
       {project.details && project.details.situation && Array.isArray(project.details.situation) && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Situation</h2>
-          <div className="space-y-4">
+        <CaseStudySection title="Situation" evidence={renderEvidence("situation", "Situation")}>
+          <div className="case-study-detail-grid">
             {project.details.situation.map((item: DetailItem, index: number) => (
-              <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
-                <h3 className="text-lg font-bold mb-2 flex items-center">
-                  <span className="text-primary mr-2">•</span> {item.title}
-                </h3>
-                <p className="text-zinc-400">{item.description}</p>
-              </div>
+              <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>
-          {renderEvidence("situation", "Situation")}
-        </div>
+        </CaseStudySection>
       )}
 
       {project.details && project.details.task && typeof project.details.task === "string" && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Task</h2>
-          <div className="border border-zinc-800 rounded-md p-4 bg-black">
-            <p className="text-zinc-300">{project.details.task}</p>
-          </div>
-          {renderEvidence("task", "Task")}
-        </div>
+        <CaseStudySection title="Task" evidence={renderEvidence("task", "Task")}>
+          <DetailTextCard text={project.details.task} />
+        </CaseStudySection>
       )}
 
       {project.details && project.details.task && Array.isArray(project.details.task) && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Task</h2>
-          <div className="space-y-4">
+        <CaseStudySection title="Task" evidence={renderEvidence("task", "Task")}>
+          <div className="case-study-detail-grid">
             {project.details.task.map((item: DetailItem, index: number) => (
-              <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
-                <h3 className="text-lg font-bold mb-2 flex items-center">
-                  <span className="text-primary mr-2">•</span> {item.title}
-                </h3>
-                <p className="text-zinc-400">{item.description}</p>
-              </div>
+              <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>
-          {renderEvidence("task", "Task")}
-        </div>
+        </CaseStudySection>
       )}
 
       {project.details && project.details.actions && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Action</h2>
-          <div className="space-y-4">
+        <CaseStudySection title="Action" evidence={renderEvidence("action", "Action")}>
+          <div className="case-study-detail-grid">
             {project.details.actions.map((action: DetailItem, index: number) => (
-              <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
-                <h3 className="text-lg font-bold mb-2 flex items-center">
-                  <span className="text-primary mr-2">{index + 1}.</span> {action.title}
-                </h3>
-                <p className="text-zinc-400">{action.description}</p>
-              </div>
+              <DetailItemCard key={index} item={action} marker={`${index + 1}.`} />
             ))}
           </div>
-          {renderEvidence("action", "Action")}
-        </div>
+        </CaseStudySection>
       )}
 
       {project.details && project.details.results && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Result</h2>
-          <div className="space-y-4">
+        <CaseStudySection title="Result" evidence={renderEvidence("result", "Result")}>
+          <div className="case-study-detail-grid">
             {project.details.results.map((result: DetailItem, index: number) => (
-              <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
-                <h3 className="text-lg font-bold mb-2 flex items-center">
-                  <span className="text-primary mr-2">•</span> {result.title}
-                </h3>
-                <p className="text-zinc-400">{result.description}</p>
-              </div>
+              <DetailItemCard key={index} item={result} marker="•" />
             ))}
           </div>
-          {renderEvidence("result", "Result")}
-        </div>
+        </CaseStudySection>
       )}
 
       {project.details && project.details.result && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Result</h2>
-          <div className="border border-zinc-800 rounded-md p-4 bg-black">
-            <p className="text-zinc-300">{project.details.result}</p>
-          </div>
-          {renderEvidence("result", "Result")}
-        </div>
+        <CaseStudySection title="Result" evidence={renderEvidence("result", "Result")}>
+          <DetailTextCard text={project.details.result} />
+        </CaseStudySection>
       )}
 
       {project.details && project.details.exhibition && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Exhibition & Future Directions</h2>
-          <div className="space-y-4">
+        <CaseStudySection title="Exhibition & Future Directions" evidence={renderEvidence("exhibition", "Exhibition")}>
+          <div className="case-study-detail-grid">
             {project.details.exhibition.map((item: DetailItem, index: number) => (
-              <div key={index} className="border border-zinc-800 rounded-md p-4 bg-black">
-                <h3 className="text-lg font-bold mb-2 flex items-center">
-                  <span className="text-primary mr-2">•</span> {item.title}
-                </h3>
-                <p className="text-zinc-400">{item.description}</p>
-              </div>
+              <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>
-          {renderEvidence("exhibition", "Exhibition")}
-        </div>
+        </CaseStudySection>
       )}
       <ImageModal
         open={selectedIndex !== null}

@@ -54,7 +54,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Design System And UI Polish
 
-- [ ] Review terminal-window spacing and typography consistency across case studies.
 - [ ] Add clearer active states for project filters if usage testing shows confusion.
 - [ ] Consider alternate thumbnails for projects whose primary image reads poorly in card crops.
 

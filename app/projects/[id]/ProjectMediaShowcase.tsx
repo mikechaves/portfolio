@@ -22,7 +22,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
   const supportingMedia = media.slice(1)
 
   return (
-    <section className={cn("terminal-window overflow-hidden", className)} aria-label="Project media">
+    <section className={cn("terminal-window case-study-terminal overflow-hidden", className)} aria-label="Project media">
       <div className="terminal-header">
         <div className="terminal-button terminal-button-red"></div>
         <div className="terminal-button terminal-button-yellow"></div>
