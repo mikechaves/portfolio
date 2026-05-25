@@ -8,9 +8,12 @@ type ProjectCardProps = Project & {
 
 export function ProjectCard({ id, title, description, image, technologies, priority }: ProjectCardProps) {
   return (
-    <Link href={`/projects/${id}`}>
+    <Link
+      href={`/projects/${id}`}
+      className="block h-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    >
       <div className="card-hover bg-card rounded-md overflow-hidden h-full flex flex-col">
-        <div className="relative h-48">
+        <div className="relative aspect-[16/10] min-h-44">
           <Image
             src={
               image ||

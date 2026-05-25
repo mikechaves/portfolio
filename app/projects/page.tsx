@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -43,6 +43,7 @@ export default function ProjectsPage() {
   const [display, setDisplay] = useState<Project[]>([])
   const skipFilterEffect = useRef(false)
   const didHydrateFocusRef = useRef(false)
+  const adaptiveInputId = useId()
 
   const handleAdaptiveFocus = useCallback((value?: string) => {
     const input = (value ?? query).trim()
@@ -156,8 +157,10 @@ export default function ProjectsPage() {
         {CATEGORIES.map((category) => (
           <button
             key={category.id}
+            type="button"
             onClick={() => setActiveFilter(category.id)}
-            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+            aria-pressed={activeFilter === category.id}
+            className={`px-3 py-1 text-sm rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               activeFilter === category.id
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -176,7 +179,11 @@ export default function ProjectsPage() {
             handleAdaptiveFocus()
           }}
         >
+          <label htmlFor={adaptiveInputId} className="sr-only">
+            Describe what you want to evaluate
+          </label>
           <Input
+            id={adaptiveInputId}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Describe what you want to evaluate (e.g. hiring for AI design engineer)"
@@ -196,7 +203,7 @@ export default function ProjectsPage() {
               key={example}
               type="button"
               onClick={() => handleAdaptiveFocus(example)}
-              className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+              className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               {example}
             </button>
@@ -216,7 +223,7 @@ export default function ProjectsPage() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {display.slice(0, showAll ? display.length : initialLimit).map((project) => (
+          {display.slice(0, showAll ? display.length : initialLimit).map((project, index) => (
             <ProjectCard
               key={project.id}
               id={project.id}
@@ -225,6 +232,7 @@ export default function ProjectsPage() {
               image={project.image}
               technologies={project.technologies}
               category={project.category}
+              priority={index === 0}
             />
           ))}
         </div>

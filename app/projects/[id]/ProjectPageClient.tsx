@@ -116,6 +116,8 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   }, [images.length])
 
   useEffect(() => {
+    if (selectedIndex === null || images.length <= 1) return
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
         handleNext()
@@ -125,7 +127,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
     }
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
-  }, [handleNext, handlePrev])
+  }, [handleNext, handlePrev, images.length, selectedIndex])
 
   const renderEvidence = (section: ProjectEvidenceSection, title: string) => {
     const sectionMedia = getSectionMedia(media, section)
@@ -192,7 +194,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${link.style}`}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${link.style}`}
                 >
                   {link.type === "github" ? <Github size={16} /> : <ExternalLink size={16} />}
                   {link.label}
@@ -328,8 +330,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         onOpenChange={(o) => !o && closeModal()}
         src={selectedMedia?.src || ""}
         alt={selectedMedia?.alt || project.title}
-        onPrev={handlePrev}
-        onNext={handleNext}
+        caption={selectedMedia?.caption}
+        onPrev={images.length > 1 ? handlePrev : undefined}
+        onNext={images.length > 1 ? handleNext : undefined}
+        title={selectedMedia?.label}
       />
     </div>
   )

@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useId, useState } from "react"
 import Link from "next/link"
+import { useReducedMotion } from "framer-motion"
 import { ProjectFilter } from "@/components/project-filter"
 import { BlogCard } from "@/components/blog-card"
 import { ArrowRight } from "lucide-react"
@@ -39,9 +40,17 @@ const HOME_HERO_LINES = [
 function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
   const [displayedText, setDisplayedText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
+  const shouldReduceMotion = useReducedMotion()
   const fullText = HOME_HERO_LINES.join("\n")
 
   useEffect(() => {
+    if (shouldReduceMotion) {
+      setDisplayedText(fullText)
+      setIsTyping(false)
+      onComplete()
+      return
+    }
+
     let currentIndex = 0
     let timer: ReturnType<typeof setTimeout> | undefined
 
@@ -66,7 +75,7 @@ function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
     return () => {
       if (timer) clearTimeout(timer)
     }
-  }, [fullText, onComplete])
+  }, [fullText, onComplete, shouldReduceMotion])
 
   const renderedLines = displayedText.split("\n")
 
@@ -110,6 +119,7 @@ function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
   const [focusQuery, setFocusQuery] = useState("")
+  const focusInputId = useId()
   const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
 
   const latestPosts = [
@@ -203,7 +213,11 @@ export default function Home() {
                 window.location.href = `/projects?focus=${encodeURIComponent(q)}`
               }}
             >
+              <label htmlFor={focusInputId} className="sr-only">
+                Describe the role, client need, or project proof to focus
+              </label>
               <Input
+                id={focusInputId}
                 value={focusQuery}
                 onChange={(e) => setFocusQuery(e.target.value)}
                 placeholder="e.g. I'm hiring for an AI-native design engineer"
@@ -217,7 +231,7 @@ export default function Home() {
                   key={example}
                   type="button"
                   onClick={() => (window.location.href = `/projects?focus=${encodeURIComponent(example)}`)}
-                  className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                  className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   {example}
                 </button>
