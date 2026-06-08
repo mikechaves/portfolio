@@ -13,6 +13,12 @@ export const PROJECT_FOCUS_METADATA: Record<string, ProjectFocusMetadata> = {
     signals: ["ai", "product", "creative-tech", "prototyping"],
     weight: 1.25,
   },
+  "petition-ready": {
+    id: "petition-ready",
+    tags: ["ai", "legal-ops", "bankruptcy", "paralegal", "intake", "readiness", "workflow"],
+    signals: ["ai", "product", "design-engineering"],
+    weight: 1.25,
+  },
   speakeasy: {
     id: "speakeasy",
     tags: ["voice", "xr", "accessibility", "inclusive"],
