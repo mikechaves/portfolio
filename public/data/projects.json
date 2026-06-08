@@ -678,96 +678,95 @@
       ]
     }
   },
-  "sound-escape-vr": {
-    "title": "Sound Escape VR",
-    "category": "ar-vr",
-    "description": "Built a VR music creation prototype that combines a grid-based sequencer, real-time audio visualization, and responsive world-building to make spatial composition feel approachable.",
-    "image": "/projects/soundescape/main-image.jpg",
+  "petition-ready": {
+    "title": "PetitionReady",
+    "category": "development",
+    "description": "Built an AI-assisted bankruptcy intake readiness console for paralegals, focused on case blockers, document gaps, readiness scoring, client follow-up, and attorney-review packet preparation without crossing into legal advice.",
+    "image": "/projects/petition-ready/main-image.png",
     "technologies": [
-      "Unity3D",
-      "C#",
-      "VR Development",
-      "Audio Visualization",
-      "Interactive Music"
+      "Next.js",
+      "TypeScript",
+      "OpenAI Responses API",
+      "Zod",
+      "Vitest",
+      "Legal Ops UX"
     ],
-    "github": "https://github.com/mikechaves/sound-escape-vr",
-    "demo": "https://www.youtube.com/watch?v=z2tbf1AHm7w",
-    "gallery": [],
+    "github": "https://github.com/mikechaves/petition-ready-bankruptcy-intake",
+    "demo": "https://petition-ready-bankruptcy-intake.vercel.app/",
+    "gallery": [
+      "/projects/petition-ready/notifications.png",
+      "/projects/petition-ready/selected-dashboard-state.jpeg",
+      "/projects/petition-ready/matter-inspector.jpeg",
+      "/projects/petition-ready/copilot-review-state.png"
+    ],
     "details": {
       "client": "Personal Project",
-      "date": "March 2023",
-      "category": "Spatial Interaction Prototype",
+      "date": "June 2026",
+      "category": "AI Legal Operations Prototype",
       "services": [
-        "VR Development",
-        "Audio Programming",
-        "Interactive Design"
+        "Product Systems Design",
+        "AI Workflow Design",
+        "Frontend Engineering",
+        "Operational UX"
       ],
       "situation": [
         {
           "title": "Overview",
-          "description": "Virtual reality offers unique opportunities for music creation and visualization, but many existing applications either focus solely on professional music production or provide only passive music visualization experiences. There was a gap in the market for accessible, intuitive music creation tools that leverage the immersive potential of VR."
+          "description": "Bankruptcy firms lose time when intake packets are incomplete, income data conflicts, creditor addresses are missing, documents are rejected, or payment status is unclear. Those exceptions often surface late, after a paralegal has already started assembling a packet for attorney review."
         },
         {
           "title": "Challenge",
-          "description": "How might we create an engaging VR experience that allows users with varying levels of musical expertise to create and visualize music in an intuitive, embodied way?"
+          "description": "The product needed to answer one practical workflow question: can this client matter move toward attorney review, and if not, what exact blocker should the paralegal resolve next?"
         },
         {
-          "title": "Context",
-          "description": "The rise of consumer VR headsets like Meta Quest 3 has created new opportunities for innovative music applications that go beyond traditional interfaces."
+          "title": "Guardrail",
+          "description": "The prototype intentionally focuses on readiness, blockers, evidence, and attorney-review preparation instead of automated filing, legal advice, eligibility decisions, or petition generation."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The goal was to develop an immersive VR application that combines music creation with visual feedback in a cohesive, engaging experience. The project needed to:"
+          "title": "Readiness Console",
+          "description": "Design and build a working dashboard that gives paralegals a clear view of active matters, blocker counts, readiness scores, queue status, and next actions."
         },
         {
-          "title": "Simplify Music Creation",
-          "description": "by implementing an intuitive grid-based sequencer that doesn't require musical expertise."
+          "title": "Case-Grounded AI",
+          "description": "Use structured AI outputs to summarize blockers, find conflicts, draft client follow-ups, and compile attorney-review briefs from the current case packet."
         },
         {
-          "title": "Enhance Immersion",
-          "description": "through real-time audio visualization that responds dynamically to user-created sounds."
-        },
-        {
-          "title": "Optimize Performance",
-          "description": "to ensure smooth operation on standalone VR headsets like the Meta Quest 3."
+          "title": "Reviewer-Safe Prototype",
+          "description": "Make the demo useful without credentials through deterministic local fallback analysis, while preserving the same UI shape when model calls are unavailable."
         }
       ],
       "actions": [
         {
-          "title": "Technical Architecture",
-          "description": "Developed the application using Unity3D with C# as the primary programming language. Implemented custom shaders for responsive visual effects and optimized audio processing for real-time feedback."
+          "title": "Modeled the bankruptcy intake domain",
+          "description": "Created seeded Chapter 7 and Chapter 13 matters with client facts, document states, retainer status, issues, readiness stages, raw notes, and blocker metadata."
         },
         {
-          "title": "User Interface Design",
-          "description": "Created an intuitive spatial interface that leverages natural hand movements for music composition, allowing users to place notes on a three-dimensional grid sequencer."
+          "title": "Built the operational dashboard",
+          "description": "Implemented readiness summary cards, matter queue pagination, status badges, selected matter details, top blockers, next paralegal action, and attorney-review item surfaces."
         },
         {
-          "title": "Audio-Visual Integration",
-          "description": "Programmed a system that translates musical parameters (pitch, volume, rhythm) into visual elements that transform the environment, creating a synesthetic experience."
+          "title": "Implemented AI-assisted review flows",
+          "description": "Built Paralegal Copilot prompt modes for blocker analysis, conflict checks, client follow-up drafts, and attorney-review brief compilation with structured JSON validation."
         },
         {
-          "title": "Performance Optimization",
-          "description": "Reworked the original Oculus implementation to ensure optimal performance on Meta Quest 3, focusing on maintaining high frame rates while preserving visual quality."
+          "title": "Added deterministic fallback behavior",
+          "description": "Created local analysis for readiness scoring, blocker detection, follow-up generation, and brief assembly so reviewers can evaluate the full workflow without an OpenAI key."
         }
       ],
       "results": [
         {
-          "title": "Overview",
-          "description": "Sound Escape VR successfully bridges the gap between music creation and visualization in virtual reality:"
+          "title": "Clear human-in-the-loop AI boundary",
+          "description": "PetitionReady keeps the paralegal and attorney review loop visible by grounding outputs in supplied case evidence and avoiding legal conclusions."
         },
         {
-          "title": "Intuitive Music Creation",
-          "description": "Users can quickly learn to create musical patterns using the grid-based sequencer, regardless of their prior musical experience."
+          "title": "Operational UX proof",
+          "description": "The interface turns messy intake state into a queue, score, issue list, evidence snapshot, and next action that a paralegal can operate repeatedly."
         },
         {
-          "title": "Immersive Audio-Visual Experience",
-          "description": "The environment reacts and transforms in sync with user-created music, creating a deeply engaging experience that connects sound and visuals."
-        },
-        {
-          "title": "Technical Achievement",
-          "description": "Successfully optimized for Meta Quest 3, demonstrating the ability to create complex, interactive experiences for standalone VR headsets."
+          "title": "Production-minded prototype",
+          "description": "The repo includes typed domain models, structured AI response validation, focused Vitest coverage, and a Vercel demo that works with or without model credentials."
         }
       ]
     }
@@ -1047,6 +1046,100 @@
       ]
     }
   },
+  "sound-escape-vr": {
+    "title": "Sound Escape VR",
+    "category": "ar-vr",
+    "description": "Built a VR music creation prototype that combines a grid-based sequencer, real-time audio visualization, and responsive world-building to make spatial composition feel approachable.",
+    "image": "/projects/soundescape/main-image.jpg",
+    "technologies": [
+      "Unity3D",
+      "C#",
+      "VR Development",
+      "Audio Visualization",
+      "Interactive Music"
+    ],
+    "github": "https://github.com/mikechaves/sound-escape-vr",
+    "demo": "https://www.youtube.com/watch?v=z2tbf1AHm7w",
+    "gallery": [],
+    "details": {
+      "client": "Personal Project",
+      "date": "March 2023",
+      "category": "Spatial Interaction Prototype",
+      "services": [
+        "VR Development",
+        "Audio Programming",
+        "Interactive Design"
+      ],
+      "situation": [
+        {
+          "title": "Overview",
+          "description": "Virtual reality offers unique opportunities for music creation and visualization, but many existing applications either focus solely on professional music production or provide only passive music visualization experiences. There was a gap in the market for accessible, intuitive music creation tools that leverage the immersive potential of VR."
+        },
+        {
+          "title": "Challenge",
+          "description": "How might we create an engaging VR experience that allows users with varying levels of musical expertise to create and visualize music in an intuitive, embodied way?"
+        },
+        {
+          "title": "Context",
+          "description": "The rise of consumer VR headsets like Meta Quest 3 has created new opportunities for innovative music applications that go beyond traditional interfaces."
+        }
+      ],
+      "task": [
+        {
+          "title": "Overview",
+          "description": "The goal was to develop an immersive VR application that combines music creation with visual feedback in a cohesive, engaging experience. The project needed to:"
+        },
+        {
+          "title": "Simplify Music Creation",
+          "description": "by implementing an intuitive grid-based sequencer that doesn't require musical expertise."
+        },
+        {
+          "title": "Enhance Immersion",
+          "description": "through real-time audio visualization that responds dynamically to user-created sounds."
+        },
+        {
+          "title": "Optimize Performance",
+          "description": "to ensure smooth operation on standalone VR headsets like the Meta Quest 3."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Technical Architecture",
+          "description": "Developed the application using Unity3D with C# as the primary programming language. Implemented custom shaders for responsive visual effects and optimized audio processing for real-time feedback."
+        },
+        {
+          "title": "User Interface Design",
+          "description": "Created an intuitive spatial interface that leverages natural hand movements for music composition, allowing users to place notes on a three-dimensional grid sequencer."
+        },
+        {
+          "title": "Audio-Visual Integration",
+          "description": "Programmed a system that translates musical parameters (pitch, volume, rhythm) into visual elements that transform the environment, creating a synesthetic experience."
+        },
+        {
+          "title": "Performance Optimization",
+          "description": "Reworked the original Oculus implementation to ensure optimal performance on Meta Quest 3, focusing on maintaining high frame rates while preserving visual quality."
+        }
+      ],
+      "results": [
+        {
+          "title": "Overview",
+          "description": "Sound Escape VR successfully bridges the gap between music creation and visualization in virtual reality:"
+        },
+        {
+          "title": "Intuitive Music Creation",
+          "description": "Users can quickly learn to create musical patterns using the grid-based sequencer, regardless of their prior musical experience."
+        },
+        {
+          "title": "Immersive Audio-Visual Experience",
+          "description": "The environment reacts and transforms in sync with user-created music, creating a deeply engaging experience that connects sound and visuals."
+        },
+        {
+          "title": "Technical Achievement",
+          "description": "Successfully optimized for Meta Quest 3, demonstrating the ability to create complex, interactive experiences for standalone VR headsets."
+        }
+      ]
+    }
+  },
   "portals": {
     "title": "Portals",
     "category": "ar-vr",
@@ -1145,6 +1238,49 @@
       ]
     }
   },
+  "die-ai": {
+    "title": "Die, AI!",
+    "category": "web",
+    "description": "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
+    "image": "/projects/die-ai/main-image.png",
+    "technologies": [
+      "ActionScript",
+      "Adobe Animate",
+      "Ruffle"
+    ],
+    "github": "https://github.com/mikechaves/dieai-flash",
+    "demo": "https://mikechaves.github.io/dieai-flash/",
+    "gallery": [
+      "/projects/die-ai/start-screen.png",
+      "/projects/die-ai/intro-good.png",
+      "/projects/die-ai/intro-hacked.png",
+      "/projects/die-ai/level-one.png",
+      "/projects/die-ai/game-over.png"
+    ],
+    "details": {
+      "client": "Personal Project",
+      "date": "Fall 2018, renewed 2025",
+      "category": "Flash Game Development",
+      "services": [
+        "Game Design",
+        "ActionScript",
+        "Animation"
+      ],
+      "situation": "Hackers reprogrammed AICorp's Buddy Bots to break out and destroy humanity. Dr. Gimmstein must stop them with his prototype laser gun.",
+      "task": "Create a simple Flash game inspired by a shoot-em-up template and enhance it with levels, intro screens, and audio.",
+      "actions": [
+        {
+          "title": "Custom ActionScript Mechanics",
+          "description": "Extended a Shoot game template with health bars, lasers, enemy AI, and Greensock transitions."
+        },
+        {
+          "title": "Ruffle Revival",
+          "description": "Repackaged the original SWF with an HTML loader using the Ruffle WebAssembly emulator."
+        }
+      ],
+      "result": "A playable Flash demo preserved for the modern web."
+    }
+  },
   "ai-energy-consumption": {
     "title": "AI Energy Consumption",
     "category": "web",
@@ -1225,49 +1361,6 @@
           "description": "Successfully integrated complex 3D graphics with data visualization techniques in a web-based application that performs well across different devices."
         }
       ]
-    }
-  },
-  "die-ai": {
-    "title": "Die, AI!",
-    "category": "web",
-    "description": "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
-    "image": "/projects/die-ai/main-image.png",
-    "technologies": [
-      "ActionScript",
-      "Adobe Animate",
-      "Ruffle"
-    ],
-    "github": "https://github.com/mikechaves/dieai-flash",
-    "demo": "https://mikechaves.github.io/dieai-flash/",
-    "gallery": [
-      "/projects/die-ai/start-screen.png",
-      "/projects/die-ai/intro-good.png",
-      "/projects/die-ai/intro-hacked.png",
-      "/projects/die-ai/level-one.png",
-      "/projects/die-ai/game-over.png"
-    ],
-    "details": {
-      "client": "Personal Project",
-      "date": "Fall 2018, renewed 2025",
-      "category": "Flash Game Development",
-      "services": [
-        "Game Design",
-        "ActionScript",
-        "Animation"
-      ],
-      "situation": "Hackers reprogrammed AICorp's Buddy Bots to break out and destroy humanity. Dr. Gimmstein must stop them with his prototype laser gun.",
-      "task": "Create a simple Flash game inspired by a shoot-em-up template and enhance it with levels, intro screens, and audio.",
-      "actions": [
-        {
-          "title": "Custom ActionScript Mechanics",
-          "description": "Extended a Shoot game template with health bars, lasers, enemy AI, and Greensock transitions."
-        },
-        {
-          "title": "Ruffle Revival",
-          "description": "Repackaged the original SWF with an HTML loader using the Ruffle WebAssembly emulator."
-        }
-      ],
-      "result": "A playable Flash demo preserved for the modern web."
     }
   }
 }

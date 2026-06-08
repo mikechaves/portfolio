@@ -18,6 +18,7 @@ const AI_PROJECT_IDS = [
   "wizzo",
   "x-games",
   "speakeasy",
+  "petition-ready",
   "creative-supply-engine",
   "vulnerability-visualizer",
 ]

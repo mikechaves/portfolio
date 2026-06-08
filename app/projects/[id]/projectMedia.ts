@@ -219,6 +219,32 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       section: "result",
     },
   },
+  "petition-ready": {
+    "/projects/petition-ready/main-image.png": {
+      label: "Matter readiness console",
+      caption: "Primary dashboard for paralegal review, readiness scoring, blockers, attorney-review items, and PetitionReady Copilot evidence.",
+    },
+    "/projects/petition-ready/notifications.png": {
+      label: "Notification workflow",
+      caption: "Dashboard state showing new matter alerts, top blockers, and next paralegal actions in the review queue.",
+      section: "action",
+    },
+    "/projects/petition-ready/selected-dashboard-state.jpeg": {
+      label: "Selected matter review",
+      caption: "Selected-case view connecting readiness score, blocker evidence, and next action for paralegal cleanup.",
+      section: "result",
+    },
+    "/projects/petition-ready/matter-inspector.jpeg": {
+      label: "Matter inspector",
+      caption: "Inspector panel for a retained matter with unresolved payment-plan evidence and attorney-review preparation.",
+      section: "action",
+    },
+    "/projects/petition-ready/copilot-review-state.png": {
+      label: "Copilot evidence snapshot",
+      caption: "PetitionReady Copilot surface for blocker questions, conflict checks, client follow-up drafts, and attorney-review brief compilation.",
+      section: "task",
+    },
+  },
   speakeasy: {
     "/projects/speakeasy/thesis-defense.jpg": {
       label: "Thesis defense",
