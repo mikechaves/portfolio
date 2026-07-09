@@ -25,12 +25,12 @@ interface ProjectMediaCopy {
 const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   "astrocade-qa-calibration-tool": {
     "/projects/astrocade/main-image.jpg": {
-      label: "AI QA review system",
-      caption: "Primary view of the UGC review and calibration workflow built for AI-assisted creator QA.",
+      label: "Human-in-the-loop QA calibration",
+      caption: "Primary review surface showing UGC auto-review decisions, QA annotation, calibration, and creator feedback loops.",
     },
     "/projects/astrocade/hero-image.jpg": {
-      label: "Creator feedback loop",
-      caption: "Supporting artifact for how final review behavior and creator-facing feedback connect.",
+      label: "Final review feedback loop",
+      caption: "Outcome evidence for how final review behavior turns moderation decisions into usable creator feedback.",
       section: "result",
     },
   },
@@ -309,26 +309,26 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   wizzo: {
     "/projects/wizzo/app-interface.png": {
-      label: "Current AI mentor interface",
-      caption: "Current Wizzo product surface from the public beta, centered on chat, goals, voice, and quest follow-through.",
+      label: "AI mentor product cockpit",
+      caption: "Current product surface connecting chat, goals, voice, work context, and quest follow-through.",
       section: "action",
     },
     "/projects/wizzo/main-image.png": {
-      label: "Beta product cockpit",
-      caption: "Earlier beta interface showing the AI adventure mentor, quest status, and progress-oriented navigation.",
+      label: "Quest progress system",
+      caption: "Supporting product evidence showing the AI mentor, quest status, and progress-oriented navigation.",
       section: "result",
     },
   },
   "x-games": {
     "/projects/x-games/main-image.jpg": {
-      label: "AI-generated social game",
-      caption: "Primary browser-game surface showing AI-assisted game generation for X posts.",
+      label: "Post-to-game generation",
+      caption: "Primary product surface showing how an X post becomes a playable browser game through AI-assisted concept generation and social game UX.",
     },
   },
   "vulnerability-visualizer": {
     "/projects/vulnerability-visualizer/main-image.jpg": {
-      label: "AI security triage interface",
-      caption: "Primary reviewer-facing UI for exploring vulnerability severity, ownership, and remediation state.",
+      label: "AI-assisted vulnerability triage",
+      caption: "Primary review surface for severity, status, AI versus manual assessment, comparison, and remediation workflows across large security datasets.",
     },
   },
 }
