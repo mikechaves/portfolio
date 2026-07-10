@@ -56,14 +56,19 @@ interface ProjectPageClientProps {
 function CaseStudySection({
   children,
   evidence,
+  id,
+  kicker,
   title,
 }: {
   children: ReactNode
   evidence?: ReactNode
+  id?: string
+  kicker?: string
   title: string
 }) {
   return (
-    <section className="case-study-section space-y-4">
+    <section id={id} className="case-study-section space-y-4">
+      {kicker && <p className="dossier-section-kicker">{kicker}</p>}
       <h2 className="case-study-section-title">{title}</h2>
       {children}
       {evidence}
@@ -93,6 +98,7 @@ function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) 
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const isEvidenceDossier = project.id === "astrocade-qa-calibration-tool"
   const projectLinks = useMemo(
     () => [
       ...(project.github
@@ -176,99 +182,157 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
     ) : null
   }
 
+  const projectLinkActions = projectLinks.length > 0 && (
+    <div className="flex flex-wrap gap-3">
+      {projectLinks.map((link) => (
+        <a
+          key={`${link.label}-${link.href}`}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex min-h-10 items-center gap-2 border px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+            isEvidenceDossier
+              ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+              : link.style
+          }`}
+        >
+          {link.type === "github" ? <Github size={16} /> : <ExternalLink size={16} />}
+          {link.label}
+        </a>
+      ))}
+    </div>
+  )
+
   return (
-    <div className="space-y-8 pt-8">
-      <h1 className="sr-only">{project.title || "Project Details"}</h1>
-      <Link href="/projects" className="inline-flex items-center gap-2 text-primary hover:underline">
-        <ArrowLeft size={16} /> Back to projects
+    <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
+      {!isEvidenceDossier && <h1 className="sr-only">{project.title || "Project Details"}</h1>}
+      <Link href="/projects" className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary transition-colors hover:text-white">
+        <ArrowLeft size={16} /> Back to systems
       </Link>
 
-      <div className="terminal-window case-study-terminal">
-        <div className="terminal-header">
-          <div className="terminal-button terminal-button-red"></div>
-          <div className="terminal-button terminal-button-yellow"></div>
-          <div className="terminal-button terminal-button-green"></div>
-          <div className="terminal-title">project_details.sh</div>
-        </div>
-        <div className="terminal-content case-study-meta">
-          <p className="case-study-command">
-            <span className="text-primary">$</span> cat {project.id}.json
-          </p>
-          <div className="case-study-meta-grid">
-            <p>
-              <span className="text-primary">title:</span> {project.title}
-            </p>
-            <p>
-              <span className="text-primary">category:</span> {project.category}
-            </p>
-            <p>
-              <span className="text-primary">client:</span> {project.details.client}
-            </p>
-            <p>
-              <span className="text-primary">date:</span> {project.details.date}
-            </p>
-            <p className="case-study-stack-row">
-              <span className="text-primary">stack:</span>
-              {project.technologies.map((tech: string, index: number) => (
-                <span key={index} className="text-xs px-2 py-1 bg-secondary text-secondary-foreground rounded">
-                  {tech}
-                </span>
-              ))}
-            </p>
-            <p>
-              <span className="text-primary">proof role:</span>{" "}
-              {project.details.proofRole || "concrete evidence for the operating model"}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
-        <div className="space-y-5 lg:order-2">
-          <div className="case-study-overview space-y-3">
-            <h2 className="case-study-section-title">Project Overview</h2>
-            <p className="case-study-detail-body">{project.description || "No description available."}</p>
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80"
-            >
-              Revisit operating model <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          {projectLinks.length > 0 && (
-            <div className="flex flex-wrap gap-4">
-              {projectLinks.map((link) => (
-                <a
-                  key={`${link.label}-${link.href}`}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${link.style}`}
-                >
-                  {link.type === "github" ? <Github size={16} /> : <ExternalLink size={16} />}
-                  {link.label}
-                </a>
-              ))}
+      {isEvidenceDossier ? (
+        <>
+          <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
+            <div className="evidence-dossier-status">
+              <span>CASE FILE / AF-01</span>
+              <span>REVIEWED EVIDENCE</span>
+              <span>ACTIVE SYSTEM / {project.details.date}</span>
             </div>
-          )}
-        </div>
 
-        <ProjectMediaShowcase
-          media={media}
-          onOpen={setSelectedIndex}
-          className="lg:order-1"
-        />
-      </div>
+            <div className="evidence-dossier-hero-grid">
+              <div>
+                <p className="evidence-dossier-eyebrow">AI SYSTEMS ENGINEERING / HUMAN CONTROL LAYER</p>
+                <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
+                <p className="evidence-dossier-summary">{project.description}</p>
+                <div className="mt-6">{projectLinkActions}</div>
+              </div>
+
+              <dl className="evidence-dossier-ledger">
+                <div>
+                  <dt>Operating proof</dt>
+                  <dd>{project.details.proofRole}</dd>
+                </div>
+                <div>
+                  <dt>Engagement</dt>
+                  <dd>{project.details.client}</dd>
+                </div>
+                <div>
+                  <dt>Evidence set</dt>
+                  <dd>{media.length} reviewed artifacts</dd>
+                </div>
+                <div>
+                  <dt>Capability coverage</dt>
+                  <dd>{project.details.services?.length || 0} documented areas</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div className="evidence-dossier-capabilities" aria-label="Documented capabilities">
+              {project.details.services?.map((service) => <span key={service}>{service}</span>)}
+            </div>
+          </section>
+
+          <section className="evidence-dossier-artifact" aria-labelledby="primary-artifact-title">
+            <div className="signal-section-heading">
+              <h2 id="primary-artifact-title">Primary artifact</h2>
+              <span>01 / {String(media.length).padStart(2, "0")}</span>
+            </div>
+            <ProjectMediaShowcase media={media} onOpen={setSelectedIndex} />
+          </section>
+        </>
+      ) : (
+        <>
+          <div className="terminal-window case-study-terminal">
+            <div className="terminal-header">
+              <div className="terminal-button terminal-button-red"></div>
+              <div className="terminal-button terminal-button-yellow"></div>
+              <div className="terminal-button terminal-button-green"></div>
+              <div className="terminal-title">project_details.sh</div>
+            </div>
+            <div className="terminal-content case-study-meta">
+              <p className="case-study-command">
+                <span className="text-primary">$</span> cat {project.id}.json
+              </p>
+              <div className="case-study-meta-grid">
+                <p><span className="text-primary">title:</span> {project.title}</p>
+                <p><span className="text-primary">category:</span> {project.category}</p>
+                <p><span className="text-primary">client:</span> {project.details.client}</p>
+                <p><span className="text-primary">date:</span> {project.details.date}</p>
+                <p className="case-study-stack-row">
+                  <span className="text-primary">stack:</span>
+                  {project.technologies.map((tech: string, index: number) => (
+                    <span key={index} className="rounded bg-secondary px-2 py-1 text-xs text-secondary-foreground">{tech}</span>
+                  ))}
+                </p>
+                <p><span className="text-primary">proof role:</span> {project.details.proofRole || "concrete evidence for the operating model"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+            <div className="space-y-5 lg:order-2">
+              <div className="case-study-overview space-y-3">
+                <h2 className="case-study-section-title">Project Overview</h2>
+                <p className="case-study-detail-body">{project.description || "No description available."}</p>
+                <Link href="/about" className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80">
+                  Revisit operating model <ArrowRight size={14} />
+                </Link>
+              </div>
+              {projectLinkActions}
+            </div>
+            <ProjectMediaShowcase media={media} onOpen={setSelectedIndex} className="lg:order-1" />
+          </div>
+        </>
+      )}
+
+      <div className={isEvidenceDossier ? "evidence-dossier-body" : ""}>
+        {isEvidenceDossier && (
+          <aside className="evidence-dossier-index">
+            <nav aria-label="Case study sections">
+              <p>Case index</p>
+              <a href="#situation"><span>01</span> Situation</a>
+              <a href="#mandate"><span>02</span> Mandate</a>
+              <a href="#build"><span>03</span> Build</a>
+              <a href="#outcomes"><span>04</span> Outcomes</a>
+            </nav>
+            <dl>
+              <div><dt>Artifacts</dt><dd>{String(media.length).padStart(2, "0")}</dd></div>
+              <div><dt>Signals</dt><dd>Ground truth / QA / Feedback</dd></div>
+              <div><dt>Integrity</dt><dd>Repository reviewed</dd></div>
+            </dl>
+          </aside>
+        )}
+
+        <div className={isEvidenceDossier ? "evidence-dossier-sections" : "space-y-8"}>
 
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
-        <CaseStudySection title="Situation" evidence={renderEvidence("situation", "Situation")}>
+        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
           <DetailTextCard text={project.details.situation} />
         </CaseStudySection>
       )}
 
       {project.details && project.details.situation && Array.isArray(project.details.situation) && (
-        <CaseStudySection title="Situation" evidence={renderEvidence("situation", "Situation")}>
+        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
           <div className="case-study-detail-grid">
             {project.details.situation.map((item: DetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
@@ -278,13 +342,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.task && typeof project.details.task === "string" && (
-        <CaseStudySection title="Task" evidence={renderEvidence("task", "Task")}>
+        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title={isEvidenceDossier ? "Mandate" : "Task"} evidence={renderEvidence("task", "Task")}>
           <DetailTextCard text={project.details.task} />
         </CaseStudySection>
       )}
 
       {project.details && project.details.task && Array.isArray(project.details.task) && (
-        <CaseStudySection title="Task" evidence={renderEvidence("task", "Task")}>
+        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title={isEvidenceDossier ? "Mandate" : "Task"} evidence={renderEvidence("task", "Task")}>
           <div className="case-study-detail-grid">
             {project.details.task.map((item: DetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
@@ -294,7 +358,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.actions && (
-        <CaseStudySection title="Action" evidence={renderEvidence("action", "Action")}>
+        <CaseStudySection id="build" kicker={isEvidenceDossier ? "03 / Build" : undefined} title={isEvidenceDossier ? "Build" : "Action"} evidence={renderEvidence("action", "Action")}>
           <div className="case-study-detail-grid">
             {project.details.actions.map((action: DetailItem, index: number) => (
               <DetailItemCard key={index} item={action} marker={`${index + 1}.`} />
@@ -304,7 +368,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.results && (
-        <CaseStudySection title="Result" evidence={renderEvidence("result", "Result")}>
+        <CaseStudySection id="outcomes" kicker={isEvidenceDossier ? "04 / Outcomes" : undefined} title={isEvidenceDossier ? "Outcomes" : "Result"} evidence={renderEvidence("result", "Result")}>
           <div className="case-study-detail-grid">
             {project.details.results.map((result: DetailItem, index: number) => (
               <DetailItemCard key={index} item={result} marker="•" />
@@ -314,7 +378,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.result && (
-        <CaseStudySection title="Result" evidence={renderEvidence("result", "Result")}>
+        <CaseStudySection id="outcomes" kicker={isEvidenceDossier ? "04 / Outcomes" : undefined} title={isEvidenceDossier ? "Outcomes" : "Result"} evidence={renderEvidence("result", "Result")}>
           <DetailTextCard text={project.details.result} />
         </CaseStudySection>
       )}
@@ -328,6 +392,8 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           </div>
         </CaseStudySection>
       )}
+        </div>
+      </div>
       <ImageModal
         open={selectedIndex !== null}
         onOpenChange={(o) => !o && closeModal()}
