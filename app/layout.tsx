@@ -19,6 +19,7 @@ const SnowCrashEffects = dynamic(
 )
 import { LabelsProvider } from "@/components/labels-provider"
 import { RouteTransition } from "@/components/route-transition"
+import { AdaptiveFocusHandoffProvider } from "@/features/adaptive-focus/handoff-context"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -62,7 +63,9 @@ export default function RootLayout({
         <SnowCrashEffects />
 
         <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
-          <RouteTransition>{children}</RouteTransition>
+          <AdaptiveFocusHandoffProvider>
+            <RouteTransition>{children}</RouteTransition>
+          </AdaptiveFocusHandoffProvider>
         </main>
         <Footer />
 

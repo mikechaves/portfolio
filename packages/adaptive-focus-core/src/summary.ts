@@ -1,22 +1,28 @@
-import type { AdaptiveIntent } from "./types"
+import type { CoverageGap, ProjectMatch, RequirementCoverage } from "./types"
 
-const SIGNAL_COPY: Record<string, string> = {
-  ai: "AI-assisted interaction",
-  xr: "immersive and spatial interface work",
-  accessibility: "inclusive and accessible design",
-  "design-engineering": "design engineering execution",
-  "creative-tech": "creative technology implementation",
-  product: "product thinking and shipping focus",
-  prototyping: "rapid prototyping",
-  "data-viz": "data-informed storytelling",
-}
+export function createBriefSummary(
+  primary: ProjectMatch[],
+  coverage: RequirementCoverage[],
+  gaps: CoverageGap[]
+): string {
+  const strongest = coverage
+    .filter((item) => item.coverage === "strong")
+    .map((item) => item.label.toLowerCase())
+    .slice(0, 3)
 
-export function createSummary(intent: AdaptiveIntent): string {
-  if (!intent.matchedSignals.length) {
-    return "Showing a balanced project mix while we learn the focus. Try a prompt with role, domain, or capability."
+  if (!primary.length && !strongest.length) {
+    return "I could not confidently interpret that request. Add a role, capability, or workflow."
   }
-  const themes = [...new Set(intent.matchedSignals.map((signal) => SIGNAL_COPY[signal]).filter(Boolean))]
-  const topThemes = themes.slice(0, 3)
-  const audienceSegment = intent.inferredAudience ? ` for ${intent.inferredAudience}` : ""
-  return `These projects are prioritized${audienceSegment} to highlight ${topThemes.join(", ")}.`
+
+  const proof = strongest.length
+    ? `Mike's strongest portfolio evidence is in ${strongest.join(", ")}.`
+    : "The portfolio contains supporting evidence for the interpreted requirements."
+  const gapCopy = gaps.length
+    ? ` No direct evidence is documented for ${gaps
+        .slice(0, 2)
+        .map((gap) => gap.label.toLowerCase())
+        .join(" or ")}.`
+    : ""
+
+  return `${proof}${gapCopy}`
 }

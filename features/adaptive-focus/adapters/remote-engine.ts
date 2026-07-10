@@ -1,13 +1,35 @@
-import type { AdaptiveFocusEngine, AdaptiveFocusRequest, AdaptiveFocusResult } from "../types"
+import type {
+  AdaptiveFocusEngine,
+  AdaptiveFocusRequest,
+  AdaptiveFocusRunOptions,
+  AdaptiveFocusV2Result,
+} from "../types"
 
-/**
- * Remote adapter stub for future private service cutover.
- * Disabled by default; no network calls in current public implementation.
- */
-export class RemoteAdaptiveFocusEngineStub implements AdaptiveFocusEngine {
-  run(_request: AdaptiveFocusRequest): AdaptiveFocusResult {
-    throw new Error(
-      "RemoteAdaptiveFocusEngineStub is not enabled. Keep local engine active until private service is ready."
-    )
+export class RemoteAdaptiveFocusEngine implements AdaptiveFocusEngine {
+  async run(
+    request: AdaptiveFocusRequest,
+    options?: AdaptiveFocusRunOptions
+  ): Promise<AdaptiveFocusV2Result> {
+    if (request.mode !== "custom") {
+      throw new Error("The remote Adaptive Focus engine accepts custom role input only.")
+    }
+
+    const response = await fetch("/api/adaptive-focus/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: request.input }),
+      cache: "no-store",
+      signal: options?.signal,
+    })
+
+    if (!response.ok) {
+      throw new Error("Advanced role analysis is unavailable.")
+    }
+
+    const result = (await response.json()) as AdaptiveFocusV2Result
+    if (result.schemaVersion !== "af.v2") {
+      throw new Error("Adaptive Focus returned an unsupported response.")
+    }
+    return result
   }
 }

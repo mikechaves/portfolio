@@ -1,15 +1,34 @@
-export { parseIntent, normalizeIntentInput } from "./intent"
-export { rankProjects } from "./ranking"
-export { createSummary } from "./summary"
-export { COMPANY_SIGNAL_MAP } from "./company-mapping"
+export { interpretLocalRole, normalizeRoleInput } from "./interpretation"
+export { buildRoleFitBrief, CAPABILITY_LABELS } from "./matching"
+export { createBriefSummary } from "./summary"
 export {
+  ADAPTIVE_CAPABILITIES,
   ADAPTIVE_FOCUS_SCHEMA_VERSION,
-  type AdaptiveFocusEngine,
-  type AdaptiveFocusRequest,
-  type AdaptiveFocusResult,
-  type AdaptiveIntent,
-  type AdaptiveProjectInput,
-  type AdaptiveSignal,
-  type ProjectFocusMetadata,
-  type RankedProject,
+  ROLE_FAMILIES,
+  SENIORITY_LEVELS,
+} from "./types"
+export type {
+  AdaptiveCapability,
+  AdaptiveFocusAnalysisSource,
+  AdaptiveFocusEngine,
+  AdaptiveFocusRequest,
+  AdaptiveFocusRunOptions,
+  AdaptiveFocusV2Result,
+  CoverageGap,
+  EvidenceConfidence,
+  EvidenceOwnership,
+  EvidenceReference,
+  EvidenceType,
+  MatchLevel,
+  ProjectEvidence,
+  ProjectEvidenceExclusion,
+  ProjectMatch,
+  RequirementBasis,
+  RequirementCoverage,
+  RequirementCoverageLevel,
+  RequirementImportance,
+  RoleFamily,
+  RoleInterpretation,
+  RoleRequirement,
+  Seniority,
 } from "./types"
