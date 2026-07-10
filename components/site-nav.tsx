@@ -39,7 +39,7 @@ export function SiteNav() {
             <Link
               href="/?metaverse=true"
               onClick={enterMetaverse}
-              className="hidden min-h-9 items-center justify-center gap-2 border border-primary/45 px-7 text-xs font-semibold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:inline-flex"
+              className="hidden min-h-9 items-center justify-center gap-2 border border-primary/45 px-7 text-xs font-semibold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:inline-flex"
             >
               Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
@@ -74,7 +74,7 @@ export function SiteNav() {
       {isMobileMenuOpen && (
         <div className="border-b border-primary/25 bg-black/95 backdrop-blur-md md:hidden">
           <ul className="site-shell space-y-px py-3">
-            <li className="sm:hidden">
+            <li className="md:hidden">
               <Link
                 href="/?metaverse=true"
                 onClick={(event) => {

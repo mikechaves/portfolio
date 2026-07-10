@@ -1814,13 +1814,19 @@ const applyTransforms = useCallback(() => {
     return () => window.removeEventListener("keydown", onKey)
   }, [handleNavigate, showMetaverse])
 
-  const toggleMetaverse = () => {
-    setTransitioning(false)
-    setShowMetaverse((s) => !s)
-  }
   const exitMetaverse = () => {
     setTransitioning(false)
     setShowMetaverse(false)
+    window.location.assign("/")
+  }
+  const toggleMetaverse = () => {
+    if (showMetaverse) {
+      exitMetaverse()
+      return
+    }
+
+    setTransitioning(false)
+    setShowMetaverse(true)
   }
 
   return (
