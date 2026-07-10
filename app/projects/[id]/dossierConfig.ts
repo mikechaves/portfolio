@@ -1,0 +1,22 @@
+export interface EvidenceDossierConfig {
+  caseFile: string
+  eyebrow: string
+  signals: string
+}
+
+const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
+  "astrocade-qa-calibration-tool": {
+    caseFile: "AF-01",
+    eyebrow: "AI systems engineering / Human control layer",
+    signals: "Ground truth / QA / Feedback",
+  },
+  wizzo: {
+    caseFile: "AF-02",
+    eyebrow: "AI product systems / Intent to action",
+    signals: "Chat / Context / Quests",
+  },
+}
+
+export function getEvidenceDossierConfig(projectId: string): EvidenceDossierConfig | undefined {
+  return EVIDENCE_DOSSIERS[projectId]
+}

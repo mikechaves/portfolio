@@ -8,6 +8,7 @@ import { ImageModal } from "@/components/image-modal"
 import type { Project as ProjectSummary } from "@/types/project"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
+import { getEvidenceDossierConfig } from "./dossierConfig"
 import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
 
 interface DetailItem {
@@ -98,7 +99,8 @@ function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) 
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  const isEvidenceDossier = project.id === "astrocade-qa-calibration-tool"
+  const dossierConfig = getEvidenceDossierConfig(project.id)
+  const isEvidenceDossier = Boolean(dossierConfig)
   const projectLinks = useMemo(
     () => [
       ...(project.github
@@ -214,14 +216,14 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <>
           <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
             <div className="evidence-dossier-status">
-              <span>CASE FILE / AF-01</span>
+              <span>CASE FILE / {dossierConfig?.caseFile}</span>
               <span>REVIEWED EVIDENCE</span>
               <span>ACTIVE SYSTEM / {project.details.date}</span>
             </div>
 
             <div className="evidence-dossier-hero-grid">
               <div>
-                <p className="evidence-dossier-eyebrow">AI SYSTEMS ENGINEERING / HUMAN CONTROL LAYER</p>
+                <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
                 <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
                 <p className="evidence-dossier-summary">{project.description}</p>
                 <div className="mt-6">{projectLinkActions}</div>
@@ -317,7 +319,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             </nav>
             <dl>
               <div><dt>Artifacts</dt><dd>{String(media.length).padStart(2, "0")}</dd></div>
-              <div><dt>Signals</dt><dd>Ground truth / QA / Feedback</dd></div>
+              <div><dt>Signals</dt><dd>{dossierConfig?.signals}</dd></div>
               <div><dt>Integrity</dt><dd>Repository reviewed</dd></div>
             </dl>
           </aside>
