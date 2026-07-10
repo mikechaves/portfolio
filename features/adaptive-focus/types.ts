@@ -1,23 +1,30 @@
-import type { Project } from "@/types/project"
-import type {
-  AdaptiveFocusEngine as CoreAdaptiveFocusEngine,
-  AdaptiveFocusRequest as CoreAdaptiveFocusRequest,
-  AdaptiveFocusResult as CoreAdaptiveFocusResult,
-  AdaptiveIntent,
-  AdaptiveSignal,
-  ProjectFocusMetadata as CoreProjectFocusMetadata,
-  RankedProject as CoreRankedProject,
-} from "../../packages/adaptive-focus-core/src/types"
+export {
+  ADAPTIVE_CAPABILITIES,
+  ADAPTIVE_FOCUS_SCHEMA_VERSION,
+  ROLE_FAMILIES,
+  SENIORITY_LEVELS,
+} from "../../packages/adaptive-focus-core/src"
+export type {
+  AdaptiveCapability,
+  AdaptiveFocusAnalysisSource,
+  AdaptiveFocusEngine,
+  AdaptiveFocusRequest,
+  AdaptiveFocusRunOptions,
+  AdaptiveFocusV2Result,
+  CoverageGap,
+  EvidenceReference,
+  ProjectEvidence,
+  ProjectMatch,
+  RequirementCoverage,
+  RoleFamily,
+  RoleInterpretation,
+  RoleRequirement,
+  Seniority,
+} from "../../packages/adaptive-focus-core/src"
 
-export { ADAPTIVE_FOCUS_SCHEMA_VERSION } from "../../packages/adaptive-focus-core/src/types"
-
-export type ProjectFocusMetadata = Omit<CoreProjectFocusMetadata, "id"> & {
-  id: Project["id"]
+export interface AdaptiveFocusPreset {
+  id: string
+  label: string
+  description: string
+  interpretation: import("../../packages/adaptive-focus-core/src").RoleInterpretation
 }
-
-export type RankedProject = CoreRankedProject<Project>
-export type AdaptiveFocusRequest = CoreAdaptiveFocusRequest<Project>
-export type AdaptiveFocusResult = CoreAdaptiveFocusResult<Project>
-export type AdaptiveFocusEngine = CoreAdaptiveFocusEngine<Project>
-
-export type { AdaptiveIntent, AdaptiveSignal }

@@ -1,151 +1,270 @@
-import { runAdaptiveFocus } from "./index"
-import { interpretAdaptiveIntent as parseIntent } from "./intent"
-import { rankProjectsForIntent as rankProjects } from "./rank"
-import type { Project } from "@/types/project"
+import {
+  buildRoleFitBrief,
+  interpretLocalRole,
+  normalizeRoleInput,
+  type ProjectEvidence,
+  type RoleInterpretation,
+} from "../../packages/adaptive-focus-core/src"
+import { PROJECTS } from "@/data/projects"
+import { LocalAdaptiveFocusEngine } from "./adapters/local-engine"
+import { ADAPTIVE_FOCUS_PRESETS } from "./config/presets"
+import { PROJECT_EVIDENCE } from "./evidence/catalog"
+import { PROJECT_EVIDENCE_EXCLUSIONS } from "./evidence/exclusions"
+import { validateEvidenceIntegrity } from "./evidence/validation"
 
-const PROJECTS: Project[] = [
-  {
-    id: "speakeasy",
-    title: "SpeakEasy",
-    description: "Voice-driven XR accessibility interface work.",
-    image: "/speakeasy.png",
-    technologies: ["XR", "Accessibility", "AI"],
-    category: "research",
-  },
-  {
-    id: "material-explorer",
-    title: "Material Explorer",
-    description: "Three.js tooling and rapid prototyping.",
-    image: "/material-explorer.png",
-    technologies: ["Three.js", "React", "TypeScript"],
-    category: "web",
-  },
-  {
-    id: "apt-plus",
-    title: "APT+",
-    description: "Enterprise UX optimization.",
-    image: "/apt-plus.png",
-    technologies: ["UX", "Data"],
-    category: "design",
-  },
-]
+const PROJECT_IDS = PROJECTS.map((project) => project.id)
 
-describe("Adaptive Focus", () => {
-  it("interprets multi-signal natural language intent", () => {
-    const intent = parseIntent("I'm hiring for an AI design engineer focused on accessibility")
-
-    expect(intent.matchedSignals).toEqual(
-      expect.arrayContaining(["ai", "design-engineering", "accessibility"])
-    )
-    expect(intent.confidence).toBeGreaterThan(0.5)
-    expect(intent.reasons.length).toBeGreaterThan(0)
+describe("Adaptive Focus local interpretation", () => {
+  it.each([
+    ["AI systems", ["ai-product-systems"]],
+    ["A.I. systems", ["ai-product-systems"]],
+    ["ML evaluation", ["ai-product-systems", "evaluation-calibration"]],
+    ["AR prototype", ["xr-spatial", "prototyping"]],
+    ["VR prototyping", ["xr-spatial", "prototyping"]],
+    ["human-in-the-loop QA calibration", ["human-in-the-loop-ai", "evaluation-calibration", "moderation-qa"]],
+  ])("matches token-aware capabilities for %s", (input, expected) => {
+    const capabilities = interpretLocalRole(input).requirements.map((item) => item.capability)
+    expect(capabilities).toEqual(expect.arrayContaining(expected))
   })
 
-  it("ranks projects deterministically with stable tie ordering", () => {
-    const intent = parseIntent("show me xr accessibility")
-    const ranked = rankProjects(PROJECTS, intent)
+  it.each(["retail operations", "marketing leader", "detail-oriented UX"])(
+    "does not create short-acronym false positives for %s",
+    (input) => {
+      const capabilities = interpretLocalRole(input).requirements.map((item) => item.capability)
+      expect(capabilities).not.toContain("ai-product-systems")
+      expect(capabilities).not.toContain("xr-spatial")
+    }
+  )
 
-    expect(ranked[0].project.id).toBe("speakeasy")
+  it("normalizes punctuation and spacing deterministically", () => {
+    expect(normalizeRoleInput("  A.I.---Design   Engineer  ")).toBe("ai design engineer")
+    expect(normalizeRoleInput("  A.I.---Design   Engineer  ")).toBe(
+      normalizeRoleInput("A.I. Design Engineer")
+    )
+  })
 
-    const tieProjects: Project[] = [
+  it("treats a company-only query as context requiring clarification", () => {
+    const interpretation = interpretLocalRole("Adobe")
+    expect(interpretation.companyContext).toBe("Adobe")
+    expect(interpretation.requirements).toHaveLength(0)
+    expect(interpretation.clarificationNeeded).toBe(true)
+    expect(interpretation.confidence).toBe(0.1)
+  })
+
+  it("does not convert a people-management requirement into manager seniority", () => {
+    const interpretation = interpretLocalRole(
+      "Senior design engineer with people management responsibility"
+    )
+    expect(interpretation.seniority).toBe("senior")
+    expect(interpretation.requirements.map((item) => item.capability)).toContain(
+      "people-management"
+    )
+  })
+})
+
+describe("Adaptive Focus evidence integrity", () => {
+  it("covers every project with evidence or an explicit exclusion", () => {
+    expect(
+      validateEvidenceIntegrity(PROJECT_IDS, PROJECT_EVIDENCE, PROJECT_EVIDENCE_EXCLUSIONS)
+    ).toEqual([])
+  })
+
+  it("contains direct Astrocade HITL and evaluation evidence", () => {
+    const astrocade = PROJECT_EVIDENCE.filter(
+      (item) => item.projectId === "astrocade-qa-calibration-tool"
+    )
+    expect(astrocade).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ capability: "human-in-the-loop-ai", confidence: "direct" }),
+        expect.objectContaining({ capability: "evaluation-calibration", confidence: "direct" }),
+      ])
+    )
+  })
+
+  it("contains direct Wizzo AI product-system evidence", () => {
+    expect(PROJECT_EVIDENCE).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          projectId: "wizzo",
+          capability: "ai-product-systems",
+          confidence: "direct",
+        }),
+      ])
+    )
+  })
+})
+
+describe("Adaptive Focus Role Fit Brief", () => {
+  const localEngine = new LocalAdaptiveFocusEngine()
+
+  it.each([
+    ["hitl-evaluation", "astrocade-qa-calibration-tool", "astrocade-ground-truth"],
+    ["ai-product-systems", "wizzo", "wizzo-ai-system"],
+    ["operational-ux", "petition-ready", "petition-operational-dashboard"],
+    ["design-engineering", "wizzo", "wizzo-full-stack"],
+    ["xr-accessibility", "speakeasy", "speakeasy-accessibility"],
+  ])("keeps the %s preset contract", async (presetId, primaryProjectId, evidenceId) => {
+    const result = await localEngine.run({ mode: "preset", presetId })
+    const preset = ADAPTIVE_FOCUS_PRESETS.find((item) => item.id === presetId)
+
+    expect(result.schemaVersion).toBe("af.v2")
+    expect(result.analysisSource).toBe("preset")
+    expect(result.interpretation.requirements.map((item) => item.capability)).toEqual(
+      preset?.interpretation.requirements.map((item) => item.capability)
+    )
+    expect(result.interpretation.clarificationNeeded).toBe(false)
+    expect(result.groups.primary.map((item) => item.projectId)).toContain(primaryProjectId)
+    expect(
+      result.groups.primary.flatMap((item) => item.evidence.map((evidence) => evidence.evidenceId))
+    ).toContain(evidenceId)
+  })
+
+  it("preserves canonical order and returns no primary proof for low-confidence input", async () => {
+    const result = await localEngine.run({ mode: "custom", input: "Adobe" })
+    expect(result.analysisSource).toBe("local-fallback")
+    expect(result.interpretation.clarificationNeeded).toBe(true)
+    expect(result.groups.primary).toEqual([])
+    expect(result.summary).toContain("could not confidently interpret")
+  })
+
+  it("is deterministic with stable project ties", async () => {
+    const first = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
+    const second = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
+    expect(first).toEqual(second)
+  })
+
+  it("ranks direct evidence above supporting and adjacent evidence", () => {
+    const interpretation: RoleInterpretation = {
+      normalizedInput: "AI product systems",
+      roleTitle: null,
+      roleFamily: "ai-product",
+      seniority: "unspecified",
+      companyContext: null,
+      requirements: [
+        { capability: "ai-product-systems", importance: "required", basis: "explicit" },
+      ],
+      responsibilities: [],
+      desiredOutcomes: [],
+      confidence: 0.9,
+      clarificationNeeded: false,
+      clarificationQuestion: null,
+    }
+    const evidence: ProjectEvidence[] = [
       {
-        id: "tie-a",
-        title: "Tie A",
-        description: "neutral content",
-        image: "/a.png",
-        technologies: ["none"],
-        category: "web",
+        id: "adjacent",
+        projectId: "x-games",
+        capability: "ai-product-systems",
+        statement: "Adjacent evidence.",
+        sourcePath: "/projects/x-games",
+        evidenceType: "prototyped",
+        ownership: "contributed",
+        confidence: "adjacent",
       },
       {
-        id: "tie-b",
-        title: "Tie B",
-        description: "neutral content",
-        image: "/b.png",
-        technologies: ["none"],
-        category: "web",
+        id: "supporting",
+        projectId: "petition-ready",
+        capability: "ai-product-systems",
+        statement: "Supporting evidence.",
+        sourcePath: "/projects/petition-ready",
+        evidenceType: "prototyped",
+        ownership: "built",
+        confidence: "supporting",
+      },
+      {
+        id: "direct",
+        projectId: "wizzo",
+        capability: "ai-product-systems",
+        statement: "Direct evidence.",
+        sourcePath: "/projects/wizzo",
+        evidenceType: "shipped",
+        ownership: "led",
+        confidence: "direct",
+      },
+    ]
+    const result = buildRoleFitBrief(
+      interpretation,
+      evidence,
+      ["x-games", "petition-ready", "wizzo"],
+      "preset"
+    )
+    expect(result.groups.primary[0].projectId).toBe("wizzo")
+    expect(result.groups.supporting[0].projectId).toBe("petition-ready")
+    expect(result.groups.adjacent[0].projectId).toBe("x-games")
+  })
+
+  it("merges duplicate capabilities using the strongest importance and basis", () => {
+    const interpretation: RoleInterpretation = {
+      normalizedInput: "AI product systems",
+      roleTitle: null,
+      roleFamily: "ai-product",
+      seniority: "unspecified",
+      companyContext: null,
+      requirements: [
+        { capability: "ai-product-systems", importance: "required", basis: "inferred" },
+        { capability: "ai-product-systems", importance: "preferred", basis: "explicit" },
+        { capability: "ai-product-systems", importance: "context", basis: "inferred" },
+      ],
+      responsibilities: [],
+      desiredOutcomes: [],
+      confidence: 0.9,
+      clarificationNeeded: false,
+      clarificationQuestion: null,
+    }
+    const evidence: ProjectEvidence[] = [
+      {
+        id: "direct-ai-system",
+        projectId: "wizzo",
+        capability: "ai-product-systems",
+        statement: "Direct AI product-system evidence.",
+        sourcePath: "/projects/wizzo",
+        evidenceType: "shipped",
+        ownership: "led",
+        confidence: "direct",
       },
     ]
 
-    const neutralIntent = parseIntent("unmatched phrase")
-    const neutralRanked = rankProjects(tieProjects, neutralIntent)
-    expect(neutralRanked[0].project.id).toBe("tie-a")
-    expect(neutralRanked[1].project.id).toBe("tie-b")
-  })
+    const result = buildRoleFitBrief(interpretation, evidence, ["wizzo"], "gpt")
 
-  it("is deterministic for the same query input", () => {
-    const query = "Show me XR accessibility work"
-    const first = runAdaptiveFocus({ query, projects: PROJECTS })
-    const second = runAdaptiveFocus({ query, projects: PROJECTS })
-
-    expect(first.schemaVersion).toBe("af.v1")
-    expect(second.schemaVersion).toBe("af.v1")
-    expect(first.intent).toEqual(second.intent)
-    expect(first.summary).toBe(second.summary)
-    expect(first.ranked.map((item) => item.project.id)).toEqual(
-      second.ranked.map((item) => item.project.id)
-    )
-  })
-
-  it("returns a concise local summary with expected themes", () => {
-    const result = runAdaptiveFocus({
-      query: "What would be most relevant for Adobe XR accessibility?",
-      projects: PROJECTS,
+    expect(result.interpretation.requirements).toEqual([
+      { capability: "ai-product-systems", importance: "required", basis: "explicit" },
+    ])
+    expect(result.requirementCoverage).toHaveLength(1)
+    expect(result.requirementCoverage[0]).toMatchObject({
+      capability: "ai-product-systems",
+      importance: "required",
     })
-
-    expect(result.summary.toLowerCase()).toContain("highlight")
-    expect(result.summary.toLowerCase()).toContain("immersive")
-    expect(result.summary.toLowerCase()).toContain("accessible")
-    expect(result.summary.length).toBeGreaterThan(30)
-    expect(result.summary.length).toBeLessThanOrEqual(180)
-    expect(result.ranked.length).toBe(PROJECTS.length)
   })
 
-  it("handles low-signal input with a fallback summary", () => {
-    const result = runAdaptiveFocus({ query: "hello there", projects: PROJECTS })
-
-    expect(result.intent.matchedSignals).toHaveLength(0)
-    expect(result.summary.toLowerCase()).toContain("balanced project mix")
-    expect(result.summary.length).toBeLessThanOrEqual(180)
-  })
-
-  it("handles empty input with deterministic fallback behavior", () => {
-    const result = runAdaptiveFocus({ query: "", projects: PROJECTS })
-
-    expect(result.schemaVersion).toBe("af.v1")
-    expect(result.intent.normalized).toBe("")
-    expect(result.intent.matchedSignals).toHaveLength(0)
-    expect(result.summary.toLowerCase()).toContain("balanced project mix")
-    expect(result.ranked).toHaveLength(PROJECTS.length)
-  })
-
-  it("maps company-only input into signals that affect ranking", () => {
-    const companyProjects: Project[] = [
-      {
-        id: "material-explorer",
-        title: "Material Explorer",
-        description: "Creative tech and rapid prototyping for 3D interfaces.",
-        image: "/material-explorer.png",
-        technologies: ["Three.js", "React", "Prototype"],
-        category: "web",
-      },
-      {
-        id: "apt-plus",
-        title: "APT+",
-        description: "Manufacturing workflow optimization.",
-        image: "/apt-plus.png",
-        technologies: ["Process", "Optimization"],
-        category: "design",
-      },
+  it("keeps explanations faithful to attached evidence", async () => {
+    const result = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
+    const matches = [
+      ...result.groups.primary,
+      ...result.groups.supporting,
+      ...result.groups.adjacent,
     ]
+    for (const match of matches) {
+      expect(match.evidence.length).toBeGreaterThan(0)
+      expect(match.explanation).toContain(match.evidence[0].statement)
+      for (const capability of match.matchedCapabilities) {
+        expect(
+          PROJECT_EVIDENCE.some(
+            (evidence) => evidence.projectId === match.projectId && evidence.capability === capability
+          )
+        ).toBe(true)
+      }
+      expect(match.explanation).not.toMatch(/\d+%|perfect fit|ideal candidate/i)
+    }
+  })
 
-    const result = runAdaptiveFocus({ query: "Adobe", projects: companyProjects })
-
-    expect(result.intent.matchedSignals.length).toBeGreaterThan(0)
-    expect(result.ranked[0].project.id).toBe("material-explorer")
-
-    const second = runAdaptiveFocus({ query: "Adobe", projects: companyProjects })
-    expect(result.ranked.map((entry) => entry.project.id)).toEqual(
-      second.ranked.map((entry) => entry.project.id)
+  it("surfaces senior ownership without inferring people management", async () => {
+    const result = await localEngine.run({
+      mode: "custom",
+      input: "Senior design engineer with product ownership and rapid prototyping",
+    })
+    expect(result.interpretation.seniority).toBe("senior")
+    expect(result.interpretation.requirements.map((item) => item.capability)).not.toContain(
+      "people-management"
     )
+    expect(result.groups.primary.length).toBeGreaterThan(0)
   })
 })

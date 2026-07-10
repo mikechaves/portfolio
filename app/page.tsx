@@ -1,15 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useId, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { useReducedMotion } from "framer-motion"
-import { ProjectFilter } from "@/components/project-filter"
+import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
 import { BlogCard } from "@/components/blog-card"
+import { ProjectCard } from "@/components/project-card"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { PROJECTS } from "@/data/projects"
-import { ADAPTIVE_FOCUS_EXAMPLES } from "@/features/adaptive-focus"
 import type { Project } from "@/types/project"
 import dynamic from "next/dynamic"
 const HeroBackground = dynamic(
@@ -119,8 +118,6 @@ function HomeHeroTerminal({ onComplete }: { onComplete: () => void }) {
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
-  const [focusQuery, setFocusQuery] = useState("")
-  const focusInputId = useId()
   const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
 
   const latestPosts = [
@@ -215,41 +212,8 @@ export default function Home() {
             <div className="terminal-button terminal-button-green"></div>
             <div className="terminal-title">adaptive_focus.sh</div>
           </div>
-          <div className="terminal-content space-y-3">
-            <p className="text-sm text-muted-foreground">I design and build AI-native product systems for messy workflows where automation, human judgment, and operational tooling have to work together.</p>
-            <form
-              className="flex flex-col sm:flex-row gap-2"
-              onSubmit={(e) => {
-                e.preventDefault()
-                const q = focusQuery.trim()
-                if (!q) return
-                window.location.href = `/projects?focus=${encodeURIComponent(q)}`
-              }}
-            >
-              <label htmlFor={focusInputId} className="sr-only">
-                Describe the role, client need, or project proof to focus
-              </label>
-              <Input
-                id={focusInputId}
-                value={focusQuery}
-                onChange={(e) => setFocusQuery(e.target.value)}
-                placeholder="e.g. I'm hiring for an AI-native design engineer"
-                className="flex-1"
-              />
-              <Button type="submit">Show Role Fit</Button>
-            </form>
-            <div className="flex flex-wrap gap-2">
-              {ADAPTIVE_FOCUS_EXAMPLES.slice(0, 3).map((example) => (
-                <button
-                  key={example}
-                  type="button"
-                  onClick={() => (window.location.href = `/projects?focus=${encodeURIComponent(example)}`)}
-                  className="px-3 py-1.5 text-xs rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                >
-                  {example}
-                </button>
-              ))}
-            </div>
+          <div className="terminal-content">
+            <AdaptiveFocusEntry />
           </div>
         </div>
       </section>
@@ -268,7 +232,20 @@ export default function Home() {
           </Link>
         </div>
 
-        <ProjectFilter featured={featuredProjects} projects={PROJECTS} />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              description={project.description}
+              image={project.image}
+              technologies={project.technologies}
+              category={project.category}
+              priority={index < 3}
+            />
+          ))}
+        </div>
       </section>
 
       <NeonSeparator intensity="low" />

@@ -14,10 +14,10 @@ export function FocusContextBadge({ focus }: FocusContextBadgeProps) {
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm">{trimmed}</span>
         <Link
-          href={`/projects?focus=${encodeURIComponent(trimmed)}`}
+          href="/projects"
           className="text-sm text-primary hover:underline"
         >
-          View focused projects
+          View project archive
         </Link>
       </div>
     </div>

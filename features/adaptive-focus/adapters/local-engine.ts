@@ -1,23 +1,50 @@
-import { createSummary, parseIntent, rankProjects } from "../../../packages/adaptive-focus-core/src"
 import {
-  ADAPTIVE_FOCUS_SCHEMA_VERSION,
-  type AdaptiveFocusEngine,
-  type AdaptiveFocusRequest,
-  type AdaptiveFocusResult,
+  buildRoleFitBrief,
+  interpretLocalRole,
+} from "../../../packages/adaptive-focus-core/src"
+import { PROJECTS } from "@/data/projects"
+import { ADAPTIVE_FOCUS_PRESETS_BY_ID } from "../config/presets"
+import { PROJECT_EVIDENCE } from "../evidence/catalog"
+import type {
+  AdaptiveFocusAnalysisSource,
+  AdaptiveFocusEngine,
+  AdaptiveFocusRequest,
+  AdaptiveFocusRunOptions,
+  AdaptiveFocusV2Result,
+  RoleInterpretation,
 } from "../types"
-import { PROJECT_FOCUS_METADATA } from "../config/metadata"
+
+const PROJECT_IDS = PROJECTS.map((project) => project.id)
+
+export function composeLocalBrief(
+  interpretation: RoleInterpretation,
+  analysisSource: AdaptiveFocusAnalysisSource
+): AdaptiveFocusV2Result {
+  return buildRoleFitBrief(interpretation, PROJECT_EVIDENCE, PROJECT_IDS, analysisSource)
+}
 
 export class LocalAdaptiveFocusEngine implements AdaptiveFocusEngine {
-  run(request: AdaptiveFocusRequest): AdaptiveFocusResult {
-    const intent = parseIntent(request.query)
-    const ranked = rankProjects(request.projects, intent, PROJECT_FOCUS_METADATA)
-    const summary = createSummary(intent)
-
-    return {
-      schemaVersion: ADAPTIVE_FOCUS_SCHEMA_VERSION,
-      intent,
-      ranked,
-      summary,
+  async run(
+    request: AdaptiveFocusRequest,
+    options?: AdaptiveFocusRunOptions
+  ): Promise<AdaptiveFocusV2Result> {
+    if (options?.signal?.aborted) {
+      throw new DOMException("Adaptive Focus request was canceled.", "AbortError")
     }
+
+    if (request.mode === "preset") {
+      const preset = ADAPTIVE_FOCUS_PRESETS_BY_ID.get(request.presetId)
+      if (!preset) throw new Error(`Unknown Adaptive Focus preset: ${request.presetId}`)
+      return composeLocalBrief(
+        { ...preset.interpretation, normalizedInput: preset.label },
+        "preset"
+      )
+    }
+
+    if (request.mode === "interpretation") {
+      return composeLocalBrief(request.interpretation, request.analysisSource)
+    }
+
+    return composeLocalBrief(interpretLocalRole(request.input), "local-fallback")
   }
 }

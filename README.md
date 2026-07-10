@@ -21,14 +21,19 @@ The production site is available at [https://mikechaves.io](https://mikechaves.i
 
 ### Environment Variables
 
-To enable email sending from the contact form, create a `.env.local` file in the project root and define `RESEND_API_KEY` with your Resend API key.
+Copy `.env.example` to `.env.local` and configure only the services you use.
 
-Without this variable, the form falls back to a mock implementation that logs submissions to the console instead of sending an email.
+- `OPENAI_API_KEY` enables GPT role interpretation for custom Adaptive Focus requests. It is read only by the server route and must never use a `NEXT_PUBLIC_` prefix.
+- `OPENAI_ADAPTIVE_FOCUS_MODEL` optionally overrides the default `gpt-5-mini` model.
+- `RESEND_API_KEY` enables contact-form email delivery.
+
+Without an OpenAI key, Adaptive Focus presets still run locally and custom requests fall back to the deterministic local parser. Without a Resend key, the contact form uses its existing mock behavior.
 
 ## Features
 
 - Blog section with example posts
 - Project gallery with filterable categories
+- Adaptive Focus Role Fit Briefs with GPT interpretation, reviewed evidence, and a local fallback
 - Animated hero background using Three.js
 - Custom cursor and terminal-inspired UI components
 

@@ -257,7 +257,14 @@ async function listFiles(dir) {
 }
 
 async function buildRouteSet(projectIds) {
-  const routes = new Set(["/", "/about", "/blog", "/error", "/projects"])
+  const routes = new Set([
+    "/",
+    "/about",
+    "/api/adaptive-focus/analyze",
+    "/blog",
+    "/error",
+    "/projects",
+  ])
   for (const projectId of projectIds) {
     routes.add(`/projects/${projectId}`)
   }
