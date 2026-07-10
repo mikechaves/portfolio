@@ -323,7 +323,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           </aside>
         )}
 
-        <div className={isEvidenceDossier ? "evidence-dossier-sections" : "contents"}>
+        <div className={isEvidenceDossier ? "evidence-dossier-sections" : "space-y-8"}>
 
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
         <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
