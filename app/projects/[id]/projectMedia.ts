@@ -25,13 +25,8 @@ interface ProjectMediaCopy {
 const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   "astrocade-qa-calibration-tool": {
     "/projects/astrocade/main-image.jpg": {
-      label: "Human-in-the-loop QA calibration",
-      caption: "Primary review surface showing UGC auto-review decisions, QA annotation, calibration, and creator feedback loops.",
-    },
-    "/projects/astrocade/hero-image.jpg": {
-      label: "Final review feedback loop",
-      caption: "Outcome evidence for how final review behavior turns moderation decisions into usable creator feedback.",
-      section: "result",
+      label: "Astrocade creator platform",
+      caption: "Platform context for the AI-powered UGC ecosystem whose creator publishing workflow this calibration system supported.",
     },
   },
   "apt-plus": {

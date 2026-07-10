@@ -19,6 +19,7 @@ interface ProjectDetails {
   client?: string
   date?: string
   category?: string
+  proofRole?: string
   services?: string[]
   situation?: string | DetailItem[]
   task?: string | DetailItem[]
@@ -215,8 +216,8 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               ))}
             </p>
             <p>
-              <span className="text-primary">proof role:</span> concrete
-              evidence for the operating model
+              <span className="text-primary">proof role:</span>{" "}
+              {project.details.proofRole || "concrete evidence for the operating model"}
             </p>
           </div>
         </div>
