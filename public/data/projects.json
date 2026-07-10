@@ -2,8 +2,8 @@
   "astrocade-qa-calibration-tool": {
     "title": "Astrocade AI QA Calibration Tool",
     "category": "development",
-    "description": "Designed and operated a human-in-the-loop QA calibration system for Astrocade's AI-powered UGC pipeline, connecting auto-review, QA annotation, final review, creator feedback, and operational guardrails to improve decision consistency and daily publishing throughput.",
-    "image": "/projects/astrocade/main-image.jpg",
+    "description": "Designed and operated a human-in-the-loop calibration system for Astrocade's AI-powered UGC review pipeline. It samples completed QA reviews, records explicit ground truth and role-scoped diagnostics, and compares QA, final review, and creator-feedback quality through immutable calibration signals.",
+    "image": "/projects/astrocade/calibration-dashboard.png",
     "technologies": [
       "Python",
       "LLM-Assisted Review",
@@ -14,6 +14,14 @@
     ],
     "github": "",
     "demo": "https://www.astrocade.com/",
+    "gallery": [
+      "/projects/astrocade/calibration-session-workspace.png",
+      "/projects/astrocade/calibration-checklist.png",
+      "/projects/astrocade/calibration-ground-truth.png",
+      "/projects/astrocade/calibration-failure-modes.png",
+      "/projects/astrocade/calibration-feedback-quality.png",
+      "/projects/astrocade/calibration-final-review.png"
+    ],
     "details": {
       "client": "Astrocade AI",
       "date": "2025 - Present",
@@ -28,7 +36,7 @@
       "situation": [
         {
           "title": "Overview",
-          "description": "Astrocade needed fast publishing decisions for an AI-powered UGC platform without treating auto-review as final authority. A one-day review target required clear, repeatable handoffs between automation and human judgment."
+          "description": "Astrocade needed fast publishing decisions for an AI-powered UGC platform without treating QA or auto-review as final authority. Quality decisions needed a repeatable handoff from sampled QA evidence to final review and creator-facing feedback."
         },
         {
           "title": "Quality risk",
@@ -36,53 +44,53 @@
         },
         {
           "title": "Operating loop",
-          "description": "The workflow connected auto-review, QA annotation, calibration, final review, creator feedback, and policy updates. Human judgment served as an accountable control point, not a late-stage exception."
+          "description": "The workflow connects sampled game context, QA outcomes, explicit ground truth, calibrated failure modes, final-review comparison, and creator-feedback quality. Human judgment is an accountable control point, not a late-stage exception."
         }
       ],
       "task": [
         {
           "title": "Design the operating model",
-          "description": "Create a QA calibration system that turns model-assisted and human review into one continuous decision loop, from initial flag through final review and creator-facing feedback."
+          "description": "Create a calibration workflow that re-QAs completed game samples and turns QA, final review, and creator feedback into one continuous, evidence-based decision loop."
         },
         {
           "title": "Make quality measurable",
-          "description": "Define reviewable signals for agreement rate, repeat or reversed rejections, and turnaround time so calibration priorities could be based on observed operational behavior."
+          "description": "Define explicit ground truth, QA and final-review correctness, failure modes, agreement, and feedback actionability so quality is based on observable signals rather than reviewer sentiment."
         },
         {
           "title": "Protect creator outcomes",
-          "description": "Establish final-review behavior, escalation paths, and feedback standards that preserve safety while giving creators a more consistent path to publishing."
+          "description": "Establish structured feedback and operational guardrails for review that preserve safety while testing whether a creator can act on the decision without guessing or re-discovering the issue."
         }
       ],
       "actions": [
         {
-          "title": "Built QA annotation workflows",
-          "description": "Created repeatable QA passes that compare auto-review and reviewer decisions, annotate disagreement and edge-case patterns, and turn those patterns into focused follow-up work."
+          "title": "Built role-scoped calibration sessions",
+          "description": "Implemented repeatable sessions that load a completed game sample beside QA and final-review context, then collect structured calibration signals without free-text scoring."
         },
         {
-          "title": "Ran calibration and policy loops",
-          "description": "Led recurring audits that paired sampled decisions with policy intent, then translated findings into threshold, tooling, documentation, and reviewer-guidance updates."
+          "title": "Established explicit ground truth",
+          "description": "Separated the expected platform decision from the QA decision, allowing the system to compute QA correctness and then diagnose why an incorrect decision occurred."
         },
         {
-          "title": "Defined final-review guardrails",
-          "description": "Clarified when final reviewers could confirm, override, or escalate a decision so human intervention was consistent, accountable, and operationally legible."
+          "title": "Defined QA and final-review guardrails",
+          "description": "Added constrained failure-mode taxonomies for QA and final review so disagreement, policy misapplication, insufficient review, and tooling errors can be analyzed separately."
         },
         {
           "title": "Closed creator feedback loops",
-          "description": "Connected rejection feedback and recurring creator issues back to calibration, documentation, and workflow fixes instead of treating each review outcome as an isolated event."
+          "description": "Scored whether feedback is actionable and checks for a reproducible creator-facing formula, then saves immutable calibration records that can inform documentation and workflow updates."
         }
       ],
       "results": [
         {
           "title": "A measurable quality-control loop",
-          "description": "Made reviewer-model alignment, repeat or reversed rejections, and queue turnaround concrete operating signals for ongoing calibration and prioritization."
+          "description": "Made QA incorrect decisions, false rejections, missed blocking issues, approval precision and recall, final-review correctness, QA-final agreement, and feedback actionability visible with counts and legacy-data exclusions."
         },
         {
           "title": "More consistent decisions",
-          "description": "Recurring QA annotation and calibration improved alignment between automated decisions, final reviewers, and policy intent across the moderation pipeline."
+          "description": "Ground truth, structured failure modes, and separate QA and final-review comparisons create a shared basis for calibration, policy discussion, and reviewer guidance."
         },
         {
-          "title": "Faster, more trustworthy creator publishing",
-          "description": "Clear handoffs, operational guardrails, and creator feedback loops supported reliable day-level review targets while reducing avoidable review friction."
+          "title": "Creator feedback becomes a quality signal",
+          "description": "Actionability checks turn creator feedback into a concrete review-quality measure, so improvements can target decisions that are safe, clear, and usable."
         }
       ]
     }

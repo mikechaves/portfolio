@@ -24,9 +24,39 @@ interface ProjectMediaCopy {
 
 const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   "astrocade-qa-calibration-tool": {
-    "/projects/astrocade/main-image.jpg": {
-      label: "Astrocade creator platform",
-      caption: "Platform context for the AI-powered UGC ecosystem whose creator publishing workflow this calibration system supported.",
+    "/projects/astrocade/calibration-dashboard.png": {
+      label: "Calibration metrics dashboard",
+      caption: "Read-only calibration surface with sampling windows, scoped QA and final-review metrics, agreement, comment quality, and legacy-data exclusions.",
+    },
+    "/projects/astrocade/calibration-session-workspace.png": {
+      label: "Side-by-side calibration session",
+      caption: "A sampled game runs next to QA and final-review context, keeping the source evidence available while calibration decisions are recorded.",
+      section: "action",
+    },
+    "/projects/astrocade/calibration-checklist.png": {
+      label: "Calibration checklist",
+      caption: "Decision-validation, evidence-quality, and standard-alignment rules that make reviewer judgments comparable.",
+      section: "task",
+    },
+    "/projects/astrocade/calibration-ground-truth.png": {
+      label: "Explicit ground truth",
+      caption: "The calibrator selects the expected decision before evaluating whether QA reached it, separating decision correctness from reviewer sentiment.",
+      section: "action",
+    },
+    "/projects/astrocade/calibration-failure-modes.png": {
+      label: "Structured QA failure modes",
+      caption: "When QA is incorrect, the session records a finite diagnosis such as false rejection, missed blocking issue, policy misapplication, or ambiguous standard.",
+      section: "action",
+    },
+    "/projects/astrocade/calibration-feedback-quality.png": {
+      label: "Creator feedback quality",
+      caption: "The tool scores feedback as fully, partially, or not actionable, then checks for a reproducible creator-facing formula.",
+      section: "action",
+    },
+    "/projects/astrocade/calibration-final-review.png": {
+      label: "Final-review failure modes",
+      caption: "Final-review correctness is computed from ground truth and outcome, then bounded by a separate diagnostic taxonomy.",
+      section: "result",
     },
   },
   "apt-plus": {

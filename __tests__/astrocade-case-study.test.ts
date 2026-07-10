@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { buildProjectMedia } from "../app/projects/[id]/projectMedia"
 
 interface DetailItem {
   description: string
@@ -8,6 +9,9 @@ interface DetailItem {
 
 interface AstrocadeProject {
   description: string
+  gallery?: string[]
+  image: string
+  title: string
   details: {
     actions: DetailItem[]
     proofRole?: string
@@ -47,7 +51,7 @@ describe("Astrocade case study", () => {
       .toLowerCase()
 
     expect(project.details.proofRole).toContain("human-in-the-loop AI")
-    expect(copy).toContain("qa annotation")
+    expect(copy).toContain("ground truth")
     expect(copy).toContain("calibration")
     expect(copy).toContain("final review")
     expect(copy).toContain("creator feedback")
@@ -58,9 +62,35 @@ describe("Astrocade case study", () => {
     const project = getAstrocadeProject()
     const resultCopy = project.details.results.map(({ description, title }) => `${title} ${description}`).join(" ").toLowerCase()
 
-    expect(resultCopy).toContain("reviewer-model alignment")
-    expect(resultCopy).toContain("repeat or reversed rejections")
-    expect(resultCopy).toContain("turnaround")
+    expect(resultCopy).toContain("qa incorrect decisions")
+    expect(resultCopy).toContain("false rejections")
+    expect(resultCopy).toContain("qa-final agreement")
+    expect(resultCopy).toContain("feedback actionability")
     expect(resultCopy).not.toMatch(/\d+%|\d+x|\d+\s*(days?|hours?|minutes?)/)
+  })
+
+  it("uses real calibration screens as section-linked evidence", () => {
+    const project = getAstrocadeProject()
+    const media = buildProjectMedia({
+      gallery: project.gallery,
+      id: "astrocade-qa-calibration-tool",
+      image: project.image,
+      title: project.title,
+    })
+
+    expect(media).toHaveLength(7)
+    expect(media.map((item) => item.label)).toEqual(
+      expect.arrayContaining([
+        "Calibration metrics dashboard",
+        "Side-by-side calibration session",
+        "Explicit ground truth",
+        "Structured QA failure modes",
+        "Creator feedback quality",
+        "Final-review failure modes",
+      ]),
+    )
+    expect(media.some((item) => item.section === "task")).toBe(true)
+    expect(media.filter((item) => item.section === "action")).toHaveLength(4)
+    expect(media.some((item) => item.section === "result")).toBe(true)
   })
 })
