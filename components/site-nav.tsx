@@ -2,8 +2,9 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import type { MouseEvent } from "react"
 import { useMemo, useState } from "react"
-import { Menu, X } from "lucide-react"
+import { ArrowUpRight, Menu, X } from "lucide-react"
 
 export function SiteNav() {
   const pathname = usePathname()
@@ -17,40 +18,39 @@ export function SiteNav() {
     ],
     [],
   )
+  const enterMetaverse = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    window.location.assign("/?metaverse=true")
+  }
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
-      <header className="border-b border-border/40 backdrop-blur-sm h-20">
-        <div className="container mx-auto px-4 h-full">
-          <nav aria-label="Main navigation" className="flex items-center justify-between h-full">
-            <Link href="/" className="text-xl font-bold text-primary glitch" data-text="MIKE_CHAVES">
-              MIKE_CHAVES
+    <div className="fixed inset-x-0 top-0 z-50">
+      <header className="signal-nav h-[4.5rem] border-b border-white/10 bg-black/85 backdrop-blur-md">
+        <div className="site-shell h-full">
+          <nav aria-label="Main navigation" className="grid h-full grid-cols-[1fr_auto] items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
+            <Link href="/" className="group flex w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <span className="tracking-[0.08em] transition-colors group-hover:text-primary">MIKE_CHAVES</span>
+              <span className="hidden items-center gap-1.5 text-[0.58rem] font-medium uppercase tracking-[0.16em] text-primary sm:flex">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
+                online
+              </span>
             </Link>
 
-            <div className="flex items-center gap-4">
-              <Link
-                href="/?metaverse=true"
-                className="px-4 py-2 bg-black/50 border border-primary/30 text-primary rounded-md hover:bg-primary/20 transition-colors"
-              >
-                Enter Metaverse
-              </Link>
-              <button
-                className="md:hidden text-white"
-                onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMobileMenuOpen}
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            <Link
+              href="/?metaverse=true"
+              onClick={enterMetaverse}
+              className="hidden min-h-9 items-center justify-center gap-2 border border-primary/45 px-7 text-xs font-semibold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:inline-flex"
+            >
+              Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
+            </Link>
 
-            <ul className="hidden md:flex items-center space-x-8">
+            <ul className="hidden items-center justify-end gap-7 md:flex">
               {navItems.map((item) => (
                 <li key={item.path}>
                   <Link
                     href={item.path}
-                    className={`command-prompt hover:text-primary transition-colors ${
-                      pathname === item.path ? "text-primary" : "text-white"
+                    className={`signal-nav-link relative py-2 text-[0.7rem] uppercase tracking-[0.14em] transition-colors hover:text-primary ${
+                      pathname === item.path ? "text-primary" : "text-zinc-300"
                     }`}
                   >
                     {item.name}
@@ -58,20 +58,41 @@ export function SiteNav() {
                 </li>
               ))}
             </ul>
+
+            <button
+              className="justify-self-end text-white md:hidden"
+              onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </nav>
         </div>
       </header>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden border-b border-border/40 bg-black/95 backdrop-blur-sm">
-          <ul className="container mx-auto px-4 py-3 space-y-2">
+        <div className="border-b border-primary/25 bg-black/95 backdrop-blur-md md:hidden">
+          <ul className="site-shell space-y-px py-3">
+            <li className="md:hidden">
+              <Link
+                href="/?metaverse=true"
+                onClick={(event) => {
+                  setIsMobileMenuOpen(false)
+                  enterMetaverse(event)
+                }}
+                className="mb-2 flex items-center justify-between border border-primary/30 px-3 py-2 text-xs uppercase tracking-[0.14em] text-primary"
+              >
+                Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+            </li>
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   href={item.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-2 py-2 rounded-md transition-colors ${
-                    pathname === item.path ? "text-primary bg-primary/10" : "text-white hover:text-primary hover:bg-white/5"
+                  className={`block border-l-2 px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
+                    pathname === item.path ? "border-primary bg-primary/10 text-primary" : "border-transparent text-white hover:border-primary/40 hover:text-primary"
                   }`}
                 >
                   {item.name}

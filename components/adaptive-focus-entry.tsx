@@ -1,8 +1,17 @@
 "use client"
 
 import { useId, useState, type FormEvent } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowRight, LoaderCircle } from "lucide-react"
+import {
+  ArrowRight,
+  AudioLines,
+  Boxes,
+  Braces,
+  CircuitBoard,
+  LoaderCircle,
+  Workflow,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ADAPTIVE_FOCUS_PRESETS, runAdaptiveFocus } from "@/features/adaptive-focus"
@@ -19,6 +28,7 @@ export function AdaptiveFocusEntry() {
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const lensIcons = [CircuitBoard, Boxes, Workflow, Braces, AudioLines]
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -38,66 +48,81 @@ export function AdaptiveFocusEntry() {
   }
 
   return (
-    <div className="space-y-5">
-      <div>
-        <h2 className="text-xl font-bold">Adaptive Focus</h2>
-        <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-          Build a Role Fit Brief that maps role requirements to reviewed portfolio evidence.
-        </p>
+    <div className="signal-command-deck border border-primary/35 bg-black/90">
+      <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-b border-primary/25 px-3.5 py-2">
+        <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Adaptive Focus</h2>
+        <p className="text-[0.66rem] text-zinc-500">Define role. Activate lenses. Inspect evidence.</p>
       </div>
 
-      <div className="grid gap-px overflow-hidden rounded-md border border-primary/20 bg-primary/20 sm:grid-cols-2 lg:grid-cols-5">
-        {ADAPTIVE_FOCUS_PRESETS.map((preset) => (
-          <button
-            key={preset.id}
-            type="button"
-            disabled={isLoading}
-            onClick={() => router.push(`/projects?focusPreset=${preset.id}`)}
-            className="min-h-24 bg-background/95 p-3 text-left transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-background/95"
-          >
-            <span className="block text-sm font-semibold text-foreground">{preset.label}</span>
-            <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-              {preset.description}
-            </span>
-          </button>
-        ))}
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="grid divide-y divide-white/10 lg:grid-cols-[minmax(16rem,0.9fr)_minmax(0,1.8fr)_minmax(13rem,0.62fr)] lg:divide-x lg:divide-y-0">
+          <div className="p-3">
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <label htmlFor={inputId} className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">
+                Role input
+              </label>
+              <span className="text-[0.58rem] text-zinc-600">
+                {input.length.toLocaleString()} / {ADAPTIVE_FOCUS_INPUT_MAX_LENGTH.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex items-start gap-2 border-t border-primary/30 pt-2">
+              <span className="mt-2 text-sm text-primary" aria-hidden="true">&gt;</span>
+              <Textarea
+                id={inputId}
+                value={input}
+                maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="Senior AI/UX engineer building human-in-the-loop systems..."
+                aria-describedby={`${inputId}-privacy`}
+                className="min-h-12 resize-none border-0 bg-transparent px-0 py-2 text-xs italic shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              />
+            </div>
+          </div>
 
-      <form className="space-y-3 border-t border-primary/20 pt-4" onSubmit={handleSubmit}>
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <label htmlFor={inputId} className="text-sm font-medium">
-            Paste a role or job description
-          </label>
-          <span className="text-xs text-muted-foreground">
-            {input.length.toLocaleString()} / {ADAPTIVE_FOCUS_INPUT_MAX_LENGTH.toLocaleString()}
-          </span>
+          <div className="p-3">
+            <p className="mb-2 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">Select a lens</p>
+            <div className="grid gap-px bg-white/10 sm:grid-cols-2 xl:grid-cols-5">
+              {ADAPTIVE_FOCUS_PRESETS.map((preset, index) => {
+                const LensIcon = lensIcons[index] ?? CircuitBoard
+                return (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => router.push(`/projects?focusPreset=${preset.id}`)}
+                    className="group min-h-16 bg-black px-3 py-2 text-left transition-colors hover:bg-primary/[0.07] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <span className="flex items-center gap-2 text-xs font-semibold text-zinc-200 group-hover:text-primary">
+                      <LensIcon size={15} aria-hidden="true" /> {preset.label}
+                    </span>
+                    <span className="mt-1.5 line-clamp-2 block text-[0.62rem] leading-4 text-zinc-500 xl:hidden 2xl:block">
+                      {preset.description}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between gap-2 p-3">
+            <p className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">Action</p>
+            <Button type="submit" disabled={!input.trim() || isLoading} className="h-10 w-full rounded-none text-xs uppercase tracking-[0.08em]">
+              {isLoading ? <LoaderCircle className="animate-spin" size={16} aria-hidden="true" /> : null}
+              {isLoading ? "Mapping evidence..." : "Build Role Fit Brief"}
+              {!isLoading ? <ArrowRight size={16} aria-hidden="true" /> : null}
+            </Button>
+            <Link href="/projects" className="inline-flex min-h-9 items-center justify-center border border-white/15 text-[0.65rem] text-zinc-400 transition-colors hover:border-primary/40 hover:text-primary">
+              Inspect Proof
+            </Link>
+          </div>
         </div>
-        <Textarea
-          id={inputId}
-          value={input}
-          maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="Senior design engineer building AI-assisted creative workflows and internal tools..."
-          className="min-h-28 resize-y bg-black/25"
-        />
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-3xl text-xs leading-5 text-muted-foreground">
-            Custom role text is processed through the OpenAI API to identify role requirements. It is not stored by this website. Avoid submitting confidential or personally identifying information.
+
+        <div className="border-t border-white/10 px-3.5 py-1.5">
+          <p id={`${inputId}-privacy`} className="line-clamp-1 text-[0.56rem] leading-4 text-zinc-600 sm:line-clamp-none">
+            Custom role text is processed through the OpenAI API and is not stored by this website. Avoid confidential or personally identifying information. Preset lenses do not make a model request.
           </p>
-          <Button type="submit" disabled={!input.trim() || isLoading} className="shrink-0">
-            {isLoading ? <LoaderCircle className="animate-spin" size={16} aria-hidden="true" /> : null}
-            {isLoading ? "Mapping evidence..." : "Build Role Fit Brief"}
-            {!isLoading ? <ArrowRight size={16} aria-hidden="true" /> : null}
-          </Button>
+          {error ? <p role="alert" className="mt-1 text-xs text-destructive">{error}</p> : null}
         </div>
-        <p className="text-xs text-muted-foreground">
-          GPT interprets custom role text. Reviewed portfolio evidence determines every match and explanation. Preset lenses do not make a model request.
-        </p>
-        {error ? (
-          <p role="alert" className="text-sm text-destructive">
-            {error}
-          </p>
-        ) : null}
       </form>
     </div>
   )

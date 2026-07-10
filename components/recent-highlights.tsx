@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 interface Highlight {
   id: string
   event: string
@@ -49,45 +47,19 @@ const highlights: Highlight[] = [
 
 export function RecentHighlights() {
   return (
-    <section>
-      <h2 className="text-2xl font-bold mb-6">Recent Highlights</h2>
-      <ul className="grid gap-6 lg:grid-cols-4">
+    <section className="signal-panel">
+      <div className="signal-panel-heading">
+        <h2>Latest Signals</h2>
+        <span aria-hidden="true">03</span>
+      </div>
+      <ul className="divide-y divide-white/10">
         {highlights.map((h) => (
-          <li
-            key={h.id}
-            className="card-hover bg-card rounded-md p-4 flex gap-4"
-          >
-            <div className="relative w-16 h-16 flex-shrink-0">
-              <Image
-                src={
-                  h.image ||
-                  `/api/placeholder?width=64&height=64&text=${encodeURIComponent(
-                    h.event
-                  )}`
-                }
-                alt={`Thumbnail for ${h.event}`}
-                fill
-                className="object-cover rounded"
-                sizes="64px"
-              />
+          <li key={h.id} className="grid grid-cols-[1fr_auto] gap-4 py-2 text-xs first:pt-0 last:pb-0">
+            <div className="min-w-0">
+              <h3 className="truncate text-zinc-300">{h.event} — {h.role}</h3>
+              <p className="mt-0.5 line-clamp-1 text-[0.65rem] text-zinc-600">{h.title}</p>
             </div>
-            <div className="text-sm flex flex-col">
-              <h3
-                className="font-bold text-white glitch"
-                data-text={h.event}
-              >
-                {h.event}
-              </h3>
-              <p className="text-muted-foreground">{h.title}</p>
-              {h.description && (
-                <p className="text-muted-foreground text-xs mt-1">
-                  {h.description}
-                </p>
-              )}
-              <span className="mt-auto text-primary text-xs">
-                {h.role} &ndash; {h.date}
-              </span>
-            </div>
+            <time className="whitespace-nowrap text-[0.62rem] text-[#ffc247]">{h.date}</time>
           </li>
         ))}
       </ul>

@@ -5,19 +5,22 @@ import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-border/40 bg-black/80 py-6 backdrop-blur-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <p className="text-sm text-muted-foreground">
+    <footer className="relative z-10 border-t border-white/10 bg-black/90 py-4 backdrop-blur-sm">
+      <div className="site-shell">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.1em] text-zinc-600">
               &copy; {new Date().getFullYear()} MIKE_CHAVES. All rights
               reserved.
             </p>
           </div>
+          <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-700 lg:block">
+            Built with human curiosity and machine leverage.
+          </p>
           <div className="flex space-x-4">
             <Link
               href="https://github.com/mikechaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -26,7 +29,7 @@ export function Footer() {
             </Link>
             <a
               href="https://x.com/mikechaves_io"
-              className="text-zinc-400 hover:text-primary transition-colors"
+              className="text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -37,7 +40,7 @@ export function Footer() {
             </a>
             <Link
               href="https://www.linkedin.com/in/mikejchaves"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -46,7 +49,7 @@ export function Footer() {
             </Link>
             <Link
               href="mailto:founder@gowizzo.io"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-zinc-500 transition-colors hover:text-primary"
             >
               <Mail size={20} />
               <span className="sr-only">Email</span>

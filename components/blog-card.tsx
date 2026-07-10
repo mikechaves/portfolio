@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CalendarIcon, Clock, ArrowRight } from "lucide-react"
+import { ArrowRight, AudioWaveform } from "lucide-react"
 
 interface BlogCardProps {
   id: string
@@ -18,32 +18,23 @@ export function BlogCard({ id, title, excerpt, date, readingTime, url, publicati
   const linkProps = url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: `/blog/${id}` }
 
   return (
-    <Component {...linkProps} className="block h-full">
-      <div className="card-hover bg-card p-4 rounded-md h-full flex flex-col">
-        {publication && (
-          <div className="inline-block px-2 py-1 mb-2 text-xs border border-zinc-700 rounded-full text-zinc-400">
-            {publication}
-          </div>
-        )}
-        <div className="flex items-center gap-4 text-xs text-zinc-400 mb-2">
-          <div className="flex items-center">
-            <CalendarIcon size={12} className="mr-1" />
-            {date}
-          </div>
-          <div className="flex items-center">
-            <Clock size={12} className="mr-1" />
-            {readingTime}
-          </div>
+    <Component {...linkProps} className="group grid h-full grid-cols-[3.25rem_1fr] gap-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+      <div className="flex h-12 items-center justify-center border border-[#ff2bd6]/35 text-[#ff2bd6]" aria-hidden="true">
+        <AudioWaveform size={28} />
+      </div>
+      <div>
+        <div className="mb-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.6rem] uppercase tracking-[0.1em] text-zinc-600">
+          {publication ? <span className="text-[#ff2bd6]">{publication}</span> : null}
+          <span>{date}</span>
+          <span>{readingTime}</span>
         </div>
-        <h3 className="text-lg font-bold mb-2 glitch" data-text={title}>
-          {title}
-        </h3>
-        <p className="text-sm text-zinc-400 mb-4 flex-grow line-clamp-3">{excerpt}</p>
-        {url && (
-          <div className="text-primary text-sm flex items-center gap-1 mt-auto">
-            Read on Medium <ArrowRight size={14} />
-          </div>
-        )}
+        <h3 className="text-sm font-semibold leading-5 text-zinc-100 transition-colors group-hover:text-primary">{title}</h3>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-zinc-500">{excerpt}</p>
+        {url ? (
+          <span className="mt-2 inline-flex items-center gap-1 text-[0.65rem] uppercase tracking-[0.1em] text-primary">
+            Read on Medium <ArrowRight size={12} aria-hidden="true" />
+          </span>
+        ) : null}
       </div>
     </Component>
   )
