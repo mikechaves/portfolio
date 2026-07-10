@@ -42,7 +42,6 @@ Rules:
 
 | Priority | Area                  | Item                                                                 | Status   | Validation / Exit Criteria                                                                                                                                             |
 | -------- | --------------------- | -------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P1       | Astrocade Case Study  | Strengthen Astrocade AI QA Calibration Tool as the clearest human-in-the-loop AI proof point. | TODO     | Case study clearly explains QA annotation workflows, calibration, final review behavior, creator feedback loops, operational guardrails, and measurable product value. |
 | P2       | Portfolio Analytics   | Decide whether lightweight analytics should track project CTA and adaptive-focus usage. | RESEARCH | Decision note documents provider, privacy posture, tracked events, and whether analytics meaningfully improves portfolio iteration.                                    |
 
 ## Deferred
