@@ -37,10 +37,39 @@ export const CAPABILITY_LABELS: Record<AdaptiveCapability, string> = {
 
 const REQUIREMENT_WEIGHTS = { required: 5, preferred: 3, context: 1 } as const
 const BASIS_WEIGHTS = { explicit: 1, inferred: 0.65 } as const
+const REQUIREMENT_IMPORTANCE_RANK = { required: 3, preferred: 2, context: 1 } as const
+const REQUIREMENT_BASIS_RANK = { explicit: 2, inferred: 1 } as const
 const EVIDENCE_WEIGHTS: Record<EvidenceConfidence, number> = {
   direct: 4,
   supporting: 2.2,
   adjacent: 1,
+}
+
+function mergeRequirements(requirements: RoleRequirement[]): RoleRequirement[] {
+  const merged = new Map<AdaptiveCapability, RoleRequirement>()
+
+  for (const requirement of requirements) {
+    const current = merged.get(requirement.capability)
+    if (!current) {
+      merged.set(requirement.capability, requirement)
+      continue
+    }
+
+    merged.set(requirement.capability, {
+      capability: requirement.capability,
+      importance:
+        REQUIREMENT_IMPORTANCE_RANK[requirement.importance] >
+        REQUIREMENT_IMPORTANCE_RANK[current.importance]
+          ? requirement.importance
+          : current.importance,
+      basis:
+        REQUIREMENT_BASIS_RANK[requirement.basis] > REQUIREMENT_BASIS_RANK[current.basis]
+          ? requirement.basis
+          : current.basis,
+    })
+  }
+
+  return [...merged.values()]
 }
 
 function evidenceStrength(evidence: ProjectEvidence, requirement: RoleRequirement): number {
@@ -74,12 +103,18 @@ export function buildRoleFitBrief(
   canonicalProjectIds: string[],
   analysisSource: AdaptiveFocusAnalysisSource
 ): AdaptiveFocusV2Result {
-  if (interpretation.clarificationNeeded || interpretation.requirements.length === 0) {
+  const mergedRequirements = mergeRequirements(interpretation.requirements)
+  const normalizedInterpretation = {
+    ...interpretation,
+    requirements: mergedRequirements,
+  }
+
+  if (normalizedInterpretation.clarificationNeeded || mergedRequirements.length === 0) {
     return {
       schemaVersion: ADAPTIVE_FOCUS_SCHEMA_VERSION,
       analysisSource,
       briefTitle: "Role Fit Brief",
-      interpretation,
+      interpretation: normalizedInterpretation,
       groups: { primary: [], supporting: [], adjacent: [] },
       requirementCoverage: [],
       gaps: [],
@@ -89,7 +124,7 @@ export function buildRoleFitBrief(
 
   const canonicalIndex = new Map(canonicalProjectIds.map((projectId, index) => [projectId, index]))
   const requirementsByCapability = new Map(
-    interpretation.requirements.map((requirement) => [requirement.capability, requirement])
+    mergedRequirements.map((requirement) => [requirement.capability, requirement])
   )
   const relevantEvidence = evidenceCatalog.filter((evidence) =>
     requirementsByCapability.has(evidence.capability)
@@ -162,7 +197,7 @@ export function buildRoleFitBrief(
   ]
   const adjacent = ranked.filter((item) => item.match.level === "adjacent").map((item) => item.match)
 
-  const requirementCoverage: RequirementCoverage[] = interpretation.requirements.map((requirement) => {
+  const requirementCoverage: RequirementCoverage[] = mergedRequirements.map((requirement) => {
     const matchingEvidence = evidenceCatalog.filter((item) => item.capability === requirement.capability)
     const projectIds = [...new Set(matchingEvidence.map((item) => item.projectId))].sort(
       (a, b) => (canonicalIndex.get(a) ?? 999) - (canonicalIndex.get(b) ?? 999)
@@ -188,7 +223,7 @@ export function buildRoleFitBrief(
     schemaVersion: ADAPTIVE_FOCUS_SCHEMA_VERSION,
     analysisSource,
     briefTitle: "Role Fit Brief",
-    interpretation,
+    interpretation: normalizedInterpretation,
     groups: { primary, supporting, adjacent },
     requirementCoverage,
     gaps,

@@ -192,6 +192,49 @@ describe("Adaptive Focus Role Fit Brief", () => {
     expect(result.groups.adjacent[0].projectId).toBe("x-games")
   })
 
+  it("merges duplicate capabilities using the strongest importance and basis", () => {
+    const interpretation: RoleInterpretation = {
+      normalizedInput: "AI product systems",
+      roleTitle: null,
+      roleFamily: "ai-product",
+      seniority: "unspecified",
+      companyContext: null,
+      requirements: [
+        { capability: "ai-product-systems", importance: "required", basis: "inferred" },
+        { capability: "ai-product-systems", importance: "preferred", basis: "explicit" },
+        { capability: "ai-product-systems", importance: "context", basis: "inferred" },
+      ],
+      responsibilities: [],
+      desiredOutcomes: [],
+      confidence: 0.9,
+      clarificationNeeded: false,
+      clarificationQuestion: null,
+    }
+    const evidence: ProjectEvidence[] = [
+      {
+        id: "direct-ai-system",
+        projectId: "wizzo",
+        capability: "ai-product-systems",
+        statement: "Direct AI product-system evidence.",
+        sourcePath: "/projects/wizzo",
+        evidenceType: "shipped",
+        ownership: "led",
+        confidence: "direct",
+      },
+    ]
+
+    const result = buildRoleFitBrief(interpretation, evidence, ["wizzo"], "gpt")
+
+    expect(result.interpretation.requirements).toEqual([
+      { capability: "ai-product-systems", importance: "required", basis: "explicit" },
+    ])
+    expect(result.requirementCoverage).toHaveLength(1)
+    expect(result.requirementCoverage[0]).toMatchObject({
+      capability: "ai-product-systems",
+      importance: "required",
+    })
+  })
+
   it("keeps explanations faithful to attached evidence", async () => {
     const result = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
     const matches = [

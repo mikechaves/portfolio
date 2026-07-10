@@ -51,8 +51,9 @@ export function AdaptiveFocusEntry() {
           <button
             key={preset.id}
             type="button"
+            disabled={isLoading}
             onClick={() => router.push(`/projects?focusPreset=${preset.id}`)}
-            className="min-h-24 bg-background/95 p-3 text-left transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+            className="min-h-24 bg-background/95 p-3 text-left transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-background/95"
           >
             <span className="block text-sm font-semibold text-foreground">{preset.label}</span>
             <span className="mt-1 block text-xs leading-5 text-muted-foreground">
