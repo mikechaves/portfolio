@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { JetBrains_Mono } from "next/font/google"
+import { Barlow_Condensed, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { Analytics } from "@vercel/analytics/react"
@@ -24,6 +24,14 @@ import { AdaptiveFocusHandoffProvider } from "@/features/adaptive-focus/handoff-
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+  preload: true,
+})
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
   display: "swap",
   preload: true,
 })
@@ -53,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jetbrainsMono.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
+      <body className={`${jetbrainsMono.variable} ${barlowCondensed.variable} font-mono bg-black text-white min-h-screen flex flex-col`}>
         <div
           className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
           aria-hidden="true"
@@ -62,7 +70,7 @@ export default function RootLayout({
         {/* SnowCrashEffects keeps the opt-in Metaverse entry available on the homepage. */}
         <SnowCrashEffects />
 
-        <main className="flex-1 container mx-auto px-4 pt-20 pb-8 relative z-10">
+        <main className="site-main flex-1 relative z-10">
           <AdaptiveFocusHandoffProvider>
             <RouteTransition>{children}</RouteTransition>
           </AdaptiveFocusHandoffProvider>

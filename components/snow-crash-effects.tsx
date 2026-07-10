@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 const MetaverseNav = dynamic(
   () => import('./metaverse-nav').then((m) => m.MetaverseNav),
   {
@@ -17,7 +18,13 @@ const SiteNav = dynamic(() => import('./site-nav').then((m) => m.SiteNav), { ssr
 
 export function SnowCrashEffects() {
   const pathname = usePathname()
-  const showMetaverseEntry = pathname === "/"
+  const [showMetaverseEntry, setShowMetaverseEntry] = useState(false)
+
+  useEffect(() => {
+    setShowMetaverseEntry(
+      pathname === "/" && new URLSearchParams(window.location.search).get("metaverse") === "true"
+    )
+  }, [pathname])
 
   return (
     <>

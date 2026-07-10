@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem;
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;
   --card: 0 0% 4%;
@@ -23,6 +23,11 @@
   --border: 240 3% 20%;
   --input: 240 3% 20%;
   --ring: 160 100% 50%;
+}
+
+::selection {
+  background: rgba(0, 255, 140, 0.28);
+  color: #ffffff;
 }
 
 /* Dark theme variables */
@@ -440,11 +445,11 @@ textarea {
 }
 
 .neon-separator {
-  height: 2px;
+  height: 1px;
   width: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,0,255,0), rgba(0,255,255,.8), rgba(0,255,140,.8), rgba(255,0,255,0));
-  animation: neon-shift 5s linear infinite;
+  border-radius: 0;
+  background: rgba(0, 255, 140, 0.28);
+  animation: none;
 }
 .neon-low { opacity: 0.4; }
 .neon-medium { opacity: 0.65; }
@@ -584,5 +589,248 @@ textarea {
 
   .terminal-cursor {
     opacity: 1;
+  }
+}
+
+/* Post-terminal site iteration */
+.site-main {
+  width: 100%;
+  padding-top: 4.5rem;
+  padding-bottom: 2rem;
+}
+
+.site-main > * {
+  width: min(100%, 1520px);
+  margin-inline: auto;
+  padding-inline: clamp(0.9rem, 2.4vw, 2rem);
+}
+
+.site-shell {
+  width: min(100%, 1520px);
+  height: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(0.9rem, 2.4vw, 2rem);
+}
+
+.signal-nav-link::before {
+  content: "$";
+  margin-right: 0.45rem;
+  color: #00ff8c;
+}
+
+.signal-nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.76rem;
+  left: 0;
+  height: 1px;
+  background: #00ff8c;
+  transform: scaleX(0);
+  transition: transform 160ms ease;
+}
+
+.signal-nav-link.text-primary::after,
+.signal-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.home-content-layer {
+  padding-top: 1rem;
+}
+
+.home-webgl-stage {
+  opacity: 0.2;
+}
+
+.home-corruption-overlay {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 95px,
+    rgba(0, 255, 255, 0.025) 95px 96px
+  );
+  animation: none;
+}
+
+.post-terminal-hero {
+  position: relative;
+}
+
+.post-terminal-hero-scene {
+  position: relative;
+  overflow: hidden;
+  min-height: 21rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 0;
+  background-color: #010405;
+  background-image:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.78) 28%, rgba(0, 0, 0, 0.18) 58%, rgba(0, 0, 0, 0.08) 100%),
+    url("/visuals/black-sun-signal-grid.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.post-terminal-hero-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0 1px,
+    transparent 1px 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.28;
+}
+
+.post-terminal-status-strip {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0.55rem 0.85rem;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+}
+
+.signal-command-deck {
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.55);
+}
+
+.signal-section {
+  padding-top: 0.25rem;
+}
+
+.signal-section-heading,
+.signal-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 0.75rem;
+  padding: 0 0.15rem 0.55rem;
+  color: #00ff8c;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.signal-section-heading h2::before {
+  content: "+";
+  margin-right: 0.55rem;
+}
+
+.signal-section-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 160ms ease;
+}
+
+.signal-section-heading a:hover {
+  color: #ffffff;
+}
+
+.signal-panel {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.82);
+  padding: 0.85rem;
+}
+
+.signal-panel-heading h2 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.signal-project-card {
+  box-shadow: inset 0 0 28px rgba(0, 255, 140, 0.025);
+}
+
+.terminal-window,
+.card-hover {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.terminal-window {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.86);
+}
+
+.terminal-header {
+  border-bottom-color: rgba(0, 255, 140, 0.25);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+}
+
+footer .site-shell,
+footer .container {
+  width: min(100%, 1520px);
+  margin-inline: auto;
+  padding-inline: clamp(0.9rem, 2.4vw, 2rem);
+}
+
+@media (max-width: 1023px) {
+  .post-terminal-hero-scene {
+    background-position: 58% center;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-main {
+    padding-top: 4.5rem;
+  }
+
+  .home-content-layer {
+    padding-top: 0.75rem;
+  }
+
+  .post-terminal-hero-scene {
+    min-height: 34rem;
+    background-image:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.88) 64%, #000000 100%),
+      url("/visuals/black-sun-signal-grid.png");
+    background-position: 68% center;
+  }
+
+  .post-terminal-status-strip {
+    justify-content: flex-start;
+  }
+
+  .post-terminal-status-strip span:nth-child(n + 3) {
+    display: none;
+  }
+
+  .signal-section-heading {
+    align-items: flex-start;
+  }
+
+  .signal-section-heading h2 {
+    max-width: 15rem;
+    line-height: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-nav-link::after,
+  .signal-project-card img {
+    transition: none;
   }
 }

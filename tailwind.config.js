@@ -60,6 +60,7 @@ module.exports = {
       },
       fontFamily: {
         mono: ["var(--font-mono)", "monospace"],
+        display: ["var(--font-display)", "Arial Narrow", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
