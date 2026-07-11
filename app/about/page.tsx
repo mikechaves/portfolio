@@ -1,682 +1,350 @@
-"use client";
+"use client"
 
-import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode, useTransition } from "react"
+import { useEffect, useState, useTransition, type FormEvent } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
-import { Activity, ArrowRight, Cpu, Download, Github, Linkedin, Mail, Network, RefreshCw, type LucideIcon } from "lucide-react"
+import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
+import { sendContactEmail } from "@/app/actions/contact"
+import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
+import { FocusContextBadge } from "@/components/focus-context-badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { PROJECTS } from "@/data/projects"
+import { useToast } from "@/hooks/use-toast"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
-// Prevent Font Awesome from adding its CSS since we did it manually above
+
 config.autoAddCss = false
 
-import { sendContactEmail } from "@/app/actions/contact"
-import { useToast } from "@/hooks/use-toast"
-import { FocusContextBadge } from "@/components/focus-context-badge"
-import { NeonSeparator } from "@/components/neon-separator"
-import { cn } from "@/lib/utils"
+const operatingLoop = [
+  {
+    index: "01",
+    title: "Frame the workflow",
+    description: "Map the people, decisions, handoffs, constraints, and failure modes before committing to an interface.",
+  },
+  {
+    index: "02",
+    title: "Build the system",
+    description: "Move between product design and implementation to turn ambiguous requirements into an operable product surface.",
+  },
+  {
+    index: "03",
+    title: "Instrument the work",
+    description: "Make system behavior, human review, disagreement, and outcomes visible enough to evaluate and improve.",
+  },
+  {
+    index: "04",
+    title: "Calibrate the loop",
+    description: "Use evidence from real use to refine automation, interfaces, guardrails, and the division of human and machine work.",
+  },
+]
 
-const introParagraphs = [
+const proofPoints = [
   {
-    id: "workflow-judgment",
-    text: "I design and build product systems for workflows where software, automation, and human judgment have to work together.",
+    caseFile: "AF-01",
+    title: "Astrocade AI QA Calibration Tool",
+    label: "Human-in-the-loop AI / Evaluation",
+    description: "Owned UGC review systems spanning QA annotation, calibration, final review behavior, creator feedback, and operational guardrails.",
+    href: "/projects/astrocade-qa-calibration-tool",
   },
   {
-    id: "cross-functional-systems",
-    text: "My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I have built and shipped systems across AI-powered creator platforms, enterprise internal tools, spatial interfaces, and AI-native product prototypes.",
+    caseFile: "AF-02",
+    title: "Wizzo",
+    label: "AI product systems / Intent to action",
+    description: "Designed and built an AI mentor product system connecting chat, work context, goals, and follow-up to actionable quests.",
+    href: "/projects/wizzo",
   },
   {
-    id: "ugc-review-systems",
-    text: "Most recently, I owned UGC review systems for an AI-powered game creation platform, including auto-review logic, QA annotation workflows, calibration processes, final review behavior, creator feedback loops, and operational guardrails.",
+    caseFile: "XR-01",
+    title: "SpeakEasy",
+    label: "Voice interaction / Accessibility",
+    description: "Designed a voice-controlled mixed reality system for users with low muscle tone, grounding emerging interaction in access needs.",
+    href: "/projects/speakeasy",
   },
   {
-    id: "ambiguous-execution",
-    text: "I am strongest in ambiguous product environments where the work requires both systems thinking and hands-on execution: defining workflows, designing interfaces, building prototypes, improving review loops, documenting process, and turning messy human/AI interactions into usable product systems.",
+    caseFile: "OPS-01",
+    title: "Enterprise Systems",
+    label: "Operational UX / Spatial tools",
+    description: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
+    href: "/projects?focusPreset=operational-ux",
   },
 ]
 
 const currentFocusItems = [
-  { id: "ai-assisted-workflows", text: "AI-assisted workflows" },
-  { id: "human-in-the-loop", text: "Human-in-the-loop systems" },
-  { id: "product-design-engineering", text: "Product and design engineering" },
-  { id: "operational-ux", text: "Internal tools and operational UX" },
-  { id: "moderation-calibration", text: "Moderation and QA calibration systems" },
-  { id: "creator-workflows", text: "Creator workflows" },
-  { id: "accessible-interaction", text: "Accessibility-focused interaction design" },
-  { id: "emerging-interfaces", text: "XR, voice UI, and emerging interface systems" },
+  "AI-assisted workflows",
+  "Human-in-the-loop systems",
+  "Product and design engineering",
+  "Internal tools and operational UX",
+  "Moderation and QA calibration",
+  "Creator workflows",
+  "Accessibility-focused interaction",
+  "XR, voice UI, and emerging interfaces",
 ]
 
-const selectedProofPoints = [
+const publicSignals = [
   {
-    id: "astrocade-ugc-review",
-    text: "Owned UGC review systems at Astrocade, spanning QA annotation workflows, calibration, final review behavior, creator feedback loops, and operational guardrails.",
+    id: "futures-summit-2025",
+    event: "Futures Summit 2025",
+    role: "Panelist",
+    title: "The Rise of Synthetic AI Companions: Promise or Peril",
+    date: "September 2025",
+    image: "/events/chaves_futuressummit_2025_thumb.png",
   },
   {
-    id: "wizzo-product",
-    text: "Built Wizzo, an AI mentor product system using Next.js, TypeScript, OpenAI, Google APIs, Postgres, Drizzle ORM, Neon, and Vercel.",
+    id: "gatherverse-2025",
+    event: "GatherVerse XREvolve",
+    role: "Panelist",
+    title: "AR & AI: The Intersection of the Future",
+    date: "June 2025",
+    image: "/events/chaves_gatherverse_2025_thumb.png",
   },
   {
-    id: "speakeasy-accessibility",
-    text: "Designed SpeakEasy, a voice-controlled mixed reality accessibility system for users with low muscle tone.",
+    id: "xr-access-2024",
+    event: "XR Access Symposium",
+    role: "Speaker",
+    title: "Voice-Driven Mixed Reality for Accessibility",
+    date: "July 2024",
+    image: "/events/chaves_xraccess_2024_thumb.png",
   },
   {
-    id: "enterprise-systems",
-    text: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
+    id: "adobe-2023",
+    event: "Adobe Experiential Horizons",
+    role: "Host / Presenter",
+    title: "Industry Roundtable and Demo Showcase",
+    date: "October 2023",
+    image: "/events/chaves_adobesympo_2023_thumb.png",
   },
 ]
-
-const narrativeThreadItems = [
-  {
-    id: "thesis",
-    label: "01 / Thesis",
-    text: "The homepage frames the core position: AI-native product systems for messy workflows where automation and judgment meet.",
-  },
-  {
-    id: "operating-model",
-    label: "02 / Operating Model",
-    text: "This page explains the working model: define workflows, design interfaces, build prototypes, calibrate loops, and ship usable systems.",
-  },
-  {
-    id: "proof",
-    label: "03 / Proof",
-    text: "Project pages show the artifacts behind that model across AI QA, creator tools, automation, accessibility, and immersive systems.",
-  },
-]
-
-type TerminalWindowProps = {
-  children: ReactNode
-  title: string
-  className?: string
-  contentClassName?: string
-}
-
-function TerminalWindow({
-  children,
-  title,
-  className,
-  contentClassName,
-}: TerminalWindowProps) {
-  return (
-    <div className={cn("terminal-window", className)}>
-      <div className="terminal-header">
-        <div className="terminal-button terminal-button-red"></div>
-        <div className="terminal-button terminal-button-yellow"></div>
-        <div className="terminal-button terminal-button-green"></div>
-        <div className="terminal-title">{title}</div>
-      </div>
-      <div className={cn("terminal-content", contentClassName)}>{children}</div>
-    </div>
-  )
-}
-
-type HeroTerminalMode = "profile" | "systems" | "impact"
-
-type HeroTerminalModeConfig = {
-  label: string
-  icon: LucideIcon
-  lines: string[]
-}
-
-const heroTerminalModes: Record<HeroTerminalMode, HeroTerminalModeConfig> = {
-  profile: {
-    label: "Profile",
-    icon: Activity,
-    lines: [
-      "$ boot --profile mike_chaves",
-      "[ok] Initializing personal profile",
-      "[ok] Access granted",
-      "[ok] Loading bio data",
-      "",
-      "Welcome...",
-      "",
-      "I am an AI-native design engineer focused on product systems,",
-      "human-in-the-loop AI, and operational UX.",
-      "",
-      "> current vector: creator workflows, QA calibration, enterprise AI tools",
-      "> operating loop: prototype -> instrument -> ship -> calibrate",
-    ],
-  },
-  systems: {
-    label: "Systems",
-    icon: Cpu,
-    lines: [
-      "$ inspect --systems",
-      "[online] product systems",
-      "[online] human-in-the-loop AI",
-      "[online] operational UX",
-      "[online] UGC review pipelines",
-      "[ready] forward-deployed product execution",
-      "",
-      "> stack preference: fast prototypes with production discipline",
-      "> signal: interfaces that make complex systems usable",
-    ],
-  },
-  impact: {
-    label: "Impact",
-    icon: Network,
-    lines: [
-      "$ trace --impact",
-      "Astrocade_AI .... QA calibration + creator review loops",
-      "Wizzo_Labs_Inc . AI platform architecture + evaluation harnesses",
-      "Ford_Motor ..... global time-study tooling + operational savings",
-      "POWER_Engineers spatial storytelling + WebGL prototypes",
-      "",
-      "[ready] connect product ambiguity to shipped systems",
-    ],
-  },
-}
-
-const heroTerminalModeEntries = Object.entries(heroTerminalModes) as Array<[
-  HeroTerminalMode,
-  HeroTerminalModeConfig,
-]>
-
-function AboutHeroTerminal({ onComplete }: { onComplete: () => void }) {
-  const [activeMode, setActiveMode] = useState<HeroTerminalMode>("profile")
-  const [displayedText, setDisplayedText] = useState("")
-  const [isTyping, setIsTyping] = useState(true)
-  const [sequenceNonce, setSequenceNonce] = useState(0)
-  const hasUnlockedPage = useRef(false)
-
-  const activeConfig = heroTerminalModes[activeMode]
-  const activeText = activeConfig.lines.join("\n")
-  const progress = activeText.length === 0
-    ? 100
-    : Math.min(100, Math.round((displayedText.length / activeText.length) * 100))
-
-  useEffect(() => {
-    let currentIndex = 0
-    let timer: ReturnType<typeof setTimeout> | undefined
-
-    setDisplayedText("")
-    setIsTyping(true)
-
-    const typeNextCharacter = () => {
-      if (currentIndex < activeText.length) {
-        setDisplayedText(activeText.slice(0, currentIndex + 1))
-        const typedCharacter = activeText[currentIndex]
-        currentIndex += 1
-        timer = setTimeout(
-          typeNextCharacter,
-          typedCharacter === "\n" ? 180 : activeMode === "profile" ? 20 : 12,
-        )
-        return
-      }
-
-      setIsTyping(false)
-      if (!hasUnlockedPage.current) {
-        hasUnlockedPage.current = true
-        onComplete()
-      }
-    }
-
-    timer = setTimeout(typeNextCharacter, 180)
-
-    return () => {
-      if (timer) clearTimeout(timer)
-    }
-  }, [activeMode, activeText, onComplete, sequenceNonce])
-
-  const renderedLines = displayedText.split("\n")
-
-  return (
-    <div className="terminal-window relative mx-auto max-w-3xl overflow-hidden shadow-[0_0_44px_rgba(0,255,140,0.16)]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,255,140,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_24%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-primary/80" />
-
-      <div className="terminal-header relative z-10">
-        <div className="terminal-button terminal-button-red"></div>
-        <div className="terminal-button terminal-button-yellow"></div>
-        <div className="terminal-button terminal-button-green"></div>
-        <div className="terminal-title">mike_chaves.{activeMode}</div>
-        <div className="ml-auto hidden items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-primary/70 sm:flex">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-          {isTyping ? "streaming" : "ready"}
-        </div>
-      </div>
-
-      <div className="terminal-content relative z-10 space-y-4">
-        <div className="grid grid-cols-3 gap-2 text-[0.7rem] uppercase tracking-[0.14em] text-zinc-400">
-          <div className="rounded border border-primary/20 bg-black/35 p-2">
-            <span className="block text-primary">access</span>
-            granted
-          </div>
-          <div className="rounded border border-primary/20 bg-black/35 p-2">
-            <span className="block text-primary">signal</span>
-            AI-native
-          </div>
-          <div className="rounded border border-primary/20 bg-black/35 p-2">
-            <span className="block text-primary">boot</span>
-            {progress}%
-          </div>
-        </div>
-
-        <div className="min-h-[18rem] rounded border border-primary/20 bg-black/55 p-4 text-sm leading-7 text-zinc-100 sm:text-base">
-          <div className="sr-only" aria-live="polite" aria-atomic="true">
-            {activeText}
-          </div>
-          <div className="whitespace-pre-wrap break-words" aria-hidden="true">
-            {renderedLines.map((line, index) => {
-              if (line.startsWith("$")) {
-                return (
-                  <div key={`${line}-${index}`}>
-                    <span className="text-primary">$</span>
-                    {line.slice(1)}
-                  </div>
-                )
-              }
-
-              if (line.startsWith("[")) {
-                const closingBracket = line.indexOf("]")
-
-                return (
-                  <div key={`${line}-${index}`}>
-                    <span className="text-primary">
-                      {closingBracket > -1 ? line.slice(0, closingBracket + 1) : line}
-                    </span>
-                    {closingBracket > -1 ? line.slice(closingBracket + 1) : ""}
-                  </div>
-                )
-              }
-
-              if (line.startsWith(">")) {
-                return (
-                  <div key={`${line}-${index}`} className="text-zinc-300">
-                    <span className="text-primary">{">"}</span>
-                    {line.slice(1)}
-                  </div>
-                )
-              }
-
-              return <div key={`${line}-${index}`}>{line || "\u00a0"}</div>
-            })}
-            {isTyping && <span className="terminal-cursor" />}
-          </div>
-        </div>
-
-        <div className="h-1 overflow-hidden rounded bg-primary/10" aria-hidden="true">
-          <div
-            className="h-full bg-primary transition-[width] duration-150"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-
-        <div className="flex flex-col gap-3 border-t border-primary/20 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Profile terminal commands">
-            {heroTerminalModeEntries.map(([mode, config]) => {
-              const Icon = config.icon
-              const isActive = activeMode === mode
-
-              return (
-                <Button
-                  key={mode}
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  aria-pressed={isActive}
-                  className={cn(
-                    "h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary",
-                    isActive && "border-primary/70 bg-primary/15 text-primary",
-                  )}
-                  onClick={() => {
-                    setActiveMode(mode)
-                    setSequenceNonce((value) => value + 1)
-                  }}
-                >
-                  <Icon aria-hidden="true" />
-                  {config.label}
-                </Button>
-              )
-            })}
-          </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-9 border border-primary/20 bg-black/40 px-3 text-xs text-zinc-200 hover:bg-primary/10 hover:text-primary"
-            onClick={() => setSequenceNonce((value) => value + 1)}
-          >
-            <RefreshCw aria-hidden="true" />
-            Replay
-          </Button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default function AboutPage() {
-  const [heroComplete, setHeroComplete] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [formStatus, setFormStatus] = useState<{
     success: boolean | null
     message: string | null
-  }>({
-    success: null,
-    message: null,
-  })
-  const { toast } = useToast()
+  }>({ success: null, message: null })
   const [focus, setFocus] = useState("")
+  const { toast } = useToast()
 
   useEffect(() => {
-    if (typeof window === "undefined") return
     const query = new URLSearchParams(window.location.search).get("focus")
     if (query) setFocus(query)
   }, [])
 
-  const handleHeroComplete = useCallback(() => {
-    setHeroComplete(true)
-  }, [])
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setFormStatus({ success: null, message: null })
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
-    // Reset form status
-    setFormStatus({
-      success: null,
-      message: null,
-    })
-
-    const form = e.currentTarget
+    const form = event.currentTarget
     const formData = new FormData(form)
 
     startTransition(async () => {
       try {
         const response = await sendContactEmail(formData)
-
-        setFormStatus({
-          success: response.success,
-          message: response.message,
-        })
+        setFormStatus({ success: response.success, message: response.message })
 
         if (response.success) {
           form.reset()
-          toast({
-            title: "Success!",
-            description: response.message,
-          })
+          toast({ title: "Message sent", description: response.message })
         } else {
           toast({
-            title: "Error",
+            title: "Message not sent",
             description: response.message || "Something went wrong. Please try again.",
             variant: "destructive",
           })
         }
       } catch (error) {
         console.error("Form submission error:", error)
-        setFormStatus({
-          success: false,
-          message: "An unexpected error occurred. Please try again.",
-        })
+        setFormStatus({ success: false, message: "An unexpected error occurred. Please try again." })
       }
     })
   }
 
   return (
-    <div className="space-y-16 pt-8">
-      <h1 className="sr-only">About Mike Chaves</h1>
-      {focus && <FocusContextBadge focus={focus} />}
-      <section>
-        <AboutHeroTerminal onComplete={handleHeroComplete} />
+    <div className="about-operating-page space-y-8 pt-6">
+      {focus ? <FocusContextBadge focus={focus} /> : null}
+
+      <section className="operating-profile-hero" aria-labelledby="about-title">
+        <div className="operating-profile-status" aria-hidden="true">
+          <span>PROFILE / VERIFIED</span>
+          <span>MODE / DESIGN + ENGINEERING</span>
+          <span>AVAILABILITY / BAY AREA + REMOTE</span>
+        </div>
+
+        <div className="operating-profile-grid">
+          <div className="operating-profile-copy">
+            <p className="operating-profile-eyebrow">AI-Native Design Engineer</p>
+            <h1 id="about-title" className="operating-profile-title">Mike Chaves</h1>
+            <p className="operating-profile-lede">
+              I design and build product systems for workflows where software, automation, and human judgment have to work together.
+            </p>
+            <p className="operating-profile-summary">
+              My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I am strongest in ambiguous environments that require both systems thinking and hands-on execution.
+            </p>
+            <div className="operating-profile-actions">
+              <Link href="/projects" className="operating-profile-primary-action">
+                Inspect project proof <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+              <a href="/Michael_Chaves_Resume_min.pdf" download className="operating-profile-secondary-action">
+                Download resume <Download size={15} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+
+          <figure className="operating-profile-portrait">
+            <Image
+              src="/events/chaves_adobesympo_2023_thumb.png"
+              alt="Mike Chaves presenting at the Adobe Experiential Horizons Symposium"
+              fill
+              className="object-cover"
+              sizes="(min-width: 900px) 38vw, 100vw"
+              priority
+            />
+            <figcaption>
+              <span>Public practice / 2023-2025</span>
+              <strong>Design systems in public</strong>
+            </figcaption>
+          </figure>
+        </div>
+
+        <dl className="operating-profile-ledger">
+          <div><dt>Projects indexed</dt><dd>{PROJECTS.length.toString().padStart(2, "0")}</dd></div>
+          <div><dt>Reviewed dossiers</dt><dd>{EVIDENCE_DOSSIER_PROJECT_IDS.size.toString().padStart(2, "0")}</dd></div>
+          <div><dt>Base</dt><dd>Pacifica, California</dd></div>
+          <div><dt>Operating loop</dt><dd>Frame / Build / Measure / Calibrate</dd></div>
+        </dl>
       </section>
 
-      {heroComplete && (
-        <>
-          <NeonSeparator intensity="high" />
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Product Systems for Human Judgment</h2>
-            <TerminalWindow title="positioning.sh" contentClassName="space-y-4">
-              <p>
-                <span className="text-primary">$</span> cat professional_identity.txt
-              </p>
-              {introParagraphs.map((paragraph) => (
-                <p key={paragraph.id} className="text-muted-foreground">
-                  {paragraph.text}
-                </p>
-              ))}
-            </TerminalWindow>
-          </section>
+      <section className="profile-section" aria-labelledby="operating-model-title">
+        <div className="profile-section-heading">
+          <div>
+            <p className="operating-profile-eyebrow">Operating model</p>
+            <h2 id="operating-model-title">How I turn ambiguity into a usable system</h2>
+          </div>
+          <p>One working loop across product strategy, interaction design, implementation, and evaluation.</p>
+        </div>
+        <ol className="operating-loop-grid">
+          {operatingLoop.map((step) => (
+            <li key={step.index}>
+              <span>{step.index}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-6">From Positioning To Proof</h2>
-            <TerminalWindow title="narrative_thread.sh" contentClassName="space-y-5">
-              <div className="space-y-2">
-                <p>
-                  <span className="text-primary">$</span> trace portfolio_throughline
-                </p>
-                <p className="text-muted-foreground">
-                  The throughline is simple: I turn ambiguous human/AI workflows
-                  into product systems people can operate, evaluate, and improve.
-                </p>
+      <section className="profile-section" aria-labelledby="proof-path-title">
+        <div className="profile-section-heading">
+          <div>
+            <p className="operating-profile-eyebrow">Selected evidence</p>
+            <h2 id="proof-path-title">Proof across systems, operations, and access</h2>
+          </div>
+          <Link href="/projects">Open signal index <ArrowRight size={14} aria-hidden="true" /></Link>
+        </div>
+        <div className="profile-proof-grid">
+          {proofPoints.map((proof) => (
+            <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
+              <div className="profile-proof-meta">
+                <span>{proof.caseFile}</span>
+                <span>{proof.label}</span>
               </div>
-              <ol className="grid gap-3 md:grid-cols-3">
-                {narrativeThreadItems.map((item) => (
-                  <li
-                    key={item.id}
-                    className="rounded border border-primary/20 bg-background/50 p-4"
-                  >
-                    <p className="mb-2 font-mono text-xs uppercase text-primary">
-                      {item.label}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{item.text}</p>
-                  </li>
-                ))}
-              </ol>
-              <div className="flex flex-wrap gap-3 border-t border-primary/20 pt-4">
-                <Button asChild size="sm">
-                  <Link
-                    href={{
-                      pathname: "/projects",
-                      query: { focus: "human-in-the-loop AI systems" },
-                    }}
-                  >
-                    View AI Proofs <ArrowRight size={14} />
-                  </Link>
-                </Button>
-                <Button asChild size="sm" variant="outline">
-                  <Link href="/projects/astrocade-qa-calibration-tool">
-                    Start With Astrocade <ArrowRight size={14} />
-                  </Link>
-                </Button>
+              <h3>{proof.title}</h3>
+              <p>{proof.description}</p>
+              <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="profile-section profile-focus-section" aria-labelledby="current-focus-title">
+        <div className="profile-section-heading">
+          <div>
+            <p className="operating-profile-eyebrow">Current focus</p>
+            <h2 id="current-focus-title">Where the work compounds</h2>
+          </div>
+          <p>The recurring system problems behind the projects, not a list of disconnected tools.</p>
+        </div>
+        <ul className="profile-focus-index">
+          {currentFocusItems.map((item, index) => (
+            <li key={item}>
+              <span>{(index + 1).toString().padStart(2, "0")}</span>
+              <strong>{item}</strong>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="profile-section" aria-labelledby="public-practice-title">
+        <div className="profile-section-heading">
+          <div>
+            <p className="operating-profile-eyebrow">Public practice</p>
+            <h2 id="public-practice-title">Research, accessibility, and emerging systems</h2>
+          </div>
+          <p>Selected talks and panels extending project work into shared industry conversations.</p>
+        </div>
+        <div className="public-signal-grid">
+          {publicSignals.map((signal) => (
+            <article key={signal.id} className="public-signal-card">
+              <div className="public-signal-image">
+                <Image src={signal.image} alt="" fill className="object-cover" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
               </div>
-            </TerminalWindow>
-          </section>
+              <div className="public-signal-body">
+                <div><span>{signal.role}</span><time>{signal.date}</time></div>
+                <h3>{signal.event}</h3>
+                <p>{signal.title}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Current Focus</h2>
-            <TerminalWindow title="current_focus.sh">
-              <p className="mb-4">
-                <span className="text-primary">$</span> cat focus_areas.txt
-              </p>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {currentFocusItems.map((item) => (
-                  <li key={item.id} className="flex items-start gap-2">
-                    <span className="text-primary">-</span>
-                    <span>{item.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </TerminalWindow>
-          </section>
+      <section className="profile-contact-section" aria-labelledby="contact-title">
+        <div className="profile-contact-intro">
+          <p className="operating-profile-eyebrow">Location and availability</p>
+          <h2 id="contact-title">Start with the system you need to make usable</h2>
+          <p>
+            Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
+          </p>
+          <a href="/Michael_Chaves_Resume_min.pdf" download className="operating-profile-secondary-action">
+            Download resume <Download size={15} aria-hidden="true" />
+          </a>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Selected Proof Points</h2>
-            <TerminalWindow title="proof_points.sh">
-              <p className="mb-4">
-                <span className="text-primary">$</span> cat selected_work.txt
-              </p>
-              <ul className="space-y-3">
-                {selectedProofPoints.map((proofPoint) => (
-                  <li key={proofPoint.id} className="flex items-start gap-2">
-                    <span className="text-primary">$</span>
-                    <span>{proofPoint.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </TerminalWindow>
-          </section>
+          <div className="profile-network-links" aria-label="Professional network links">
+            <a href="https://github.com/mikechaves" target="_blank" rel="noopener noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a>
+            <a href="https://x.com/mikechaves_io" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} className="h-4 w-4" aria-hidden="true" /> X</a>
+            <a href="https://www.linkedin.com/in/mikejchaves" target="_blank" rel="noopener noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a>
+            <a href="mailto:founder@gowizzo.io"><Mail size={17} aria-hidden="true" /> Email</a>
+          </div>
+        </div>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Location & Availability</h2>
-            <div className="grid md:grid-cols-[1fr_auto] gap-6 items-stretch">
-              <TerminalWindow title="availability.sh">
-                <p className="mb-4">
-                  <span className="text-primary">$</span> cat availability.txt
-                </p>
-                <p>
-                  Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
-                </p>
-              </TerminalWindow>
-              <TerminalWindow
-                title="resume.sh"
-                className="flex flex-col"
-                contentClassName="flex h-full flex-col justify-between"
-              >
-                <p className="mb-4">
-                  <span className="text-primary">$</span> open resume.pdf
-                </p>
-                <Button asChild className="mt-auto">
-                  <a href="/Michael_Chaves_Resume_min.pdf" download>
-                    <Download size={16} />
-                    Download Resume
-                  </a>
-                </Button>
-              </TerminalWindow>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Contact</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <TerminalWindow title="contact_form.sh">
-                <p className="mb-4">
-                  <span className="text-primary">$</span> ./send_message.sh
-                </p>
-                <form className="space-y-4" onSubmit={handleSubmit}>
-                  <div>
-                    <label htmlFor="name" className="block text-sm mb-1">
-                      <span className="text-primary">name:</span>
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder="Enter your name"
-                      className="bg-background border-border"
-                      required
-                      disabled={isPending}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm mb-1">
-                      <span className="text-primary">email:</span>
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      className="bg-background border-border"
-                      required
-                      disabled={isPending}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm mb-1">
-                      <span className="text-primary">message:</span>
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="Enter your message"
-                      rows={4}
-                      className="bg-background border-border"
-                      required
-                      disabled={isPending}
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isPending}>
-                    {isPending ? "Sending..." : "Send Message"}
-                  </Button>
-
-                  {formStatus.message && (
-                    <div
-                      className={`mt-2 p-2 text-sm rounded ${
-                        formStatus.success
-                          ? "bg-green-900/20 text-green-500 border border-green-900"
-                          : formStatus.success === false
-                            ? "bg-red-900/20 text-red-500 border border-red-900"
-                            : ""
-                      }`}
-                    >
-                      {formStatus.message}
-                    </div>
-                  )}
-                </form>
-              </TerminalWindow>
-
-              <TerminalWindow title="network_connections.sh">
-                <p className="mb-4">
-                  <span className="text-primary">$</span> ifconfig
-                </p>
-                <div className="space-y-4">
-                  <div>
-                    <p className="mb-1 text-primary">github0:</p>
-
-                    <Link
-                      href="https://github.com/mikechaves"
-                      className="flex items-center gap-2 hover:text-primary transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Github size={16} />
-                      github.com/mikechaves
-                    </Link>
-                  </div>
-                  <div>
-                    <p className="mb-1 text-primary">x0:</p>
-                    <Link
-                      href="https://x.com/mikechaves_io"
-                      className="flex items-center gap-2 hover:text-primary transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="w-4 h-4 flex items-center justify-center">
-                        <FontAwesomeIcon icon={faXTwitter} className="w-3 h-3" />
-                      </span>
-                      x.com/mikechaves_io
-                    </Link>
-                  </div>
-                  <div>
-                    <p className="mb-1 text-primary">linkedin0:</p>
-                    <Link
-                      href="https://www.linkedin.com/in/mikejchaves"
-                      className="flex items-center gap-2 hover:text-primary transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Linkedin size={16} />
-                      linkedin.com/in/mikejchaves
-                    </Link>
-                  </div>
-                  <div>
-                    <p className="mb-1 text-primary">mail0:</p>
-                    <a
-                      href="mailto:founder@gowizzo.io"
-                      className="flex items-center gap-2 hover:text-primary transition-colors"
-                    >
-                      <Mail size={16} />
-                      founder@gowizzo.io
-                    </a>
-                  </div>
-                </div>
-              </TerminalWindow>
-            </div>
-          </section>
-        </>
-      )}
+        <form className="profile-contact-form" onSubmit={handleSubmit}>
+          <div className="profile-contact-form-heading">
+            <span>DIRECT CHANNEL / EMAIL</span>
+            <strong>{isPending ? "SENDING" : "READY"}</strong>
+          </div>
+          <div>
+            <label htmlFor="name">Name</label>
+            <Input id="name" name="name" placeholder="Enter your name" required disabled={isPending} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <Input id="email" name="email" type="email" placeholder="Enter your email" required disabled={isPending} />
+          </div>
+          <div>
+            <label htmlFor="message">Message</label>
+            <Textarea id="message" name="message" placeholder="What are you building or hiring for?" rows={5} required disabled={isPending} />
+          </div>
+          <Button type="submit" disabled={isPending}>{isPending ? "Sending..." : "Send Message"}</Button>
+          {formStatus.message ? (
+            <p className={formStatus.success ? "profile-form-success" : "profile-form-error"} role="status">
+              {formStatus.message}
+            </p>
+          ) : null}
+        </form>
+      </section>
     </div>
-  );
+  )
 }
