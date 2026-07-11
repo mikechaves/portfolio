@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react"
-import { LoaderCircle } from "lucide-react"
+import { ArrowRight, FileCheck2, LoaderCircle } from "lucide-react"
 import { NeonSeparator } from "@/components/neon-separator"
 import { ProjectCard } from "@/components/project-card"
 import { RoleFitBrief } from "@/components/role-fit-brief"
@@ -25,6 +25,7 @@ import {
 } from "@/features/adaptive-focus/handoff"
 import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
 import type { Project } from "@/types/project"
+import { EVIDENCE_DOSSIER_PROJECT_IDS } from "./[id]/dossierConfig"
 
 const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
@@ -79,6 +80,13 @@ export default function ProjectsPage() {
     () => CATEGORIES.find((category) => category.id === activeFilter)?.name ?? "Projects",
     [activeFilter]
   )
+
+  const categoryCounts = useMemo(
+    () => new Map(CATEGORIES.map((category) => [category.id, projectsForCategory(category.id).length])),
+    []
+  )
+
+  const visibleProjects = display.slice(0, showAll ? display.length : initialLimit)
 
   const applyBrief = useCallback((result: AdaptiveFocusV2Result) => {
     setBrief(result)
@@ -225,55 +233,72 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="space-y-8 pt-8">
-      <h1 className="sr-only">Projects</h1>
+    <div className="projects-index-page space-y-6 pt-6">
       <p className="sr-only" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </p>
 
-      <div className="terminal-window">
-        <div className="terminal-header">
-          <div className="terminal-button terminal-button-red"></div>
-          <div className="terminal-button terminal-button-yellow"></div>
-          <div className="terminal-button terminal-button-green"></div>
-          <div className="terminal-title">projects.sh</div>
-        </div>
-        <div className="terminal-content">
-          <p className="mb-2">
-            <span className="text-primary">$</span> open proof_layer
-          </p>
-          <p className="text-sm text-muted-foreground">
-            These projects are the evidence layer for AI-native product systems, human-in-the-loop workflows, and operational tools that make complex work usable.
-          </p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Use a preset lens or analyze custom role text to build an evidence-grounded Role Fit Brief.
-          </p>
-        </div>
-      </div>
-
-      <NeonSeparator intensity="medium" />
-
-      <section className="space-y-5" aria-labelledby="adaptive-focus-controls-heading">
-        <div>
-          <p className="text-xs font-semibold uppercase text-primary">Adaptive Focus</p>
-          <h2 id="adaptive-focus-controls-heading" className="mt-1 text-xl font-bold">Build a Role Fit Brief</h2>
+      <section className="project-index-hero" aria-labelledby="project-index-title">
+        <div className="project-index-status" aria-hidden="true">
+          <span>ARCHIVE / {PROJECTS.length.toString().padStart(2, "0")} RECORDS</span>
+          <span>PROOF / REVIEWED</span>
+          <span>INDEX / ONLINE</span>
         </div>
 
-        <div className="flex flex-wrap gap-2" aria-label="Preset role lenses">
-          {ADAPTIVE_FOCUS_PRESETS.map((preset) => (
+        <div className="project-index-hero-grid">
+          <div>
+            <p className="project-index-eyebrow">Portfolio evidence layer</p>
+            <h1 id="project-index-title" className="project-index-title">
+              Project Signal Index
+            </h1>
+            <p className="project-index-summary">
+              These projects are the evidence layer for AI-native product systems, human-in-the-loop workflows, and operational tools that make complex work usable.
+            </p>
+          </div>
+
+          <dl className="project-index-ledger">
+            <div>
+              <dt>Projects indexed</dt>
+              <dd>{PROJECTS.length.toString().padStart(2, "0")}</dd>
+            </div>
+            <div>
+              <dt>Evidence dossiers</dt>
+              <dd>{EVIDENCE_DOSSIER_PROJECT_IDS.size.toString().padStart(2, "0")}</dd>
+            </div>
+            <div>
+              <dt>Active view</dt>
+              <dd>{brief ? "Role fit" : activeCategoryName}</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section className="archive-focus-deck" aria-labelledby="adaptive-focus-controls-heading">
+        <div className="archive-focus-heading">
+          <div>
+            <p className="project-index-eyebrow">Adaptive Focus / Role lens</p>
+            <h2 id="adaptive-focus-controls-heading">Build a Role Fit Brief</h2>
+          </div>
+          <p>Map a target role to reviewed evidence, then inspect the strongest proof first.</p>
+        </div>
+
+        <div className="archive-focus-presets" aria-label="Preset role lenses">
+          {ADAPTIVE_FOCUS_PRESETS.map((preset, index) => (
             <button
               key={preset.id}
               type="button"
               onClick={() => void executeRequest({ mode: "preset", presetId: preset.id })}
               disabled={requestState === "loading"}
-              className="rounded-md border border-primary/25 px-3 py-2 text-left text-sm transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-wait disabled:opacity-60"
+              className="archive-focus-preset"
             >
-              {preset.label}
+              <span aria-hidden="true">{(index + 1).toString().padStart(2, "0")}</span>
+              <strong>{preset.label}</strong>
+              <ArrowRight size={14} aria-hidden="true" />
             </button>
           ))}
         </div>
 
-        <form className="space-y-3" onSubmit={handleSubmit}>
+        <form className="archive-focus-form" onSubmit={handleSubmit}>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <label htmlFor={inputId} className="text-sm font-medium">Role, responsibilities, or job description</label>
             <span className="text-xs text-muted-foreground">
@@ -287,7 +312,7 @@ export default function ProjectsPage() {
             maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Senior design engineer building AI-assisted creative workflows and internal tools..."
-            className="min-h-28 resize-y bg-black/20"
+            className="min-h-24 resize-y rounded-none border-white/15 bg-black/45 focus-visible:ring-primary"
           />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-3xl text-xs leading-5 text-muted-foreground">
@@ -323,41 +348,61 @@ export default function ProjectsPage() {
 
       <NeonSeparator intensity="low" />
 
-      <section className="space-y-5" aria-labelledby="project-archive-heading">
-        <div className="flex flex-wrap gap-2" aria-label="Project categories">
+      <section className="project-archive-section" aria-labelledby="project-archive-heading">
+        <div className="project-archive-heading">
+          <div>
+            <p className="project-index-eyebrow">Indexed records</p>
+            <h2 id="project-archive-heading">
+              {brief ? "Project archive in relevance order" : activeCategoryName}
+            </h2>
+          </div>
+          <p aria-live="polite">
+            Showing {visibleProjects.length.toString().padStart(2, "0")} of {display.length.toString().padStart(2, "0")}
+          </p>
+        </div>
+
+        <div className="project-category-index" aria-label="Project categories">
           {CATEGORIES.map((category) => (
             <button
               key={category.id}
               type="button"
               onClick={() => handleCategoryChange(category.id)}
               aria-pressed={!brief && activeFilter === category.id}
-              className={`rounded-md px-3 py-1 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+              className={`project-category-control ${
                 !brief && activeFilter === category.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "project-category-control-active"
+                  : ""
               }`}
             >
-              {category.name}
+              <span>{category.name}</span>
+              <strong>{(categoryCounts.get(category.id) ?? 0).toString().padStart(2, "0")}</strong>
             </button>
           ))}
         </div>
 
-        <h2 id="project-archive-heading" className="text-xl font-bold">
-          {brief ? "Project archive in relevance order" : activeCategoryName}
-        </h2>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {display.slice(0, showAll ? display.length : initialLimit).map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              technologies={project.technologies}
-              category={project.category}
-              priority={index === 0}
-            />
+        <div className="project-archive-grid">
+          {visibleProjects.map((project, index) => (
+            <div key={project.id} className="project-archive-record">
+              <div className="project-archive-record-meta">
+                <span>REC / {(index + 1).toString().padStart(2, "0")}</span>
+                {EVIDENCE_DOSSIER_PROJECT_IDS.has(project.id) ? (
+                  <span className="project-archive-dossier-mark">
+                    <FileCheck2 size={12} aria-hidden="true" /> Evidence dossier
+                  </span>
+                ) : (
+                  <span>Case study</span>
+                )}
+              </div>
+              <ProjectCard
+                id={project.id}
+                title={project.title}
+                description={project.description}
+                image={project.image}
+                technologies={project.technologies}
+                category={project.category}
+                priority={index === 0}
+              />
+            </div>
           ))}
         </div>
         {!showAll && display.length > initialLimit ? (

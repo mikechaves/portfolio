@@ -17,6 +17,10 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
   },
 }
 
+export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
+  new Set(Object.keys(EVIDENCE_DOSSIERS))
+)
+
 export function getEvidenceDossierConfig(projectId: string): EvidenceDossierConfig | undefined {
   return EVIDENCE_DOSSIERS[projectId]
 }
