@@ -65,6 +65,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "Security review systems / Human-AI triage",
     signals: "Filter / Inspect / Visualize / Export",
   },
+  "sound-escape-vr": {
+    caseFile: "AF-13",
+    eyebrow: "Spatial music systems / Audio-reactive interaction",
+    signals: "Compose / Sequence / Visualize / Adapt",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
