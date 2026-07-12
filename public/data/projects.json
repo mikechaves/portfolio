@@ -1355,44 +1355,106 @@
   "die-ai": {
     "title": "Die, AI!",
     "category": "web",
-    "description": "A Flash shooter demo built in Adobe Animate and ActionScript, now revived for modern browsers with Ruffle.",
-    "image": "/projects/die-ai/main-image.png",
+    "description": "Preserved a 2018 ActionScript game as a playable modern-browser artifact by keeping the original FLA, source, GreenSock dependency, and SWF intact while adding a static Ruffle wrapper, verified controls, fallback context, checksums, and archival documentation.",
+    "image": "/projects/die-ai/level-one.png",
     "technologies": [
-      "ActionScript",
+      "ActionScript 3",
       "Adobe Animate",
-      "Ruffle"
+      "Ruffle 0.2.0",
+      "WebAssembly",
+      "Static HTML",
+      "SHA-256"
     ],
     "github": "https://github.com/mikechaves/dieai-flash",
     "demo": "https://mikechaves.github.io/dieai-flash/",
+    "demoLabel": "Play Preserved Game",
     "gallery": [
+      "/projects/die-ai/live-ruffle-wrapper.png",
       "/projects/die-ai/start-screen.png",
       "/projects/die-ai/intro-good.png",
       "/projects/die-ai/intro-hacked.png",
-      "/projects/die-ai/level-one.png",
-      "/projects/die-ai/game-over.png"
+      "/projects/die-ai/game-over.png",
+      "/projects/die-ai/main-image.png"
     ],
     "details": {
-      "client": "Personal Project",
-      "date": "Fall 2018, renewed 2025",
-      "category": "Flash Game Development",
+      "client": "GIMM 110 student project / Independent preservation",
+      "date": "2018, preservation revival 2025 - 2026",
+      "category": "Legacy Game Preservation",
+      "proofRole": "Direct digital-preservation evidence spanning a 50,392,143-byte FLA, 3,223,681-byte SWF, original ActionScript and GreenSock source, a pinned Ruffle WebAssembly wrapper, runtime-confirmed keyboard controls, checksum manifests, fallback content, and archive runbooks.",
       "services": [
-        "Game Design",
-        "ActionScript",
-        "Animation"
+        "Digital Preservation",
+        "Legacy Runtime Migration",
+        "ActionScript Game Engineering",
+        "Browser Accessibility & QA"
       ],
-      "situation": "Hackers reprogrammed AICorp's Buddy Bots to break out and destroy humanity. Dr. Gimmstein must stop them with his prototype laser gun.",
-      "task": "Create a simple Flash game inspired by a shoot-em-up template and enhance it with levels, intro screens, and audio.",
-      "actions": [
+      "situation": [
         {
-          "title": "Custom ActionScript Mechanics",
-          "description": "Extended a Shoot game template with health bars, lasers, enemy AI, and Greensock transitions."
+          "title": "A playable 2018 project lost its browser runtime",
+          "description": "DieAI began as a GIMM 110 Flash game about hacked AICorp Buddy Bots escaping Sector 12. When browser Flash Player support ended, the original SWF, keyboard controls, timeline scenes, and ActionScript mechanics stopped being directly accessible on the web."
         },
         {
-          "title": "Ruffle Revival",
-          "description": "Repackaged the original SWF with an HTML loader using the Ruffle WebAssembly emulator."
+          "title": "A rewrite would erase the preservation evidence",
+          "description": "Rebuilding the game in a modern engine could reproduce the appearance while replacing the original runtime artifact. The revival needed to keep the FLA, SWF, source, dependencies, and historical context intact while modernizing only the delivery layer."
+        },
+        {
+          "title": "Preservation required more than successful playback",
+          "description": "A durable archive also needed provenance, checksums, rights notes, input verification, accessible non-playable context, fallback behavior, release procedures, and explicit documentation of what remained external or unverified."
         }
       ],
-      "result": "A playable Flash demo preserved for the modern web."
+      "task": [
+        {
+          "title": "Keep the original artifact set inspectable",
+          "description": "Preserve the Adobe Animate authoring file, exported SWF, ActionScript game classes, bundled GreenSock source, screenshots, legacy embed output, and supporting historical analysis in one reviewable repository."
+        },
+        {
+          "title": "Restore browser play without rewriting gameplay",
+          "description": "Load the original SWF through a pinned Ruffle runtime in a static GitHub Pages wrapper while retaining the original game loop, visuals, timing, score, enemies, lasers, and win or loss states."
+        },
+        {
+          "title": "Make failure and focus states understandable",
+          "description": "Provide visible controls, player-focus guidance, screenshot fallback, a direct-file guard, source links, and a story transcript so the page remains useful when the emulator or input path is unavailable."
+        },
+        {
+          "title": "Document release and archival decisions",
+          "description": "Record artifact scope, checksums, dependency licensing, Ruffle delivery, rebuild assumptions, release-bundle inventory, external-archive readiness, and approval gates before publishing a preservation release."
+        }
+      ],
+      "actions": [
+        {
+          "title": "Separated artifact, presentation, and evidence layers",
+          "description": "Kept the original FLA, SWF, ActionScript, and GreenSock files distinct from the modern static wrapper and from the preservation documentation covering provenance, accessibility, licensing, QA, release, and archive decisions."
+        },
+        {
+          "title": "Wrapped the unchanged SWF with pinned Ruffle",
+          "description": "Built a no-bundler HTML shell that loads @ruffle-rs/ruffle 0.2.0, fetches the original SWF, shows controls and project context, blocks unsupported file:// launches before runtime loading, and keeps screenshots available as fallback evidence."
+        },
+        {
+          "title": "Audited the preservation set",
+          "description": "Recorded a 145-file, 59,131,113-byte preservation manifest with SHA-256 hashes, including the 50,392,143-byte FLA, 3,223,681-byte SWF, four original game-source files, 129 GreenSock files, and seven wrapper images."
+        },
+        {
+          "title": "Verified browser behavior and accessible context",
+          "description": "Confirmed live HTTPS playback, SWF and runtime delivery, desktop and mobile layout, player focus, A and D movement, Space firing, and the direct-file guard; added a non-playable story and screen transcript plus explicit unsupported-input notes."
+        }
+      ],
+      "results": [
+        {
+          "title": "The original SWF is playable on the modern web",
+          "description": "The live GitHub Pages wrapper runs the preserved Flash build through Ruffle without a browser plugin or gameplay rewrite, while the repository retains the authoring file, source, dependencies, screenshots, and legacy output."
+        },
+        {
+          "title": "Runtime controls are documented from evidence",
+          "description": "A browser input audit confirmed A for left, D for right, and Space for fire while the Ruffle player held focus. Arrow keys, W, S, Escape, mouse shooting, gamepad, and touch are not presented as supported without validation."
+        },
+        {
+          "title": "Preservation remains useful when play fails",
+          "description": "The wrapper keeps story context, controls, screenshots, source access, and next actions visible, and the repository includes a text transcript for readers who cannot operate the Flash or Ruffle experience."
+        },
+        {
+          "title": "A working archive with explicit remaining gaps",
+          "description": "The current archive is checksummed, documented, and playable, but it does not yet have an automated SWF rebuild, a proven Adobe Animate round trip, a vendored Ruffle runtime, a published preservation release bundle, or an external archive submission."
+        }
+      ]
     }
   }
 }
