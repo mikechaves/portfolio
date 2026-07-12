@@ -3,21 +3,18 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { MouseEvent } from "react"
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowUpRight, Menu, X } from "lucide-react"
+import { isSiteNavItemActive, SITE_NAV_ITEMS } from "./site-nav-state"
 
 export function SiteNav() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const navItems = useMemo(
-    () => [
-      { name: "impact", path: "/" },
-      { name: "systems", path: "/projects" },
-      { name: "writing", path: "/blog" },
-      { name: "about", path: "/about" },
-    ],
-    [],
-  )
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname])
+
   const enterMetaverse = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
     window.location.assign("/?metaverse=true")
@@ -45,18 +42,22 @@ export function SiteNav() {
             </Link>
 
             <ul className="hidden items-center justify-end gap-7 md:flex">
-              {navItems.map((item) => (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    className={`signal-nav-link relative py-2 text-[0.7rem] uppercase tracking-[0.14em] transition-colors hover:text-primary ${
-                      pathname === item.path ? "text-primary" : "text-zinc-300"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              {SITE_NAV_ITEMS.map((item) => {
+                const isActive = isSiteNavItemActive(pathname, item.path)
+                return (
+                  <li key={item.path}>
+                    <Link
+                      href={item.path}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`signal-nav-link relative py-2 text-[0.7rem] uppercase tracking-[0.14em] transition-colors hover:text-primary ${
+                        isActive ? "text-primary" : "text-zinc-300"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
 
             <button
@@ -64,6 +65,7 @@ export function SiteNav() {
               onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
+              aria-controls="site-mobile-menu"
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -72,7 +74,11 @@ export function SiteNav() {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="border-b border-primary/25 bg-black/95 backdrop-blur-md md:hidden">
+        <nav
+          id="site-mobile-menu"
+          aria-label="Mobile navigation"
+          className="border-b border-primary/25 bg-black/95 backdrop-blur-md md:hidden"
+        >
           <ul className="site-shell space-y-px py-3">
             <li className="md:hidden">
               <Link
@@ -86,21 +92,27 @@ export function SiteNav() {
                 Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
             </li>
-            {navItems.map((item) => (
-              <li key={item.path}>
-                <Link
-                  href={item.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block border-l-2 px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
-                    pathname === item.path ? "border-primary bg-primary/10 text-primary" : "border-transparent text-white hover:border-primary/40 hover:text-primary"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+            {SITE_NAV_ITEMS.map((item) => {
+              const isActive = isSiteNavItemActive(pathname, item.path)
+              return (
+                <li key={item.path}>
+                  <Link
+                    href={item.path}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block border-l-2 px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
+                      isActive
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-transparent text-white hover:border-primary/40 hover:text-primary"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
-        </div>
+        </nav>
       )}
     </div>
   )
