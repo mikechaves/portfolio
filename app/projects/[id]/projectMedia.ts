@@ -245,27 +245,27 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   "petition-ready": {
     "/projects/petition-ready/main-image.png": {
-      label: "Matter readiness console",
-      caption: "Primary dashboard for paralegal review, readiness scoring, blockers, attorney-review items, and PetitionReady Copilot evidence.",
+      label: "Matter readiness operating console",
+      caption: "The working paralegal dashboard connects queue state, readiness scoring, blockers, next action, attorney-review items, and source-grounded Copilot evidence without hiding the human review boundary.",
     },
     "/projects/petition-ready/notifications.png": {
-      label: "Notification workflow",
-      caption: "Dashboard state showing new matter alerts, top blockers, and next paralegal actions in the review queue.",
+      label: "Exception and notification queue",
+      caption: "The notification state surfaces new matters, document exceptions, top blockers, and the next paralegal action without separating alerts from the operating queue.",
       section: "action",
     },
     "/projects/petition-ready/selected-dashboard-state.jpeg": {
-      label: "Selected matter review",
-      caption: "Selected-case view connecting readiness score, blocker evidence, and next action for paralegal cleanup.",
+      label: "Selected-matter readiness review",
+      caption: "A selected Chapter 13 matter connects its readiness score and payment-plan blocker to the evidence and cleanup action required before attorney review.",
       section: "result",
     },
     "/projects/petition-ready/matter-inspector.jpeg": {
-      label: "Matter inspector",
-      caption: "Inspector panel for a retained matter with unresolved payment-plan evidence and attorney-review preparation.",
+      label: "Blocker-to-next-action inspector",
+      caption: "The inspector keeps source notes, unresolved evidence, the next paralegal action, and attorney-review preparation in one inspectable matter state.",
       section: "action",
     },
     "/projects/petition-ready/copilot-review-state.png": {
-      label: "Copilot evidence snapshot",
-      caption: "PetitionReady Copilot surface for blocker questions, conflict checks, client follow-up drafts, and attorney-review brief compilation.",
+      label: "Case-grounded Copilot evidence",
+      caption: "The Copilot panel exposes its evidence snapshot alongside bounded modes for blocker analysis, conflict checks, client follow-up drafts, and attorney-review brief compilation.",
       section: "task",
     },
   },
