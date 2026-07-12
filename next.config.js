@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/projects/ai-energy-consumption",
+        destination: "/archive#ai-energy-context-explorer",
+        permanent: true,
+      },
+    ]
+  },
   reactStrictMode: process.env.NODE_ENV === 'production', // Only enable in production
   eslint: {
     ignoreDuringBuilds: true,
