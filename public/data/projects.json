@@ -654,7 +654,7 @@
   "speakeasy": {
     "title": "SpeakEasy",
     "category": "research",
-    "description": "Designed a voice-controlled mixed reality accessibility system for users with low muscle tone, using AI-assisted interaction patterns to reduce physical input demands in XR environments.",
+    "description": "Designed and built a Quest 3 voice-first accessibility prototype in Unity, using Meta Voice SDK, multimodal feedback, and three research-through-design iterations to reduce dependence on handheld XR controllers.",
     "image": "/projects/speakeasy/thesis-defense.jpg",
     "technologies": [
       "Voice-Driven AI",
@@ -663,6 +663,7 @@
     ],
     "github": "https://github.com/mikechaves/speak-easy-mr",
     "demo": "/projects/speakeasy/Chaves_Thesis_process-book_final.pdf",
+    "demoLabel": "Read Process Book",
     "gallery": [
       "/projects/speakeasy/thesis-exhibition.jpg",
       "/projects/speakeasy/thesis-defense.jpg",
@@ -670,93 +671,91 @@
     ],
     "details": {
       "client": "Master of Design in Experience Design, SJSU",
-      "date": "Oct 14, 2024",
+      "date": "May 14, 2025",
       "category": "Accessible AI/XR Research",
+      "proofRole": "Direct research and implementation evidence for a voice-first mixed-reality accessibility system, spanning participatory inquiry, Unity and Quest development, Meta Voice SDK integration, measured prototype iteration, and public thesis defense.",
       "services": [
-        "Experience Design",
-        "XR Development",
-        "Accessibility Solutions"
+        "Accessibility Research",
+        "Voice Interaction",
+        "Unity XR Development",
+        "Usability Evaluation"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "Extended Reality holds transformative promise but often remains a domain accessible only to the tech-savvy. Current XR systems typically require precise physical inputs and complex navigation, thereby excluding users with disabilities and limited motor control."
+          "title": "Controllers Created an Entry Barrier",
+          "description": "The thesis focuses on people with limited grip strength, upper-limb mobility challenges, and low muscle tone who can be excluded when XR requires two handheld controllers and precise physical input."
         },
         {
-          "title": "Challenge",
-          "description": "Users with low muscle tone struggle with conventional XR interfaces that depend on manual interaction and intricate gesture controls."
+          "title": "Voice Needed to Provide Agency",
+          "description": "Research participants described fatigue, frustration, and difficulty with controller-based interaction, making hands-free session control a functional accessibility requirement rather than a convenience layer."
         },
         {
-          "title": "Context",
-          "description": "Despite rapid advancements in XR hardware and software, many experiences lack the simplicity and naturalness required for universal accessibility."
+          "title": "Recognition Failure Could Break Trust",
+          "description": "Early trials exposed false triggers, response delay, command recall, and accent support as barriers, so listening state, confirmation, error recovery, and fallback guidance had to remain visible."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The core objective was to design an XR experience that minimizes physical strain while maximizing intuitive interaction. I set out to develop a voice-driven AI system - SpeakEasy - that would:"
+          "title": "Make Voice the Primary Control Channel",
+          "description": "Support session start, progression, completion, breathing, visualization, lighting, and affirmation interactions without requiring a handheld controller."
         },
         {
-          "title": "Reduce physical interaction",
-          "description": "by shifting control to natural language commands."
+          "title": "Make System State Perceivable",
+          "description": "Pair spoken feedback with gaze-anchored text, color, sound, and confidence cues so users could tell when the system was listening, processing, succeeding, or asking for clarification."
         },
         {
-          "title": "Personalize the user experience",
-          "description": "using adaptive AI to respond to individual needs."
+          "title": "Measure Accessibility Through Iteration",
+          "description": "Use prototype metrics and participant sessions to evaluate task completion, usability, latency, comfort, recognition limits, and the ten-pillar interaction framework."
         },
         {
-          "title": "Facilitate inclusive design",
-          "description": "that benefits users across a wide spectrum of abilities."
+          "title": "Keep Incomplete Work Explicit",
+          "description": "Separate implemented features from partial and planned pillars, especially paraphrase coverage, pacing, redirection, privacy controls, and broader language support."
         }
       ],
       "actions": [
         {
-          "title": "Research & Literature Review",
-          "description": "I conducted a comprehensive review of XR accessibility challenges, integrating insights from academic sources, industry trends, and competitive analyses."
+          "title": "Grounded the System in Participatory Research",
+          "description": "Combined literature review, expert input, a 42-person survey, participatory co-design, and accessibility synthesis to translate lived barriers into hands-free agency, transparent feedback, and flexible pacing requirements."
         },
         {
-          "title": "Co-Design Workshops",
-          "description": "Engaging with target users and experts, I organized iterative workshops that enabled real-time feedback and guided the evolution of the interface design."
+          "title": "Iterated Across Three Prototype Generations",
+          "description": "Moved from a Wizard-of-Oz paper and Figma test to a live Quest 3 alpha in Unity, then to a beta with faster response, confidence cues, adaptive lighting, and positive affirmation modules."
         },
         {
-          "title": "Prototype Development",
-          "description": "Beginning with early sketches and wireframes in ShapesXR, I rapidly moved through iterative cycles - transitioning to a Unity3D prototype - to incorporate voice recognition and multimodal feedback mechanisms."
+          "title": "Implemented the Quest 3 Voice System",
+          "description": "Built the Unity 2022.3 application with Meta Voice SDK and Wit.ai, wake-word activation, command variants, intent and confidence handling, TTS, audio and visual feedback, world-space UI, and voice-controlled therapy modules."
         },
         {
-          "title": "Feedback & Iteration",
-          "description": "Continuous testing, supported by participant recruitment and structured field protocols, allowed for refinements in interaction logic and overall system adaptability."
+          "title": "Tested with Eight Final Participants",
+          "description": "Ran structured Quest 3 sessions across varied ages, XR familiarity, ability, and professional backgrounds, measuring SUS, voice-only task completion, response latency, error recovery, comfort, and feedback clarity."
         }
       ],
       "results": [
         {
-          "title": "Overview",
-          "description": "The iterative process has yielded a promising framework that demonstrates:"
+          "title": "Measured Alpha-to-Beta Improvement",
+          "description": "The process-book record reports latency improving from 530 ms to 380 ms, voice-only task completion increasing from 64% to 79%, and SUS increasing from 71 to 79 between the alpha and beta prototypes."
         },
         {
-          "title": "Enhanced Accessibility",
-          "description": "Early user tests indicate a marked reduction in physical interaction requirements, allowing individuals with low muscle tone to navigate XR environments more comfortably."
+          "title": "Six Pillars Implemented",
+          "description": "The final framework records six of ten accessibility pillars as implemented, two as partial, and two as planned; this status is preserved instead of presenting the system as universally complete."
         },
         {
-          "title": "Improved User Engagement",
-          "description": "Participants reported a more natural and engaging experience, with voice commands enabling quicker, more intuitive interactions compared to traditional input methods."
-        },
-        {
-          "title": "A Scalable Framework",
-          "description": "The success of SpeakEasy's initial iterations lays the groundwork for broader applications in XR, supporting further research into complementary modalities like gesture recognition."
+          "title": "Known Recognition Limits",
+          "description": "Participant sessions identified English-only recognition, accent sensitivity, command recall, and confidence-cue clarity as remaining constraints, providing a concrete research agenda rather than an unsupported scalability claim."
         }
       ],
       "exhibition": [
         {
-          "title": "Interactive Stations",
-          "description": "Live demonstrations of the prototype where visitors can experience the voice-driven interface firsthand."
+          "title": "Public Thesis Exhibition",
+          "description": "Delivered a gallery installation with a Quest headset, live Unity experience, project framing, and process evidence for hands-on public review."
         },
         {
-          "title": "User Testimonials",
-          "description": "Video recordings and written feedback from participants will highlight the impact of the design on accessibility and usability."
+          "title": "Thesis Defense and Process Book",
+          "description": "Presented the research, prototype progression, participant findings, ten-pillar framework, and limitations in a public M.Des defense and a 41-page process book."
         },
         {
-          "title": "Future Concepts",
-          "description": "Insights into planned enhancements, including advanced gesture recognition and deeper personalization features."
+          "title": "Defined Follow-Up Work",
+          "description": "Broader accent and language support, clearer redirection, privacy controls, on-device storage choices, and deeper personalization remain explicit future work."
         }
       ]
     }
