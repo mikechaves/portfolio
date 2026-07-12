@@ -384,8 +384,8 @@
   "apt-plus": {
     "title": "APT+",
     "category": "design",
-    "description": "Ford APT+ is an end-to-end solution focused on streamlining manufacturing workflows by improving the accuracy and efficiency of time studies. These studies, previously slow and error-prone, cost Ford millions of dollars annually in wasted effort. My goal with APT+ was to design and implement a precision-driven, scalable system that eliminated inefficiencies and enabled data-driven decision-making - ultimately saving Ford approximately $1M per plant each year.",
-    "image": "/projects/apt-plus/main-image.png",
+    "description": "Led design and engineering for Ford APT+, a production time-study system that reduced manual capture and validation work, centralized operational data, and documented approximately $1M in annual savings per plant.",
+    "image": "/projects/apt-plus/aptplus-interface.png",
     "technologies": [
       "UX/UI Design",
       "Data Visualization",
@@ -393,90 +393,81 @@
     ],
     "github": "",
     "demo": "/projects/apt-plus/Ford_APTplusUI_walkthrough.mp4",
+    "demoLabel": "Watch Workflow",
     "gallery": [
       "/projects/apt-plus/aptplus-prototype.png",
-      "/projects/apt-plus/aptplus-interface.png",
-      "/projects/apt-plus/aptplus-walkpatternanalysis.PNG"
+      "/projects/apt-plus/aptplus-walkpatternanalysis.PNG",
+      "/projects/apt-plus/main-image.png"
     ],
     "details": {
       "client": "Ford Motor Company",
       "date": "Nov 22, 2021",
       "category": "Design Engineering",
+      "proofRole": "Direct production evidence of leading operational UX and engineering strategy for manufacturing time studies, with documented workflow and financial outcomes.",
       "services": [
-        "Experience Design",
-        "Unity Development",
-        "Product in Production"
+        "Operational UX",
+        "Workflow Automation",
+        "Data Visualization",
+        "Production Delivery"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "Ford's manufacturing processes heavily rely on time studies to identify bottlenecks and optimize production lines. However, existing approaches were:"
+          "title": "Time Studies Drove Production Decisions",
+          "description": "Ford manufacturing teams relied on time studies to identify bottlenecks and improve production lines, making capture accuracy and review speed operationally consequential."
         },
         {
-          "title": "Labor-Intensive",
-          "description": "Manual tracking led to frequent errors."
+          "title": "Manual Capture Created Friction",
+          "description": "The documented process was labor-intensive and error-prone, while collecting, validating, and interpreting study data took too long."
         },
         {
-          "title": "Slow and Costly",
-          "description": "Collecting and interpreting data took too long, directly impacting production efficiency."
-        },
-        {
-          "title": "Data Silos",
-          "description": "Lack of integrated systems made it difficult to draw insights from collected information."
+          "title": "Disconnected Data Limited Insight",
+          "description": "Results lived across disconnected processes, making it difficult to compare studies, expose work balance, and turn collected observations into repeatable decisions."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The objective was clear: build an intelligent, user-centric platform to conduct time studies more efficiently and accurately. Key goals included:"
+          "title": "Improve Capture Accuracy",
+          "description": "Create a field-facing workflow that reduced manual entry and made operation timing, task categories, and validation states explicit."
         },
         {
-          "title": "Reduce Manual Errors",
-          "description": "through automated data collection and analysis."
+          "title": "Centralize Review Context",
+          "description": "Bring operation rows, time values, work-balance views, and editable process context into one system instead of another isolated capture tool."
         },
         {
-          "title": "Enhance Data Transparency",
-          "description": "by centralizing results in a scalable system."
-        },
-        {
-          "title": "Enable Data-Driven Decision-Making",
-          "description": "so stakeholders could act on real-time insights."
+          "title": "Support Production-Scale Decisions",
+          "description": "Design the product for cross-functional use and repeatable analysis across plants, with evidence that operators and decision-makers could inspect."
         }
       ],
       "actions": [
         {
-          "title": "Overview",
-          "description": "I led the design and engineering strategy, collaborating with project managers, software engineers, and researchers to:"
+          "title": "Led Field Research",
+          "description": "Investigated the existing time-study process with project managers, software engineers, researchers, and operational stakeholders to isolate the most costly and error-prone steps."
         },
         {
-          "title": "Identify Bottlenecks",
-          "description": "Conducted field research to pinpoint the most time-consuming or error-prone tasks in existing processes."
+          "title": "Prototyped the Capture Model",
+          "description": "Mapped task selection, timing events, work categories, and submission behavior in annotated prototypes, then refined the system from stakeholder feedback."
         },
         {
-          "title": "Rapid Prototyping & Iteration",
-          "description": "Created proof-of-concept solutions in close coordination with stakeholders, then refined these prototypes based on real-world feedback."
+          "title": "Built the Production Workflow",
+          "description": "Combined operation data, timing values, work-balance bars, task editing, validation controls, and automated analysis in a unified production interface."
         },
         {
-          "title": "Automation & Accuracy",
-          "description": "Integrated data capture tools and algorithms to reduce human error, streamline data entry, and highlight critical insights for faster decision-making."
-        },
-        {
-          "title": "Cross-Functional Alignment",
-          "description": "Worked with engineering, design, and business units to ensure the final solution met broader operational goals, including cost reduction and user adoption."
+          "title": "Connected Movement to Analysis",
+          "description": "Extended the review model with walk-pattern analysis so workstation geometry and operator movement could be evaluated alongside captured time-study data."
         }
       ],
       "results": [
         {
-          "title": "Saved Approximately $1M/Year per Plant",
-          "description": "By reducing manual errors and expediting time studies, each facility saw significant cost savings."
+          "title": "Approximately $1M Annual Savings per Plant",
+          "description": "The project record attributes the savings to reduced manual errors and faster time-study execution at each facility."
         },
         {
-          "title": "Increased Efficiency & Accuracy",
-          "description": "Automated workflows cut the overall time spent on data collection and validation, boosting productivity on the assembly line."
+          "title": "Faster Capture and Validation",
+          "description": "Automated workflows reduced the time spent collecting and validating study data while preserving detailed operation-level evidence."
         },
         {
-          "title": "Provided Scalable Insights",
-          "description": "A centralized data platform allowed decision-makers to track performance metrics in real time and roll out process improvements across multiple plants."
+          "title": "Centralized Operational Insight",
+          "description": "The production system gave decision-makers a shared surface for performance metrics, work balance, movement analysis, and process-improvement review across plants."
         }
       ]
     }

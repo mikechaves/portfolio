@@ -25,6 +25,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "Enterprise spatial operations / Decision context",
     signals: "Research / Prototype / Test / Spatialize",
   },
+  "apt-plus": {
+    caseFile: "AF-05",
+    eyebrow: "Manufacturing workflow systems / Measured operations",
+    signals: "Observe / Capture / Analyze / Scale",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
