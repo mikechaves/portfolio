@@ -22,7 +22,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 - [ ] Add X Games gameplay clips or generated-run evidence if it improves the case study beyond static screenshots.
 - [ ] Add Vulnerability Visualizer workflow screenshots that show security triage from overview to remediation.
 - [ ] Add Creative Supply Engine deck excerpts or output comparisons if they reinforce AI creative operations.
-- [ ] Add AI Energy Consumption live-data/API integration after the static JSON version is stable and worth extending.
 - [ ] Add Material Explorer AI-adjacent framing only if it becomes technically true, not as keyword stuffing.
 
 ## Immersive And Metaverse Ideas

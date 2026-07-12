@@ -260,6 +260,7 @@ async function buildRouteSet(projectIds) {
   const routes = new Set([
     "/",
     "/about",
+    "/archive",
     "/api/adaptive-focus/analyze",
     "/blog",
     "/error",
