@@ -15,6 +15,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "AI product systems / Intent to action",
     signals: "Chat / Context / Quests",
   },
+  "x-games": {
+    caseFile: "AF-03",
+    eyebrow: "AI-native game systems / Social creation loop",
+    signals: "Post / Generate / Play / Rank",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
