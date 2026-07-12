@@ -674,6 +674,178 @@ textarea {
   border-top: 2px solid rgba(0, 255, 140, 0.55);
 }
 
+.dossier-exit-path {
+  border-block: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(110deg, rgba(0, 255, 140, 0.055), transparent 45%),
+    rgba(0, 0, 0, 0.76);
+}
+
+.dossier-exit-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.55rem 0.85rem;
+  color: rgb(113 113 122);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dossier-exit-status span:nth-child(2) {
+  color: #00ff8c;
+}
+
+.dossier-exit-grid {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(1.4rem, 3.5vw, 3rem) clamp(1rem, 2.7vw, 2.75rem);
+}
+
+.dossier-exit-intro h2 {
+  margin-top: 0.45rem;
+  color: #ffffff;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.35rem, 4.5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.dossier-exit-intro > p:not(.dossier-section-kicker) {
+  max-width: 38rem;
+  margin-top: 1rem;
+  color: rgb(161 161 170);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.dossier-exit-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+}
+
+.dossier-exit-capabilities span {
+  border: 1px solid rgba(0, 255, 140, 0.25);
+  padding: 0.35rem 0.5rem;
+  color: rgb(161 161 170);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dossier-related-evidence > p {
+  margin-bottom: 0.45rem;
+  color: rgb(113 113 122);
+  font-size: 0.62rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.dossier-related-evidence > a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgb(228 228 231);
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.dossier-related-evidence > a:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.dossier-related-evidence > a:hover,
+.dossier-related-evidence > a:focus-visible {
+  border-color: rgba(0, 255, 140, 0.5);
+  background: rgba(0, 255, 140, 0.035);
+  color: #00ff8c;
+}
+
+.dossier-related-index {
+  color: rgb(82 82 91);
+  font-size: 0.62rem;
+}
+
+.dossier-related-evidence strong,
+.dossier-related-evidence small,
+.dossier-exit-primary-action strong,
+.dossier-exit-primary-action small {
+  display: block;
+}
+
+.dossier-related-evidence strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dossier-related-evidence small {
+  margin-top: 0.3rem;
+  color: rgb(113 113 122);
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+.dossier-exit-actions {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+}
+
+.dossier-exit-actions > a {
+  display: flex;
+  min-height: 2.8rem;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.7rem 0.8rem;
+  color: rgb(212 212 216);
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.dossier-exit-actions > a:hover,
+.dossier-exit-actions > a:focus-visible {
+  border-color: rgba(0, 255, 140, 0.55);
+  color: #00ff8c;
+}
+
+.dossier-exit-actions > .dossier-exit-primary-action {
+  min-height: 4.6rem;
+  border-color: rgba(0, 255, 140, 0.42);
+  background: rgba(0, 255, 140, 0.08);
+  color: #00ff8c;
+}
+
+.dossier-exit-primary-action > span {
+  min-width: 0;
+  flex: 1;
+}
+
+.dossier-exit-primary-action strong {
+  font-size: 0.72rem;
+}
+
+.dossier-exit-primary-action small {
+  margin-top: 0.25rem;
+  color: rgb(161 161 170);
+  font-size: 0.58rem;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
 @media (min-width: 1024px) {
   .evidence-dossier-hero-grid {
     grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 0.7fr);
@@ -687,6 +859,11 @@ textarea {
   .evidence-dossier-index {
     position: sticky;
     top: 6rem;
+  }
+
+  .dossier-exit-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr) minmax(17rem, 0.7fr);
+    align-items: start;
   }
 }
 
@@ -714,6 +891,15 @@ textarea {
 
   .evidence-dossier-sections .case-study-detail-card + .case-study-detail-card {
     padding-left: 0;
+  }
+
+  .dossier-exit-status span:last-child {
+    display: none;
+  }
+
+  .dossier-exit-intro h2 {
+    overflow-wrap: anywhere;
+    font-size: 2.35rem;
   }
 }
 

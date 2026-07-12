@@ -6,6 +6,8 @@ import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
 import { ImageModal } from "@/components/image-modal"
 import type { Project as ProjectSummary } from "@/types/project"
+import { DossierExitPath } from "./DossierExitPath"
+import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 import { getEvidenceDossierConfig } from "./dossierConfig"
@@ -51,6 +53,7 @@ interface Project {
 }
 
 interface ProjectPageClientProps {
+  dossierExitPath: DossierExitPathData
   project: Project
 }
 
@@ -97,7 +100,7 @@ function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) 
   )
 }
 
-export default function ProjectPageClient({ project }: ProjectPageClientProps) {
+export default function ProjectPageClient({ dossierExitPath, project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const dossierConfig = getEvidenceDossierConfig(project.id)
   const isEvidenceDossier = Boolean(dossierConfig)
@@ -396,6 +399,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
         </div>
       </div>
+      {isEvidenceDossier && (
+        <DossierExitPath exitPath={dossierExitPath} projectTitle={project.title} />
+      )}
       <ImageModal
         open={selectedIndex !== null}
         onOpenChange={(o) => !o && closeModal()}

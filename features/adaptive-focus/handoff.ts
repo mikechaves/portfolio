@@ -93,18 +93,25 @@ const IMPORTANCE = new Set(["required", "preferred", "context"])
 const BASIS = new Set(["explicit", "inferred"])
 
 export function encodeAdaptiveFocusBriefHandoff(result: AdaptiveFocusV2Result): string {
+  return encodeAdaptiveFocusInterpretationHandoff(result.interpretation, result.analysisSource)
+}
+
+export function encodeAdaptiveFocusInterpretationHandoff(
+  interpretation: RoleInterpretation,
+  analysisSource: AdaptiveFocusAnalysisSource
+): string {
   const payload: BriefHandoffPayload = {
     v: 2,
-    source: result.analysisSource,
-    family: result.interpretation.roleFamily,
-    seniority: result.interpretation.seniority,
-    requirements: result.interpretation.requirements.map((requirement) => [
+    source: analysisSource,
+    family: interpretation.roleFamily,
+    seniority: interpretation.seniority,
+    requirements: interpretation.requirements.map((requirement) => [
       requirement.capability,
       requirement.importance,
       requirement.basis,
     ]),
-    confidence: result.interpretation.confidence,
-    clarification: result.interpretation.clarificationNeeded,
+    confidence: interpretation.confidence,
+    clarification: interpretation.clarificationNeeded,
   }
   return btoa(JSON.stringify(payload)).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/u, "")
 }
