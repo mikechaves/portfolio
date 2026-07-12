@@ -388,8 +388,28 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   "vulnerability-visualizer": {
     "/projects/vulnerability-visualizer/main-image.jpg": {
-      label: "AI-assisted vulnerability triage",
-      caption: "Primary review surface for severity, status, AI versus manual assessment, comparison, and remediation workflows across large security datasets.",
+      label: "Security review operating dashboard",
+      caption: "The primary operating surface combines source provenance, analysis modes, search and filters, severity counts, trend evidence, record exploration, and filtered export.",
+    },
+    "/projects/vulnerability-visualizer/full-dataset-ai-filter.png": {
+      label: "Full-dataset AI analysis mode",
+      caption: "The deployed prebuilt source exposes a 236,656-record baseline, a 224,697-record AI Analysis view, and the remaining severity mix without hiding the active mode or source.",
+      section: "action",
+    },
+    "/projects/vulnerability-visualizer/analysis-charts.png": {
+      label: "Manual-versus-AI analysis charts",
+      caption: "Severity, status, risk-factor, trend, and manual-versus-AI relationship charts keep aggregate patterns and classification disagreement visible to the reviewer.",
+      section: "action",
+    },
+    "/projects/vulnerability-visualizer/vulnerability-detail.png": {
+      label: "Record-level vulnerability evidence",
+      caption: "The Log4Shell detail view carries package, version, severity, status, score, risk factors, dates, and external references from the operating dashboard into one inspectable record.",
+      section: "result",
+    },
+    "/projects/vulnerability-visualizer/local-sample-fallback.png": {
+      label: "Visible local-sample fallback",
+      caption: "When the full source was not ready, the dashboard remained usable with a ten-record local sample and labeled that provenance directly instead of presenting the fallback as complete evidence.",
+      section: "task",
     },
   },
 }

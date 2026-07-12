@@ -1050,7 +1050,7 @@
   "vulnerability-visualizer": {
     "title": "Vulnerability Visualizer",
     "category": "web",
-    "description": "Built a React + TypeScript security dashboard for analyzing large vulnerability datasets, with AI analysis modes, manual vs AI triage comparisons, severity filtering, virtualized lists, comparison workflows, and export tools for security review.",
+    "description": "Built a React + TypeScript security-review dashboard that keeps a 236,656-record vulnerability dataset searchable, visualizes manual-versus-AI assessment patterns, and exposes source provenance, record detail, comparison, and export controls.",
     "image": "/projects/vulnerability-visualizer/main-image.jpg",
     "technologies": [
       "React 18",
@@ -1058,79 +1058,90 @@
       "Vite 5",
       "React Query",
       "Recharts",
-      "AI Triage"
+      "React Window"
     ],
     "github": "https://github.com/mikechaves/vulnerability-visualizer",
     "demo": "https://vulnerability-visualizer.vercel.app/",
-    "gallery": [],
+    "demoLabel": "Open Review Dashboard",
+    "gallery": [
+      "/projects/vulnerability-visualizer/full-dataset-ai-filter.png",
+      "/projects/vulnerability-visualizer/analysis-charts.png",
+      "/projects/vulnerability-visualizer/vulnerability-detail.png",
+      "/projects/vulnerability-visualizer/local-sample-fallback.png"
+    ],
     "details": {
       "client": "Personal Project",
       "date": "2025 - 2026",
-      "category": "Security Data Visualization",
+      "category": "Security Review System",
+      "proofRole": "Direct shipped browser-product evidence for large-scale security review, spanning 236,656-record ingestion, virtualized exploration, explicit manual-versus-AI assessment modes, source provenance, record-level inspection, comparison controls, and filtered export.",
       "services": [
-        "Frontend Engineering",
-        "Data Visualization",
         "Security Workflow UX",
-        "AI Analysis UI"
+        "Human-AI Review Design",
+        "Data Visualization",
+        "Frontend Performance"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "Security review teams need to inspect large vulnerability datasets quickly while separating urgent issues from low-risk noise."
+          "title": "Security signal volume exceeded manual scanning",
+          "description": "The source data contains hundreds of thousands of vulnerability records with severity, package, status, score, dates, risk factors, manual assessment, and AI-assisted assessment fields. A flat table would leave reviewers searching without operational context."
         },
         {
-          "title": "Challenge",
-          "description": "The interface had to make hundreds of thousands of vulnerability records searchable, filterable, comparable, and readable without overwhelming reviewers."
+          "title": "AI status needed to remain inspectable",
+          "description": "Manual and AI classifications can disagree. The review surface needed to expose those decision buckets and their effect on the working set instead of hiding the AI signal behind an opaque recommendation."
         },
         {
-          "title": "Context",
-          "description": "The dataset includes manual and AI-assisted status signals, severity levels, package metadata, risk factors, and export needs across review workflows."
+          "title": "Data availability could not block review",
+          "description": "The deployed app can load remote data, a prebuilt full dataset, a local sample, or mock records. Reviewers needed visible provenance so a fallback state could remain usable without being mistaken for the complete source."
         }
       ],
       "task": [
         {
-          "title": "Dashboard Workflow",
-          "description": "Create a dashboard that turns raw vulnerability data into a usable review surface for filtering, analysis, comparison, and export."
+          "title": "Create a reviewable operating dashboard",
+          "description": "Turn raw vulnerability records into a coherent workflow for searching, filtering, assessing severity, inspecting risk factors, opening record detail, comparing candidates, and exporting the current view."
         },
         {
-          "title": "AI Analysis Visibility",
-          "description": "Make AI-assisted triage behavior visible through analysis modes, manual vs AI comparison charts, and clear status filtering."
+          "title": "Compare manual and AI classifications",
+          "description": "Make the manual-analysis and AI-analysis modes explicit, quantify excluded records, and visualize where the two classification systems align or diverge."
         },
         {
-          "title": "Large Dataset Performance",
-          "description": "Keep the interface responsive while rendering and searching large datasets with virtualized lists and optimized state handling."
+          "title": "Keep the full dataset operable",
+          "description": "Preserve responsive filtering and navigation across the 236,656-record prebuilt runtime while retaining a clearly labeled fallback path when the full source is unavailable."
         }
       ],
       "actions": [
         {
-          "title": "Built interactive filtering",
-          "description": "Implemented severity, status, search, and analysis-mode controls that let reviewers narrow large vulnerability datasets quickly."
+          "title": "Built normalized review controls",
+          "description": "Implemented debounced search, severity and status filters, sortable columns, All, Analysis, and AI Analysis modes, filter-impact counts, persisted preferences, and JSON or CSV export of the active result set."
         },
         {
-          "title": "Visualized AI and manual triage",
-          "description": "Added charts for severity distribution, risk factor frequency, and manual vs AI assessment relationships to make review patterns easier to inspect."
+          "title": "Visualized manual and AI decision buckets",
+          "description": "Added severity, analysis-status, risk-factor, trend, and manual-versus-AI relationship charts so reviewers can inspect both aggregate risk and classification disagreement."
         },
         {
-          "title": "Supported comparison workflows",
-          "description": "Created a compare flow that lets reviewers select multiple vulnerabilities, inspect them side by side, and preserve context while moving through the dataset."
+          "title": "Connected overview to record-level evidence",
+          "description": "Linked critical highlights and virtualized table rows to a detail view with package, version, CVSS, status, risk factors, dates, references, and comparison controls."
         },
         {
-          "title": "Hardened the data experience",
-          "description": "Used React Query, persisted preferences, export utilities, resilient data loading, and virtualized rendering to keep the app usable at production-scale data volume."
+          "title": "Hardened large-data loading",
+          "description": "Used React Query, react-window virtualization, lazy-loaded routes, source normalization, and a remote-to-prebuilt-to-local-sample-to-mock fallback chain while keeping the active data source visible in the interface."
         }
       ],
       "results": [
         {
-          "title": "Security review at scale",
-          "description": "The dashboard can load and analyze hundreds of thousands of vulnerability records while keeping filters, charts, and review controls usable."
+          "title": "236,656 records in the prebuilt review surface",
+          "description": "The deployed dashboard loaded the full prebuilt dataset with 236,656 vulnerabilities while preserving filters, charts, sortable and virtualized exploration, record detail, and export controls."
         },
         {
-          "title": "Clear AI workflow signal",
-          "description": "The project demonstrates how AI-assisted security triage can be exposed through practical reviewer-facing UI instead of hidden automation."
+          "title": "Manual-versus-AI review remained visible",
+          "description": "The interface exposes separate manual and AI analysis modes, absolute filter-impact counts, and relationship charts so the AI-provided status is reviewable rather than presented as an unexplained verdict."
         },
         {
-          "title": "Recruiter-friendly proof",
-          "description": "The live demo and GitHub repo show hands-on frontend engineering across TypeScript, data visualization, performance, and operational security workflows."
+          "title": "Resilient fallback with explicit provenance",
+          "description": "When the full source was not ready, the deployed app remained usable with a ten-record local sample and labeled that source directly. The application does not conceal a fallback as full-dataset evidence."
+        },
+        {
+          "title": "A reviewer aid, not autonomous adjudication",
+          "description": "The product visualizes and filters supplied manual and AI assessment fields; it does not independently determine vulnerability validity, remediate packages, or replace security judgment."
         }
       ]
     }
