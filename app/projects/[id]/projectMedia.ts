@@ -345,9 +345,20 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
   },
   "x-games": {
-    "/projects/x-games/main-image.jpg": {
-      label: "Post-to-game generation",
-      caption: "Primary product surface showing how an X post becomes a playable browser game through AI-assisted concept generation and social game UX.",
+    "/projects/x-games/platform-home.png": {
+      label: "Live game discovery platform",
+      caption: "Production discovery surface connecting the post-to-game promise to a live catalog of generated games, creator attribution, genres, play actions, and engagement signals.",
+      section: "situation",
+    },
+    "/projects/x-games/generated-game-detail.png": {
+      label: "Generated-game control surface",
+      caption: "A source post, generated game, tuning controls, play statistics, library action, and reporting path stay connected in one reviewable product surface.",
+      section: "action",
+    },
+    "/projects/x-games/leaderboard.png": {
+      label: "Ranked game ecosystem",
+      caption: "The all-time leaderboard turns generated games into persistent social objects with ranked discovery, play counts, creator identity, and direct replay paths.",
+      section: "result",
     },
   },
   "vulnerability-visualizer": {

@@ -204,8 +204,8 @@
   "x-games": {
     "title": "X Games",
     "category": "web",
-    "description": "Built an AI-first social game platform that turns any X post into an instant browser game, using Grok-powered concept generation, playable game cards, social sharing, and leaderboards to make AI game creation feel native to X.",
-    "image": "/projects/x-games/main-image.jpg",
+    "description": "Built and operate an AI-first social game platform that turns X posts into playable browser games, then supports discovery, tuning, replay, sharing, reporting, and ranked competition around the generated catalog.",
+    "image": "/projects/x-games/platform-home.png",
     "technologies": [
       "AI Game Generation",
       "Grok",
@@ -216,71 +216,75 @@
     ],
     "github": "",
     "demo": "https://x-games-six.vercel.app/",
-    "gallery": [],
+    "gallery": [
+      "/projects/x-games/generated-game-detail.png",
+      "/projects/x-games/leaderboard.png"
+    ],
     "details": {
       "client": "X Games",
       "date": "2026",
       "category": "AI Game Platform",
+      "proofRole": "Direct product proof for AI-native generation, social distribution, game tuning, and ranked play in a live browser platform.",
       "services": [
-        "AI Product Prototyping",
-        "Game UX",
-        "Social Platform Design",
-        "Web App Development"
+        "AI Product Systems",
+        "Generated Game UX",
+        "Social Distribution",
+        "Ranking and Replay"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "X Games explores a compact AI-native loop: turn social posts from X into playable browser games that can be discovered, shared, and ranked."
+          "title": "From Post to Playable System",
+          "description": "X Games is a live AI-native product loop: start from a post on X, generate a playable browser game with Grok, then make that game discoverable, replayable, tunable, shareable, and rankable."
         },
         {
-          "title": "Challenge",
-          "description": "The product needed to make AI game generation feel immediate and understandable while still supporting recognizable game cards, trending discovery, and leaderboard behavior."
+          "title": "Product Challenge",
+          "description": "The experience had to make a probabilistic generation process feel immediate and legible while preserving the source post, game premise, creator identity, and a clear path into play."
         },
         {
-          "title": "Context",
-          "description": "The experience sits at the intersection of AI-assisted creation, social distribution, and lightweight game UX, with Grok positioned as the generation engine."
+          "title": "Operating Context",
+          "description": "The system connects a live X feed, AI-assisted concept generation, generated game art and mechanics, browser gameplay, social distribution, moderation, and leaderboard behavior."
         }
       ],
       "task": [
         {
-          "title": "AI-First Product Loop",
-          "description": "Design a clear path from an X post to an instant playable game, keeping the AI promise visible in the hero, game cards, and calls to action."
+          "title": "Design the Generation Loop",
+          "description": "Create a coherent path from source post to game concept, generated assets, playable runtime, and persistent game page without hiding where the game came from."
         },
         {
-          "title": "Discovery and Ranking",
-          "description": "Support a browsing surface where generated games can trend, accumulate engagement, and move users toward play."
+          "title": "Create Player Control",
+          "description": "Give players bounded ways to tune pace, difficulty, run length, hazards, power-ups, feedback, mechanics, and replay focus without losing the original game premise."
         },
         {
-          "title": "Shareable Game UX",
-          "description": "Make each generated game feel like a social object that can be played, shared, and evaluated quickly."
+          "title": "Build a Social Game Ecosystem",
+          "description": "Turn generated games into persistent social objects with creator attribution, discovery, saves, reporting, engagement signals, leaderboards, and replay paths."
         }
       ],
       "actions": [
         {
-          "title": "Built AI-forward positioning",
-          "description": "Centered the interface around the promise that any X post can become an instant game, with repeated Grok-powered AI signals throughout the experience."
+          "title": "Connected Source Context to Generation",
+          "description": "Built feed and game-detail surfaces that keep the originating account and post visible while carrying the generated title, genre, premise, art, and playable runtime into the product."
         },
         {
-          "title": "Designed game-card discovery",
-          "description": "Created a trending game surface with genre labels, generated thumbnails, creator attribution, play counts, and direct play actions."
+          "title": "Designed the Generated-Game Cockpit",
+          "description": "Combined game playback, bounded tuning controls, play statistics, library behavior, reporting, and source-post access in a single product surface."
         },
         {
-          "title": "Connected social mechanics",
-          "description": "Integrated sign-in, sharing, and leaderboard affordances so AI-generated games feel connected to the X ecosystem."
+          "title": "Built Discovery and Competition",
+          "description": "Created trending discovery and all-time ranking surfaces that organize generated games by creator, genre, play activity, and direct replay actions."
         }
       ],
       "results": [
         {
-          "title": "AI-first portfolio proof",
-          "description": "Adds a visible example of AI-assisted product design and game generation to the portfolio homepage and project archive."
+          "title": "Live AI Product System",
+          "description": "The result is an operating browser platform rather than a static generation demo: real posts become persistent game pages inside a discoverable catalog."
         },
         {
-          "title": "Fast concept-to-play loop",
-          "description": "Shows how AI can compress ideation, generation, discovery, and play into a lightweight browser experience."
+          "title": "Human Control After Generation",
+          "description": "Players can inspect source context, tune generated behavior, save or report a game, replay it, and compare its activity through product-level controls."
         },
         {
-          "title": "Social game platform direction",
-          "description": "Establishes a foundation for AI-generated games with trending discovery, shareability, and ranking behavior."
+          "title": "Persistent Social Proof",
+          "description": "Trending and leaderboard surfaces make generated games browseable and comparable, connecting AI creation to creator identity, distribution, engagement, and ranked play."
         }
       ]
     }
