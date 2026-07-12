@@ -1,20 +1,36 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
-import type { Project } from "@/types/project"
+import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
 type ProjectCardProps = Project & {
   priority?: boolean
 }
 
-export function ProjectCard({ id, title, description, image, technologies, priority }: ProjectCardProps) {
+const THUMBNAIL_OBJECT_POSITIONS: Record<ProjectThumbnailFocalPoint, string> = {
+  center: "center",
+  top: "center top",
+  bottom: "center bottom",
+  left: "left center",
+  right: "right center",
+}
+
+export function ProjectCard({
+  id,
+  title,
+  description,
+  image,
+  technologies,
+  thumbnailFocalPoint = "center",
+  priority,
+}: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${id}`}
       className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
-        <div className="relative aspect-[16/9] min-h-44 overflow-hidden border-b border-white/10 bg-zinc-950 lg:aspect-[16/7]">
+        <div className="relative aspect-[16/9] min-h-44 overflow-hidden border-b border-white/10 bg-zinc-950">
           <Image
             src={
               image ||
@@ -23,6 +39,7 @@ export function ProjectCard({ id, title, description, image, technologies, prior
             alt={title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+            style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }}
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
             priority={priority}
           />

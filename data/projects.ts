@@ -1,4 +1,5 @@
 import rawProjects from "@/public/data/projects.json"
+import { getProjectThumbnailFocalPoint } from "@/data/project-thumbnails"
 import type { Project } from "@/types/project"
 
 type RawProjectRecord = {
@@ -17,6 +18,7 @@ const parsedProjects = Object.entries(rawProjects as Record<string, RawProjectRe
     image: `${project.image}?height=400&width=600`,
     technologies: project.technologies,
     category: project.category,
+    thumbnailFocalPoint: getProjectThumbnailFocalPoint(id),
   })
 )
 
