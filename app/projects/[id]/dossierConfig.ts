@@ -40,6 +40,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "Geospatial collaboration systems / Public input",
     signals: "Locate / Comment / Layer / Review",
   },
+  speakeasy: {
+    caseFile: "AF-08",
+    eyebrow: "Voice-first XR accessibility / Research through design",
+    signals: "Research / Prototype / Measure / Exhibit",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
