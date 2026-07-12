@@ -400,6 +400,7 @@ export default function ProjectsPage() {
                 image={project.image}
                 technologies={project.technologies}
                 category={project.category}
+                thumbnailFocalPoint={project.thumbnailFocalPoint}
                 priority={index === 0}
               />
             </div>

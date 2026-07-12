@@ -40,6 +40,7 @@ function ProjectProof({ match, priority = false }: { match: ProjectMatch; priori
         image={project.image}
         technologies={project.technologies}
         category={project.category}
+        thumbnailFocalPoint={project.thumbnailFocalPoint}
         priority={priority}
       />
       <div className="space-y-4 py-1">
