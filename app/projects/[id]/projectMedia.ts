@@ -433,6 +433,32 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       section: "situation",
     },
   },
+  portals: {
+    "/projects/portals/main-image.png": {
+      label: "Three-destination Spectacles scene",
+      caption: "The primary on-device artifact places Samoa, India, and San Francisco portals in one hackathon scene with visible spoken-entry prompts instead of a conventional menu.",
+    },
+    "/projects/portals/voice-portal-source.png": {
+      label: "Guarded VoiceML portal lifecycle",
+      caption: "The implemented Lens Studio script validates scene inputs, prevents competing VoiceML sessions, starts from a disabled portal state, and handles activation, animation, deactivation, and listening errors.",
+      section: "action",
+    },
+    "/projects/portals/voice-routing-source.png": {
+      label: "Phrase-routed destination states",
+      caption: "The routing source defines explicit phrases for entering India, Samoa, and America and for exiting, leaving, or returning home, then maps final transcriptions into controlled scene-object states.",
+      section: "action",
+    },
+    "/projects/portals/pinch-scale-source.png": {
+      label: "Hand-tracked pinch scaling",
+      caption: "A second input path reads active hand and pinch state, captures initial distance and scale, and uniformly resizes the portal while the gesture remains active.",
+      section: "result",
+    },
+    "/projects/portals/devpost-showcase.png": {
+      label: "Four-person hackathon showcase",
+      caption: "The submitted Devpost frame preserves the project identity and four-person team context around the voice-and-hand Spectacles build.",
+      section: "situation",
+    },
+  },
 }
 
 function getDefaultMediaCopy(title: string, index: number): ProjectMediaCopy {

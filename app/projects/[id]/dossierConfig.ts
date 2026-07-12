@@ -70,6 +70,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "Spatial music systems / Audio-reactive interaction",
     signals: "Compose / Sequence / Visualize / Adapt",
   },
+  portals: {
+    caseFile: "AF-14",
+    eyebrow: "Voice-first AR systems / Cultural portal navigation",
+    signals: "Speak / Route / Scale / Return",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
