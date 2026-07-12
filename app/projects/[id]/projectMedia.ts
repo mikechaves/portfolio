@@ -412,6 +412,27 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       section: "task",
     },
   },
+  "sound-escape-vr": {
+    "/projects/soundescape/music-interface.png": {
+      label: "Four-channel spatial sequencer",
+      caption: "The primary artifact shows the in-headset music surface: four sample channels arranged across a 16-step grid with transport and tempo controls kept inside the composition space.",
+    },
+    "/projects/soundescape/fractal-visuals.png": {
+      label: "Eight-band audio-reactive geometry",
+      caption: "Project documentation captures Koch lines, neon towers, and the sequencer environment driven by normalized FFT bands rather than a disconnected animation timeline.",
+      section: "action",
+    },
+    "/projects/soundescape/spatial-environment.png": {
+      label: "Spatial performance environment",
+      caption: "The environment board shows the sequencer, held sample objects, luminous architecture, and reflective space that turn loop building into a spatial performance rather than a flat control panel.",
+      section: "result",
+    },
+    "/projects/soundescape/main-image.jpg": {
+      label: "Original Sound Escape identity",
+      caption: "The original identity establishes the synthwave world that framed the prototype before the interaction stack was reworked for Unity 2022 LTS and Meta Quest 3.",
+      section: "situation",
+    },
+  },
 }
 
 function getDefaultMediaCopy(title: string, index: number): ProjectMediaCopy {

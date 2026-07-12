@@ -1149,93 +1149,101 @@
   "sound-escape-vr": {
     "title": "Sound Escape VR",
     "category": "ar-vr",
-    "description": "Built a VR music creation prototype that combines a grid-based sequencer, real-time audio visualization, and responsive world-building to make spatial composition feel approachable.",
-    "image": "/projects/soundescape/main-image.jpg",
+    "description": "Built a Unity VR music system that turns a four-channel, 16-step sequencer into an audio-reactive spatial performance, with persisted patterns, microphone sampling, eight-band FFT analysis, and Quest 3 interaction updates.",
+    "image": "/projects/soundescape/music-interface.png",
     "technologies": [
-      "Unity3D",
+      "Unity 2022 LTS",
       "C#",
-      "VR Development",
-      "Audio Visualization",
-      "Interactive Music"
+      "Meta Quest 3",
+      "Unity XR",
+      "Audio DSP",
+      "Koch Geometry"
     ],
     "github": "https://github.com/mikechaves/sound-escape-vr",
     "demo": "https://www.youtube.com/watch?v=z2tbf1AHm7w",
-    "gallery": [],
+    "demoLabel": "Watch Prototype Demo",
+    "gallery": [
+      "/projects/soundescape/fractal-visuals.png",
+      "/projects/soundescape/spatial-environment.png",
+      "/projects/soundescape/main-image.jpg"
+    ],
     "details": {
-      "client": "Personal Project",
-      "date": "March 2023",
-      "category": "Spatial Interaction Prototype",
+      "client": "Independent Prototype",
+      "date": "2023 - 2025",
+      "category": "Spatial Music System",
+      "proofRole": "Direct implemented Unity evidence for spatial music tooling, spanning a four-channel 16-step sequencer, persisted grid and tempo state, microphone sample capture, eight-band FFT analysis, audio-reactive Koch geometry, and Quest 3 input adaptation.",
       "services": [
-        "VR Development",
-        "Audio Programming",
-        "Interactive Design"
+        "Spatial Interaction Design",
+        "Audio Systems Engineering",
+        "Generative Visualization",
+        "Quest 3 Adaptation"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "Virtual reality offers unique opportunities for music creation and visualization, but many existing applications either focus solely on professional music production or provide only passive music visualization experiences. There was a gap in the market for accessible, intuitive music creation tools that leverage the immersive potential of VR."
+          "title": "Music tools and VR spectacle rarely shared one loop",
+          "description": "Traditional sequencers make composition precise but screen-bound, while many music experiences in VR remain passive visualizers. Sound Escape explored whether arranging a loop, hearing it, and watching the world respond could become one embodied interaction."
         },
         {
-          "title": "Challenge",
-          "description": "How might we create an engaging VR experience that allows users with varying levels of musical expertise to create and visualize music in an intuitive, embodied way?"
+          "title": "Audio response needed to reflect the signal",
+          "description": "The environment could not rely on decorative animation alone. Frequency ranges, amplitude, timing, and user-selected samples needed to drive visible changes that remained connected to the music being composed."
         },
         {
-          "title": "Context",
-          "description": "The rise of consumer VR headsets like Meta Quest 3 has created new opportunities for innovative music applications that go beyond traditional interfaces."
+          "title": "The Oculus-era prototype needed a hardware update",
+          "description": "The project began around an earlier Oculus interaction stack. Moving it to Unity 2022.3 and Meta Quest 3 required explicit work across device detection, floor tracking, controller input, grabbing, collision behavior, haptics, and Android XR configuration."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The goal was to develop an immersive VR application that combines music creation with visual feedback in a cohesive, engaging experience. The project needed to:"
+          "title": "Make loop composition graspable in space",
+          "description": "Create a direct sequencer surface where a player can place notes across four channels and 16 time slots, adjust tempo, preview the loop, and retain the pattern between sessions."
         },
         {
-          "title": "Simplify Music Creation",
-          "description": "by implementing an intuitive grid-based sequencer that doesn't require musical expertise."
+          "title": "Connect sound structure to the environment",
+          "description": "Translate live stereo spectrum data into stable frequency bands that could control Koch lines, trails, light, color, scale, and other spatial feedback."
         },
         {
-          "title": "Enhance Immersion",
-          "description": "through real-time audio visualization that responds dynamically to user-created sounds."
+          "title": "Preserve player-created state",
+          "description": "Keep grid patterns, tempo, sample origins, and short microphone recordings available locally so composition behaved like a tool rather than a one-pass visual scene."
         },
         {
-          "title": "Optimize Performance",
-          "description": "to ensure smooth operation on standalone VR headsets like the Meta Quest 3."
+          "title": "Adapt the interaction layer for Quest 3",
+          "description": "Update the XR camera, input bridge, controller profile, floor origin, grab behavior, hand collision, and haptic settings without presenting planned passthrough or voice work as finished functionality."
         }
       ],
       "actions": [
         {
-          "title": "Technical Architecture",
-          "description": "Developed the application using Unity3D with C# as the primary programming language. Implemented custom shaders for responsive visual effects and optimized audio processing for real-time feedback."
+          "title": "Built the stateful 16-step sequencer",
+          "description": "Implemented a four-channel by 16-slot grid, scheduled sample playback against Unity DSP time, tempo control from 60 to 240 BPM, play and rewind state, and PlayerPrefs persistence for patterns and tempo."
         },
         {
-          "title": "User Interface Design",
-          "description": "Created an intuitive spatial interface that leverages natural hand movements for music composition, allowing users to place notes on a three-dimensional grid sequencer."
+          "title": "Added sample capture and local recovery",
+          "description": "Created four AudioSource channels with 80s synthwave defaults, six-second microphone recording, WAV persistence, sample-origin tracking, and local restoration of recorded or default clips."
         },
         {
-          "title": "Audio-Visual Integration",
-          "description": "Programmed a system that translates musical parameters (pitch, volume, rhythm) into visual elements that transform the environment, creating a synesthetic experience."
+          "title": "Mapped eight FFT bands into generative geometry",
+          "description": "Used stereo GetSpectrumData calls with a Blackman FFT window, normalized eight frequency bands and buffered amplitude, then drove Koch-line emission, trail color and width, lighting, and object scale from those values."
         },
         {
-          "title": "Performance Optimization",
-          "description": "Reworked the original Oculus implementation to ensure optimal performance on Meta Quest 3, focusing on maintaining high frame rates while preserving visual quality."
+          "title": "Reworked input and tracking for Quest 3",
+          "description": "Added Quest-aware device detection, XRInput or OVRInput selection, floor-origin setup, controller deadzones, grip-or-trigger grabbing, raycast remote grab, hand-collision safeguards, haptic settings, and scene diagnostics for particle and light load."
         }
       ],
       "results": [
         {
-          "title": "Overview",
-          "description": "Sound Escape VR successfully bridges the gap between music creation and visualization in virtual reality:"
+          "title": "A working composition-to-visualization loop",
+          "description": "The repository contains the functional core sequencer, local pattern and tempo recovery, sample playback and recording paths, FFT analysis, and audio-reactive Koch geometry shown in the project documentation."
         },
         {
-          "title": "Intuitive Music Creation",
-          "description": "Users can quickly learn to create musical patterns using the grid-based sequencer, regardless of their prior musical experience."
+          "title": "The world responds to authored audio state",
+          "description": "Player-created patterns and samples feed the same eight-band signal system used by the neon geometry, connecting composition choices to emission, color, trail behavior, light, and scale."
         },
         {
-          "title": "Immersive Audio-Visual Experience",
-          "description": "The environment reacts and transforms in sync with user-created music, creating a deeply engaging experience that connects sound and visuals."
+          "title": "Quest 3 compatibility became explicit code",
+          "description": "A dedicated compatibility update added Meta Quest 3 detection and configuration across camera tracking, input, grab ergonomics, collisions, haptics, Android XR settings, and performance diagnostics."
         },
         {
-          "title": "Technical Achievement",
-          "description": "Successfully optimized for Meta Quest 3, demonstrating the ability to create complex, interactive experiences for standalone VR headsets."
+          "title": "A private-build prototype with a bounded roadmap",
+          "description": "The public repository and demo document an implemented spatial music system, not a released consumer product. Exploration puzzles, a larger narrative journey, voice controls, broader accessibility work, multiplayer jams, and expanded fractal libraries remain planned or in refinement."
         }
       ]
     }
