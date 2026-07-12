@@ -967,78 +967,82 @@
     ],
     "github": "https://github.com/mikechaves/material-explorer",
     "demo": "https://mikechaves.github.io/material-explorer/",
-    "gallery": [],
+    "demoLabel": "Open Live Lab",
+    "gallery": [
+      "/projects/material-explorer/live-pbr-lab.png",
+      "/projects/material-explorer/live-compare.png",
+      "/projects/material-explorer/texture-workflow.png",
+      "/projects/material-explorer/power-tools.png"
+    ],
     "details": {
       "client": "Personal Project",
-      "date": "2026 (active)",
-      "category": "Web Development",
+      "date": "2026 (active beta)",
+      "category": "Interactive 3D Tooling",
+      "proofRole": "Direct shipped browser-product evidence for interactive 3D design tooling, spanning real-time PBR authoring, dual-canvas comparison, texture workflows, local-first persistence, share and GLB export, and automated quality gates.",
       "services": [
-        "Product Design + Frontend Engineering",
+        "3D Product Design",
         "Interactive 3D Tooling",
-        "Developer Experience"
+        "React & TypeScript Engineering",
+        "Browser Quality Engineering"
       ],
       "situation": [
         {
-          "title": "Overview",
+          "title": "Material iteration was split across expert tools",
           "description": "3D material creation and customization typically requires specialized knowledge and software, creating barriers for designers and developers who want to experiment with materials for their web-based 3D projects. Existing tools often lack real-time feedback or are too complex for quick iterations."
         },
         {
-          "title": "Challenge",
-          "description": "How might we simplify the process of creating and customizing 3D materials for the web while providing immediate visual feedback in an intuitive interface?"
+          "title": "Feedback needed to be immediate",
+          "description": "The browser product needed to keep material values, lighting, model choice, and rendered appearance in one loop so authors could judge changes without switching tools or rebuilding a scene."
         },
         {
-          "title": "Context",
-          "description": "With the growing popularity of 3D on the web through libraries like Three.js and React Three Fiber, there's an increasing need for accessible tools that bridge the gap between technical implementation and visual design."
+          "title": "Browser constraints shaped persistence and export",
+          "description": "The active beta stores materials locally by default, can fall back to local state when optional API sync fails, and must keep texture size, share-link length, and preview-geometry export limits visible."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The goal was to create a user-friendly web application that makes 3D material creation and customization accessible to both developers and designers. The application needed to:"
+          "title": "Make PBR controls approachable",
+          "description": "Expose physical material properties, textures, lighting, models, and preview controls in a product interface that designers and developers can operate directly."
         },
         {
-          "title": "Simplify Material Creation",
-          "description": "by providing an intuitive interface for adjusting material properties without requiring deep technical knowledge."
+          "title": "Support rapid comparison and recovery",
+          "description": "Give authors presets, autosave, draft history, undo and redo, A/B comparison, duplication, and randomization without interrupting the live preview."
         },
         {
-          "title": "Provide Real-time Feedback",
-          "description": "through immediate visual updates as users modify material properties."
-        },
-        {
-          "title": "Ensure Cross-device Compatibility",
-          "description": "by creating a responsive design that works well on various devices and screen sizes."
+          "title": "Keep materials portable",
+          "description": "Support library and single-material JSON, shareable material URLs, PNG snapshots, and GLB preview export while explaining which formats include textures or preview geometry."
         }
       ],
       "actions": [
         {
-          "title": "Built a full PBR material lab",
-          "description": "Implemented real-time controls for color, metalness, roughness, emissive, clearcoat, transmission/IOR, opacity, and texture-map channels with instant preview updates."
+          "title": "Built a live React Three Fiber lab",
+          "description": "Implemented real-time controls for color, metalness, roughness, emissive, clearcoat, transmission and IOR, opacity, seven texture-map channels, tiling, models, environments, and preview behavior."
         },
         {
-          "title": "Shipped rapid-iteration workflows",
-          "description": "Added draft autosave/restore, undo/redo history, compare mode, duplicate/randomize utilities, and draft JSON import/export to speed creative exploration."
+          "title": "Added compare and iteration controls",
+          "description": "Shipped quick presets, draft autosave and restore, undo and redo history, dual-canvas A/B comparison, duplicate and randomize tools, section resets, and draft JSON transfer."
         },
         {
-          "title": "Improved sharing and portability",
-          "description": "Added shareable URLs for material state, JSON import/export, and GLB export options for better collaboration and reuse."
+          "title": "Implemented local-first library workflows",
+          "description": "Added favorites, tags, search and sort, bulk actions, manual ordering, local persistence, optional API sync with local fallback, shareable URLs, JSON import and export, and GLB preview export."
         },
         {
-          "title": "Hardened quality for ongoing delivery",
-          "description": "Set up CI quality gates (format, lint, type-check, tests, build, bundle checks, Playwright e2e) and tightened release/README hygiene for maintainability."
+          "title": "Hardened release quality",
+          "description": "Set up format, lint, type-check, Vitest, production build, bundle-budget, Playwright accessibility and smoke, and security-audit gates, with best-effort telemetry and a local mock sync backend for integration work."
         }
       ],
       "results": [
         {
-          "title": "Faster iteration loops",
-          "description": "Reduced friction for testing material ideas by combining real-time preview with autosave, history, and one-click power tools."
+          "title": "One browser workflow from authoring to export",
+          "description": "The public beta combines a live PBR editor, starter library, dual-canvas comparison, texture controls, draft recovery, sharing, and export in one inspectable browser product."
         },
         {
-          "title": "Portfolio-ready engineering signal",
-          "description": "Demonstrates modern React/TypeScript architecture, 3D interaction design, and disciplined shipping practices in an actively maintained repo."
+          "title": "Local-first resilience with explicit limits",
+          "description": "Materials remain usable through local storage when optional API sync is absent or unavailable. Embedded textures can exceed browser quotas, texture-rich share URLs can be rejected for size, and GLB output contains preview geometry rather than an imported user mesh."
         },
         {
-          "title": "Better project communication",
-          "description": "Live demo + GitHub source + structured project narrative make the work easier for recruiters and hiring teams to evaluate quickly."
+          "title": "A tested public beta, not a DCC replacement",
+          "description": "The deployed GitHub Pages app and public repository demonstrate shipped React, TypeScript, and Three.js product engineering with automated quality gates. The project remains an active browser-material beta rather than claiming parity with production digital-content-creation suites."
         }
       ]
     }
