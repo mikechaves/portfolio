@@ -785,70 +785,71 @@
       "client": "Personal Project",
       "date": "June 2026",
       "category": "AI Legal Operations Prototype",
+      "proofRole": "Direct product and implementation evidence for an AI-assisted legal-operations workflow, spanning typed bankruptcy intake models, deterministic readiness analysis, server-side structured model outputs, fallback behavior, and explicit paralegal-to-attorney review boundaries.",
       "services": [
-        "Product Systems Design",
-        "AI Workflow Design",
-        "Frontend Engineering",
-        "Operational UX"
+        "Legal Operations UX",
+        "AI Product Systems",
+        "Full-Stack Engineering",
+        "Human Review Design"
       ],
       "situation": [
         {
-          "title": "Overview",
+          "title": "Exceptions surfaced too late",
           "description": "Bankruptcy firms lose time when intake packets are incomplete, income data conflicts, creditor addresses are missing, documents are rejected, or payment status is unclear. Those exceptions often surface late, after a paralegal has already started assembling a packet for attorney review."
         },
         {
-          "title": "Challenge",
+          "title": "The handoff lacked an operating view",
           "description": "The product needed to answer one practical workflow question: can this client matter move toward attorney review, and if not, what exact blocker should the paralegal resolve next?"
         },
         {
-          "title": "Guardrail",
+          "title": "Legal scope required a hard boundary",
           "description": "The prototype intentionally focuses on readiness, blockers, evidence, and attorney-review preparation instead of automated filing, legal advice, eligibility decisions, or petition generation."
         }
       ],
       "task": [
         {
-          "title": "Readiness Console",
+          "title": "Make readiness inspectable",
           "description": "Design and build a working dashboard that gives paralegals a clear view of active matters, blocker counts, readiness scores, queue status, and next actions."
         },
         {
-          "title": "Case-Grounded AI",
+          "title": "Ground AI in the current packet",
           "description": "Use structured AI outputs to summarize blockers, find conflicts, draft client follow-ups, and compile attorney-review briefs from the current case packet."
         },
         {
-          "title": "Reviewer-Safe Prototype",
+          "title": "Preserve reviewer access without credentials",
           "description": "Make the demo useful without credentials through deterministic local fallback analysis, while preserving the same UI shape when model calls are unavailable."
         }
       ],
       "actions": [
         {
-          "title": "Modeled the bankruptcy intake domain",
+          "title": "Modeled repeatable case states",
           "description": "Created seeded Chapter 7 and Chapter 13 matters with client facts, document states, retainer status, issues, readiness stages, raw notes, and blocker metadata."
         },
         {
-          "title": "Built the operational dashboard",
-          "description": "Implemented readiness summary cards, matter queue pagination, status badges, selected matter details, top blockers, next paralegal action, and attorney-review item surfaces."
+          "title": "Built the paralegal operating console",
+          "description": "Implemented readiness summary cards, matter queue pagination, status badges, selected matter details, top blockers, next paralegal action, and attorney-review item surfaces. Readiness starts at 100, subtracts documented issue weights, and maps each matter to attorney review, cleanup, or blocked state."
         },
         {
-          "title": "Implemented AI-assisted review flows",
-          "description": "Built Paralegal Copilot prompt modes for blocker analysis, conflict checks, client follow-up drafts, and attorney-review brief compilation with structured JSON validation."
+          "title": "Implemented structured server-side Copilot",
+          "description": "Built server-side Paralegal Copilot modes for blocker analysis, conflict checks, client follow-up drafts, and attorney-review brief compilation using the OpenAI Responses API, structured JSON output, and Zod validation."
         },
         {
-          "title": "Added deterministic fallback behavior",
+          "title": "Kept deterministic fallback equivalent",
           "description": "Created local analysis for readiness scoring, blocker detection, follow-up generation, and brief assembly so reviewers can evaluate the full workflow without an OpenAI key."
         }
       ],
       "results": [
         {
-          "title": "Clear human-in-the-loop AI boundary",
-          "description": "PetitionReady keeps the paralegal and attorney review loop visible by grounding outputs in supplied case evidence and avoiding legal conclusions."
+          "title": "One blocker-to-review workflow",
+          "description": "The prototype turns intake state into a repeatable queue, readiness score, issue list, evidence snapshot, next action, and attorney-review handoff instead of scattering those decisions across disconnected views."
         },
         {
-          "title": "Operational UX proof",
-          "description": "The interface turns messy intake state into a queue, score, issue list, evidence snapshot, and next action that a paralegal can operate repeatedly."
+          "title": "Inspectable human-in-the-loop boundary",
+          "description": "PetitionReady grounds Copilot outputs in supplied case evidence, keeps paralegal and attorney review visible, and explicitly avoids legal conclusions, filing decisions, and automated petition generation."
         },
         {
-          "title": "Production-minded prototype",
-          "description": "The repo includes typed domain models, structured AI response validation, focused Vitest coverage, and a Vercel demo that works with or without model credentials."
+          "title": "Production-minded prototype with explicit gaps",
+          "description": "The public repo and Vercel demo include typed domain models, structured AI response validation, focused Vitest coverage, timeout and fallback behavior, and seeded local data. Authentication, persistence, audit logs, and production legal workflows remain deliberately out of scope."
         }
       ]
     }
