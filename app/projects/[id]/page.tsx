@@ -2,6 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { redirect } from 'next/navigation'
 import ProjectPageClient from './ProjectPageClient'
+import { getDossierExitPath } from './dossierExitPathData'
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>
@@ -17,5 +18,5 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     redirect('/error?message=' + encodeURIComponent('Project not found'))
   }
   const project = { id, ...p }
-  return <ProjectPageClient project={project} />
+  return <ProjectPageClient dossierExitPath={getDossierExitPath(id)} project={project} />
 }
