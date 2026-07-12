@@ -302,6 +302,7 @@
     ],
     "github": "",
     "demo": "/projects/gaia/GaiaVisiPad.mp4",
+    "demoLabel": "Watch Prototype",
     "gallery": [
       "/projects/gaia/gaia-prototype.png",
       "/projects/gaia/gaia-lobby-2.png",
@@ -311,34 +312,73 @@
       "client": "Starbucks Corporation",
       "date": "Dec 30, 2022",
       "category": "Design Engineering",
+      "proofRole": "Direct evidence of leading UX design and Unity prototyping for enterprise spatial operations, from opportunity framing through physical-device and immersive test states.",
       "services": [
-        "Experience Design",
-        "XR Development",
-        "Interactive Media"
+        "Operational UX",
+        "Spatial Prototyping",
+        "Unity Development",
+        "Usability Testing"
+      ],
+      "situation": [
+        {
+          "title": "Data Needed Spatial Context",
+          "description": "Gaia explored how Starbucks initiative and store data could become contextual information for collaboration, planning, training, and operational review rather than remain isolated in flat files and dashboards."
+        },
+        {
+          "title": "Two Connected Surfaces",
+          "description": "The concept joined Gaia VisiPad for browsing initiative files and configuration with Gaia VR for inspecting store and portfolio context in an immersive environment."
+        },
+        {
+          "title": "Enterprise Design Constraint",
+          "description": "The interface had to preserve recognizable project metadata and controls while making a new spatial-computing workflow understandable to partners reviewing unfamiliar 3D environments."
+        }
+      ],
+      "task": [
+        {
+          "title": "Lead the Experience Design",
+          "description": "Own the UX and interface direction for the tablet and immersive workflows, translating the opportunity into user stories, information architecture, and reviewable prototypes."
+        },
+        {
+          "title": "Build the Spatial Prototype",
+          "description": "Develop Unity scenes that connect store selection, project context, role controls, and spatial models without losing the operational information behind them."
+        },
+        {
+          "title": "Test the Interaction Model",
+          "description": "Use physical-device and headset states to evaluate whether the workflow remained legible as it moved from a conventional interface into a 3D environment."
+        }
       ],
       "actions": [
         {
-          "title": "User Research",
-          "description": "Conducted research to understand the needs of Starbucks employees and customers in a spatial computing context."
+          "title": "Framed the Opportunity",
+          "description": "Translated the project brief into how-might-we questions, initial use cases, and user stories covering collaboration, store data, initiative files, and spatial decision support."
         },
         {
-          "title": "Design",
-          "description": "Designed wireframes and prototypes using Figma, focusing on intuitive and accessible interfaces."
+          "title": "Designed the VisiPad Workflow",
+          "description": "Created Figma flows for initiative-file browsing, project metadata, upload and deletion states, and store configuration before validating the interface on tablet hardware."
         },
         {
-          "title": "Development",
-          "description": "Developed spatial computing prototypes using Unity3D, ensuring seamless integration with Starbucks' systems."
+          "title": "Built the Unity Environments",
+          "description": "Moved from 3D wireframes into Unity store-selection and store-overview scenes with spatial models, store cards, role controls, and navigable operational context."
         },
         {
-          "title": "Testing",
-          "description": "Conducted usability testing with employees and customers to refine the applications."
-        },
-        {
-          "title": "Collaboration",
-          "description": "Worked with cross-functional teams to align digital solutions with operational needs."
+          "title": "Tested Across Modalities",
+          "description": "Reviewed the experience on a physical tablet and in an immersive headset state, using the resulting evidence to connect conventional controls with the spatial workflow."
         }
       ],
-      "result": "The Gaia project successfully enhanced operational efficiency and customer experience, setting new benchmarks in retail technology. My contributions in design and development created a more engaging, intuitive, and immersive retail environment, advancing Starbucks' vision for a digitally integrated future."
+      "results": [
+        {
+          "title": "End-to-End Spatial Prototype",
+          "description": "The project produced a reviewable path from initiative-file management on a tablet to store selection and store inspection inside a Unity environment."
+        },
+        {
+          "title": "Operational Context in 3D",
+          "description": "Store cards, project metadata, role controls, and physical layouts remain visible across the prototype, demonstrating how enterprise information can accompany spatial navigation."
+        },
+        {
+          "title": "Traceable Design Progression",
+          "description": "The evidence set connects opportunity framing, user stories, 2D flows, 3D wireframes, physical-device review, immersive testing, and final spatial scenes without relying on unsupported impact claims."
+        }
+      ]
     }
   },
   "apt-plus": {
