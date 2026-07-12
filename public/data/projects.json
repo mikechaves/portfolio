@@ -863,12 +863,13 @@
       "Python",
       "Pillow",
       "PyYAML",
-      "OpenAI Images API",
+      "OpenAI Responses API",
       "Creative Automation",
       "Localization"
     ],
     "github": "https://github.com/mikechaves/creative-supply-engine",
     "demo": "/projects/creative-supply-engine/review-gallery.html",
+    "demoLabel": "Open Review Gallery",
     "gallery": [
       "/projects/creative-supply-engine/citrus-en-1x1.jpg",
       "/projects/creative-supply-engine/citrus-en-9x16.jpg",
@@ -879,73 +880,74 @@
       "/projects/creative-supply-engine/cli-run-summary.png"
     ],
     "details": {
-      "client": "Pulse Beverages",
+      "client": "Pulse Beverages (Sample Brand)",
       "date": "2026",
-      "category": "AI Creative Operations",
+      "category": "AI Creative Operations Prototype",
+      "proofRole": "Direct implementation evidence for a reuse-first creative operations pipeline, spanning structured campaign briefs, optional OpenAI image generation, deterministic brand composition, multi-market localization, compliance checks, provenance logs, and human review packaging.",
       "services": [
-        "Creative Automation",
-        "AI Image Generation Workflow",
-        "Localization",
-        "Review Tooling"
+        "Creative Operations",
+        "AI Image Systems",
+        "Localization Engineering",
+        "Review & Compliance"
       ],
       "situation": [
         {
-          "title": "Overview",
+          "title": "Generation was only one step",
           "description": "Campaign teams need to produce consistent, localized social creative across multiple formats without rebuilding every asset by hand."
         },
         {
-          "title": "Challenge",
+          "title": "Brand rules needed deterministic control",
           "description": "AI image generation can help create campaign hero assets, but brand, copy, compliance, sizing, and review requirements still need deterministic controls."
         },
         {
-          "title": "Context",
-          "description": "The sample Pulse Beverages campaign uses reusable product assets, structured YAML briefs, localized market copy, and required logo/compliance rules."
+          "title": "A sample campaign defined the operating context",
+          "description": "The fictional Pulse Beverages campaign uses reusable product assets, a structured YAML brief, English and Spanish market copy, three social ratios, and required logo and prohibited-word checks."
         }
       ],
       "task": [
         {
-          "title": "Reusable Creative Pipeline",
+          "title": "Create a reuse-first pipeline",
           "description": "Create a CLI workflow that can read a campaign brief, reuse existing hero assets when available, generate missing assets when configured, and output production-ready social ratios."
         },
         {
-          "title": "Localized Output System",
+          "title": "Scale copy and composition across markets",
           "description": "Support multiple products and locales while preserving brand rules, CTA text, campaign messages, and safe layout behavior across each ratio."
         },
         {
-          "title": "Review and Compliance",
+          "title": "Make every run reviewable",
           "description": "Produce reviewable outputs, run logs, and compliance checks so generated creative can be inspected before campaign use."
         }
       ],
       "actions": [
         {
-          "title": "Built the CLI",
+          "title": "Packaged a repeatable Python CLI",
           "description": "Packaged the workflow as the pulse-cse Python command with structured brief loading, campaign logging, and repeatable output paths."
         },
         {
-          "title": "Created reusable asset logic",
-          "description": "Implemented local asset reuse first, with an OpenAI image generation path and graceful placeholder fallback when live generation is unavailable."
+          "title": "Reused approved assets before generating",
+          "description": "Implemented local hero-asset reuse first, with optional GPT-5.5 image generation through the OpenAI Responses API and a visible placeholder fallback when live generation is unavailable."
         },
         {
-          "title": "Generated responsive creative sets",
+          "title": "Composed three production ratios deterministically",
           "description": "Used Pillow to crop and compose 1:1, 9:16, and 16:9 outputs with deterministic logo placement, localized text overlays, and brand color treatment."
         },
         {
-          "title": "Added review outputs",
-          "description": "Produced run logs, compliance summaries, and a browser-friendly review gallery for checking localized creative sets quickly."
+          "title": "Logged provenance, compliance, and review output",
+          "description": "Recorded whether each hero was reused, generated, or replaced by fallback; checked dimensions, required logo application, campaign-message presence, and prohibited words; then emitted a browser review gallery and packageable review bundle."
         }
       ],
       "results": [
         {
-          "title": "Twelve creative outputs",
-          "description": "Generated a sample Summer Citrus Reset campaign covering two products, two locales, and three social ratios per locale."
+          "title": "Twelve outputs from one structured brief",
+          "description": "The sample run produced four product-and-locale sets across two products, two locales, and three social ratios, for twelve final creative files."
         },
         {
-          "title": "Passed compliance checks",
-          "description": "The run confirmed expected dimensions, required logo application, message presence, and prohibited-word checks across the generated assets."
+          "title": "Four localized sets passed documented checks",
+          "description": "The run log confirmed expected dimensions, required logo application, campaign-message presence, and prohibited-word checks for each product-and-locale set."
         },
         {
-          "title": "AI workflow proof",
-          "description": "Shows a practical AI-assisted creative operations system where generation, localization, deterministic layout, and human review work together."
+          "title": "A human review bundle remained the final gate",
+          "description": "The workflow packages final creatives, the source brief, run log, compliance state, and review gallery for inspection. It demonstrates a tested local prototype rather than claiming autonomous campaign approval or production deployment."
         }
       ]
     }

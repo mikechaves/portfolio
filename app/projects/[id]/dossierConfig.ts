@@ -50,6 +50,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "AI legal operations / Human review boundary",
     signals: "Intake / Triage / Evidence / Review",
   },
+  "creative-supply-engine": {
+    caseFile: "AF-10",
+    eyebrow: "AI creative operations / Deterministic control layer",
+    signals: "Brief / Generate / Localize / Review",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
