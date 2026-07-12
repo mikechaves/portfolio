@@ -136,6 +136,32 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       section: "result",
     },
   },
+  "material-explorer": {
+    "/projects/material-explorer/main-image.png": {
+      label: "Material authoring workspace",
+      caption: "The product workspace combines a searchable material library, typed editor controls, and a live 3D preview so authors can inspect the system before committing a material.",
+    },
+    "/projects/material-explorer/live-pbr-lab.png": {
+      label: "Live PBR material lab",
+      caption: "The deployed lab renders a React Three Fiber preview alongside quick presets, environment and camera controls, and a starter library of editable materials.",
+      section: "action",
+    },
+    "/projects/material-explorer/live-compare.png": {
+      label: "Dual-canvas A/B comparison",
+      caption: "The comparison state renders two live canvases side by side, keeping the material library visible while authors evaluate a saved reference against the current draft.",
+      section: "result",
+    },
+    "/projects/material-explorer/texture-workflow.png": {
+      label: "Texture-map workflow",
+      caption: "The working editor exposes base-color, normal, roughness, metalness, AO, emissive, and alpha map inputs while preserving the live preview and library context.",
+      section: "action",
+    },
+    "/projects/material-explorer/power-tools.png": {
+      label: "Draft history and power tools",
+      caption: "Draft recovery, undo and redo, duplicate, randomize, texture clearing, JSON transfer, and save controls make rapid iteration explicit instead of hiding it behind the renderer.",
+      section: "result",
+    },
+  },
   "die-ai": {
     "/projects/die-ai/main-image.png": {
       label: "Playable wrapper",
