@@ -1251,97 +1251,103 @@
   "portals": {
     "title": "Portals",
     "category": "ar-vr",
-    "description": "Built an accessible Snap Spectacles AR prototype that uses spatial audio and computer vision to connect music, culture, collaboration, and climate awareness.",
+    "description": "Led SnapAR development for a four-person Spectacles hackathon prototype that opens and routes cultural portals through VoiceML commands, supports explicit return phrases, and lets users resize portal objects with hand-tracked pinch input.",
     "image": "/projects/portals/main-image.png",
     "technologies": [
-      "AR",
+      "Lens Studio",
+      "JavaScript",
       "Snap Spectacles",
+      "VoiceML",
+      "Hand Tracking",
       "Spatial Audio",
-      "Voice UI",
-      "Accessibility"
+      "Spectacles Interaction Kit"
     ],
     "github": "https://github.com/mikechaves/stanford-immerse-the-bay-24",
     "demo": "https://devpost.com/software/strings",
-    "gallery": [],
+    "demoLabel": "Open Devpost Showcase",
+    "gallery": [
+      "/projects/portals/voice-portal-source.png",
+      "/projects/portals/voice-routing-source.png",
+      "/projects/portals/pinch-scale-source.png",
+      "/projects/portals/devpost-showcase.png"
+    ],
     "details": {
-      "client": "Stanford's Immerse the Bay 2024 XR Hackathon",
-      "date": "November 2023",
-      "category": "AR Development",
+      "client": "Stanford Immerse the Bay 2024 / Four-person team",
+      "date": "November 2024",
+      "category": "Voice-first Spectacles Prototype",
+      "proofRole": "Direct hackathon prototype evidence for voice-first AR navigation, spanning VoiceML portal activation, phrase-routed destination states, explicit return commands, hand-tracked pinch scaling, spatial media assets, and an on-device Spectacles scene.",
       "services": [
-        "AR Experience Design",
-        "Accessibility Solutions",
-        "Cultural Education"
+        "SnapAR Prototyping",
+        "Voice Interaction Design",
+        "Spatial Experience Design",
+        "Hackathon Product Leadership"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "As AR technologies become more widespread, there's a growing need for experiences that prioritize accessibility, cultural education, and climate awareness. Many existing AR applications focus primarily on visual elements, often overlooking audio-based interactions and accessibility features."
+          "title": "A four-person team had one hackathon to make culture spatial",
+          "description": "At Stanford's Immerse the Bay 2024 XR Hackathon, the team explored how Snap Spectacles could turn cultural destinations into portals combining place, music, voice, and embodied interaction. Mike served as project lead and SnapAR developer alongside cultural research, accessibility, audio, UX, and Lens Studio integration roles."
         },
         {
-          "title": "Challenge",
-          "description": "How might we create an immersive AR experience that makes diverse musical traditions accessible to everyone, including individuals with limited mobility, while promoting cultural education and climate awareness?"
+          "title": "The interface needed to stay out of the view",
+          "description": "A portal experience loses its effect if every action requires a dense visual menu. The prototype needed direct spoken commands for entering, leaving, activating, and deactivating destinations while preserving a hand-based manipulation path."
         },
         {
-          "title": "Context",
-          "description": "Snap Spectacles provide a unique platform for AR development with spatial audio capabilities, offering new possibilities for creating inclusive and educational experiences."
+          "title": "The concept was larger than the implementation window",
+          "description": "The broader pitch included cultural timelines, collaborative music, computer-vision recognition, educational layers, and climate awareness. The repository's clearest implemented proof is the voice-and-hand portal interaction system, so the case study separates that core from the roadmap."
         }
       ],
       "task": [
         {
-          "title": "Overview",
-          "description": "The goal was to develop an AR experience for Snap Spectacles that would achieve four main objectives:"
+          "title": "Represent three destinations in one scene",
+          "description": "Build distinct portal states for Uttar Pradesh, India; Afu Aau Falls, Samoa; and San Francisco, USA, with destination-specific objects and media that could be selected without conventional navigation chrome."
         },
         {
-          "title": "Accessibility",
-          "description": "Design inclusive, voice-controlled features and audio cues for individuals with limited hand mobility or speech difficulties."
+          "title": "Make activation and exit language explicit",
+          "description": "Support simple phrases for turning the portal system on or off, entering a destination, leaving the portal, and returning home, with final-transcription checks before scene state changes."
         },
         {
-          "title": "Cultural Education",
-          "description": "Enable auditory exploration of music from various cultures, focusing on historical context and lesser-known instruments."
+          "title": "Keep a second embodied input path",
+          "description": "Add hand-tracked pinch scaling so portal objects could be manipulated directly rather than making voice the only available interaction mode."
         },
         {
-          "title": "Joy",
-          "description": "Create fun, collaborative AR jam sessions with friends using spatial audio."
-        },
-        {
-          "title": "Climate Change Awareness",
-          "description": "Highlight music that connects to natural environments or climate themes to increase awareness through audio immersion."
+          "title": "Package a judgeable prototype",
+          "description": "Connect the Lens Studio scene, portal model, VoiceML module, hand-tracking package, cultural audio and video assets, public repository, and Devpost demonstration into one hackathon submission."
         }
       ],
       "actions": [
         {
-          "title": "Co-Creation Features",
-          "description": "Developed spatial audio circles that position friends and collaborators in a virtual jam session, each playing an instrument or adding to the ambiance, allowing friends to interact audibly to avoid visual clutter."
+          "title": "Built a guarded VoiceML portal lifecycle",
+          "description": "Implemented portal-on, activate-portal, portal-off, and deactivate-portal keyword groups; validated required scene inputs; prevented competing VoiceML sessions; forced a disabled initial state; and handled listening updates, failures, activation, animation, and deactivation."
         },
         {
-          "title": "Interactive Auditory Timeline",
-          "description": "Implemented cultural markers recognition using Spectacles' computer vision to identify cultural artifacts or historical sites and launch a timeline with music, stories, and significant figures from that culture."
+          "title": "Routed spoken destinations into scene states",
+          "description": "Mapped enter India, enter Samoa, enter America, exit portal, leave portal, and return home phrases to three destination objects and a controlled initial state, processing only final English transcriptions."
         },
         {
-          "title": "Accessibility Implementation",
-          "description": "Created voice command controls for the experience, providing accessibility for individuals with limited mobility, along with a custom 'safe word' exit feature to prioritize user comfort and safety."
+          "title": "Added hand-tracked portal scaling",
+          "description": "Connected Lens Studio's hand-tracking component to pinch detection, captured the starting pinch distance and object scale, and applied uniform scaling while the gesture remained active."
         },
         {
-          "title": "Educational Layers",
-          "description": "Integrated optional deep dives into the history and significance of various music elements for educational purposes."
+          "title": "Integrated cultural media into the Lens scene",
+          "description": "Assembled the Holi portal model, Holi instrumental and spoken-description media, Billie Holiday audio, device-camera texture, hand-tracking controller, VoiceML module, and Spectacles Interaction Kit inside the submitted Lens Studio project."
         }
       ],
       "results": [
         {
-          "title": "Inclusive AR Experience",
-          "description": "Successfully created an AR experience that prioritizes accessibility through voice controls and audio-based interactions."
+          "title": "Three destinations became phrase-addressable",
+          "description": "The implemented command vocabulary routes India, Samoa, and America portal states and provides three explicit return phrases, making the scene operable without an always-visible destination menu."
         },
         {
-          "title": "Cultural Education Platform",
-          "description": "Developed a platform for exploring diverse musical traditions and their historical contexts, focusing on underrepresented communities."
+          "title": "Voice and hand input shared the interaction model",
+          "description": "VoiceML controls scene state while tracked pinch distance controls portal scale. The prototype demonstrates two complementary XR inputs rather than claiming that voice alone resolves every accessibility need."
         },
         {
-          "title": "Collaborative Music Creation",
-          "description": "Implemented spatial audio features that enable users to create collaborative, immersive musical experiences with friends."
+          "title": "The work remained inspectable after the event",
+          "description": "The Lens Studio scene, custom JavaScript, spatial media assets, team roles, demo video, Devpost narrative, and MIT-licensed repository preserve the hackathon build as reviewable implementation evidence."
         },
         {
-          "title": "Climate Awareness Integration",
-          "description": "Incorporated elements that highlight the connection between music, natural environments, and climate themes to raise awareness through immersive audio experiences."
+          "title": "A bounded prototype, not a completed cultural platform",
+          "description": "The repository proves portal activation, destination routing, pinch scaling, and packaged media. Computer-vision recognition, cultural timelines, global jam sessions, sharing, environmental-data triggers, and broader accessibility validation remain concept or future work."
         }
       ]
     }
