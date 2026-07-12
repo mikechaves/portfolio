@@ -163,33 +163,38 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
   },
   "die-ai": {
-    "/projects/die-ai/main-image.png": {
-      label: "Playable wrapper",
-      caption: "Primary web wrapper that preserves the Flash game while making it portfolio-ready.",
+    "/projects/die-ai/level-one.png": {
+      label: "Preserved Sector 12 gameplay",
+      caption: "The primary artifact is the original SWF gameplay state: a two-minute defense loop with score, timer, player movement, laser fire, robot waves, and an exit-failure condition preserved through Ruffle.",
+    },
+    "/projects/die-ai/live-ruffle-wrapper.png": {
+      label: "Live Ruffle start state",
+      caption: "The deployed GitHub Pages wrapper loads the original SWF through pinned Ruffle, exposes the runtime-confirmed A, D, and Space controls, and keeps source and project context beside the player.",
+      section: "action",
     },
     "/projects/die-ai/start-screen.png": {
-      label: "Start screen",
-      caption: "Game premise and first interaction surface.",
+      label: "Original Flash start screen",
+      caption: "The preserved opening screen keeps the 2018 neon-grid identity and first interaction intact rather than recreating it in a new engine.",
       section: "situation",
     },
     "/projects/die-ai/intro-good.png": {
-      label: "Intro sequence",
-      caption: "Narrative setup connecting the player to the hacked AI threat.",
+      label: "AICorp launch narrative",
+      caption: "The original intro establishes the Buddy Bot product launch before the attack, preserving the timeline-authored story context around the gameplay loop.",
       section: "task",
     },
     "/projects/die-ai/intro-hacked.png": {
-      label: "Hacked intro state",
-      caption: "Animated story beat used to establish the AI takeover scenario.",
-      section: "action",
-    },
-    "/projects/die-ai/level-one.png": {
-      label: "Level one gameplay",
-      caption: "Playable action surface with enemies, health, and shooting interactions.",
+      label: "Compromised Buddy Bot state",
+      caption: "The hacked warning supplies the transition from product announcement to defense scenario and remains part of the unchanged SWF sequence.",
       section: "action",
     },
     "/projects/die-ai/game-over.png": {
-      label: "Game over state",
-      caption: "End-state feedback and completion loop for the preserved browser game.",
+      label: "Preserved failure state",
+      caption: "The game-over screen confirms that the wrapper retains the original loss path and replay loop rather than stopping at a static screenshot or menu shell.",
+      section: "result",
+    },
+    "/projects/die-ai/main-image.png": {
+      label: "Modern preservation identity",
+      caption: "The revival identity gives the archive a current public-facing frame while the playable artifact, screenshots, source, and checksums remain tied to the preserved 2018 build.",
       section: "result",
     },
   },

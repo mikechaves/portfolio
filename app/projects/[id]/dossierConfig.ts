@@ -75,6 +75,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "Voice-first AR systems / Cultural portal navigation",
     signals: "Speak / Route / Scale / Return",
   },
+  "die-ai": {
+    caseFile: "AF-15",
+    eyebrow: "Legacy runtime preservation / Playable artifact",
+    signals: "Preserve / Emulate / Verify / Archive",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
