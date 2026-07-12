@@ -81,6 +81,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
                   src={item.src}
                   alt={item.alt}
                   fill
+                  loading="eager"
                   className="object-contain"
                   sizes="(min-width: 1024px) 224px, 128px"
                 />

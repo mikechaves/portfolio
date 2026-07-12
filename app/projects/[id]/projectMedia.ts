@@ -308,27 +308,27 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   transcribe: {
     "/projects/transcribe/main-image.png": {
-      label: "Drive-through transcription prototype",
-      caption: "Primary accessibility tool for real-time speech-to-text in high-traffic retail operations.",
+      label: "Drive-through transcription system",
+      caption: "The partner-facing display transcribes a customer order beside the existing point-of-sale workflow, making the accessibility concept inspectable in its retail context.",
     },
     "/projects/transcribe/situation.png": {
-      label: "Retail communication context",
-      caption: "Situation artifact showing the communication gap this accessibility workflow addressed.",
+      label: "Communication roadmap and pilot plan",
+      caption: "The project brief connects noisy drive-through communication, a speech-to-text hypothesis, partner and customer needs, hardware constraints, and a bounded store-test plan.",
       section: "situation",
     },
     "/projects/transcribe/action.png": {
-      label: "Prototype and interface work",
-      caption: "Design and build evidence for the real-time transcription workflow.",
+      label: "Interface and implementation record",
+      caption: "The action record documents accessibility research, MVP and stretch flows, React development, and Google Cloud Speech-to-Text integration.",
       section: "action",
     },
     "/projects/transcribe/testing.png": {
-      label: "Usability testing",
-      caption: "Testing evidence used to validate the tool with accessibility and operational needs.",
+      label: "Listening-state and in-store testing",
+      caption: "Muted and listening states are paired with an in-store usability review, preserving both interface behavior and the physical counter environment used for evaluation.",
       section: "action",
     },
     "/projects/transcribe/result.png": {
-      label: "Deployment outcome",
-      caption: "Result artifact tying the transcription workflow to accuracy and efficiency improvements.",
+      label: "Documented pilot outcomes",
+      caption: "The case-study record reports a 30% transcription-accuracy improvement and a 50% reduction in manual note-taking time alongside in-store pilot evidence.",
       section: "result",
     },
   },

@@ -24,6 +24,15 @@ const HIGH_SIGNAL_PROJECT_IDS = [
 ]
 
 describe("high-signal project media", () => {
+  test("the shared viewer eagerly loads compact supporting thumbnails", () => {
+    const source = fs.readFileSync(
+      path.join(__dirname, "..", "app", "projects", "[id]", "ProjectMediaShowcase.tsx"),
+      "utf8",
+    )
+
+    expect(source).toContain('loading="eager"')
+  })
+
   test.each(HIGH_SIGNAL_PROJECT_IDS)("%s has explicit media copy", (id) => {
     const project = projects[id]
     expect(project).toBeDefined()
