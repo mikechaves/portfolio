@@ -20,6 +20,11 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
     eyebrow: "AI-native game systems / Social creation loop",
     signals: "Post / Generate / Play / Rank",
   },
+  gaia: {
+    caseFile: "AF-04",
+    eyebrow: "Enterprise spatial operations / Decision context",
+    signals: "Research / Prototype / Test / Spatialize",
+  },
 }
 
 export const EVIDENCE_DOSSIER_PROJECT_IDS = Object.freeze(
