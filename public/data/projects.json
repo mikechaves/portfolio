@@ -567,8 +567,8 @@
   "geovoice": {
     "title": "GeoVoice",
     "category": "web",
-    "description": "GeoVoice is a platform created to streamline geospatial data analysis and stakeholder feedback, primarily for large-scale infrastructure and environmental planning projects. By integrating intuitive mapping tools with a centralized feedback system, GeoVoice enables teams to gather, visualize, and act on geographically specific insights in real time. The result is a more transparent and efficient way to collaborate, whether for urban development, energy planning, or environmental impact assessments.",
-    "image": "/projects/geovoice/main-image.png",
+    "description": "Designed a map-based stakeholder-feedback system that connects project layers, location-specific comments, participant context, and public-facing infrastructure review in one workflow.",
+    "image": "/projects/geovoice/geovoice-demo.png",
     "technologies": [
       "Geospatial Mapping",
       "UX/UI Design",
@@ -579,72 +579,74 @@
     "demo": "https://geovoice.powereng.com/demo/",
     "gallery": [
       "/projects/geovoice/geovoice-prototype.png",
-      "/projects/geovoice/geovoice-demo.png",
+      "/projects/geovoice/interface.png",
       "/projects/geovoice/geovoice-cvow.png"
     ],
     "details": {
       "client": "POWER Engineers",
       "date": "Jan 10, 2021",
       "category": "Design Engineering",
+      "proofRole": "Direct design and prototype evidence for a geospatial stakeholder-feedback workflow, from location selection and structured comments through map layers and regional project applications.",
       "services": [
-        "UX/UI Design",
-        "Web Development",
-        "Geospatial Solutions"
+        "Stakeholder UX",
+        "Workflow Design",
+        "Geospatial Data",
+        "Interactive Prototyping"
       ],
       "situation": [
         {
-          "title": "Overview",
-          "description": "Large-scale projects often involve multiple stakeholders - community members, government agencies, and private sector partners - who need to provide location-specific feedback. Existing processes (e.g., in-person forums, paper surveys) can be slow, fragmented, and prone to data loss."
+          "title": "Public Input Was Disconnected from Place",
+          "description": "Infrastructure and environmental projects needed feedback from community members, agencies, and private partners, but forums and paper surveys separated comments from the exact locations under discussion."
         },
         {
-          "title": "Challenge",
-          "description": "How might we simplify the process of collecting and analyzing spatially relevant feedback to make more informed decisions?"
+          "title": "GIS Context Was Hard to Share",
+          "description": "Project teams had rich spatial data, but conventional GIS tools were difficult for non-technical participants to navigate and did not provide a common public-feedback workflow."
         },
         {
-          "title": "Context",
-          "description": "Advances in geospatial technology offered new possibilities for data visualization, but most tools weren't user-friendly or collaborative enough for diverse, non-technical audiences."
+          "title": "The Evidence Had to Stay Traceable",
+          "description": "A useful response needed to preserve who was commenting, what type of issue they identified, and where that input belonged on the project map."
         }
       ],
       "task": [
         {
-          "title": "Consolidates",
-          "description": "multiple map layers and real-time data inputs."
+          "title": "Connect Feedback to a Location",
+          "description": "Create a simple path for selecting an address, parcel, current location, or map point before submitting project feedback."
         },
         {
-          "title": "Facilitates",
-          "description": "stakeholder engagement through an easy-to-use interface for comments and feedback."
+          "title": "Make Project Layers Inspectable",
+          "description": "Keep routes, structures, notifications, land-use data, and basemap controls visible so each comment could be reviewed in geographic context."
         },
         {
-          "title": "Empowers",
-          "description": "project teams to make quicker, more accurate decisions using interactive mapping and clear data visualization."
+          "title": "Support Different Public Projects",
+          "description": "Design the interaction model to work across transmission, offshore-wind, municipal, and environmental-planning contexts without changing its core feedback loop."
         }
       ],
       "actions": [
         {
-          "title": "Research & Alignment",
-          "description": "Conducted sessions with local planners, environmental experts, and community members to pinpoint their biggest pain points in collecting and sharing geographic feedback. Evaluated existing GIS tools and collaboration platforms, identifying gaps in usability and real-time interaction."
+          "title": "Mapped Stakeholder and GIS Constraints",
+          "description": "The project record documents sessions with planners, environmental experts, and community members alongside an evaluation of existing GIS and collaboration tools."
         },
         {
-          "title": "Rapid Prototyping",
-          "description": "Created low-fidelity sketches and mid-fidelity prototypes focusing on map layouts, layered data displays, and straightforward feedback mechanisms. Iteratively tested prototypes with target audiences, refining the interface to reduce complexity and ensure clarity."
+          "title": "Prototyped Location and Comment Flows",
+          "description": "Designed map layouts, layered-data displays, location-selection states, and a structured submission form, then refined the workflow through the iterative testing documented in the case-study record."
         },
         {
-          "title": "Development & Integration",
-          "description": "Incorporated multiple map layers (e.g., demographics, zoning, environmental impact) to provide context for each feedback submission. Built a central dashboard where stakeholders could track updates, leave comments, and view geospatial analytics. Ensured the platform could handle large datasets and secure sensitive user information, particularly important for municipal or corporate clients."
+          "title": "Integrated Maps, Layers, and Participation",
+          "description": "The resulting interface combines route and project layers, basemap and measurement controls, account prompts, categorized comments, and geospatial review within the same public-facing surface."
         }
       ],
       "results": [
         {
-          "title": "Enhanced Collaboration",
-          "description": "A centralized environment allowed diverse stakeholders to contribute geospatial insights, reducing silos."
+          "title": "One Inspectable Feedback Loop",
+          "description": "The reviewed artifacts show location selection, comment capture, map layers, project notifications, and public review operating as one connected workflow."
         },
         {
-          "title": "Faster Feedback Loops",
-          "description": "Real-time data updates and straightforward comment submissions cut weeks off traditional planning cycles."
+          "title": "Faster Planning Feedback",
+          "description": "The case-study record reports that real-time updates and direct comment submission cut weeks from traditional planning cycles; this outcome is retained as an attributed project claim."
         },
         {
-          "title": "Broader Applicability",
-          "description": "The modular design supported expansion across multiple regions and project types, from infrastructure upgrades to environmental monitoring."
+          "title": "Reusable Across Infrastructure Contexts",
+          "description": "The evidence set includes both a transmission-line project and the Coastal Virginia Offshore Wind deployment, demonstrating reuse of the map, layer, notification, and comment model across regions."
         }
       ]
     }
