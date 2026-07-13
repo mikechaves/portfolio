@@ -1,9 +1,18 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import {
+  trackPortfolioEvent,
+  type ProjectEvidenceSource,
+  type ProjectMatchLevel,
+} from "@/lib/portfolio-analytics"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
 type ProjectCardProps = Project & {
+  analyticsContext?: ProjectEvidenceSource
+  analyticsMatchLevel?: ProjectMatchLevel
   priority?: boolean
 }
 
@@ -22,11 +31,23 @@ export function ProjectCard({
   image,
   technologies,
   thumbnailFocalPoint = "center",
+  analyticsContext,
+  analyticsMatchLevel = "unranked",
   priority,
 }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${id}`}
+      onClick={
+        analyticsContext
+          ? () =>
+              trackPortfolioEvent("project_evidence_opened", {
+                project_id: id,
+                source: analyticsContext,
+                match_level: analyticsMatchLevel,
+              })
+          : undefined
+      }
       className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">

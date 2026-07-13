@@ -20,6 +20,7 @@ import {
   encodeAdaptiveFocusBriefHandoff,
 } from "@/features/adaptive-focus/handoff"
 import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
+import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
 export function AdaptiveFocusEntry() {
   const router = useRouter()
@@ -34,12 +35,28 @@ export function AdaptiveFocusEntry() {
     event.preventDefault()
     setError("")
     setIsLoading(true)
+    trackPortfolioEvent("adaptive_focus_started", {
+      entry_point: "home",
+      mode: "custom",
+    })
     try {
       preparePendingInput(input)
       const result = await runAdaptiveFocus({ mode: "custom", input: input.trim() })
+      trackPortfolioEvent("adaptive_focus_completed", {
+        entry_point: "home",
+        mode: "custom",
+        analysis_source: result.analysisSource,
+        clarification_needed: result.interpretation.clarificationNeeded,
+        requirement_count: result.interpretation.requirements.length,
+        primary_project_count: result.groups.primary.length,
+      })
       const briefToken = encodeAdaptiveFocusBriefHandoff(result)
       router.push(`/projects?focusBrief=${briefToken}&focusSession=1`)
     } catch {
+      trackPortfolioEvent("adaptive_focus_failed", {
+        entry_point: "home",
+        mode: "custom",
+      })
       setError(
         "Adaptive Focus could not prepare this brief. Try again or open Projects and use a preset lens."
       )
@@ -89,7 +106,13 @@ export function AdaptiveFocusEntry() {
                     key={preset.id}
                     type="button"
                     disabled={isLoading}
-                    onClick={() => router.push(`/projects?focusPreset=${preset.id}`)}
+                    onClick={() => {
+                      trackPortfolioEvent("adaptive_focus_started", {
+                        entry_point: "home",
+                        mode: "preset",
+                      })
+                      router.push(`/projects?focusPreset=${preset.id}`)
+                    }}
                     className="group min-h-16 bg-black px-3 py-2 text-left transition-colors hover:bg-primary/[0.07] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span className="flex items-center gap-2 text-xs font-semibold text-zinc-200 group-hover:text-primary">

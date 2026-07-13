@@ -47,7 +47,7 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 ## Engineering And Operations
 
 - [ ] Add automated screenshot smoke tests for homepage, projects index, and top case studies.
-- [ ] Evaluate privacy-preserving analytics for CTA clicks, adaptive-focus searches, and project visits.
+- [ ] Review the privacy-safe conversion funnel after 30 days or 100 qualified visits, whichever is later.
 - [ ] Add a release checklist for production deploys, domains, and DNS checks.
 
 ## Design System And UI Polish

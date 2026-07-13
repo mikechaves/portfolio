@@ -400,7 +400,11 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
         </div>
       </div>
       {isEvidenceDossier && (
-        <DossierExitPath exitPath={dossierExitPath} projectTitle={project.title} />
+        <DossierExitPath
+          exitPath={dossierExitPath}
+          projectId={project.id}
+          projectTitle={project.title}
+        />
       )}
       <ImageModal
         open={selectedIndex !== null}

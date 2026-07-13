@@ -34,6 +34,8 @@ Rules:
   global route context, evidence-driven exit paths, and calibrated archive thumbnails.
 - The production hiring-manager journey has been accepted at desktop and 390px mobile from homepage
   through Adaptive Focus, primary proof, related evidence, resume access, and contact.
+- Privacy-safe Vercel custom events now measure the Adaptive Focus-to-evidence-to-conversion funnel
+  without sending raw role text or contact-form contents.
 
 ## Priority Legend
 
@@ -44,9 +46,9 @@ Rules:
 
 ## Active Workboard
 
-| Priority | Area                  | Item                                                                 | Status   | Validation / Exit Criteria                                                                                                                                             |
-| -------- | --------------------- | -------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P2       | Portfolio Analytics   | Decide whether lightweight analytics should track project CTA and adaptive-focus usage. | RESEARCH | Decision note documents provider, privacy posture, tracked events, and whether analytics meaningfully improves portfolio iteration.                                    |
+No implementation item is active. Collect the analytics baseline defined in
+[Portfolio Conversion Analytics](../analytics/PORTFOLIO_CONVERSION_ANALYTICS.md) before promoting
+another UI or conversion change into this queue.
 
 ## Deferred
 

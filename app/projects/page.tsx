@@ -24,6 +24,11 @@ import {
   resolveAdaptiveFocusInitialization,
 } from "@/features/adaptive-focus/handoff"
 import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
+import {
+  trackPortfolioEvent,
+  type AdaptiveFocusEntryPoint,
+  type ProjectMatchLevel,
+} from "@/lib/portfolio-analytics"
 import type { Project } from "@/types/project"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "./[id]/dossierConfig"
 
@@ -87,6 +92,14 @@ export default function ProjectsPage() {
   )
 
   const visibleProjects = display.slice(0, showAll ? display.length : initialLimit)
+  const briefMatchLevels = useMemo(() => {
+    const levels = new Map<string, ProjectMatchLevel>()
+    if (!brief) return levels
+    for (const group of [brief.groups.primary, brief.groups.supporting, brief.groups.adjacent]) {
+      for (const match of group) levels.set(match.projectId, match.level)
+    }
+    return levels
+  }, [brief])
 
   const applyBrief = useCallback((result: AdaptiveFocusV2Result) => {
     setBrief(result)
@@ -96,12 +109,24 @@ export default function ProjectsPage() {
   }, [])
 
   const executeRequest = useCallback(
-    async (request: AdaptiveFocusRequest, moveFocus = true) => {
+    async (
+      request: AdaptiveFocusRequest,
+      moveFocus = true,
+      entryPoint: AdaptiveFocusEntryPoint = "projects"
+    ) => {
       abortRef.current?.abort()
       const controller = new AbortController()
       abortRef.current = controller
       setRequestState("loading")
       setStatusMessage("Mapping role requirements to reviewed portfolio evidence...")
+
+      const analyticsMode = request.mode === "interpretation" ? null : request.mode
+      if (analyticsMode && entryPoint === "projects") {
+        trackPortfolioEvent("adaptive_focus_started", {
+          entry_point: entryPoint,
+          mode: analyticsMode,
+        })
+      }
 
       if (request.mode === "custom") setQuery(request.input)
       if (request.mode === "preset") {
@@ -112,6 +137,16 @@ export default function ProjectsPage() {
       try {
         const result = await runAdaptiveFocus(request, { signal: controller.signal })
         if (controller.signal.aborted) return
+        if (analyticsMode) {
+          trackPortfolioEvent("adaptive_focus_completed", {
+            entry_point: entryPoint,
+            mode: analyticsMode,
+            analysis_source: result.analysisSource,
+            clarification_needed: result.interpretation.clarificationNeeded,
+            requirement_count: result.interpretation.requirements.length,
+            primary_project_count: result.groups.primary.length,
+          })
+        }
         applyBrief(result)
         setRequestState("idle")
         setStatusMessage(
@@ -126,6 +161,12 @@ export default function ProjectsPage() {
         }
       } catch (error) {
         if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) return
+        if (analyticsMode) {
+          trackPortfolioEvent("adaptive_focus_failed", {
+            entry_point: entryPoint,
+            mode: analyticsMode,
+          })
+        }
         setRequestState("error")
         setStatusMessage("Adaptive Focus could not complete this request. Try again or use a preset lens.")
       }
@@ -170,7 +211,7 @@ export default function ProjectsPage() {
           ? ({ mode: "custom", input: pendingInput } as const)
           : resolveAdaptiveFocusInitialization(window.location.search, window.sessionStorage)
       if (request) {
-        void executeRequest(request)
+        void executeRequest(request, true, "handoff")
       } else if (params.get("focusSession") === "1") {
         setRequestState("error")
         setStatusMessage("The temporary role request expired. Paste the role text again to continue.")
@@ -401,6 +442,8 @@ export default function ProjectsPage() {
                 technologies={project.technologies}
                 category={project.category}
                 thumbnailFocalPoint={project.thumbnailFocalPoint}
+                analyticsContext={brief ? "role_fit_archive" : "project_archive"}
+                analyticsMatchLevel={briefMatchLevels.get(project.id) ?? "unranked"}
                 priority={index === 0}
               />
             </div>
