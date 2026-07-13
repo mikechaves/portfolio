@@ -1,5 +1,6 @@
 import {
   buildRoleFitBrief,
+  ROLE_FAMILY_LABELS,
   interpretLocalRole,
   normalizeRoleInput,
   type ProjectEvidence,
@@ -131,6 +132,16 @@ describe("Adaptive Focus Role Fit Brief", () => {
     const first = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
     const second = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
     expect(first).toEqual(second)
+  })
+
+  it("preserves AI, QA, UX, and XR casing in visitor-facing copy", async () => {
+    const hitl = await localEngine.run({ mode: "preset", presetId: "hitl-evaluation" })
+
+    expect(hitl.summary).toContain("human-in-the-loop AI")
+    expect(hitl.summary).toContain("moderation and QA")
+    expect(hitl.groups.primary[0].explanation).toContain("operational UX")
+    expect(ROLE_FAMILY_LABELS[hitl.interpretation.roleFamily]).toBe("AI product")
+    expect(ROLE_FAMILY_LABELS["xr-spatial"]).toBe("XR and spatial computing")
   })
 
   it("ranks direct evidence above supporting and adjacent evidence", () => {

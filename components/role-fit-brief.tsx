@@ -11,7 +11,7 @@ import type {
   AdaptiveFocusV2Result,
   ProjectMatch,
 } from "@/features/adaptive-focus"
-import { CAPABILITY_LABELS } from "@/features/adaptive-focus"
+import { CAPABILITY_LABELS, ROLE_FAMILY_LABELS } from "@/features/adaptive-focus"
 
 const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]))
 
@@ -119,7 +119,7 @@ export function RoleFitBrief({
         <dl className="grid gap-3 text-sm sm:grid-cols-3">
           <div>
             <dt className="text-xs uppercase text-muted-foreground">Role family</dt>
-            <dd className="mt-1 capitalize">{interpretation.roleFamily.replaceAll("-", " ")}</dd>
+            <dd className="mt-1">{ROLE_FAMILY_LABELS[interpretation.roleFamily]}</dd>
           </div>
           <div>
             <dt className="text-xs uppercase text-muted-foreground">Seniority</dt>

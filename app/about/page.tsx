@@ -304,7 +304,7 @@ export default function AboutPage() {
       <section className="profile-contact-section" aria-labelledby="contact-title">
         <div className="profile-contact-intro">
           <p className="operating-profile-eyebrow">Location and availability</p>
-          <h2 id="contact-title">Start with the system you need to make usable</h2>
+          <h2 id="contact-title" className="scroll-mt-24">Start with the system you need to make usable</h2>
           <p>
             Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
           </p>

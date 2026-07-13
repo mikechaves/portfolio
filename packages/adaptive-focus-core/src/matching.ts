@@ -1,4 +1,5 @@
 import { createBriefSummary } from "./summary"
+import { formatLabelForSentence } from "./copy"
 import type {
   AdaptiveCapability,
   AdaptiveFocusAnalysisSource,
@@ -159,7 +160,9 @@ export function buildRoleFitBrief(
         .slice(0, 3)
       const level = strongestConfidence === "direct" ? "primary" : strongestConfidence === "supporting" ? "supporting" : "adjacent"
       const levelCopy = level === "primary" ? "Primary proof" : level === "supporting" ? "Strong supporting proof" : "Adjacent experience"
-      const capabilityCopy = matchedCapabilities.map((capability) => CAPABILITY_LABELS[capability]).join(", ")
+      const capabilityCopy = matchedCapabilities
+        .map((capability) => formatLabelForSentence(CAPABILITY_LABELS[capability]))
+        .join(", ")
       const firstEvidence = selectedEvidence[0]
 
       return {
@@ -178,7 +181,7 @@ export function buildRoleFitBrief(
             sourceSection: item.sourceSection,
             outcome: item.outcome,
           })),
-          explanation: `${levelCopy} for ${capabilityCopy.toLowerCase()}. ${firstEvidence.statement}`,
+          explanation: `${levelCopy} for ${capabilityCopy}. ${firstEvidence.statement}`,
         } satisfies ProjectMatch,
       }
     })
@@ -216,7 +219,7 @@ export function buildRoleFitBrief(
     .map((item) => ({
       capability: item.capability,
       label: item.label,
-      reason: `No direct portfolio evidence is documented for ${item.label.toLowerCase()}.`,
+      reason: `No direct portfolio evidence is documented for ${formatLabelForSentence(item.label)}.`,
     }))
 
   return {

@@ -1,5 +1,6 @@
 export { interpretLocalRole, normalizeRoleInput } from "./interpretation"
 export { buildRoleFitBrief, CAPABILITY_LABELS } from "./matching"
+export { formatLabelForSentence, ROLE_FAMILY_LABELS } from "./copy"
 export { createBriefSummary } from "./summary"
 export {
   ADAPTIVE_CAPABILITIES,
