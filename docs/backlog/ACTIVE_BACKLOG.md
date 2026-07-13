@@ -2,7 +2,7 @@
 
 > Current execution queue for the portfolio site.
 
-_Current as of: 2026-07-09_
+_Current as of: 2026-07-12_
 
 ---
 
@@ -30,6 +30,10 @@ Rules:
   proof from Astrocade, Wizzo, X Games, Creative Supply Engine, Vulnerability Visualizer, and related
   work.
 - Wizzo is supporting product proof, not the primary identity.
+- All 15 public projects now use the shared evidence-dossier presentation, reviewed project media,
+  global route context, evidence-driven exit paths, and calibrated archive thumbnails.
+- The production hiring-manager journey has been accepted at desktop and 390px mobile from homepage
+  through Adaptive Focus, primary proof, related evidence, resume access, and contact.
 
 ## Priority Legend
 

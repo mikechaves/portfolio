@@ -1,4 +1,5 @@
 import type { CoverageGap, ProjectMatch, RequirementCoverage } from "./types"
+import { formatLabelForSentence } from "./copy"
 
 export function createBriefSummary(
   primary: ProjectMatch[],
@@ -7,7 +8,7 @@ export function createBriefSummary(
 ): string {
   const strongest = coverage
     .filter((item) => item.coverage === "strong")
-    .map((item) => item.label.toLowerCase())
+    .map((item) => formatLabelForSentence(item.label))
     .slice(0, 3)
 
   if (!primary.length && !strongest.length) {
@@ -20,7 +21,7 @@ export function createBriefSummary(
   const gapCopy = gaps.length
     ? ` No direct evidence is documented for ${gaps
         .slice(0, 2)
-        .map((gap) => gap.label.toLowerCase())
+        .map((gap) => formatLabelForSentence(gap.label))
         .join(" or ")}.`
     : ""
 

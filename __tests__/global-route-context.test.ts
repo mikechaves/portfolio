@@ -55,4 +55,13 @@ describe("global route context", () => {
     expect(source).toContain('aria-label="Mobile navigation"')
     expect(source).toContain("setIsMobileMenuOpen(false)")
   })
+
+  it("keeps the contact conversion target clear of the sticky navigation", () => {
+    const source = fs.readFileSync(
+      path.join(__dirname, "..", "app", "about", "page.tsx"),
+      "utf8"
+    )
+
+    expect(source).toContain('id="contact-title" className="scroll-mt-24"')
+  })
 })

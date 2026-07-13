@@ -2,7 +2,7 @@
 
 > Deferred and long-range portfolio programs that are not in the active execution queue.
 
-_Current as of: 2026-05-25_
+_Current as of: 2026-07-12_
 
 ---
 
@@ -53,7 +53,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 ## Design System And UI Polish
 
 - [ ] Add clearer active states for project filters if usage testing shows confusion.
-- [ ] Consider alternate thumbnails for projects whose primary image reads poorly in card crops.
 
 ## Strategic Framing
 

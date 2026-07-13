@@ -33,7 +33,10 @@ export function rebuildAdaptiveFocusBrief(
 
 export { ADAPTIVE_FOCUS_PRESETS }
 export { AI_PROJECT_IDS, PROJECT_EVIDENCE } from "./evidence/catalog"
-export { CAPABILITY_LABELS } from "../../packages/adaptive-focus-core/src"
+export {
+  CAPABILITY_LABELS,
+  ROLE_FAMILY_LABELS,
+} from "../../packages/adaptive-focus-core/src"
 export type {
   AdaptiveCapability,
   AdaptiveFocusAnalysisSource,
