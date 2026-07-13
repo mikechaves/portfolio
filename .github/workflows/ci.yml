@@ -28,3 +28,35 @@ jobs:
       - run: pnpm lint
       - run: pnpm test
       - run: pnpm check:links
+
+  visual-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine Node version
+        id: node
+        run: |
+          if [ -f .nvmrc ]; then
+            echo "version=$(cat .nvmrc)" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$(node -e 'const p=require("./package.json"); console.log(p.engines?.node || "20");')" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.node.outputs.version }}
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:visual-smoke
+      - name: Upload rendered route screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-visual-smoke
+          path: test-results/playwright/
+          if-no-files-found: warn
+          retention-days: 14

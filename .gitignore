@@ -23,6 +23,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# playwright
+/playwright-report/
+/test-results/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -11,6 +11,7 @@ pnpm install
 pnpm dev
 pnpm build
 pnpm lint
+pnpm test
 ```
 
 The project uses ESLint with Next.js's strict configuration. Run `pnpm lint` to check for warnings in the codebase.
@@ -18,6 +19,17 @@ The project uses ESLint with Next.js's strict configuration. Run `pnpm lint` to 
 The local site will be running at [http://localhost:3000](http://localhost:3000).
 
 The production site is available at [https://mikechaves.io](https://mikechaves.io).
+
+### Visual Smoke Tests
+
+Install Chromium once, then run the desktop and mobile route checks:
+
+```bash
+pnpm exec playwright install chromium
+pnpm test:visual-smoke
+```
+
+The suite validates the homepage, project archive, representative evidence dossiers, and the project-category interaction. CI uploads the full-page screenshots as the `portfolio-visual-smoke` artifact for 14 days.
 
 ### Environment Variables
 
