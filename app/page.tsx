@@ -111,7 +111,12 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((project, index) => (
-              <ProjectCard key={project.id} {...project} priority={index < 3} />
+              <ProjectCard
+                key={project.id}
+                {...project}
+                analyticsContext="home_featured"
+                priority={index < 3}
+              />
             ))}
           </div>
         </section>

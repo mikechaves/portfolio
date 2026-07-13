@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { PROJECTS } from "@/data/projects"
 import { useToast } from "@/hooks/use-toast"
+import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
@@ -49,6 +50,7 @@ const proofPoints = [
     label: "Human-in-the-loop AI / Evaluation",
     description: "Owned UGC review systems spanning QA annotation, calibration, final review behavior, creator feedback, and operational guardrails.",
     href: "/projects/astrocade-qa-calibration-tool",
+    projectId: "astrocade-qa-calibration-tool",
   },
   {
     caseFile: "AF-02",
@@ -56,6 +58,7 @@ const proofPoints = [
     label: "AI product systems / Intent to action",
     description: "Designed and built an AI mentor product system connecting chat, work context, goals, and follow-up to actionable quests.",
     href: "/projects/wizzo",
+    projectId: "wizzo",
   },
   {
     caseFile: "XR-01",
@@ -63,6 +66,7 @@ const proofPoints = [
     label: "Voice interaction / Accessibility",
     description: "Designed a voice-controlled mixed reality system for users with low muscle tone, grounding emerging interaction in access needs.",
     href: "/projects/speakeasy",
+    projectId: "speakeasy",
   },
   {
     caseFile: "OPS-01",
@@ -70,6 +74,7 @@ const proofPoints = [
     label: "Operational UX / Spatial tools",
     description: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
     href: "/projects?focusPreset=operational-ux",
+    projectId: null,
   },
 ]
 
@@ -146,6 +151,7 @@ export default function AboutPage() {
         setFormStatus({ success: response.success, message: response.message })
 
         if (response.success) {
+          trackPortfolioEvent("portfolio_contact_submitted", { source: "about_form" })
           form.reset()
           toast({ title: "Message sent", description: response.message })
         } else {
@@ -187,7 +193,17 @@ export default function AboutPage() {
               <Link href="/projects" className="operating-profile-primary-action">
                 Inspect project proof <ArrowRight size={15} aria-hidden="true" />
               </Link>
-              <a href="/Michael_Chaves_Resume_min.pdf" download className="operating-profile-secondary-action">
+              <a
+                href="/Michael_Chaves_Resume_min.pdf"
+                download
+                onClick={() =>
+                  trackPortfolioEvent("portfolio_conversion_clicked", {
+                    destination: "resume",
+                    source: "about_hero",
+                  })
+                }
+                className="operating-profile-secondary-action"
+              >
                 Download resume <Download size={15} aria-hidden="true" />
               </a>
             </div>
@@ -246,7 +262,25 @@ export default function AboutPage() {
         </div>
         <div className="profile-proof-grid">
           {proofPoints.map((proof) => (
-            <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
+            <Link
+              key={proof.caseFile}
+              href={proof.href}
+              onClick={() => {
+                if (proof.projectId) {
+                  trackPortfolioEvent("project_evidence_opened", {
+                    project_id: proof.projectId,
+                    source: "about_proof",
+                    match_level: "unranked",
+                  })
+                  return
+                }
+                trackPortfolioEvent("portfolio_conversion_clicked", {
+                  destination: "role_fit",
+                  source: "about_proof",
+                })
+              }}
+              className="profile-proof-record"
+            >
               <div className="profile-proof-meta">
                 <span>{proof.caseFile}</span>
                 <span>{proof.label}</span>
@@ -308,7 +342,17 @@ export default function AboutPage() {
           <p>
             Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
           </p>
-          <a href="/Michael_Chaves_Resume_min.pdf" download className="operating-profile-secondary-action">
+          <a
+            href="/Michael_Chaves_Resume_min.pdf"
+            download
+            onClick={() =>
+              trackPortfolioEvent("portfolio_conversion_clicked", {
+                destination: "resume",
+                source: "about_contact",
+              })
+            }
+            className="operating-profile-secondary-action"
+          >
             Download resume <Download size={15} aria-hidden="true" />
           </a>
 

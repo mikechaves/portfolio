@@ -12,6 +12,7 @@ import type {
   ProjectMatch,
 } from "@/features/adaptive-focus"
 import { CAPABILITY_LABELS, ROLE_FAMILY_LABELS } from "@/features/adaptive-focus"
+import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
 const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]))
 
@@ -41,6 +42,8 @@ function ProjectProof({ match, priority = false }: { match: ProjectMatch; priori
         technologies={project.technologies}
         category={project.category}
         thumbnailFocalPoint={project.thumbnailFocalPoint}
+        analyticsContext="role_fit_primary"
+        analyticsMatchLevel={match.level}
         priority={priority}
       />
       <div className="space-y-4 py-1">
@@ -69,7 +72,17 @@ function ProjectProof({ match, priority = false }: { match: ProjectMatch; priori
             </li>
           ))}
         </ul>
-        <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+        <Link
+          href={`/projects/${project.id}`}
+          onClick={() =>
+            trackPortfolioEvent("project_evidence_opened", {
+              project_id: project.id,
+              source: "role_fit_primary",
+              match_level: match.level,
+            })
+          }
+          className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+        >
           Inspect case study <ExternalLink size={14} aria-hidden="true" />
         </Link>
       </div>
@@ -178,7 +191,17 @@ export function RoleFitBrief({
               if (!project) return null
               return (
                 <div key={match.projectId} className="grid gap-2 py-4 sm:grid-cols-[12rem_1fr_auto] sm:items-center">
-                  <Link href={`/projects/${project.id}`} className="font-semibold text-primary hover:underline">
+                  <Link
+                    href={`/projects/${project.id}`}
+                    onClick={() =>
+                      trackPortfolioEvent("project_evidence_opened", {
+                        project_id: project.id,
+                        source: "role_fit_supporting",
+                        match_level: match.level,
+                      })
+                    }
+                    className="font-semibold text-primary hover:underline"
+                  >
                     {project.title}
                   </Link>
                   <p className="text-sm text-muted-foreground">{match.evidence[0]?.statement}</p>
@@ -240,7 +263,18 @@ export function RoleFitBrief({
             {brief.groups.adjacent.slice(0, 6).map((match) => {
               const project = PROJECTS_BY_ID.get(match.projectId)
               return project ? (
-                <Link key={project.id} href={`/projects/${project.id}`} className="text-muted-foreground hover:text-primary hover:underline">
+                <Link
+                  key={project.id}
+                  href={`/projects/${project.id}`}
+                  onClick={() =>
+                    trackPortfolioEvent("project_evidence_opened", {
+                      project_id: project.id,
+                      source: "role_fit_adjacent",
+                      match_level: match.level,
+                    })
+                  }
+                  className="text-muted-foreground hover:text-primary hover:underline"
+                >
                   {project.title}
                 </Link>
               ) : null
