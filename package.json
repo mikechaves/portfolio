@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit",
     "test": "pnpm type-check && jest",
     "test:unit": "jest",
-    "test:type": "tsc --noEmit"
+    "test:type": "tsc --noEmit",
+    "test:visual-smoke": "playwright test --config=playwright.config.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "7.2.0",
@@ -40,6 +41,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22",
     "@types/react": "^19",

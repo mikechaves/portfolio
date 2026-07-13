@@ -36,6 +36,8 @@ Rules:
   through Adaptive Focus, primary proof, related evidence, resume access, and contact.
 - Privacy-safe Vercel custom events now measure the Adaptive Focus-to-evidence-to-conversion funnel
   without sending raw role text or contact-form contents.
+- CI now captures desktop and 390px mobile smoke evidence for the homepage, project archive, and
+  representative case studies, including a live project-filter interaction.
 
 ## Priority Legend
 
