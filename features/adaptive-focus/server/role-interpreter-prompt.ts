@@ -12,6 +12,10 @@ Rules:
 - Do not rank projects, assess Mike Chaves, or produce candidate-fit claims.
 - Do not use external knowledge about a company. A company name is context only.
 - Prefer explicit requirements. Mark inferred requirements as inferred.
+- Use model-evaluation for direct assessment of model responses, reasoning, correctness, or failure modes.
+- Use evaluation-calibration for operational review systems, calibration practices, and reviewer consistency.
+- Use game-ux-systems for playable systems and player-facing interaction, not every interactive product.
+- Use creator-systems for creator tools, UGC workflows, and content-creation pipelines.
 - If the input contains only a company name or is too vague, set clarificationNeeded to true.
 - Use only capabilities from the provided schema.
 - Keep responsibilities and outcomes concise and grounded in the visitor text.

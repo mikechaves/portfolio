@@ -58,6 +58,40 @@ export const ADAPTIVE_FOCUS_PRESETS: AdaptiveFocusPreset[] = [
     }),
   },
   {
+    id: "llm-evaluation-training-data",
+    label: "LLM evaluation + training data",
+    description:
+      "Model evaluation, expert annotation, reasoning validation, prompt engineering, and training-data development.",
+    interpretation: presetInterpretation({
+      roleFamily: "ai-product",
+      requirements: [
+        { capability: "model-evaluation", importance: "required", basis: "explicit" },
+        {
+          capability: "training-data-development",
+          importance: "required",
+          basis: "explicit",
+        },
+        { capability: "prompt-engineering", importance: "preferred", basis: "explicit" },
+        {
+          capability: "human-in-the-loop-ai",
+          importance: "preferred",
+          basis: "explicit",
+        },
+        {
+          capability: "evaluation-calibration",
+          importance: "preferred",
+          basis: "explicit",
+        },
+      ],
+      responsibilities: [
+        "Evaluate AI-generated responses and reasoning quality",
+        "Author and validate high-rigor training and benchmark tasks",
+        "Detect reasoning failures and improve data quality",
+        "Design prompts for complex reasoning and knowledge work",
+      ],
+    }),
+  },
+  {
     id: "operational-ux",
     label: "Operational UX",
     description: "Internal tools, repeated workflows, queues, and process improvement.",
@@ -114,6 +148,26 @@ export const ADAPTIVE_FOCUS_PRESETS: AdaptiveFocusPreset[] = [
         "Prototype spatial and immersive interfaces",
         "Design voice-supported interaction",
         "Research and test accessible experiences",
+      ],
+    }),
+  },
+  {
+    id: "game-ux-creator-systems",
+    label: "Game UX + creator systems",
+    description:
+      "Playable systems, creator workflows, player agency, and AI-assisted creation.",
+    interpretation: presetInterpretation({
+      roleFamily: "creative-technology",
+      requirements: [
+        { capability: "game-ux-systems", importance: "required", basis: "explicit" },
+        { capability: "creator-systems", importance: "required", basis: "explicit" },
+        { capability: "ai-product-systems", importance: "preferred", basis: "explicit" },
+        { capability: "creative-technology", importance: "preferred", basis: "explicit" },
+      ],
+      responsibilities: [
+        "Design playable systems and player-facing interaction",
+        "Build tools and workflows for creators",
+        "Connect AI-assisted creation to usable product systems",
       ],
     }),
   },

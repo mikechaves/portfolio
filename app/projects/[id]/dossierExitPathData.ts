@@ -1,10 +1,10 @@
 import { PROJECTS } from "@/data/projects"
-import { PROJECT_EVIDENCE } from "@/features/adaptive-focus/evidence/catalog"
+import { EVIDENCE_CATALOG } from "@/features/adaptive-focus/evidence/catalog"
 import { encodeAdaptiveFocusInterpretationHandoff } from "@/features/adaptive-focus/handoff"
-import type { ProjectEvidence } from "@/features/adaptive-focus/types"
+import type { EvidenceRecord } from "@/features/adaptive-focus/types"
 import { CAPABILITY_LABELS, type AdaptiveCapability } from "@/packages/adaptive-focus-core/src"
 
-const CONFIDENCE_WEIGHT: Record<ProjectEvidence["confidence"], number> = {
+const CONFIDENCE_WEIGHT: Record<EvidenceRecord["confidence"], number> = {
   direct: 3,
   supporting: 2,
   adjacent: 1,
@@ -28,11 +28,11 @@ export interface DossierExitPath {
   relatedProjects: RelatedEvidenceRoute[]
 }
 
-function capabilityWeights(projectId: string, evidence: ProjectEvidence[]) {
+function capabilityWeights(projectId: string, evidence: EvidenceRecord[]) {
   const weights = new Map<AdaptiveCapability, number>()
 
   evidence.forEach((item) => {
-    if (item.projectId !== projectId) return
+    if (item.entityId !== projectId) return
     weights.set(
       item.capability,
       Math.max(weights.get(item.capability) ?? 0, CONFIDENCE_WEIGHT[item.confidence])
@@ -44,7 +44,7 @@ function capabilityWeights(projectId: string, evidence: ProjectEvidence[]) {
 
 export function getProjectCapabilities(
   projectId: string,
-  evidence: ProjectEvidence[] = PROJECT_EVIDENCE
+  evidence: EvidenceRecord[] = EVIDENCE_CATALOG
 ): AdaptiveCapability[] {
   const weights = capabilityWeights(projectId, evidence)
   return [...weights.entries()]
@@ -54,7 +54,7 @@ export function getProjectCapabilities(
 
 export function getRelatedEvidenceRoutes(
   projectId: string,
-  evidence: ProjectEvidence[] = PROJECT_EVIDENCE
+  evidence: EvidenceRecord[] = EVIDENCE_CATALOG
 ): RelatedEvidenceRoute[] {
   const sourceWeights = capabilityWeights(projectId, evidence)
   const canonicalIndex = new Map(PROJECTS.map((project, index) => [project.id, index]))

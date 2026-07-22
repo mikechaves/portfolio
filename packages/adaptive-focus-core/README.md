@@ -7,7 +7,7 @@ Deterministic core for Adaptive Focus v2. It is an in-repository package boundar
 - normalize and interpret local fallback text
 - define the canonical `af.v2` contracts
 - match typed role requirements to reviewed evidence
-- preserve stable project ordering for ties
+- preserve stable evidence-entity ordering for ties
 - compose factual summaries, requirement coverage, and gaps
 
 The core does not import OpenAI, call a network service, read environment variables, or know about React components.
@@ -18,7 +18,7 @@ The core does not import OpenAI, call a network service, read environment variab
 
 - analysis source (`preset`, `gpt`, or `local-fallback`)
 - structured role interpretation
-- primary, supporting, and adjacent project IDs
+- primary, supporting, and adjacent evidence-entity IDs
 - evidence references
 - requirement-level coverage
 - explicit gaps
@@ -34,9 +34,9 @@ No raw scores or candidate-fit percentages are exposed.
 - supporting evidence outranks adjacent evidence
 - shipped/measured work, explicit ownership, and documented outcomes receive small strength bonuses
 - company context has no ranking weight
-- canonical project order breaks ties
+- canonical evidence-entity order breaks ties, with public projects first
 - clarification states return no primary proof
 
 ## Extraction
 
-A private service can later absorb the prompt, taxonomy evolution, evaluation set, and calibrated weighting while preserving the `af.v2` response shape. Public project data and reviewed evidence remain in the portfolio repository.
+A private service can later absorb the prompt, taxonomy evolution, evaluation set, and calibrated weighting while preserving the `af.v2` response shape. Public project data, approved professional summaries, and reviewed evidence remain in the portfolio repository.

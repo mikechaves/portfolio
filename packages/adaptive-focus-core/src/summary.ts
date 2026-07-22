@@ -1,8 +1,8 @@
-import type { CoverageGap, ProjectMatch, RequirementCoverage } from "./types"
+import type { CoverageGap, EvidenceMatch, RequirementCoverage } from "./types"
 import { formatLabelForSentence } from "./copy"
 
 export function createBriefSummary(
-  primary: ProjectMatch[],
+  primary: EvidenceMatch[],
   coverage: RequirementCoverage[],
   gaps: CoverageGap[]
 ): string {

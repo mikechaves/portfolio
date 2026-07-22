@@ -14,11 +14,26 @@ type CapabilityPhrase = {
 const CAPABILITY_PHRASES: CapabilityPhrase[] = [
   {
     capability: "human-in-the-loop-ai",
-    phrases: ["human in the loop", "human oversight", "human review", "reviewer workflow"],
+    phrases: [
+      "human in the loop",
+      "human oversight",
+      "human review",
+      "reviewer workflow",
+      "ai trainer",
+    ],
   },
   {
     capability: "evaluation-calibration",
-    phrases: ["evaluation", "calibration", "ground truth", "quality measurement", "model quality"],
+    phrases: [
+      "evaluation calibration",
+      "review calibration",
+      "qa calibration",
+      "calibration",
+      "ground truth",
+      "quality measurement",
+      "review consistency",
+      "evaluation system",
+    ],
   },
   {
     capability: "moderation-qa",
@@ -36,6 +51,97 @@ const CAPABILITY_PHRASES: CapabilityPhrase[] = [
       "ai native",
       "ai assisted",
       "copilot",
+    ],
+  },
+  {
+    capability: "model-evaluation",
+    phrases: [
+      "model evaluation",
+      "ai evaluation",
+      "ai evaluator",
+      "llm evaluation",
+      "llm evaluator",
+      "evals",
+      "model evals",
+      "reasoning evaluation",
+      "reasoning validation",
+      "response evaluation",
+      "answer evaluation",
+      "model quality",
+      "model benchmarking",
+      "benchmark design",
+      "benchmarking",
+      "failure analysis",
+      "error analysis",
+      "reasoning flaws",
+      "ai trainer",
+    ],
+  },
+  {
+    capability: "training-data-development",
+    phrases: [
+      "training data",
+      "data annotation",
+      "data annotator",
+      "expert annotation",
+      "data labeling",
+      "dataset development",
+      "dataset creation",
+      "dataset curation",
+      "fine tuning data",
+      "fine tuning dataset",
+      "fine tuning datasets",
+      "reinforcement learning data",
+      "benchmark dataset",
+      "evaluation dataset",
+      "supervised examples",
+      "expert contributor",
+      "graduate level problems",
+      "benchmark problems",
+    ],
+  },
+  {
+    capability: "prompt-engineering",
+    phrases: [
+      "prompt engineering",
+      "prompt engineer",
+      "prompt design",
+      "prompt authoring",
+      "prompt testing",
+      "prompt optimization",
+      "instruction design",
+      "reasoning prompts",
+      "knowledge task prompts",
+      "writing graduate level problems",
+      "graduate level problems",
+    ],
+  },
+  {
+    capability: "game-ux-systems",
+    phrases: [
+      "game ux",
+      "game ui",
+      "game systems",
+      "gameplay systems",
+      "player experience",
+      "player agency",
+      "game feel",
+      "playable experience",
+      "game design",
+    ],
+  },
+  {
+    capability: "creator-systems",
+    phrases: [
+      "creator tools",
+      "creator workflows",
+      "creator platform",
+      "ugc tools",
+      "user generated content",
+      "game creation",
+      "content creation",
+      "creative tooling",
+      "creation pipeline",
     ],
   },
   {
@@ -112,6 +218,11 @@ const CAPABILITY_RESPONSIBILITIES: Partial<Record<AdaptiveCapability, string>> =
   "ai-product-systems": "Build AI-assisted product systems",
   "xr-spatial": "Prototype spatial and immersive interfaces",
   accessibility: "Design accessible interactions",
+  "game-ux-systems": "Design playable systems and player-facing interaction",
+  "creator-systems": "Build tools and workflows for creators",
+  "model-evaluation": "Evaluate model outputs, reasoning quality, and failure modes",
+  "training-data-development": "Develop and validate high-quality training and evaluation data",
+  "prompt-engineering": "Design and test prompts for reasoning and knowledge tasks",
 }
 
 function escapeRegExp(value: string): string {
@@ -150,7 +261,18 @@ function inferRoleFamily(normalized: string, capabilities: AdaptiveCapability[])
   if (capabilities.includes("operational-ux") || capabilities.includes("internal-tools")) {
     return "operations"
   }
-  if (capabilities.includes("ai-product-systems")) return "ai-product"
+  if (
+    capabilities.some((capability) =>
+      [
+        "ai-product-systems",
+        "model-evaluation",
+        "training-data-development",
+        "prompt-engineering",
+      ].includes(capability)
+    )
+  ) {
+    return "ai-product"
+  }
   return "unknown"
 }
 

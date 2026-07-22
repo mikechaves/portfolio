@@ -1,8 +1,9 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { redirect } from 'next/navigation'
+import { permanentRedirect, redirect } from 'next/navigation'
 import ProjectPageClient from './ProjectPageClient'
 import { getDossierExitPath } from './dossierExitPathData'
+import { RETIRED_PROJECT_REDIRECTS } from './retiredProjectRedirects'
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>
@@ -10,6 +11,9 @@ interface ProjectPageProps {
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params
+  const retiredDestination = RETIRED_PROJECT_REDIRECTS[id]
+  if (retiredDestination) permanentRedirect(retiredDestination)
+
   const filePath = path.join(process.cwd(), 'public', 'data', 'projects.json')
   const json = await fs.readFile(filePath, 'utf8')
   const data = JSON.parse(json)

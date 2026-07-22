@@ -23,78 +23,6 @@ interface ProjectMediaCopy {
 }
 
 const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
-  "astrocade-qa-calibration-tool": {
-    "/projects/astrocade/calibration-dashboard.png": {
-      label: "Calibration metrics dashboard",
-      caption: "Read-only calibration surface with sampling windows, scoped QA and final-review metrics, agreement, comment quality, and legacy-data exclusions.",
-    },
-    "/projects/astrocade/calibration-session-workspace.png": {
-      label: "Side-by-side calibration session",
-      caption: "A sampled game runs next to QA and final-review context, keeping the source evidence available while calibration decisions are recorded.",
-      section: "action",
-    },
-    "/projects/astrocade/calibration-checklist.png": {
-      label: "Calibration checklist",
-      caption: "Decision-validation, evidence-quality, and standard-alignment rules that make reviewer judgments comparable.",
-      section: "task",
-    },
-    "/projects/astrocade/calibration-ground-truth.png": {
-      label: "Explicit ground truth",
-      caption: "The calibrator selects the expected decision before evaluating whether QA reached it, separating decision correctness from reviewer sentiment.",
-      section: "action",
-    },
-    "/projects/astrocade/calibration-failure-modes.png": {
-      label: "Structured QA failure modes",
-      caption: "When QA is incorrect, the session records a finite diagnosis such as false rejection, missed blocking issue, policy misapplication, or ambiguous standard.",
-      section: "action",
-    },
-    "/projects/astrocade/calibration-feedback-quality.png": {
-      label: "Creator feedback quality",
-      caption: "The tool scores feedback as fully, partially, or not actionable, then checks for a reproducible creator-facing formula.",
-      section: "action",
-    },
-    "/projects/astrocade/calibration-final-review.png": {
-      label: "Final-review failure modes",
-      caption: "Final-review correctness is computed from ground truth and outcome, then bounded by a separate diagnostic taxonomy.",
-      section: "result",
-    },
-  },
-  "apt-plus": {
-    "/projects/apt-plus/main-image.png": {
-      label: "APT+ workstation context",
-      caption: "The production workflow shown in its enterprise workstation context, pairing detailed time-study data with a familiar desktop review environment.",
-    },
-    "/projects/apt-plus/situation.png": {
-      label: "Time-study problem framing",
-      caption: "The project record identifies labor-intensive tracking, slow interpretation, and disconnected data as the operational constraints behind the APT+ mandate.",
-      section: "situation",
-    },
-    "/projects/apt-plus/aptplus-prototype.png": {
-      label: "Annotated capture prototype",
-      caption: "An annotated prototype maps task selection, timing events, work categories, and submission behavior before the workflow reaches the production interface.",
-      section: "task",
-    },
-    "/projects/apt-plus/action.png": {
-      label: "Design and engineering strategy",
-      caption: "The action record documents field research, iterative prototyping, automated capture and analysis, and cross-functional delivery as one operating strategy.",
-      section: "action",
-    },
-    "/projects/apt-plus/aptplus-interface.png": {
-      label: "Production work-balance interface",
-      caption: "The production surface combines operation rows, time values, work-balance bars, editable task context, and validation controls in one review workflow.",
-      section: "action",
-    },
-    "/projects/apt-plus/aptplus-walkpatternanalysis.PNG": {
-      label: "Walk-pattern analysis",
-      caption: "A spatial analysis view connects operator movement, workstation geometry, and measured process context to the same time-study system.",
-      section: "result",
-    },
-    "/projects/apt-plus/result.png": {
-      label: "Documented operating outcomes",
-      caption: "The project record attributes approximately $1M in annual savings per plant to reduced manual error and faster studies, alongside centralized performance insight.",
-      section: "result",
-    },
-  },
   "creative-supply-engine": {
     "/projects/creative-supply-engine/main-image.jpg": {
       label: "Localized 16:9 campaign output",
@@ -198,42 +126,6 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       section: "result",
     },
   },
-  gaia: {
-    "/projects/gaia/main-image.png": {
-      label: "Gaia VisiPad field prototype",
-      caption: "A tablet-based initiative-file workflow running on physical hardware, connecting enterprise project data to the spatial prototype system.",
-    },
-    "/projects/gaia/how-might-we.png": {
-      label: "Opportunity and role framing",
-      caption: "The project brief documents the lead UX and Unity development mandate, initial user stories, and the opportunity to contextualize store data through spatial interfaces.",
-      section: "situation",
-    },
-    "/projects/gaia/gaia-prototype.png": {
-      label: "VisiPad interaction map",
-      caption: "Figma flows define initiative-file browsing, upload and deletion states, project metadata, and the handoff from a tablet workflow into spatial store configuration.",
-      section: "action",
-    },
-    "/projects/gaia/wireframes-3d.png": {
-      label: "3D wireframes",
-      caption: "Spatial wireframes translate the information architecture into a navigable 3D environment before the Unity scenes are fully rendered.",
-      section: "action",
-    },
-    "/projects/gaia/vr-testing.png": {
-      label: "Immersive usability test",
-      caption: "A headset test places store selection, role controls, and the physical retail model inside the same reviewable spatial environment.",
-      section: "action",
-    },
-    "/projects/gaia/gaia-lobby-2.png": {
-      label: "Store-selection environment",
-      caption: "The Unity lobby presents a geographic store model with store cards and entry actions, making portfolio and location context inspectable in one scene.",
-      section: "result",
-    },
-    "/projects/gaia/gaia-store-overview.png": {
-      label: "Spatial store overview",
-      caption: "A full-store model gives the reviewer an elevated operational view of layout, service areas, and retail context rather than reducing the project to a flat dashboard.",
-      section: "result",
-    },
-  },
   geovoice: {
     "/projects/geovoice/main-image.png": {
       label: "Location-feedback concept",
@@ -334,32 +226,6 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
       label: "Exhibition plan",
       caption: "The planning artifact defines the prototype station, participant feedback, and future gesture and personalization concepts before the final installation was delivered.",
       section: "exhibition",
-    },
-  },
-  transcribe: {
-    "/projects/transcribe/main-image.png": {
-      label: "Drive-through transcription system",
-      caption: "The partner-facing display transcribes a customer order beside the existing point-of-sale workflow, making the accessibility concept inspectable in its retail context.",
-    },
-    "/projects/transcribe/situation.png": {
-      label: "Communication roadmap and pilot plan",
-      caption: "The project brief connects noisy drive-through communication, a speech-to-text hypothesis, partner and customer needs, hardware constraints, and a bounded store-test plan.",
-      section: "situation",
-    },
-    "/projects/transcribe/action.png": {
-      label: "Interface and implementation record",
-      caption: "The action record documents accessibility research, MVP and stretch flows, React development, and Google Cloud Speech-to-Text integration.",
-      section: "action",
-    },
-    "/projects/transcribe/testing.png": {
-      label: "Listening-state and in-store testing",
-      caption: "Muted and listening states are paired with an in-store usability review, preserving both interface behavior and the physical counter environment used for evaluation.",
-      section: "action",
-    },
-    "/projects/transcribe/result.png": {
-      label: "Documented pilot outcomes",
-      caption: "The case-study record reports a 30% transcription-accuracy improvement and a 50% reduction in manual note-taking time alongside in-store pilot evidence.",
-      section: "result",
     },
   },
   wizzo: {

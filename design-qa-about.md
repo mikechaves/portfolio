@@ -21,7 +21,7 @@ The production About page delayed all substantive content behind an animated ter
 - A real Adobe Experiential Horizons presentation image replaces the decorative terminal as the primary human signal.
 - The profile ledger uses repository-derived project and dossier counts.
 - The operating loop converts long-form positioning into four scan-friendly stages: Frame, Build, Measure, and Calibrate.
-- Astrocade, Wizzo, SpeakEasy, and enterprise work create a direct path from positioning to project proof.
+- Wizzo, X Games, SpeakEasy, and professional-experience summaries create a direct path from positioning to verifiable proof.
 - Existing event assets provide truthful public-practice evidence instead of decorative imagery.
 - Contact and resume actions remain visible without adding a separate landing or recruiter page.
 

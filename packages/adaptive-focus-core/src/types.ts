@@ -18,6 +18,11 @@ export const ADAPTIVE_CAPABILITIES = [
   "people-management",
   "ml-infrastructure",
   "consumer-mobile",
+  "game-ux-systems",
+  "creator-systems",
+  "model-evaluation",
+  "training-data-development",
+  "prompt-engineering",
 ] as const
 
 export type AdaptiveCapability = (typeof ADAPTIVE_CAPABILITIES)[number]
@@ -84,9 +89,9 @@ export type EvidenceType =
 export type EvidenceOwnership = "led" | "built" | "designed" | "contributed"
 export type EvidenceConfidence = "direct" | "supporting" | "adjacent"
 
-export interface ProjectEvidence {
+export interface EvidenceRecord {
   id: string
-  projectId: string
+  entityId: string
   capability: AdaptiveCapability
   statement: string
   sourcePath: string
@@ -97,8 +102,8 @@ export interface ProjectEvidence {
   confidence: EvidenceConfidence
 }
 
-export interface ProjectEvidenceExclusion {
-  projectId: string
+export interface EvidenceEntityExclusion {
+  entityId: string
   reason: string
 }
 
@@ -112,8 +117,8 @@ export interface EvidenceReference {
 
 export type MatchLevel = "primary" | "supporting" | "adjacent"
 
-export interface ProjectMatch {
-  projectId: string
+export interface EvidenceMatch {
+  entityId: string
   level: MatchLevel
   matchedCapabilities: AdaptiveCapability[]
   matchedRequirements: string[]
@@ -132,7 +137,7 @@ export interface RequirementCoverage {
   label: string
   importance: RequirementImportance
   coverage: RequirementCoverageLevel
-  projectIds: string[]
+  entityIds: string[]
   evidenceIds: string[]
 }
 
@@ -152,9 +157,9 @@ export interface AdaptiveFocusV2Result {
   briefTitle: string
   interpretation: RoleInterpretation
   groups: {
-    primary: ProjectMatch[]
-    supporting: ProjectMatch[]
-    adjacent: ProjectMatch[]
+    primary: EvidenceMatch[]
+    supporting: EvidenceMatch[]
+    adjacent: EvidenceMatch[]
   }
   requirementCoverage: RequirementCoverage[]
   gaps: CoverageGap[]

@@ -10,13 +10,13 @@ project detail media, navigation, or global styling.
   for external project, writing, and social links.
 - `/`
 - `/projects`
-- `/projects/astrocade-qa-calibration-tool`
 - `/projects/wizzo`
 - `/projects/x-games`
+- `/projects/geovoice`
 - `/projects/creative-supply-engine`
 - `/projects/vulnerability-visualizer`
 - `/projects/speakeasy`
-- `/projects/transcribe`
+- `/about#professional-experience`
 
 ## Viewports
 

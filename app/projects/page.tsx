@@ -7,11 +7,12 @@ import { ProjectCard } from "@/components/project-card"
 import { RoleFitBrief } from "@/components/role-fit-brief"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { getProjectsForCategory, PROJECT_CATEGORIES } from "@/data/project-categories"
 import { PROJECTS } from "@/data/projects"
 import {
   ADAPTIVE_FOCUS_PRESETS,
-  AI_PROJECT_IDS,
   CAPABILITY_LABELS,
+  isPublicProjectEvidenceEntity,
   rebuildAdaptiveFocusBrief,
   runAdaptiveFocus,
   type AdaptiveCapability,
@@ -36,27 +37,12 @@ const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
 const PROJECTS_LIMIT_DESKTOP = 6
 
-const CATEGORIES = [
-  { id: "all", name: "All Projects" },
-  { id: "ai", name: "AI" },
-  { id: "design", name: "UX/UI Design" },
-  { id: "ar-vr", name: "XR & Spatial" },
-  { id: "web", name: "Web Development" },
-  { id: "research", name: "Research" },
-]
-
-function projectsForCategory(category: string): Project[] {
-  if (category === "all") return PROJECTS
-  if (category === "ai") return PROJECTS.filter((project) => AI_PROJECT_IDS.has(project.id))
-  return PROJECTS.filter((project) => project.category === category)
-}
-
 function projectsForBrief(brief: AdaptiveFocusV2Result): Project[] {
   const rankedIds = [
     ...brief.groups.primary,
     ...brief.groups.supporting,
     ...brief.groups.adjacent,
-  ].map((match) => match.projectId)
+  ].map((match) => match.entityId)
   const orderedIds = [...new Set(rankedIds)]
   const projectsById = new Map(PROJECTS.map((project) => [project.id, project]))
   return [
@@ -82,12 +68,17 @@ export default function ProjectsPage() {
   const { consumePendingInput } = useAdaptiveFocusHandoff()
 
   const activeCategoryName = useMemo(
-    () => CATEGORIES.find((category) => category.id === activeFilter)?.name ?? "Projects",
+    () => PROJECT_CATEGORIES.find((category) => category.id === activeFilter)?.name ?? "Projects",
     [activeFilter]
   )
 
   const categoryCounts = useMemo(
-    () => new Map(CATEGORIES.map((category) => [category.id, projectsForCategory(category.id).length])),
+    () => new Map(
+      PROJECT_CATEGORIES.map((category) => [
+        category.id,
+        getProjectsForCategory(category.id).length,
+      ])
+    ),
     []
   )
 
@@ -96,7 +87,11 @@ export default function ProjectsPage() {
     const levels = new Map<string, ProjectMatchLevel>()
     if (!brief) return levels
     for (const group of [brief.groups.primary, brief.groups.supporting, brief.groups.adjacent]) {
-      for (const match of group) levels.set(match.projectId, match.level)
+      for (const match of group) {
+        if (isPublicProjectEvidenceEntity(match.entityId)) {
+          levels.set(match.entityId, match.level)
+        }
+      }
     }
     return levels
   }, [brief])
@@ -144,7 +139,9 @@ export default function ProjectsPage() {
             analysis_source: result.analysisSource,
             clarification_needed: result.interpretation.clarificationNeeded,
             requirement_count: result.interpretation.requirements.length,
-            primary_project_count: result.groups.primary.length,
+            primary_project_count: result.groups.primary.filter((match) =>
+              isPublicProjectEvidenceEntity(match.entityId)
+            ).length,
           })
         }
         applyBrief(result)
@@ -234,7 +231,7 @@ export default function ProjectsPage() {
   const handleCategoryChange = (category: string) => {
     abortRef.current?.abort()
     setActiveFilter(category)
-    setDisplay(projectsForCategory(category))
+    setDisplay(getProjectsForCategory(category))
     setBrief(null)
     setQuery("")
     setShowAll(false)
@@ -293,7 +290,7 @@ export default function ProjectsPage() {
               Project Signal Index
             </h1>
             <p className="project-index-summary">
-              These projects are the evidence layer for AI-native product systems, human-in-the-loop workflows, and operational tools that make complex work usable.
+              Public proof across AI-native products, game and creator systems, immersive interfaces, human-AI workflows, operational tools, and design engineering.
             </p>
           </div>
 
@@ -403,7 +400,7 @@ export default function ProjectsPage() {
         </div>
 
         <div className="project-category-index" aria-label="Project categories">
-          {CATEGORIES.map((category) => (
+          {PROJECT_CATEGORIES.map((category) => (
             <button
               key={category.id}
               type="button"

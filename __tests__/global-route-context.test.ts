@@ -7,7 +7,7 @@ describe("global route context", () => {
   it.each([
     ["/", "/", true],
     ["/projects", "/projects", true],
-    ["/projects/astrocade-qa-calibration-tool", "/projects", true],
+    ["/projects/x-games", "/projects", true],
     ["/blog/voice-first-xr", "/blog", true],
     ["/about", "/about", true],
     ["/archive", "/", false],

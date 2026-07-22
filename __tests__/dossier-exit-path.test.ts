@@ -21,13 +21,15 @@ describe("evidence dossier exit path", () => {
     }
   )
 
-  it("routes Astrocade through reviewed human-in-the-loop evidence", () => {
-    const exitPath = getDossierExitPath("astrocade-qa-calibration-tool")
+  it("routes X Games through reviewed game and creator-system evidence", () => {
+    const exitPath = getDossierExitPath("x-games")
 
     expect(exitPath.capabilities).toEqual(
-      expect.arrayContaining(["human-in-the-loop-ai", "evaluation-calibration", "moderation-qa"])
+      expect.arrayContaining(["game-ux-systems", "creator-systems", "ai-product-systems"])
     )
-    expect(exitPath.relatedProjects.map((project) => project.projectId)).toContain("petition-ready")
+    expect(exitPath.relatedProjects.map((project) => project.projectId)).toEqual(
+      expect.arrayContaining(["material-explorer"])
+    )
   })
 
   it("encodes capabilities as a versioned Adaptive Focus handoff", () => {

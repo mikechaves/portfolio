@@ -60,7 +60,7 @@ describe("portfolio analytics", () => {
       trackPortfolioEvent("portfolio_conversion_clicked", {
         destination: "contact",
         source: "dossier_exit",
-        project_id: "astrocade-qa-calibration-tool",
+        project_id: "x-games",
       })
     ).not.toThrow()
   })

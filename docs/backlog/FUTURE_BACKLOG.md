@@ -17,7 +17,6 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ## Project Proof Parking Lot
 
-- [ ] Add richer Astrocade evidence if anonymized screenshots or diagrams can be shown safely.
 - [ ] Add a concise Wizzo product-system diagram if it clarifies chat, memory, tools, connectors, and quest loops.
 - [ ] Add X Games gameplay clips or generated-run evidence if it improves the case study beyond static screenshots.
 - [ ] Add Vulnerability Visualizer workflow screenshots that show security triage from overview to remediation.
@@ -34,14 +33,14 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 - [ ] Build recruiter-focused and client-focused variants only if the single homepage starts feeling overloaded.
 - [ ] Add downloadable one-page project briefs for the top AI/product-system case studies.
 - [ ] Add a concise case-study index for hiring managers who want to scan proof quickly.
-- [ ] Add project-specific Open Graph cards for Wizzo, Astrocade, X Games, Creative Supply Engine, and Vulnerability Visualizer.
+- [ ] Add project-specific Open Graph cards for Wizzo, X Games, Creative Supply Engine, and Vulnerability Visualizer.
 - [ ] Add structured data for portfolio projects if search snippets or link previews justify the work.
 
 ## Content And Case Study Depth
 
-- [ ] Add outcome metrics where safe and credible, especially for Astrocade and operational UX work.
+- [ ] Add outcome metrics only where safe, credible, and explicitly approved.
 - [ ] Add a short "how I work" page only if it does not duplicate About or resume content.
-- [ ] Add more explicit accessibility process evidence for SpeakEasy and Transcribe.
+- [ ] Add more explicit accessibility process evidence for SpeakEasy.
 - [ ] Add a cross-project AI systems overview if individual case studies start feeling fragmented.
 
 ## Engineering And Operations
@@ -63,8 +62,9 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ### Tier 2: AI-Native Product Systems
 
-- Astrocade and Wizzo remain the strongest AI/product-system proof points.
-- Creative Supply Engine, Vulnerability Visualizer, X Games, and SpeakEasy support range and depth.
+- Wizzo and X Games are the strongest public AI/product-system proof points.
+- Professional experience supports relevant role matching without being presented as public projects.
+- Creative Supply Engine, Vulnerability Visualizer, SpeakEasy, and immersive work support range and depth.
 - AI language should describe real system behavior, not trend-chasing.
 
 ### Tier 3: Immersive Differentiation

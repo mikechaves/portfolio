@@ -5,8 +5,8 @@ import type {
   AdaptiveFocusAnalysisSource,
   AdaptiveFocusV2Result,
   EvidenceConfidence,
-  ProjectEvidence,
-  ProjectMatch,
+  EvidenceMatch,
+  EvidenceRecord,
   RequirementCoverage,
   RequirementCoverageLevel,
   RoleInterpretation,
@@ -34,6 +34,11 @@ export const CAPABILITY_LABELS: Record<AdaptiveCapability, string> = {
   "people-management": "People management",
   "ml-infrastructure": "Production ML infrastructure",
   "consumer-mobile": "Consumer mobile design",
+  "game-ux-systems": "Game UX and systems",
+  "creator-systems": "Creator systems",
+  "model-evaluation": "LLM and model evaluation",
+  "training-data-development": "Training data and annotation",
+  "prompt-engineering": "Prompt engineering",
 }
 
 const REQUIREMENT_WEIGHTS = { required: 5, preferred: 3, context: 1 } as const
@@ -73,7 +78,7 @@ function mergeRequirements(requirements: RoleRequirement[]): RoleRequirement[] {
   return [...merged.values()]
 }
 
-function evidenceStrength(evidence: ProjectEvidence, requirement: RoleRequirement): number {
+function evidenceStrength(evidence: EvidenceRecord, requirement: RoleRequirement): number {
   const outcomeBonus = evidence.outcome ? 0.3 : 0
   const ownershipBonus = evidence.ownership === "led" || evidence.ownership === "built" ? 0.4 : 0
   const deliveryBonus = evidence.evidenceType === "measured" || evidence.evidenceType === "shipped" ? 0.5 : 0
@@ -87,7 +92,7 @@ function evidenceStrength(evidence: ProjectEvidence, requirement: RoleRequiremen
   )
 }
 
-function coverageForEvidence(evidence: ProjectEvidence[]): RequirementCoverageLevel {
+function coverageForEvidence(evidence: EvidenceRecord[]): RequirementCoverageLevel {
   if (evidence.some((item) => item.confidence === "direct")) return "strong"
   if (evidence.some((item) => item.confidence === "supporting")) return "supporting"
   if (evidence.length) return "partial"
@@ -100,8 +105,8 @@ function confidenceRank(confidence: EvidenceConfidence): number {
 
 export function buildRoleFitBrief(
   interpretation: RoleInterpretation,
-  evidenceCatalog: ProjectEvidence[],
-  canonicalProjectIds: string[],
+  evidenceCatalog: EvidenceRecord[],
+  canonicalEntityIds: string[],
   analysisSource: AdaptiveFocusAnalysisSource
 ): AdaptiveFocusV2Result {
   const mergedRequirements = mergeRequirements(interpretation.requirements)
@@ -123,24 +128,24 @@ export function buildRoleFitBrief(
     }
   }
 
-  const canonicalIndex = new Map(canonicalProjectIds.map((projectId, index) => [projectId, index]))
+  const canonicalIndex = new Map(canonicalEntityIds.map((entityId, index) => [entityId, index]))
   const requirementsByCapability = new Map(
     mergedRequirements.map((requirement) => [requirement.capability, requirement])
   )
   const relevantEvidence = evidenceCatalog.filter((evidence) =>
     requirementsByCapability.has(evidence.capability)
   )
-  const projectEvidence = new Map<string, ProjectEvidence[]>()
+  const entityEvidence = new Map<string, EvidenceRecord[]>()
 
   for (const evidence of relevantEvidence) {
-    const current = projectEvidence.get(evidence.projectId) ?? []
+    const current = entityEvidence.get(evidence.entityId) ?? []
     current.push(evidence)
-    projectEvidence.set(evidence.projectId, current)
+    entityEvidence.set(evidence.entityId, current)
   }
 
-  const ranked = [...projectEvidence.entries()]
-    .map(([projectId, evidence]) => {
-      const bestByCapability = new Map<AdaptiveCapability, ProjectEvidence>()
+  const ranked = [...entityEvidence.entries()]
+    .map(([entityId, evidence]) => {
+      const bestByCapability = new Map<AdaptiveCapability, EvidenceRecord>()
       for (const item of evidence) {
         const current = bestByCapability.get(item.capability)
         if (!current || confidenceRank(item.confidence) > confidenceRank(current.confidence)) {
@@ -166,11 +171,11 @@ export function buildRoleFitBrief(
       const firstEvidence = selectedEvidence[0]
 
       return {
-        projectId,
+        entityId,
         score,
-        canonicalIndex: canonicalIndex.get(projectId) ?? Number.MAX_SAFE_INTEGER,
+        canonicalIndex: canonicalIndex.get(entityId) ?? Number.MAX_SAFE_INTEGER,
         match: {
-          projectId,
+          entityId,
           level,
           matchedCapabilities,
           matchedRequirements: matchedCapabilities.map((capability) => CAPABILITY_LABELS[capability]),
@@ -182,7 +187,7 @@ export function buildRoleFitBrief(
             outcome: item.outcome,
           })),
           explanation: `${levelCopy} for ${capabilityCopy}. ${firstEvidence.statement}`,
-        } satisfies ProjectMatch,
+        } satisfies EvidenceMatch,
       }
     })
     .sort((a, b) => (b.score !== a.score ? b.score - a.score : a.canonicalIndex - b.canonicalIndex))
@@ -202,7 +207,7 @@ export function buildRoleFitBrief(
 
   const requirementCoverage: RequirementCoverage[] = mergedRequirements.map((requirement) => {
     const matchingEvidence = evidenceCatalog.filter((item) => item.capability === requirement.capability)
-    const projectIds = [...new Set(matchingEvidence.map((item) => item.projectId))].sort(
+    const entityIds = [...new Set(matchingEvidence.map((item) => item.entityId))].sort(
       (a, b) => (canonicalIndex.get(a) ?? 999) - (canonicalIndex.get(b) ?? 999)
     )
     return {
@@ -210,7 +215,7 @@ export function buildRoleFitBrief(
       label: CAPABILITY_LABELS[requirement.capability],
       importance: requirement.importance,
       coverage: coverageForEvidence(matchingEvidence),
-      projectIds: projectIds.slice(0, 4),
+      entityIds: entityIds.slice(0, 4),
       evidenceIds: matchingEvidence.map((item) => item.id),
     }
   })

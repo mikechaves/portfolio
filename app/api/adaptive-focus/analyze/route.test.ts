@@ -41,7 +41,7 @@ describe("POST /api/adaptive-focus/analyze", () => {
     expect(response.headers.get("cache-control")).toBe("no-store")
     expect(body.schemaVersion).toBe("af.v2")
     expect(body.analysisSource).toBe("gpt")
-    expect(body.groups.primary[0].projectId).toBe("astrocade-qa-calibration-tool")
+    expect(body.groups.primary[0].entityId).toBe("employment-astrocade")
   })
 
   it.each([

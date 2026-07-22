@@ -8,6 +8,7 @@ import dynamic from "next/dynamic"
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { PROJECTS } from "@/data/projects"
+import { IMMERSIVE_NAV_PROJECT_IDS } from "@/data/portfolio-curation"
 import type { Project } from "@/types/project"
 
 // -----------------------------------------------------------------------------
@@ -209,15 +210,6 @@ type MetaverseFilterTheme = {
   signal: string
 }
 
-const METAVERSE_PROJECT_IDS = [
-  "astrocade-qa-calibration-tool",
-  "wizzo",
-  "x-games",
-  "creative-supply-engine",
-  "vulnerability-visualizer",
-  "speakeasy",
-]
-
 const METAVERSE_FILTER_THEMES: Record<MetaverseProjectFilter, MetaverseFilterTheme> = {
   all: {
     accent: "#00ffff",
@@ -252,7 +244,7 @@ const METAVERSE_FILTERS: Array<{ id: MetaverseProjectFilter; label: string }> = 
   { id: "research", label: "XR" },
 ]
 
-const METAVERSE_PROJECTS = METAVERSE_PROJECT_IDS.map((id) =>
+const METAVERSE_PROJECTS = IMMERSIVE_NAV_PROJECT_IDS.map((id) =>
   PROJECTS.find((project) => project.id === id),
 ).filter((project): project is Project => Boolean(project))
 
