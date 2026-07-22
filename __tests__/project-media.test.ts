@@ -13,14 +13,14 @@ const projects = JSON.parse(
 ) as Record<string, ProjectRecord>
 
 const HIGH_SIGNAL_PROJECT_IDS = [
-  "astrocade-qa-calibration-tool",
   "wizzo",
   "x-games",
   "creative-supply-engine",
   "vulnerability-visualizer",
   "speakeasy",
-  "transcribe",
   "petition-ready",
+  "sound-escape-vr",
+  "material-explorer",
 ]
 
 describe("high-signal project media", () => {

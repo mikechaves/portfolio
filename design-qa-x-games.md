@@ -18,7 +18,7 @@ This slice applies the shared evidence-dossier system to X Games. The page now p
 
 ## Implementation Review
 
-- X Games now uses the shared dossier structure established by Astrocade and Wizzo.
+- X Games uses the shared dossier structure established across the public project archive.
 - Case-file metadata identifies the product loop as Post / Generate / Play / Rank.
 - The public project record uses a reviewed live discovery image as its primary artifact.
 - Three live product states document discovery, the generated-game control surface, and the leaderboard.

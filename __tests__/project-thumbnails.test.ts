@@ -26,10 +26,6 @@ describe("project thumbnail framing", () => {
     expect(getProjectThumbnailFocalPoint("future-project")).toBe("center")
   })
 
-  test("Astrocade preserves the dashboard heading", () => {
-    expect(getProjectThumbnailFocalPoint("astrocade-qa-calibration-tool")).toBe("top")
-  })
-
   test("the shared card keeps a consistent evidence frame", () => {
     const source = fs.readFileSync(
       path.join(__dirname, "..", "components", "project-card.tsx"),

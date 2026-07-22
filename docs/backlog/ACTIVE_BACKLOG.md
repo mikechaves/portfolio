@@ -26,12 +26,13 @@ Rules:
 - The portfolio is live on Vercel and uses a cyberpunk terminal/WebGL visual language.
 - The default public experience should remain trustworthy for hiring managers, clients, and partners.
 - The opt-in Metaverse path can carry the more theatrical Snow Crash and immersive references.
-- Homepage, About, and featured projects now center on AI-native product systems and supporting
-  proof from Astrocade, Wizzo, X Games, Creative Supply Engine, Vulnerability Visualizer, and related
-  work.
+- Homepage, About, and featured projects now center on AI-native product systems, game and creator
+  systems, and inspectable proof from Wizzo, X Games, SpeakEasy, and related public work.
 - Wizzo is supporting product proof, not the primary identity.
-- All 15 public projects now use the shared evidence-dossier presentation, reviewed project media,
+- All 11 public projects use the shared evidence-dossier presentation, reviewed project media,
   global route context, evidence-driven exit paths, and calibrated archive thumbnails.
+- Confidential and employer-approved professional experience is modeled separately from projects
+  and can support Adaptive Focus without entering the public archive.
 - The production hiring-manager journey has been accepted at desktop and 390px mobile from homepage
   through Adaptive Focus, primary proof, related evidence, resume access, and contact.
 - Privacy-safe Vercel custom events now measure the Adaptive Focus-to-evidence-to-conversion funnel

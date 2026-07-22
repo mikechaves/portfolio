@@ -8,13 +8,19 @@ import {
   AudioLines,
   Boxes,
   Braces,
+  BrainCircuit,
   CircuitBoard,
+  Gamepad2,
   LoaderCircle,
   Workflow,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { ADAPTIVE_FOCUS_PRESETS, runAdaptiveFocus } from "@/features/adaptive-focus"
+import {
+  ADAPTIVE_FOCUS_PRESETS,
+  isPublicProjectEvidenceEntity,
+  runAdaptiveFocus,
+} from "@/features/adaptive-focus"
 import {
   ADAPTIVE_FOCUS_INPUT_MAX_LENGTH,
   encodeAdaptiveFocusBriefHandoff,
@@ -29,7 +35,15 @@ export function AdaptiveFocusEntry() {
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const lensIcons = [CircuitBoard, Boxes, Workflow, Braces, AudioLines]
+  const lensIcons = [
+    CircuitBoard,
+    Boxes,
+    BrainCircuit,
+    Workflow,
+    Braces,
+    AudioLines,
+    Gamepad2,
+  ]
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -48,7 +62,9 @@ export function AdaptiveFocusEntry() {
         analysis_source: result.analysisSource,
         clarification_needed: result.interpretation.clarificationNeeded,
         requirement_count: result.interpretation.requirements.length,
-        primary_project_count: result.groups.primary.length,
+        primary_project_count: result.groups.primary.filter((match) =>
+          isPublicProjectEvidenceEntity(match.entityId)
+        ).length,
       })
       const briefToken = encodeAdaptiveFocusBriefHandoff(result)
       router.push(`/projects?focusBrief=${briefToken}&focusSession=1`)
@@ -98,7 +114,7 @@ export function AdaptiveFocusEntry() {
 
           <div className="p-3">
             <p className="mb-2 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">Select a lens</p>
-            <div className="grid gap-px bg-white/10 sm:grid-cols-2 xl:grid-cols-5">
+            <div className="grid gap-px bg-white/10 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
               {ADAPTIVE_FOCUS_PRESETS.map((preset, index) => {
                 const LensIcon = lensIcons[index] ?? CircuitBoard
                 return (

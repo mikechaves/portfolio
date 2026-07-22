@@ -2,9 +2,9 @@ import {
   buildRoleFitBrief,
   interpretLocalRole,
 } from "../../../packages/adaptive-focus-core/src"
-import { PROJECTS } from "@/data/projects"
 import { ADAPTIVE_FOCUS_PRESETS_BY_ID } from "../config/presets"
-import { PROJECT_EVIDENCE } from "../evidence/catalog"
+import { EVIDENCE_CATALOG } from "../evidence/catalog"
+import { EVIDENCE_ENTITY_IDS } from "../evidence/entities"
 import type {
   AdaptiveFocusAnalysisSource,
   AdaptiveFocusEngine,
@@ -14,13 +14,16 @@ import type {
   RoleInterpretation,
 } from "../types"
 
-const PROJECT_IDS = PROJECTS.map((project) => project.id)
-
 export function composeLocalBrief(
   interpretation: RoleInterpretation,
   analysisSource: AdaptiveFocusAnalysisSource
 ): AdaptiveFocusV2Result {
-  return buildRoleFitBrief(interpretation, PROJECT_EVIDENCE, PROJECT_IDS, analysisSource)
+  return buildRoleFitBrief(
+    interpretation,
+    EVIDENCE_CATALOG,
+    EVIDENCE_ENTITY_IDS,
+    analysisSource
+  )
 }
 
 export class LocalAdaptiveFocusEngine implements AdaptiveFocusEngine {

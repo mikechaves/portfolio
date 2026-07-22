@@ -11,12 +11,12 @@
 
 ## Product Intent
 
-This slice validates the Astrocade evidence-dossier pattern against a second project with a different proof model. Wizzo needs to foreground shipped AI product architecture, connected work context, full-stack implementation, privacy controls, and intent-to-action workflows rather than human-in-the-loop calibration.
+This slice validates the shared evidence-dossier pattern with a shipped AI product. Wizzo foregrounds product architecture, connected work context, full-stack implementation, privacy controls, and intent-to-action workflows.
 
 ## Implementation Review
 
 - A typed dossier configuration now owns case-file identity, positioning copy, and project-specific proof signals.
-- Astrocade and Wizzo use the same dossier structure without project-title conditionals in the presentation layer.
+- Wizzo uses the shared dossier structure without project-title conditionals in the presentation layer.
 - Wizzo now has an explicit public `proofRole` instead of falling back to generic operating-model copy.
 - Existing reviewed Wizzo media captions remain the canonical artifact source.
 - Marketing Site and Launch App remain distinct, visible actions.
@@ -32,7 +32,7 @@ This slice validates the Astrocade evidence-dossier pattern against a second pro
 
 ## Validation
 
-- Wizzo and Astrocade render as evidence dossiers.
+- Wizzo renders as an evidence dossier.
 - A non-configured project remains on the legacy template.
 - Desktop and mobile Wizzo loads produced no console errors.
 - `pnpm test`: 76 tests passed.

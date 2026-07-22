@@ -5,7 +5,7 @@ Adaptive Focus builds a Role Fit Brief from a role, responsibility set, or prede
 1. GPT interprets custom role text into the bounded `RoleInterpretation` contract.
 2. Presets and fallback requests use the local token- and phrase-aware interpreter.
 3. The evidence matcher ranks only static, reviewed portfolio evidence.
-4. The UI resolves project IDs against the public `PROJECTS` collection and shows coverage and gaps.
+4. The UI resolves evidence-entity IDs as either public projects or professional-experience summaries and shows coverage and gaps.
 
 GPT never receives portfolio project data and never ranks projects or writes portfolio evidence.
 
@@ -13,7 +13,7 @@ GPT never receives portfolio project data and never ranks projects or writes por
 
 ### Presets
 
-The five visible presets contain predefined interpretations in `config/presets.ts`. They run locally, make no model request, and may be linked with `?focusPreset=<id>`.
+The seven visible presets contain predefined interpretations in `config/presets.ts`. They run locally, make no model request, and may be linked with `?focusPreset=<id>`.
 
 ### Custom role text
 
@@ -32,11 +32,13 @@ The site does not persist role text. OpenAI API data controls and abuse-monitori
 
 ### Local fallback
 
-If the server request fails, the hybrid browser engine runs the local parser and evidence matcher. The result is marked `analysisSource: "local-fallback"` and disclosed in the UI. Company-only and low-confidence inputs preserve canonical project order and ask for clarification.
+If the server request fails, the hybrid browser engine runs the local parser and evidence matcher. The result is marked `analysisSource: "local-fallback"` and disclosed in the UI. Company-only and low-confidence inputs preserve canonical evidence order and ask for clarification.
 
 ## Evidence catalog
 
-`evidence/catalog.ts` contains factual, reviewed records sourced from public case studies. Every project must have evidence or an explicit exclusion. Integrity tests reject unknown project IDs, duplicate evidence IDs, and uncovered projects.
+`evidence/catalog.ts` contains factual, reviewed records sourced from public case studies and approved professional summaries. Every evidence entity must have evidence or an explicit exclusion. Integrity tests reject unknown entity IDs, duplicate evidence IDs, invalid source paths, and uncovered entities.
+
+Public projects and professional experience are separate registries. Professional records may rank in a Role Fit Brief but never enter public project counts, cards, categories, navigation, or routes. Confidential records use a non-linked shield treatment; employer-approved public summaries use a distinct verified treatment. See `docs/content/PROFESSIONAL_EXPERIENCE_EVIDENCE.md` for the disclosure contract.
 
 Evidence records include:
 
@@ -48,7 +50,7 @@ Evidence records include:
 - direct, supporting, or adjacent strength
 - documented outcome when available
 
-AI category membership is derived from evidence capabilities rather than a separate project-ID list.
+AI category membership is derived from evidence capabilities and then restricted to public project IDs.
 
 ## OpenAI configuration
 
@@ -74,6 +76,6 @@ The repository intentionally does not use an in-memory serverless rate limiter o
 
 ## Private extraction path
 
-The public repository currently owns the UI, API contract, presets, fallback parser, reviewed public evidence, and deterministic brief rendering. A future private service can own prompt instructions, schema evolution, advanced taxonomy, evaluation fixtures, model selection, evidence weighting, ranking calibration, and usage-derived tuning.
+The public repository currently owns the UI, API contract, presets, fallback parser, reviewed public project evidence, approved professional summaries, and deterministic brief rendering. A future private service can own prompt instructions, schema evolution, advanced taxonomy, evaluation fixtures, model selection, evidence weighting, ranking calibration, and usage-derived tuning.
 
 The async `AdaptiveFocusEngine` and `af.v2` ID-based response contract allow that service to replace the server interpreter without rewriting the Role Fit Brief UI.

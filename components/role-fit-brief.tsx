@@ -4,32 +4,38 @@ import type { RefObject } from "react"
 import Link from "next/link"
 import { ExternalLink, Pencil, RotateCcw, X } from "lucide-react"
 import { ProjectCard } from "@/components/project-card"
+import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { Button } from "@/components/ui/button"
 import { PROJECTS } from "@/data/projects"
 import type {
   AdaptiveCapability,
   AdaptiveFocusV2Result,
-  ProjectMatch,
+  EvidenceMatch,
 } from "@/features/adaptive-focus"
-import { CAPABILITY_LABELS, ROLE_FAMILY_LABELS } from "@/features/adaptive-focus"
+import {
+  CAPABILITY_LABELS,
+  EVIDENCE_ENTITY_BY_ID,
+  PROFESSIONAL_EXPERIENCE_BY_ID,
+  ROLE_FAMILY_LABELS,
+} from "@/features/adaptive-focus"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
 const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]))
 
 const SOURCE_DISCLOSURE: Record<AdaptiveFocusV2Result["analysisSource"], string> = {
-  gpt: "GPT interpreted the role. Project matches and explanations come from reviewed portfolio evidence.",
+  gpt: "GPT interpreted the role. Evidence matches and explanations come from reviewed portfolio evidence.",
   preset: "This preset uses a predefined role lens. No model request was needed.",
   "local-fallback": "Advanced role analysis is unavailable. This result uses the local Adaptive Focus parser.",
 }
 
-const MATCH_LABELS: Record<ProjectMatch["level"], string> = {
+const MATCH_LABELS: Record<EvidenceMatch["level"], string> = {
   primary: "Primary proof",
   supporting: "Strong supporting proof",
   adjacent: "Adjacent experience",
 }
 
-function ProjectProof({ match, priority = false }: { match: ProjectMatch; priority?: boolean }) {
-  const project = PROJECTS_BY_ID.get(match.projectId)
+function ProjectProof({ match, priority = false }: { match: EvidenceMatch; priority?: boolean }) {
+  const project = PROJECTS_BY_ID.get(match.entityId)
   if (!project) return null
 
   return (
@@ -88,6 +94,28 @@ function ProjectProof({ match, priority = false }: { match: ProjectMatch; priori
       </div>
     </article>
   )
+}
+
+function PrimaryEvidenceProof({
+  match,
+  priority = false,
+}: {
+  match: EvidenceMatch
+  priority?: boolean
+}) {
+  const professionalExperience = PROFESSIONAL_EXPERIENCE_BY_ID.get(match.entityId)
+  if (professionalExperience) {
+    return (
+      <ProfessionalExperienceProof
+        record={professionalExperience}
+        matchedCapabilities={match.matchedCapabilities}
+        evidence={match.evidence}
+        level={match.level}
+      />
+    )
+  }
+
+  return <ProjectProof match={match} priority={priority} />
 }
 
 interface RoleFitBriefProps {
@@ -174,9 +202,9 @@ export function RoleFitBrief({
         <div>
           <h3 className="text-xl font-bold">Primary proof</h3>
           <p className="mt-1 text-sm text-muted-foreground">The strongest reviewed evidence for the interpreted requirements.</p>
-          <div className="mt-4">
+          <div className="mt-4 space-y-4">
             {brief.groups.primary.map((match, index) => (
-              <ProjectProof key={match.projectId} match={match} priority={index === 0} />
+              <PrimaryEvidenceProof key={match.entityId} match={match} priority={index === 0} />
             ))}
           </div>
         </div>
@@ -187,10 +215,23 @@ export function RoleFitBrief({
           <h3 className="text-xl font-bold">Supporting proof</h3>
           <div className="mt-3 divide-y divide-primary/15 border-y border-primary/15">
             {brief.groups.supporting.slice(0, 5).map((match) => {
-              const project = PROJECTS_BY_ID.get(match.projectId)
+              const professionalExperience = PROFESSIONAL_EXPERIENCE_BY_ID.get(match.entityId)
+              if (professionalExperience) {
+                return (
+                  <ProfessionalExperienceProof
+                    key={match.entityId}
+                    record={professionalExperience}
+                    matchedCapabilities={match.matchedCapabilities}
+                    evidence={match.evidence}
+                    level={match.level}
+                    variant="row"
+                  />
+                )
+              }
+              const project = PROJECTS_BY_ID.get(match.entityId)
               if (!project) return null
               return (
-                <div key={match.projectId} className="grid gap-2 py-4 sm:grid-cols-[12rem_1fr_auto] sm:items-center">
+                <div key={match.entityId} className="grid gap-2 py-4 sm:grid-cols-[12rem_1fr_auto] sm:items-center">
                   <Link
                     href={`/projects/${project.id}`}
                     onClick={() =>
@@ -222,7 +263,7 @@ export function RoleFitBrief({
                 <th scope="col" className="py-2 pr-4 font-medium">Requirement</th>
                 <th scope="col" className="py-2 pr-4 font-medium">Importance</th>
                 <th scope="col" className="py-2 pr-4 font-medium">Coverage</th>
-                <th scope="col" className="py-2 font-medium">Supporting projects</th>
+                <th scope="col" className="py-2 font-medium">Supporting evidence</th>
               </tr>
             </thead>
             <tbody>
@@ -232,8 +273,10 @@ export function RoleFitBrief({
                   <td className="py-3 pr-4 capitalize text-muted-foreground">{item.importance}</td>
                   <td className="py-3 pr-4 capitalize">{item.coverage.replace("-", " ")}</td>
                   <td className="py-3 text-muted-foreground">
-                    {item.projectIds.length
-                      ? item.projectIds.map((id) => PROJECTS_BY_ID.get(id)?.title ?? id).join(", ")
+                    {item.entityIds.length
+                      ? item.entityIds
+                          .map((id) => EVIDENCE_ENTITY_BY_ID.get(id)?.displayName ?? "Unavailable evidence")
+                          .join(", ")
                       : "None documented"}
                   </td>
                 </tr>
@@ -259,24 +302,43 @@ export function RoleFitBrief({
       {brief.groups.adjacent.length ? (
         <div>
           <h3 className="text-base font-semibold">Adjacent experience</h3>
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+          <div className="mt-2 divide-y divide-primary/15 border-y border-primary/15 text-sm">
             {brief.groups.adjacent.slice(0, 6).map((match) => {
-              const project = PROJECTS_BY_ID.get(match.projectId)
+              const professionalExperience = PROFESSIONAL_EXPERIENCE_BY_ID.get(match.entityId)
+              if (professionalExperience) {
+                return (
+                  <ProfessionalExperienceProof
+                    key={match.entityId}
+                    record={professionalExperience}
+                    matchedCapabilities={match.matchedCapabilities}
+                    evidence={match.evidence}
+                    level={match.level}
+                    variant="row"
+                  />
+                )
+              }
+              const project = PROJECTS_BY_ID.get(match.entityId)
               return project ? (
-                <Link
+                <div
                   key={project.id}
-                  href={`/projects/${project.id}`}
-                  onClick={() =>
-                    trackPortfolioEvent("project_evidence_opened", {
-                      project_id: project.id,
-                      source: "role_fit_adjacent",
-                      match_level: match.level,
-                    })
-                  }
-                  className="text-muted-foreground hover:text-primary hover:underline"
+                  className="grid gap-2 py-4 sm:grid-cols-[12rem_1fr_auto] sm:items-center"
                 >
-                  {project.title}
-                </Link>
+                  <Link
+                    href={`/projects/${project.id}`}
+                    onClick={() =>
+                      trackPortfolioEvent("project_evidence_opened", {
+                        project_id: project.id,
+                        source: "role_fit_adjacent",
+                        match_level: match.level,
+                      })
+                    }
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    {project.title}
+                  </Link>
+                  <p className="text-sm text-muted-foreground">{match.evidence[0]?.statement}</p>
+                  <span className="text-xs text-muted-foreground">{MATCH_LABELS[match.level]}</span>
+                </div>
               ) : null
             })}
           </div>

@@ -9,10 +9,13 @@ import Link from "next/link"
 import { sendContactEmail } from "@/app/actions/contact"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
 import { FocusContextBadge } from "@/components/focus-context-badge"
+import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { PROJECTS } from "@/data/projects"
+import { EVIDENCE_CATALOG } from "@/features/adaptive-focus/evidence/catalog"
+import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evidence/professional-experience"
 import { useToast } from "@/hooks/use-toast"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 import "@fortawesome/fontawesome-svg-core/styles.css"
@@ -46,14 +49,6 @@ const operatingLoop = [
 const proofPoints = [
   {
     caseFile: "AF-01",
-    title: "Astrocade AI QA Calibration Tool",
-    label: "Human-in-the-loop AI / Evaluation",
-    description: "Owned UGC review systems spanning QA annotation, calibration, final review behavior, creator feedback, and operational guardrails.",
-    href: "/projects/astrocade-qa-calibration-tool",
-    projectId: "astrocade-qa-calibration-tool",
-  },
-  {
-    caseFile: "AF-02",
     title: "Wizzo",
     label: "AI product systems / Intent to action",
     description: "Designed and built an AI mentor product system connecting chat, work context, goals, and follow-up to actionable quests.",
@@ -61,7 +56,16 @@ const proofPoints = [
     projectId: "wizzo",
   },
   {
-    caseFile: "XR-01",
+    caseFile: "AF-02",
+    title: "X Games",
+    label: "Game UX / Creator systems",
+    description:
+      "Built an AI-assisted concept-to-play system connecting creator input, generated browser games, discovery, rankings, and direct play.",
+    href: "/projects/x-games",
+    projectId: "x-games",
+  },
+  {
+    caseFile: "AF-03",
     title: "SpeakEasy",
     label: "Voice interaction / Accessibility",
     description: "Designed a voice-controlled mixed reality system for users with low muscle tone, grounding emerging interaction in access needs.",
@@ -70,10 +74,11 @@ const proofPoints = [
   },
   {
     caseFile: "OPS-01",
-    title: "Enterprise Systems",
-    label: "Operational UX / Spatial tools",
-    description: "Built enterprise internal tools, spatial operations prototypes, and WebGL systems for Starbucks, Ford, and POWER Engineers.",
-    href: "/projects?focusPreset=operational-ux",
+    title: "Confidential professional experience",
+    label: "Production / Evaluation / Prototypes",
+    description:
+      "High-level employment evidence preserves role, delivery status, and capability coverage while withholding internal interfaces, data, methods, and metrics.",
+    href: "#professional-experience",
     projectId: null,
   },
 ]
@@ -87,7 +92,20 @@ const currentFocusItems = [
   "Creator workflows",
   "Accessibility-focused interaction",
   "XR, voice UI, and emerging interfaces",
+  "LLM evaluation, reasoning validation, and training data",
+  "Model evaluation, expert annotation, and prompt engineering",
 ]
+
+const professionalExperienceCapabilities = new Map(
+  PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => [
+    record.id,
+    [...new Set(
+      EVIDENCE_CATALOG.filter((evidence) => evidence.entityId === record.id).map(
+        (evidence) => evidence.capability
+      )
+    )],
+  ])
+)
 
 const publicSignals = [
   {
@@ -274,10 +292,6 @@ export default function AboutPage() {
                   })
                   return
                 }
-                trackPortfolioEvent("portfolio_conversion_clicked", {
-                  destination: "role_fit",
-                  source: "about_proof",
-                })
               }}
               className="profile-proof-record"
             >
@@ -309,6 +323,33 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section
+        id="professional-experience"
+        className="profile-section scroll-mt-24"
+        aria-labelledby="professional-experience-title"
+      >
+        <div className="profile-section-heading">
+          <div>
+            <p className="operating-profile-eyebrow">Professional evidence</p>
+            <h2 id="professional-experience-title">Selected professional experience</h2>
+          </div>
+          <p>
+            Some professional work was created inside confidential company environments, while other contributions may be described only through employer-approved public language. These summaries preserve role, scope, delivery status, and relevant capabilities without exposing internal interfaces, datasets, customers, methods, or metrics.
+          </p>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          {PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => (
+            <ProfessionalExperienceProof
+              key={record.id}
+              record={record}
+              matchedCapabilities={professionalExperienceCapabilities.get(record.id) ?? []}
+              variant="summary"
+              context="about"
+            />
+          ))}
+        </div>
       </section>
 
       <section className="profile-section" aria-labelledby="public-practice-title">

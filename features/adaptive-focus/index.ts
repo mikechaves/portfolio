@@ -32,7 +32,16 @@ export function rebuildAdaptiveFocusBrief(
 }
 
 export { ADAPTIVE_FOCUS_PRESETS }
-export { AI_PROJECT_IDS, PROJECT_EVIDENCE } from "./evidence/catalog"
+export { AI_PROJECT_IDS, EVIDENCE_CATALOG } from "./evidence/catalog"
+export {
+  EVIDENCE_ENTITY_BY_ID,
+  EVIDENCE_ENTITY_IDS,
+  isPublicProjectEvidenceEntity,
+} from "./evidence/entities"
+export {
+  PROFESSIONAL_EXPERIENCE_BY_ID,
+  PROFESSIONAL_EXPERIENCE_RECORDS,
+} from "./evidence/professional-experience"
 export {
   CAPABILITY_LABELS,
   ROLE_FAMILY_LABELS,
@@ -44,7 +53,7 @@ export type {
   AdaptiveFocusRequest,
   AdaptiveFocusRunOptions,
   AdaptiveFocusV2Result,
-  ProjectMatch,
+  EvidenceMatch,
   RequirementCoverage,
   RoleInterpretation,
 } from "./types"

@@ -7,6 +7,7 @@ import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
 import { BlogCard } from "@/components/blog-card"
 import { ProjectCard } from "@/components/project-card"
 import { RecentHighlights } from "@/components/recent-highlights"
+import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
 import { PROJECTS } from "@/data/projects"
 import type { Project } from "@/types/project"
 
@@ -15,9 +16,7 @@ const HeroBackground = dynamic(
   { ssr: false, loading: () => null }
 )
 
-const FEATURED_PROJECT_IDS = ["astrocade-qa-calibration-tool", "wizzo", "x-games"]
-
-const featuredProjects = FEATURED_PROJECT_IDS.map((id) =>
+const featuredProjects = HOMEPAGE_FEATURED_PROJECT_IDS.map((id) =>
   PROJECTS.find((project) => project.id === id)
 ).filter((project): project is Project => Boolean(project))
 
@@ -29,14 +28,14 @@ const systemStatus = [
 ]
 
 const skills = [
-  "AI-assisted workflows",
+  "AI-native game and product systems",
+  "Game UX and interactive systems",
+  "Human-in-the-loop AI and evaluation",
+  "Creator workflows and tools",
   "Product and design engineering",
-  "Moderation and QA calibration",
-  "Accessibility-focused interaction",
-  "Human-in-the-loop systems",
   "Internal tools and operational UX",
-  "Creator workflows",
-  "XR, voice UI, and emerging interfaces",
+  "Voice, XR, and accessibility",
+  "Motion-rich and immersive interfaces",
 ]
 
 const latestPosts = [
