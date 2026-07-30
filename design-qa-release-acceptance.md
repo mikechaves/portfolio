@@ -15,7 +15,7 @@ This acceptance baseline covers the public project curation, professional-experi
 
 ## Accepted Behavior
 
-- Homepage featured proof is Wizzo, X Games, and SpeakEasy.
+- Homepage featured proof is Wizzo, Playfold, and SpeakEasy.
 - The public archive contains eleven explicitly curated public projects.
 - Games & Interactive is a virtual project category and does not alter the project category type.
 - Human-in-the-loop roles can surface high-level confidential employment evidence without internal artifacts.

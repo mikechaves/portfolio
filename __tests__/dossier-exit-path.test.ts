@@ -21,7 +21,7 @@ describe("evidence dossier exit path", () => {
     }
   )
 
-  it("routes X Games through reviewed game and creator-system evidence", () => {
+  it("routes Playfold through reviewed game and creator-system evidence", () => {
     const exitPath = getDossierExitPath("x-games")
 
     expect(exitPath.capabilities).toEqual(

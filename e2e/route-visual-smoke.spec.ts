@@ -10,6 +10,7 @@ const routes: SmokeRoute[] = [
   { name: "home", path: "/", heading: /^Mike_\s*Chaves_$/i },
   { name: "projects", path: "/projects", heading: "Project Signal Index" },
   { name: "wizzo", path: "/projects/wizzo", heading: "Wizzo" },
+  { name: "playfold", path: "/projects/x-games", heading: "Playfold" },
   { name: "geovoice", path: "/projects/geovoice", heading: "GeoVoice" },
   { name: "speakeasy", path: "/projects/speakeasy", heading: "SpeakEasy" },
 ]
@@ -116,7 +117,7 @@ test("homepage features only the curated public proof", async ({ page }) => {
 
   await expect(featured.getByRole("heading", { level: 3 })).toHaveText([
     "Wizzo",
-    "X Games",
+    "Playfold",
     "SpeakEasy",
   ])
   await expect(featured).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
@@ -131,7 +132,7 @@ test("public archive follows the canonical project order", async ({ page }) => {
 
   await expect(archive.getByRole("heading", { level: 3 })).toHaveText([
     "Wizzo",
-    "X Games",
+    "Playfold",
     "SpeakEasy",
     "Sound Escape VR",
     "Material Explorer",
@@ -155,7 +156,7 @@ test("Games & Interactive exposes only the curated game set", async ({ page }) =
   await expect(gamesFilter).toHaveAttribute("aria-pressed", "true")
   const seeMore = page.getByRole("button", { name: "See More" })
   if (await seeMore.isVisible()) await seeMore.click()
-  await expect(page.getByRole("heading", { level: 3, name: "X Games" })).toBeVisible()
+  await expect(page.getByRole("heading", { level: 3, name: "Playfold" })).toBeVisible()
   await expect(page.getByRole("heading", { level: 3, name: "Sound Escape VR" })).toBeVisible()
   await expect(page.getByRole("heading", { level: 3, name: "Portals" })).toBeVisible()
   await expect(page.getByRole("heading", { level: 3, name: "Die, AI!" })).toBeVisible()
@@ -211,7 +212,7 @@ test("game and creator lens keeps public game proof central", async ({ page }) =
   await openPreset(page, "game-ux-creator-systems")
   const primaryProof = page.getByRole("heading", { level: 3, name: "Primary proof" }).locator("..")
 
-  await expect(primaryProof.getByText("X Games", { exact: true }).first()).toBeVisible()
+  await expect(primaryProof.getByText("Playfold", { exact: true }).first()).toBeVisible()
   await expect(page.getByText("Sound Escape VR", { exact: true }).first()).toBeVisible()
   await expect(page.getByText("Material Explorer", { exact: true }).first()).toBeVisible()
   await expect(page.getByText("Astrocade", { exact: true }).first()).toBeVisible()

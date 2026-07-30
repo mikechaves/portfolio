@@ -18,7 +18,8 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 ## Project Proof Parking Lot
 
 - [ ] Add a concise Wizzo product-system diagram if it clarifies chat, memory, tools, connectors, and quest loops.
-- [ ] Add X Games gameplay clips or generated-run evidence if it improves the case study beyond static screenshots.
+- [ ] Add Playfold gameplay clips or generated-run evidence if it improves the case study beyond static screenshots.
+- [ ] Replace pre-rename Playfold captures only after the canonical deployment exposes current, reviewable product states.
 - [ ] Add Vulnerability Visualizer workflow screenshots that show security triage from overview to remediation.
 - [ ] Add Creative Supply Engine deck excerpts or output comparisons if they reinforce AI creative operations.
 - [ ] Add Material Explorer AI-adjacent framing only if it becomes technically true, not as keyword stuffing.
@@ -33,7 +34,7 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 - [ ] Build recruiter-focused and client-focused variants only if the single homepage starts feeling overloaded.
 - [ ] Add downloadable one-page project briefs for the top AI/product-system case studies.
 - [ ] Add a concise case-study index for hiring managers who want to scan proof quickly.
-- [ ] Add project-specific Open Graph cards for Wizzo, X Games, Creative Supply Engine, and Vulnerability Visualizer.
+- [ ] Add project-specific Open Graph cards for Wizzo, Playfold, Creative Supply Engine, and Vulnerability Visualizer.
 - [ ] Add structured data for portfolio projects if search snippets or link previews justify the work.
 
 ## Content And Case Study Depth
@@ -62,7 +63,7 @@ If another doc, review, critique, or conversation records a follow-up, it must a
 
 ### Tier 2: AI-Native Product Systems
 
-- Wizzo and X Games are the strongest public AI/product-system proof points.
+- Wizzo and Playfold are the strongest public AI/product-system proof points.
 - Professional experience supports relevant role matching without being presented as public projects.
 - Creative Supply Engine, Vulnerability Visualizer, SpeakEasy, and immersive work support range and depth.
 - AI language should describe real system behavior, not trend-chasing.

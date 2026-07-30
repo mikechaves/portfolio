@@ -27,7 +27,7 @@ Rules:
 - The default public experience should remain trustworthy for hiring managers, clients, and partners.
 - The opt-in Metaverse path can carry the more theatrical Snow Crash and immersive references.
 - Homepage, About, and featured projects now center on AI-native product systems, game and creator
-  systems, and inspectable proof from Wizzo, X Games, SpeakEasy, and related public work.
+  systems, and inspectable proof from Wizzo, Playfold, SpeakEasy, and related public work.
 - Wizzo is supporting product proof, not the primary identity.
 - All 11 public projects use the shared evidence-dossier presentation, reviewed project media,
   global route context, evidence-driven exit paths, and calibrated archive thumbnails.

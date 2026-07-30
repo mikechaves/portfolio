@@ -1,4 +1,4 @@
-# X Games Evidence Dossier Design QA
+# Playfold Evidence Dossier Design QA
 
 ## Reference
 
@@ -14,21 +14,22 @@
 
 ## Product Intent
 
-This slice applies the shared evidence-dossier system to X Games. The page now presents the project as an operating AI-native game platform: source posts become playable games, generated behavior remains tunable, and the resulting catalog supports discovery, replay, reporting, and ranked competition.
+This slice applies the shared evidence-dossier system to Playfold. The page now presents the project as an operating AI-native game platform: source posts become playable games, generated behavior remains tunable, and the resulting catalog supports discovery, replay, reporting, and ranked competition.
 
 ## Implementation Review
 
-- X Games uses the shared dossier structure established across the public project archive.
+- Playfold uses the shared dossier structure established across the public project archive.
+- Existing interface captures remain historical shipped evidence from before the Playfold naming transition; they are labeled rather than cosmetically altered.
 - Case-file metadata identifies the product loop as Post / Generate / Play / Rank.
-- The public project record uses a reviewed live discovery image as its primary artifact.
+- The public project record uses the generated-game control surface as its primary artifact so the former brand is not foregrounded in archive cards.
 - Three live product states document discovery, the generated-game control surface, and the leaderboard.
 - Situation, Mandate, Build, and Outcomes copy is limited to behavior verified in the live product and repository data.
 - Projects outside the dossier configuration continue to use the existing case-study template.
 
 ## Visual Review
 
-- The X Games name and operating proof lead the first viewport without changing the site-wide terminal system.
-- The primary artifact shows the full live discovery context rather than a generic project thumbnail.
+- The Playfold name and operating proof lead the first viewport without changing the site-wide terminal system.
+- The primary artifact shows a real generated-game control state rather than a generic project thumbnail.
 - Supporting artifacts are legible in the desktop viewer and open through the existing fullscreen image interaction.
 - Evidence strips place each live product state next to the case-study claim it supports.
 - The mobile layout has one H1, no horizontal overflow, and clean stacking across the hero ledger, media viewer, case index, and evidence sections.
@@ -44,8 +45,10 @@ This slice applies the shared evidence-dossier system to X Games. The page now p
 
 ## Validation
 
-- `pnpm test`: 79 tests passed
+- `pnpm test:unit --runInBand`: 169 tests passed
+- `pnpm test:visual-smoke`: 34 desktop/mobile checks passed
 - `pnpm lint`: passed
+- `pnpm type-check`: passed
 - `pnpm check:links`: passed
 - `pnpm build`: passed
 

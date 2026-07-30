@@ -57,7 +57,7 @@ const proofPoints = [
   },
   {
     caseFile: "AF-02",
-    title: "X Games",
+    title: "Playfold",
     label: "Game UX / Creator systems",
     description:
       "Built an AI-assisted concept-to-play system connecting creator input, generated browser games, discovery, rankings, and direct play.",
