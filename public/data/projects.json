@@ -106,10 +106,10 @@
     }
   },
   "x-games": {
-    "title": "X Games",
+    "title": "Playfold",
     "category": "web",
     "description": "Built and operate an AI-first social game platform that turns X posts into playable browser games, then supports discovery, tuning, replay, sharing, reporting, and ranked competition around the generated catalog.",
-    "image": "/projects/x-games/platform-home.png",
+    "image": "/projects/x-games/generated-game-detail.png",
     "technologies": [
       "AI Game Generation",
       "Grok",
@@ -119,13 +119,13 @@
       "Leaderboards"
     ],
     "github": "",
-    "demo": "https://x-games-six.vercel.app/",
+    "demo": "https://playfold.wizzolabs.net/",
     "gallery": [
-      "/projects/x-games/generated-game-detail.png",
+      "/projects/x-games/platform-home.png",
       "/projects/x-games/leaderboard.png"
     ],
     "details": {
-      "client": "X Games",
+      "client": "Playfold",
       "date": "2026",
       "category": "AI Game Platform",
       "proofRole": "Direct product proof for AI-native generation, social distribution, game tuning, and ranked play in a live browser platform.",
@@ -138,7 +138,7 @@
       "situation": [
         {
           "title": "From Post to Playable System",
-          "description": "X Games is a live AI-native product loop: start from a post on X, generate a playable browser game with Grok, then make that game discoverable, replayable, tunable, shareable, and rankable."
+          "description": "Playfold is a live AI-native product loop: start from a post on X, generate a playable browser game with Grok, then make that game discoverable, replayable, tunable, shareable, and rankable."
         },
         {
           "title": "Product Challenge",

@@ -9,14 +9,17 @@ interface DetailItem {
 }
 
 interface XGamesProject {
+  demo?: string
   gallery?: string[]
   image: string
   title: string
   details: {
     actions: DetailItem[]
+    client?: string
     proofRole?: string
     results: DetailItem[]
     services?: string[]
+    situation?: DetailItem[]
   }
 }
 
@@ -24,7 +27,17 @@ const projects = JSON.parse(
   fs.readFileSync(path.join(__dirname, "..", "public", "data", "projects.json"), "utf8"),
 ) as Record<string, XGamesProject>
 
-describe("X Games evidence dossier", () => {
+describe("Playfold evidence dossier", () => {
+  it("uses the current public product identity while preserving the stable route ID", () => {
+    const project = projects["x-games"]
+
+    expect(project.title).toBe("Playfold")
+    expect(project.demo).toBe("https://playfold.wizzolabs.net/")
+    expect(project.details.client).toBe("Playfold")
+    expect(project.details.situation?.[0]?.description).toContain("Playfold is")
+    expect(JSON.stringify(project)).not.toContain('"X Games"')
+  })
+
   it("states direct product-system proof instead of portfolio-value fallback copy", () => {
     const project = projects["x-games"]
     expect(project).toBeDefined()
@@ -62,11 +75,11 @@ describe("X Games evidence dossier", () => {
     })
 
     expect(media.map((item) => item.label)).toEqual([
-      "Live game discovery platform",
       "Generated-game control surface",
+      "Live game discovery platform",
       "Ranked game ecosystem",
     ])
-    expect(media.map((item) => item.section)).toEqual(["situation", "action", "result"])
+    expect(media.map((item) => item.section)).toEqual(["action", "situation", "result"])
     expect(media.every((item) => item.caption.length > 60)).toBe(true)
   })
 })
