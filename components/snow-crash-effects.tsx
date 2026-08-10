@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { SiteNav } from './site-nav'
+
 const MetaverseNav = dynamic(
   () => import('./metaverse-nav').then((m) => m.MetaverseNav),
   {
@@ -14,7 +16,6 @@ const MetaverseNav = dynamic(
     ),
   },
 )
-const SiteNav = dynamic(() => import('./site-nav').then((m) => m.SiteNav), { ssr: false })
 
 export function SnowCrashEffects() {
   const pathname = usePathname()

@@ -50,7 +50,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
               height={1000}
               className="relative z-10 max-h-[min(68vh,620px)] w-full rounded-sm object-contain"
               sizes="(min-width: 1280px) 760px, (min-width: 1024px) 60vw, 100vw"
-              priority
+              loading="lazy"
               quality={86}
             />
             <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-2 rounded border border-primary/30 bg-black/70 px-2 py-1 text-xs text-primary opacity-90 backdrop-blur-sm transition-opacity group-hover:opacity-100">
@@ -81,7 +81,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
                   src={item.src}
                   alt={item.alt}
                   fill
-                  loading="eager"
+                  loading="lazy"
                   className="object-contain"
                   sizes="(min-width: 1024px) 224px, 128px"
                 />

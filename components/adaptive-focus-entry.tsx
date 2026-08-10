@@ -16,15 +16,8 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  ADAPTIVE_FOCUS_PRESETS,
-  isPublicProjectEvidenceEntity,
-  runAdaptiveFocus,
-} from "@/features/adaptive-focus"
-import {
-  ADAPTIVE_FOCUS_INPUT_MAX_LENGTH,
-  encodeAdaptiveFocusBriefHandoff,
-} from "@/features/adaptive-focus/handoff"
+import { ADAPTIVE_FOCUS_PRESETS } from "@/features/adaptive-focus/config/presets"
+import { ADAPTIVE_FOCUS_INPUT_MAX_LENGTH } from "@/features/adaptive-focus/handoff"
 import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
@@ -55,7 +48,12 @@ export function AdaptiveFocusEntry() {
     })
     try {
       preparePendingInput(input)
-      const result = await runAdaptiveFocus({ mode: "custom", input: input.trim() })
+      const [runtime, entities, handoff] = await Promise.all([
+        import("@/features/adaptive-focus/runtime"),
+        import("@/features/adaptive-focus/evidence/entities"),
+        import("@/features/adaptive-focus/handoff"),
+      ])
+      const result = await runtime.runAdaptiveFocus({ mode: "custom", input: input.trim() })
       trackPortfolioEvent("adaptive_focus_completed", {
         entry_point: "home",
         mode: "custom",
@@ -63,10 +61,10 @@ export function AdaptiveFocusEntry() {
         clarification_needed: result.interpretation.clarificationNeeded,
         requirement_count: result.interpretation.requirements.length,
         primary_project_count: result.groups.primary.filter((match) =>
-          isPublicProjectEvidenceEntity(match.entityId)
+          entities.isPublicProjectEvidenceEntity(match.entityId)
         ).length,
       })
-      const briefToken = encodeAdaptiveFocusBriefHandoff(result)
+      const briefToken = handoff.encodeAdaptiveFocusBriefHandoff(result)
       router.push(`/projects?focusBrief=${briefToken}&focusSession=1`)
     } catch {
       trackPortfolioEvent("adaptive_focus_failed", {

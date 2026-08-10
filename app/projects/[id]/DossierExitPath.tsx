@@ -1,8 +1,6 @@
-"use client"
-
 import Link from "next/link"
 import { ArrowRight, Download, FileSearch2, MessageSquareText } from "lucide-react"
-import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
+import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
 import { getRelatedArticlesForProject } from "@/lib/content-relationships"
 import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
 
@@ -43,16 +41,15 @@ export function DossierExitPath({
         <div className="dossier-related-evidence" aria-label="Related project evidence and writing">
           <p>Related evidence and writing</p>
           {exitPath.relatedProjects.map((related, index) => (
-            <Link
+            <TrackedPortfolioLink
               key={related.projectId}
               href={`/projects/${related.projectId}`}
-              onClick={() =>
-                trackPortfolioEvent("project_evidence_opened", {
-                  project_id: related.projectId,
-                  source: "dossier_related",
-                  match_level: "supporting",
-                })
-              }
+              eventName="project_evidence_opened"
+              eventProperties={{
+                project_id: related.projectId,
+                source: "dossier_related",
+                match_level: "supporting",
+              }}
             >
               <span className="dossier-related-index">0{index + 1}</span>
               <span>
@@ -64,7 +61,7 @@ export function DossierExitPath({
                 </small>
               </span>
               <ArrowRight size={16} aria-hidden="true" />
-            </Link>
+            </TrackedPortfolioLink>
           ))}
           {relatedArticles.map((article, index) => (
             <Link key={article.articleId} href={`/blog/${article.articleId}`}>
@@ -79,15 +76,14 @@ export function DossierExitPath({
         </div>
 
         <div className="dossier-exit-actions" aria-label="Role fit and contact actions">
-          <Link
+          <TrackedPortfolioLink
             href={exitPath.focusHref}
-            onClick={() =>
-              trackPortfolioEvent("portfolio_conversion_clicked", {
-                destination: "role_fit",
-                source: "dossier_exit",
-                project_id: projectId,
-              })
-            }
+            eventName="portfolio_conversion_clicked"
+            eventProperties={{
+              destination: "role_fit",
+              source: "dossier_exit",
+              project_id: projectId,
+            }}
             className="dossier-exit-primary-action"
           >
             <FileSearch2 size={17} aria-hidden="true" />
@@ -96,34 +92,32 @@ export function DossierExitPath({
               <small>Carry these capabilities into Adaptive Focus</small>
             </span>
             <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-          <Link
+          </TrackedPortfolioLink>
+          <TrackedPortfolioLink
             href="/about#contact-title"
-            onClick={() =>
-              trackPortfolioEvent("portfolio_conversion_clicked", {
-                destination: "contact",
-                source: "dossier_exit",
-                project_id: projectId,
-              })
-            }
+            eventName="portfolio_conversion_clicked"
+            eventProperties={{
+              destination: "contact",
+              source: "dossier_exit",
+              project_id: projectId,
+            }}
           >
             <MessageSquareText size={17} aria-hidden="true" />
             Start a conversation
-          </Link>
-          <a
+          </TrackedPortfolioLink>
+          <TrackedPortfolioLink
             href="/Michael_Chaves_Resume_min.pdf"
             download
-            onClick={() =>
-              trackPortfolioEvent("portfolio_conversion_clicked", {
-                destination: "resume",
-                source: "dossier_exit",
-                project_id: projectId,
-              })
-            }
+            eventName="portfolio_conversion_clicked"
+            eventProperties={{
+              destination: "resume",
+              source: "dossier_exit",
+              project_id: projectId,
+            }}
           >
             <Download size={17} aria-hidden="true" />
             Download resume
-          </a>
+          </TrackedPortfolioLink>
         </div>
       </div>
     </section>

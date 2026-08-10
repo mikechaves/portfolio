@@ -1,20 +1,13 @@
-"use client"
-
-import dynamic from "next/dynamic"
 import Link from "next/link"
 import { ArrowRight, Database, Radio, Route, ShieldCheck } from "lucide-react"
 import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
 import { BlogCard } from "@/components/blog-card"
+import { ProgressiveHeroBackground } from "@/components/progressive-hero-background"
 import { ProjectCard } from "@/components/project-card"
 import { RecentHighlights } from "@/components/recent-highlights"
 import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
 import { PROJECTS } from "@/data/projects"
 import type { Project } from "@/types/project"
-
-const HeroBackground = dynamic(
-  () => import("@/components/hero-background").then((module) => module.HeroBackground),
-  { ssr: false, loading: () => null }
-)
 
 const featuredProjects = HOMEPAGE_FEATURED_PROJECT_IDS.map((id) =>
   PROJECTS.find((project) => project.id === id)
@@ -53,7 +46,15 @@ const latestPosts = [
 export default function Home() {
   return (
     <div className="home-immersive-page relative isolate">
-      <HeroBackground />
+      <link
+        rel="preload"
+        href="/visuals/black-sun-signal-grid.webp"
+        as="image"
+        type="image/webp"
+        fetchPriority="high"
+        media="(min-width: 768px)"
+      />
+      <ProgressiveHeroBackground />
 
       <div className="home-content-layer relative z-10 space-y-5">
         <section className="post-terminal-hero" aria-labelledby="home-title">
@@ -76,10 +77,10 @@ export default function Home() {
                   I design and build AI-native product systems that connect human intent to operational reality.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <Link href="/projects" className="inline-flex min-h-10 items-center gap-2 bg-primary px-4 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:bg-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                  <Link href="/projects" prefetch={false} className="inline-flex min-h-10 items-center gap-2 bg-primary px-4 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:bg-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                     Inspect Proof <ArrowRight size={15} aria-hidden="true" />
                   </Link>
-                  <Link href="/about" className="inline-flex min-h-10 items-center gap-2 border border-white/25 bg-black/35 px-4 text-xs uppercase tracking-[0.1em] text-zinc-200 transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                  <Link href="/about" prefetch={false} className="inline-flex min-h-10 items-center gap-2 border border-white/25 bg-black/35 px-4 text-xs uppercase tracking-[0.1em] text-zinc-200 transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                     Read Positioning <ArrowRight size={15} aria-hidden="true" />
                   </Link>
                 </div>
@@ -109,12 +110,11 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
+            {featuredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 {...project}
                 analyticsContext="home_featured"
-                priority={index < 3}
               />
             ))}
           </div>

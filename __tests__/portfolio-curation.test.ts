@@ -1,4 +1,5 @@
 import rawProjects from "@/public/data/projects.json"
+import projectIndex from "@/public/data/project-index.json"
 import {
   GAME_INTERACTIVE_PROJECT_IDS,
   HOMEPAGE_FEATURED_PROJECT_IDS,
@@ -22,6 +23,14 @@ describe("public portfolio curation", () => {
     expect(PROJECTS.map((project) => project.id)).toEqual(PUBLIC_PROJECT_ORDER)
     expect(new Set(PUBLIC_PROJECT_ORDER).size).toBe(PUBLIC_PROJECT_ORDER.length)
     expect(validatePublicProjectCuration(Object.keys(rawProjects))).toEqual([])
+  })
+
+  it("keeps the client project index synchronized with canonical card fields", () => {
+    expect(Object.keys(projectIndex)).toEqual(Object.keys(rawProjects))
+    for (const id of Object.keys(rawProjects) as Array<keyof typeof rawProjects>) {
+      const { title, category, description, image, technologies } = rawProjects[id]
+      expect(projectIndex[id]).toEqual({ title, category, description, image, technologies })
+    }
   })
 
   it("uses the approved homepage and immersive selections", () => {

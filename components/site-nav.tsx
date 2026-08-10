@@ -25,7 +25,7 @@ export function SiteNav() {
       <header className="signal-nav h-[4.5rem] border-b border-white/10 bg-black/85 backdrop-blur-md">
         <div className="site-shell h-full">
           <nav aria-label="Main navigation" className="grid h-full grid-cols-[1fr_auto] items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
-            <Link href="/" className="group flex w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+            <Link href="/" prefetch={false} className="group flex w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
               <span className="tracking-[0.08em] transition-colors group-hover:text-primary">MIKE_CHAVES</span>
               <span className="hidden items-center gap-1.5 text-[0.58rem] font-medium uppercase tracking-[0.16em] text-primary sm:flex">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
@@ -35,6 +35,7 @@ export function SiteNav() {
 
             <Link
               href="/?metaverse=true"
+              prefetch={false}
               onClick={enterMetaverse}
               className="hidden min-h-9 items-center justify-center gap-2 border border-primary/45 px-7 text-xs font-semibold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:inline-flex"
             >
@@ -48,6 +49,7 @@ export function SiteNav() {
                   <li key={item.path}>
                     <Link
                       href={item.path}
+                      prefetch={false}
                       aria-current={isActive ? "page" : undefined}
                       className={`signal-nav-link relative py-2 text-[0.7rem] uppercase tracking-[0.14em] transition-colors hover:text-primary ${
                         isActive ? "text-primary" : "text-zinc-300"
@@ -83,6 +85,7 @@ export function SiteNav() {
             <li className="md:hidden">
               <Link
                 href="/?metaverse=true"
+                prefetch={false}
                 onClick={(event) => {
                   setIsMobileMenuOpen(false)
                   enterMetaverse(event)
@@ -98,6 +101,7 @@ export function SiteNav() {
                 <li key={item.path}>
                   <Link
                     href={item.path}
+                    prefetch={false}
                     aria-current={isActive ? "page" : undefined}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`block border-l-2 px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${

@@ -27,7 +27,10 @@ project detail media, navigation, or global styling.
 
 ## Homepage WebGL And Motion
 
-- The homepage WebGL canvas renders only as decorative content and remains `aria-hidden`.
+- At desktop width, the homepage WebGL canvas appears after idle time, remains decorative, and is
+  `aria-hidden`.
+- Mobile and reduced-motion visits retain the CSS signal treatment without downloading the WebGL
+  path.
 - The default homepage tab order does not include Metaverse-only controls.
 - `Enter Metaverse` remains the only path into Snow Crash-inspired theatrical effects.
 - Reduced-motion users do not get typing delays, hover glitch animation, pulsing badges, or card
@@ -37,12 +40,15 @@ project detail media, navigation, or global styling.
 ## Project Media
 
 - The primary project media appears once in the main viewer, not duplicated in the thumbnail rail.
-- Primary above-the-fold project media uses Next image priority.
+- Primary and supporting media load lazily with explicit dimensions; the dossier title, role,
+  summary, and next actions remain usable before media loads.
 - Supporting thumbnails keep stable aspect ratios on desktop and mobile.
 - Fullscreen media has visible label/caption context, not image-only chrome.
 - Arrow keys move through fullscreen media only while the modal is open and there is more than one
   artifact.
 - `Escape` and the close button dismiss fullscreen media.
+- The fullscreen lightbox code is absent from the initial route payload and loads on the first media
+  activation without losing keyboard/focus behavior.
 
 ## Contrast And Focus
 

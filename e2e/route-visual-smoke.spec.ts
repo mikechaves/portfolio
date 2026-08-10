@@ -50,7 +50,9 @@ async function expectNoHorizontalOverflow(page: Page) {
 
 async function openPreset(page: Page, presetId: string) {
   await page.goto(`/projects?focusPreset=${presetId}`, { waitUntil: "domcontentloaded" })
-  await expect(page.getByRole("heading", { level: 2, name: "Role Fit Brief" })).toBeVisible()
+  const heading = page.getByRole("heading", { level: 2, name: "Role Fit Brief", exact: true })
+  await expect(heading).toBeVisible()
+  await expect(heading).toBeFocused()
 }
 
 async function captureRoute(page: Page, testInfo: TestInfo, route: SmokeRoute) {
@@ -122,6 +124,19 @@ test("homepage features only the curated public proof", async ({ page }) => {
   ])
   await expect(featured).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
   await expectNoHorizontalOverflow(page)
+})
+
+test("project media loads the fullscreen viewer on first activation", async ({ page }) => {
+  await page.goto("/projects/x-games", { waitUntil: "domcontentloaded" })
+  const primaryMedia = page.getByRole("button", { name: /primary media fullscreen$/i }).first()
+
+  await expect(page.getByRole("dialog")).toHaveCount(0)
+  await primaryMedia.click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await expect(page.getByRole("button", { name: "Close image viewer" })).toBeFocused()
+
+  await page.keyboard.press("Escape")
+  await expect(page.getByRole("dialog")).toHaveCount(0)
 })
 
 test("public archive follows the canonical project order", async ({ page }) => {

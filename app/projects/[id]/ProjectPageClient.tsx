@@ -1,21 +1,23 @@
 "use client"
 
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { ArrowRight, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
-import { ImageModal } from "@/components/image-modal"
 import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
-import { DossierExitPath } from "./DossierExitPath"
-import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 import { getEvidenceDossierConfig } from "./dossierConfig"
 import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
 
+const ImageModal = dynamic(
+  () => import("@/components/image-modal").then((module) => module.ImageModal),
+  { ssr: false }
+)
+
 interface ProjectPageClientProps {
-  dossierExitPath: DossierExitPathData
   project: ProjectDetail
 }
 
@@ -62,8 +64,9 @@ function DetailItemCard({ item, marker }: { item: ProjectDetailItem; marker: str
   )
 }
 
-export default function ProjectPageClient({ dossierExitPath, project }: ProjectPageClientProps) {
+export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [hasOpenedMedia, setHasOpenedMedia] = useState(false)
   const dossierConfig = getEvidenceDossierConfig(project.id)
   const isEvidenceDossier = Boolean(dossierConfig)
   const projectLinks = useMemo(
@@ -113,6 +116,10 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
   const selectedMedia = selectedIndex !== null ? media[selectedIndex] : undefined
 
   const closeModal = useCallback(() => setSelectedIndex(null), [])
+  const openMedia = useCallback((index: number) => {
+    setHasOpenedMedia(true)
+    setSelectedIndex(index)
+  }, [])
 
   const handlePrev = useCallback(() => {
     setSelectedIndex((i) => {
@@ -145,7 +152,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
   const renderEvidence = (section: ProjectEvidenceSection, title: string) => {
     const sectionMedia = getSectionMedia(media, section)
     return sectionMedia.length > 0 ? (
-      <ProjectEvidenceStrip media={sectionMedia} onOpen={setSelectedIndex} title={title} />
+      <ProjectEvidenceStrip media={sectionMedia} onOpen={openMedia} title={title} />
     ) : null
   }
 
@@ -180,7 +187,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       )
 
   return (
-    <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
+    <>
       {!isEvidenceDossier && <h1 className="sr-only">{project.title || "Project Details"}</h1>}
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500">
         <Link href="/" className="transition-colors hover:text-primary">Home</Link>
@@ -237,7 +244,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
               <h2 id="primary-artifact-title">Primary artifact</h2>
               <span>01 / {String(media.length).padStart(2, "0")}</span>
             </div>
-            <ProjectMediaShowcase media={media} onOpen={setSelectedIndex} />
+            <ProjectMediaShowcase media={media} onOpen={openMedia} />
           </section>
         </>
       ) : (
@@ -280,7 +287,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
               </div>
               {projectActions}
             </div>
-            <ProjectMediaShowcase media={media} onOpen={setSelectedIndex} className="lg:order-1" />
+            <ProjectMediaShowcase media={media} onOpen={openMedia} className="lg:order-1" />
           </div>
         </>
       )}
@@ -374,21 +381,18 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       )}
         </div>
       </div>
-      <DossierExitPath
-        exitPath={dossierExitPath}
-        projectId={project.id}
-        projectTitle={project.title}
-      />
-      <ImageModal
-        open={selectedIndex !== null}
-        onOpenChange={(o) => !o && closeModal()}
-        src={selectedMedia?.src || ""}
-        alt={selectedMedia?.alt || project.title}
-        caption={selectedMedia?.caption}
-        onPrev={images.length > 1 ? handlePrev : undefined}
-        onNext={images.length > 1 ? handleNext : undefined}
-        title={selectedMedia?.label}
-      />
-    </div>
+      {hasOpenedMedia ? (
+        <ImageModal
+          open={selectedIndex !== null}
+          onOpenChange={(o) => !o && closeModal()}
+          src={selectedMedia?.src || ""}
+          alt={selectedMedia?.alt || project.title}
+          caption={selectedMedia?.caption}
+          onPrev={images.length > 1 ? handlePrev : undefined}
+          onNext={images.length > 1 ? handleNext : undefined}
+          title={selectedMedia?.label}
+        />
+      ) : null}
+    </>
   )
 }

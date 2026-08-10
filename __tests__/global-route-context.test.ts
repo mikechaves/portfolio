@@ -1,6 +1,5 @@
 import fs from "node:fs"
 import path from "node:path"
-import { getRouteTransitionState } from "../components/route-transition-state"
 import { isSiteNavItemActive, SITE_NAV_ITEMS } from "../components/site-nav-state"
 
 describe("global route context", () => {
@@ -26,22 +25,18 @@ describe("global route context", () => {
     ])
   })
 
-  it("removes movement and blur when reduced motion is requested", () => {
-    const reduced = getRouteTransitionState(true)
+  it("keeps the route transition lightweight and reduced-motion safe", () => {
+    const component = fs.readFileSync(
+      path.join(__dirname, "..", "components", "route-transition.tsx"),
+      "utf8"
+    )
+    const styles = fs.readFileSync(path.join(__dirname, "..", "app", "globals.css"), "utf8")
 
-    expect(reduced.initial).toBe(false)
-    expect(reduced.animate).toEqual({ opacity: 1 })
-    expect(reduced.exit).toEqual({ opacity: 1 })
-    expect(reduced.transition).toEqual({ duration: 0 })
-  })
-
-  it("preserves the existing signal transition otherwise", () => {
-    const standard = getRouteTransitionState(false)
-
-    expect(standard.initial).toEqual({ opacity: 0, y: 10, filter: "blur(6px)" })
-    expect(standard.animate).toEqual({ opacity: 1, y: 0, filter: "blur(0px)" })
-    expect(standard.exit).toEqual({ opacity: 0, y: -8, filter: "blur(4px)" })
-    expect(standard.transition.duration).toBe(0.28)
+    expect(component).not.toContain("framer-motion")
+    expect(component).toContain('routeChanged ? "route-transition-enter" : undefined')
+    expect(styles).toContain("@keyframes route-signal-enter")
+    expect(styles).toContain(".route-transition-enter")
+    expect(styles).toContain("@media (prefers-reduced-motion: reduce)")
   })
 
   it("publishes active-route and mobile-menu semantics", () => {

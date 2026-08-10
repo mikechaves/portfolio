@@ -1,4 +1,4 @@
-import rawProjects from "@/public/data/projects.json"
+import rawProjects from "@/public/data/project-index.json"
 import {
   PUBLIC_PROJECT_ORDER,
   validatePublicProjectCuration,

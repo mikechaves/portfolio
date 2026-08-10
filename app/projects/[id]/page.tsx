@@ -4,7 +4,9 @@ import { JsonLd } from "@/components/json-ld"
 import { getProjectDetail, PROJECT_DETAIL_IDS } from "@/data/project-details"
 import { createPageMetadata } from "@/lib/seo/site"
 import { getProjectStructuredData } from "@/lib/seo/structured-data"
+import { DossierExitPath } from "./DossierExitPath"
 import ProjectPageClient from "./ProjectPageClient"
+import { getEvidenceDossierConfig } from "./dossierConfig"
 import { getDossierExitPath } from "./dossierExitPathData"
 import { RETIRED_PROJECT_REDIRECTS } from "./retiredProjectRedirects"
 
@@ -49,11 +51,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const project = getProjectDetail(id)
   if (!project) notFound()
+  const dossierExitPath = getDossierExitPath(id)
+  const isEvidenceDossier = Boolean(getEvidenceDossierConfig(id))
 
   return (
     <>
       <JsonLd id="project-structured-data" data={getProjectStructuredData(project)} />
-      <ProjectPageClient dossierExitPath={getDossierExitPath(id)} project={project} />
+      <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
+        <ProjectPageClient project={project} />
+        <DossierExitPath
+          exitPath={dossierExitPath}
+          projectId={project.id}
+          projectTitle={project.title}
+        />
+      </div>
     </>
   )
 }

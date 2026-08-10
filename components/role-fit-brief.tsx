@@ -1,6 +1,6 @@
 "use client"
 
-import type { RefObject } from "react"
+import { useEffect, type RefObject } from "react"
 import Link from "next/link"
 import { ExternalLink, Pencil, RotateCcw, X } from "lucide-react"
 import { ProjectCard } from "@/components/project-card"
@@ -134,6 +134,10 @@ export function RoleFitBrief({
   onReset,
 }: RoleFitBriefProps) {
   const interpretation = brief.interpretation
+
+  useEffect(() => {
+    headingRef.current?.focus()
+  }, [headingRef])
 
   return (
     <section className="space-y-8 border-y border-primary/30 py-7" aria-labelledby="role-fit-brief-heading">

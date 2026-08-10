@@ -59,8 +59,22 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        mono: ["var(--font-mono)", "monospace"],
-        display: ["var(--font-display)", "Arial Narrow", "sans-serif"],
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "monospace",
+        ],
+        display: [
+          "Arial Narrow",
+          "Avenir Next Condensed",
+          "Roboto Condensed",
+          "ui-sans-serif",
+          "sans-serif",
+        ],
       },
       keyframes: {
         "accordion-down": {

@@ -1,0 +1,154 @@
+{
+  "wizzo": {
+    "title": "Wizzo",
+    "category": "web",
+    "description": "Designed and built an AI mentor product system that turns chat, connected work context, goals, and follow-up into actionable quests.",
+    "image": "/projects/wizzo/app-interface.png",
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "OpenAI",
+      "Google APIs",
+      "Postgres",
+      "Drizzle ORM",
+      "Neon",
+      "Vercel"
+    ]
+  },
+  "x-games": {
+    "title": "Playfold",
+    "category": "web",
+    "description": "Built and operate an AI-first social game platform that turns X posts into playable browser games, then supports discovery, tuning, replay, sharing, reporting, and ranked competition around the generated catalog.",
+    "image": "/projects/x-games/generated-game-detail.png",
+    "technologies": [
+      "AI Game Generation",
+      "Grok",
+      "Next.js",
+      "Vercel",
+      "Social Game UX",
+      "Leaderboards"
+    ]
+  },
+  "geovoice": {
+    "title": "GeoVoice",
+    "category": "web",
+    "description": "Designed a map-based stakeholder-feedback system that connects project layers, location-specific comments, participant context, and public-facing infrastructure review in one workflow.",
+    "image": "/projects/geovoice/geovoice-demo.png",
+    "technologies": [
+      "Geospatial Mapping",
+      "UX/UI Design",
+      "Data Visualization",
+      "Collaborative Tools"
+    ]
+  },
+  "speakeasy": {
+    "title": "SpeakEasy",
+    "category": "research",
+    "description": "Designed and built a Quest 3 voice-first accessibility prototype in Unity, using Meta Voice SDK, multimodal feedback, and three research-through-design iterations to reduce dependence on handheld XR controllers.",
+    "image": "/projects/speakeasy/thesis-defense.jpg",
+    "technologies": [
+      "Voice-Driven AI",
+      "XR Accessibility",
+      "Inclusive Design"
+    ]
+  },
+  "petition-ready": {
+    "title": "PetitionReady",
+    "category": "development",
+    "description": "Built an AI-assisted bankruptcy intake readiness console for paralegals, focused on case blockers, document gaps, readiness scoring, client follow-up, and attorney-review packet preparation without crossing into legal advice.",
+    "image": "/projects/petition-ready/main-image.png",
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "OpenAI Responses API",
+      "Zod",
+      "Vitest",
+      "Legal Ops UX"
+    ]
+  },
+  "creative-supply-engine": {
+    "title": "Creative Supply Engine",
+    "category": "development",
+    "description": "Built a Python creative automation pipeline that turns structured campaign briefs and reusable product assets into localized AI-assisted social creatives across 1:1, 9:16, and 16:9 formats, with deterministic logo/text overlays, compliance checks, run logs, and review galleries.",
+    "image": "/projects/creative-supply-engine/main-image.jpg",
+    "technologies": [
+      "Python",
+      "Pillow",
+      "PyYAML",
+      "OpenAI Responses API",
+      "Creative Automation",
+      "Localization"
+    ]
+  },
+  "material-explorer": {
+    "title": "Material Explorer",
+    "category": "web",
+    "description": "Material Explorer is a production-minded interactive web app for creating, comparing, and sharing physically based 3D materials in real time. Built with React + Three.js/React Three Fiber, it now includes autosave/restore, A/B compare, texture workflows, draft history, and shareable presets for rapid iteration.",
+    "image": "/projects/material-explorer/main-image.png",
+    "technologies": [
+      "TypeScript",
+      "React 19",
+      "Three.js",
+      "React Three Fiber",
+      "Vite 7",
+      "Playwright"
+    ]
+  },
+  "vulnerability-visualizer": {
+    "title": "Vulnerability Visualizer",
+    "category": "web",
+    "description": "Built a React + TypeScript security-review dashboard that keeps a 236,656-record vulnerability dataset searchable, visualizes manual-versus-AI assessment patterns, and exposes source provenance, record detail, comparison, and export controls.",
+    "image": "/projects/vulnerability-visualizer/main-image.jpg",
+    "technologies": [
+      "React 18",
+      "TypeScript",
+      "Vite 5",
+      "React Query",
+      "Recharts",
+      "React Window"
+    ]
+  },
+  "sound-escape-vr": {
+    "title": "Sound Escape VR",
+    "category": "ar-vr",
+    "description": "Built a Unity VR music system that turns a four-channel, 16-step sequencer into an audio-reactive spatial performance, with persisted patterns, microphone sampling, eight-band FFT analysis, and Quest 3 interaction updates.",
+    "image": "/projects/soundescape/music-interface.png",
+    "technologies": [
+      "Unity 2022 LTS",
+      "C#",
+      "Meta Quest 3",
+      "Unity XR",
+      "Audio DSP",
+      "Koch Geometry"
+    ]
+  },
+  "portals": {
+    "title": "Portals",
+    "category": "ar-vr",
+    "description": "Led SnapAR development for a four-person Spectacles hackathon prototype that opens and routes cultural portals through VoiceML commands, supports explicit return phrases, and lets users resize portal objects with hand-tracked pinch input.",
+    "image": "/projects/portals/main-image.png",
+    "technologies": [
+      "Lens Studio",
+      "JavaScript",
+      "Snap Spectacles",
+      "VoiceML",
+      "Hand Tracking",
+      "Spatial Audio",
+      "Spectacles Interaction Kit"
+    ]
+  },
+  "die-ai": {
+    "title": "Die, AI!",
+    "category": "web",
+    "description": "Preserved a 2018 ActionScript game as a playable modern-browser artifact by keeping the original FLA, source, GreenSock dependency, and SWF intact while adding a static Ruffle wrapper, verified controls, fallback context, checksums, and archival documentation.",
+    "image": "/projects/die-ai/level-one.png",
+    "technologies": [
+      "ActionScript 3",
+      "Adobe Animate",
+      "Ruffle 0.2.0",
+      "WebAssembly",
+      "Static HTML",
+      "SHA-256"
+    ]
+  }
+}

@@ -4,6 +4,8 @@
 
 :root {
   --radius: 0.25rem;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-display: "Arial Narrow", "Avenir Next Condensed", "Roboto Condensed", ui-sans-serif, sans-serif;
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;
   --card: 0 0% 4%;
@@ -73,6 +75,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@keyframes route-signal-enter {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.route-transition-enter {
+  animation: route-signal-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition-enter {
+    animation: none;
   }
 }
 
@@ -1154,7 +1179,7 @@ textarea {
   background-color: #010405;
   background-image:
     linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.78) 28%, rgba(0, 0, 0, 0.18) 58%, rgba(0, 0, 0, 0.08) 100%),
-    url("/visuals/black-sun-signal-grid.png");
+    url("/visuals/black-sun-signal-grid.webp");
   background-position: center;
   background-size: cover;
 }
@@ -2219,9 +2244,12 @@ footer .container {
   .post-terminal-hero-scene {
     min-height: 34rem;
     background-image:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.88) 64%, #000000 100%),
-      url("/visuals/black-sun-signal-grid.png");
-    background-position: 68% center;
+      linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.78) 58%, #000000 100%),
+      radial-gradient(circle at 72% 22%, #010405 0 2.6rem, rgba(220, 255, 255, 0.92) 2.75rem, rgba(0, 255, 255, 0.16) 3.15rem, transparent 5.5rem),
+      radial-gradient(ellipse at 70% 58%, rgba(0, 255, 140, 0.42), rgba(0, 255, 255, 0.08) 18%, transparent 48%),
+      repeating-linear-gradient(104deg, transparent 0 2.9rem, rgba(0, 255, 255, 0.1) 3rem 3.05rem),
+      linear-gradient(180deg, #031015 0%, #020607 58%, #000000 100%);
+    background-position: center;
   }
 
   .post-terminal-status-strip {

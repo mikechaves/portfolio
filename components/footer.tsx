@@ -1,8 +1,7 @@
 import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 import { AnalyticsPreferencesButton } from "@/components/analytics-preferences-button"
+import { XIcon } from "@/components/x-icon"
 
 export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPreferencesEnabled?: boolean }) {
   return (
@@ -42,7 +41,7 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
               rel="noopener noreferrer"
             >
               <span className="w-5 h-5 flex items-center justify-center">
-                <FontAwesomeIcon icon={faXTwitter} className="w-4 h-4" />
+                <XIcon className="h-4 w-4" />
               </span>
               <span className="sr-only">X</span>
             </a>

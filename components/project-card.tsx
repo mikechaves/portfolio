@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
 import {
   trackPortfolioEvent,
   type ProjectEvidenceSource,
@@ -70,7 +69,7 @@ export function ProjectCard({
             <h3 className="text-sm font-bold uppercase tracking-[0.04em] text-white sm:text-base">
               {title}
             </h3>
-            <ArrowUpRight className="mt-0.5 shrink-0 text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" size={18} aria-hidden="true" />
+            <span className="mt-0.5 shrink-0 text-lg leading-none text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true">↗</span>
           </div>
           <p className="mb-3 line-clamp-3 flex-1 text-xs leading-5 text-zinc-400 sm:text-sm">
             {description}

@@ -34,10 +34,6 @@ const nextConfig = {
   },
   transpilePackages: [
     "lucide-react",
-    "@fortawesome/react-fontawesome",
-    "@fortawesome/free-brands-svg-icons",
-    "@fortawesome/free-solid-svg-icons",
-    "@fortawesome/fontawesome-svg-core",
     "three",
     "@react-three/fiber",
   ],

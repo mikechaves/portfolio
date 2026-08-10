@@ -1,27 +1,15 @@
-"use client"
-
-import { useEffect, useState, useTransition, type FormEvent } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
 import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { sendContactEmail } from "@/app/actions/contact"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
-import { FocusContextBadge } from "@/components/focus-context-badge"
+import { AboutContactForm } from "@/components/about-contact-form"
+import { FocusContextFromQuery } from "@/components/focus-context-from-query"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
+import { XIcon } from "@/components/x-icon"
 import { PROJECTS } from "@/data/projects"
 import { EVIDENCE_CATALOG } from "@/features/adaptive-focus/evidence/catalog"
 import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evidence/professional-experience"
-import { useToast } from "@/hooks/use-toast"
-import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
-import "@fortawesome/fontawesome-svg-core/styles.css"
-import { config } from "@fortawesome/fontawesome-svg-core"
-
-config.autoAddCss = false
 
 const operatingLoop = [
   {
@@ -143,60 +131,9 @@ const publicSignals = [
 ]
 
 export default function AboutPage() {
-  const [isPending, startTransition] = useTransition()
-  const [formStatus, setFormStatus] = useState<{
-    success: boolean | null
-    message: string | null
-  }>({ success: null, message: null })
-  const [focus, setFocus] = useState("")
-  const { toast } = useToast()
-
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search).get("focus")
-    if (query) setFocus(query)
-  }, [])
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setFormStatus({ success: null, message: null })
-
-    const form = event.currentTarget
-    const formData = new FormData(form)
-
-    startTransition(async () => {
-      try {
-        const response = await sendContactEmail(formData)
-        setFormStatus({ success: response.success, message: response.message })
-
-        if (response.success) {
-          trackPortfolioEvent("portfolio_contact_submitted", { source: "about_form" })
-          form.reset()
-          toast({ title: "Message sent", description: response.message })
-        } else {
-          trackPortfolioEvent("portfolio_contact_failed", {
-            failure_type: response.failureType ?? "unexpected",
-            source: "about_form",
-          })
-          toast({
-            title: "Message not sent",
-            description: response.message || "Something went wrong. Please try again.",
-            variant: "destructive",
-          })
-        }
-      } catch (error) {
-        console.error("Form submission error:", error)
-        trackPortfolioEvent("portfolio_contact_failed", {
-          failure_type: "unexpected",
-          source: "about_form",
-        })
-        setFormStatus({ success: false, message: "An unexpected error occurred. Please try again." })
-      }
-    })
-  }
-
   return (
     <div className="about-operating-page space-y-8 pt-6">
-      {focus ? <FocusContextBadge focus={focus} /> : null}
+      <FocusContextFromQuery />
 
       <section className="operating-profile-hero" aria-labelledby="about-title">
         <div className="operating-profile-status" aria-hidden="true">
@@ -216,22 +153,18 @@ export default function AboutPage() {
               My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I am strongest in ambiguous environments that require both systems thinking and hands-on execution.
             </p>
             <div className="operating-profile-actions">
-              <Link href="/projects" className="operating-profile-primary-action">
+              <Link href="/projects" prefetch={false} className="operating-profile-primary-action">
                 Inspect project proof <ArrowRight size={15} aria-hidden="true" />
               </Link>
-              <a
+              <TrackedPortfolioLink
                 href="/Michael_Chaves_Resume_min.pdf"
                 download
-                onClick={() =>
-                  trackPortfolioEvent("portfolio_conversion_clicked", {
-                    destination: "resume",
-                    source: "about_hero",
-                  })
-                }
+                eventName="portfolio_conversion_clicked"
+                eventProperties={{ destination: "resume", source: "about_hero" }}
                 className="operating-profile-secondary-action"
               >
                 Download resume <Download size={15} aria-hidden="true" />
-              </a>
+              </TrackedPortfolioLink>
             </div>
           </div>
 
@@ -242,7 +175,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               sizes="(min-width: 900px) 38vw, 100vw"
-              priority
+              loading="lazy"
             />
             <figcaption>
               <span>Public practice / 2023-2025</span>
@@ -288,29 +221,37 @@ export default function AboutPage() {
         </div>
         <div className="profile-proof-grid">
           {proofPoints.map((proof) => (
-            <Link
-              key={proof.caseFile}
-              href={proof.href}
-              onClick={() => {
-                if (proof.projectId) {
-                  trackPortfolioEvent("project_evidence_opened", {
-                    project_id: proof.projectId,
-                    source: "about_proof",
-                    match_level: "unranked",
-                  })
-                  return
-                }
-              }}
-              className="profile-proof-record"
-            >
-              <div className="profile-proof-meta">
-                <span>{proof.caseFile}</span>
-                <span>{proof.label}</span>
-              </div>
-              <h3>{proof.title}</h3>
-              <p>{proof.description}</p>
-              <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
-            </Link>
+            proof.projectId ? (
+              <TrackedPortfolioLink
+                key={proof.caseFile}
+                href={proof.href}
+                eventName="project_evidence_opened"
+                eventProperties={{
+                  project_id: proof.projectId,
+                  source: "about_proof",
+                  match_level: "unranked",
+                }}
+                className="profile-proof-record"
+              >
+                <div className="profile-proof-meta">
+                  <span>{proof.caseFile}</span>
+                  <span>{proof.label}</span>
+                </div>
+                <h3>{proof.title}</h3>
+                <p>{proof.description}</p>
+                <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
+              </TrackedPortfolioLink>
+            ) : (
+              <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
+                <div className="profile-proof-meta">
+                  <span>{proof.caseFile}</span>
+                  <span>{proof.label}</span>
+                </div>
+                <h3>{proof.title}</h3>
+                <p>{proof.description}</p>
+                <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
+              </Link>
+            )
           ))}
         </div>
       </section>
@@ -391,52 +332,25 @@ export default function AboutPage() {
           <p>
             Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
           </p>
-          <a
+          <TrackedPortfolioLink
             href="/Michael_Chaves_Resume_min.pdf"
             download
-            onClick={() =>
-              trackPortfolioEvent("portfolio_conversion_clicked", {
-                destination: "resume",
-                source: "about_contact",
-              })
-            }
+            eventName="portfolio_conversion_clicked"
+            eventProperties={{ destination: "resume", source: "about_contact" }}
             className="operating-profile-secondary-action"
           >
             Download resume <Download size={15} aria-hidden="true" />
-          </a>
+          </TrackedPortfolioLink>
 
           <div className="profile-network-links" aria-label="Professional network links">
             <a href="https://github.com/mikechaves" target="_blank" rel="noopener noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a>
-            <a href="https://x.com/mikechaves_io" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} className="h-4 w-4" aria-hidden="true" /> X</a>
+            <a href="https://x.com/mikechaves_io" target="_blank" rel="noopener noreferrer"><XIcon className="h-4 w-4" /> X</a>
             <a href="https://www.linkedin.com/in/mikejchaves" target="_blank" rel="noopener noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a>
             <a href="mailto:founder@gowizzo.io"><Mail size={17} aria-hidden="true" /> Email</a>
           </div>
         </div>
 
-        <form className="profile-contact-form" onSubmit={handleSubmit}>
-          <div className="profile-contact-form-heading">
-            <span>DIRECT CHANNEL / EMAIL</span>
-            <strong>{isPending ? "SENDING" : "READY"}</strong>
-          </div>
-          <div>
-            <label htmlFor="name">Name</label>
-            <Input id="name" name="name" placeholder="Enter your name" required disabled={isPending} />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <Input id="email" name="email" type="email" placeholder="Enter your email" required disabled={isPending} />
-          </div>
-          <div>
-            <label htmlFor="message">Message</label>
-            <Textarea id="message" name="message" placeholder="What are you building or hiring for?" rows={5} required disabled={isPending} />
-          </div>
-          <Button type="submit" disabled={isPending}>{isPending ? "Sending..." : "Send Message"}</Button>
-          {formStatus.message ? (
-            <p className={formStatus.success ? "profile-form-success" : "profile-form-error"} role="status">
-              {formStatus.message}
-            </p>
-          ) : null}
-        </form>
+        <AboutContactForm />
       </section>
     </div>
   )
