@@ -13,7 +13,7 @@ evidence.
 | Baseline and route inventory | Complete | `SEO_BASELINE.md` and `ROUTE_INDEXABILITY_MAP.md` record repository, live-host, route, metadata, deployment, and measurement evidence. |
 | Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
 | Acquisition surfaces/internal linking | Complete | Every indexable route has an initial-HTML inbound link; all project and writing paths expose contextual next actions. |
-| GA4/Vercel measurement | Repository complete; account verification pending | Consent-gated GA4, production-only Vercel Analytics/Speed Insights, bounded event mapping, and a zero-transport debug audit are implemented. |
+| GA4/Vercel measurement | Repository complete; account verification pending | Consent-gated GA4, production-only Vercel Web Analytics, bounded event mapping, and a zero-transport debug audit are implemented. Speed Insights is intentionally disabled by owner direction. |
 | Page experience/CWV lab audit | Complete | All ten mobile/desktop Lighthouse checks pass the LCP, CLS, and TBT budgets; field INP remains deployment-dependent. |
 | Production deployment and owner dashboards | Owner action pending | `OWNER_ACTION_CHECKLIST.md` preserves exact release, Search Console, GA4, Vercel, and field-CWV steps. |
 
@@ -74,9 +74,10 @@ This is the final repository-complete change inventory. Deployment/account state
 17. Added optional-consent GA4 with a validated environment measurement ID, manual deduplicated
     pathname pageviews, canonical query-free locations, stable page groups, advertising signals
     disabled, and Global Privacy Control/Do Not Track support.
-18. Preserved Vercel Web Analytics as a documented production-only aggregate cross-check and added
-    `@vercel/speed-insights`. Neither component nor Vercel custom-event transport runs locally, in
-    tests, or on Preview deployments.
+18. Preserved Vercel Web Analytics as a documented production-only aggregate cross-check. The
+    initially integrated Speed Insights component was removed by owner direction after a live trace
+    exposed its first-party vitals beacon. Vercel transport does not run locally, in tests, or on
+    Preview deployments.
 19. Mapped successful contact to GA4's recommended `generate_lead`, successful case sharing to
     `share`, project/article selections to `select_content`, and kept Adaptive Focus plus meaningful
     failure states as product-specific events.
@@ -287,8 +288,8 @@ https://www.mikechaves.io/
 | Project next actions | Uneven across templates | Breadcrumb, share, related evidence/writing, Role Fit, contact, and resume paths across all 11 cases |
 | GA4 conversion measurement | None | Repository-complete consent, pageview, funnel, recommended-event, privacy, and debug contract; production ID/account verification pending |
 | Vercel Web Analytics | SDK present but account API returned `Web Analytics not found` | Production-only SDK/custom events retained; dashboard enablement and production observation pending owner action |
-| Vercel Speed Insights integration | None | `@vercel/speed-insights` integrated for Vercel Production only; dashboard enablement and field data pending owner action/deployment |
-| Field CWV | Unavailable | Pending deployment/account evidence |
+| Vercel Speed Insights integration | None | Intentionally disabled; SDK component and dependency removed by owner direction |
+| Field CWV | Unavailable | Pending Search Console Core Web Vitals or another approved field source after sufficient traffic |
 | Representative mobile lab performance | Home LCP 13,435 ms/TBT 921 ms/2,333 kB; other template LCPs 3,135–3,606 ms | All five templates pass: LCP 2,087–2,483 ms, CLS 0, TBT 3–15 ms |
 | Representative desktop lab performance | Home score 88/LCP 2,367 ms/2,369 kB | All five templates pass: score 100, LCP 479–644 ms, CLS 0–0.002, TBT 0 ms |
 | Performance regression gate | None | `pnpm performance:audit`; ten Lighthouse reports plus a summary, enforced in CI |
@@ -356,8 +357,8 @@ The complete, ordered handoff is in `OWNER_ACTION_CHECKLIST.md`. In summary:
 3. Create or select the GA4 web data stream for `https://www.mikechaves.io`, set
    `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel Production only, and verify the sanitized funnel in
    DebugView/Realtime after deployment.
-4. Enable Vercel Web Analytics and Speed Insights for project `portfolio` if the account plan and
-   allocation permit, then confirm production observations.
+4. Confirm Vercel Web Analytics production observations. Keep Speed Insights disabled and use
+   Search Console Core Web Vitals or another approved field source instead.
 5. Optionally configure `http://mikechaves.io/*` to redirect directly to
    `https://www.mikechaves.io/*` at the domain/edge layer to remove the remaining two-hop HTTP apex
    chain.

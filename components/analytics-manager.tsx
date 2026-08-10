@@ -4,7 +4,6 @@ import Script from "next/script"
 import { usePathname } from "next/navigation"
 import { track as trackVercelEvent } from "@vercel/analytics"
 import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ShieldCheck } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import {
@@ -198,7 +197,6 @@ export function AnalyticsManager({
   return (
     <>
       {productionTransportEnabled ? <Analytics /> : null}
-      {productionTransportEnabled ? <SpeedInsights /> : null}
       {productionTransportEnabled && gaMeasurementId && consent === "granted" ? (
         <Script
           id="portfolio-ga4"
@@ -225,7 +223,7 @@ export function AnalyticsManager({
                 ) : null}
               </div>
               <p className="mt-2 text-xs leading-5 text-zinc-400">
-                Google Analytics helps measure which portfolio paths lead to useful evidence and contact. It loads only after permission and never receives role text, contact fields, article content, prompts, or private material. Cookieless Vercel traffic and performance telemetry remains production-only.
+                Google Analytics helps measure which portfolio paths lead to useful evidence and contact. It loads only after permission and never receives role text, contact fields, article content, prompts, or private material. Cookieless Vercel traffic analytics remains production-only.
               </p>
               {privacySignal ? (
                 <p className="mt-3 text-xs leading-5 text-zinc-300">

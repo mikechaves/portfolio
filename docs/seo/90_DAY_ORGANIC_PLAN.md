@@ -40,8 +40,8 @@ No traffic-growth percentage is forecast until Search Console and GA4 establish 
 - Verify consent acceptance, one sanitized `page_view` per route, Adaptive Focus start/completion,
   case-study share, meaningful failure, and successful contact `generate_lead` in DebugView and
   Realtime.
-- Enable Vercel Web Analytics and Speed Insights for the `portfolio` project if plan allocation
-  permits, then confirm production data rather than assuming the SDK is sufficient.
+- Confirm Vercel Web Analytics production data. Keep Speed Insights disabled per the 2026-08-10
+  owner decision and use Search Console Core Web Vitals or another approved field source instead.
 - Record the first Search Console, GA4, and field-CWV snapshots in the implementation report.
 
 ### High-intent landing pages and internal links

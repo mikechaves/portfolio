@@ -55,16 +55,17 @@ dashboard observation.
    contact content during QA.
 5. Mark only `adaptive_focus_completed` and `generate_lead` as GA4 key events initially.
 
-## 5. Enable Vercel measurement and collect field data
+## 5. Use Vercel Web Analytics and collect field data
 
-1. Enable Web Analytics and Speed Insights for Vercel project `portfolio` if the plan allocation
-   permits. The account API returned `404 Web Analytics not found` before this release, so component
-   presence alone is not confirmation.
-2. Confirm production observations in both dashboards; Preview and local traffic should remain
-   absent by design.
-3. After at least 28 days or sufficient real-user samples, record p75 LCP, INP, and CLS for the five
-   route groups in `PAGE_EXPERIENCE_AUDIT.md`. The production targets are LCP ≤ 2.5 s, INP ≤ 200 ms,
-   and CLS ≤ 0.1.
+1. Confirm Web Analytics for Vercel project `portfolio` from the authenticated production dashboard;
+   the account API may still return `404 Web Analytics not found` despite dashboard data.
+2. Do not enable Vercel Speed Insights. The owner opted out on 2026-08-10, and the SDK integration
+   was removed after a production trace exposed its first-party vitals beacon.
+3. Confirm production observations in Web Analytics; Preview and local traffic should remain absent
+   by design.
+4. After at least 28 days or sufficient real-user samples, record p75 LCP, INP, and CLS from Search
+   Console's Core Web Vitals report or another approved field source for the five route groups in
+   `PAGE_EXPERIENCE_AUDIT.md`. The production targets are LCP ≤ 2.5 s, INP ≤ 200 ms, and CLS ≤ 0.1.
 
 ## 6. Establish the acquisition baseline
 

@@ -13,7 +13,8 @@ both its standard mobile profile and desktop preset:
 
 TBT is the repeatable lab responsiveness proxy in this audit. Interaction to Next Paint (INP) is a
 field metric; the repository cannot prove an INP result. The production target remains INP at or
-below 200 ms and must be evaluated in Vercel Speed Insights after deployment and real traffic.
+below 200 ms and must be evaluated through Search Console Core Web Vitals or another approved field
+source after deployment and real traffic.
 
 ## Method
 
@@ -85,9 +86,10 @@ approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for project
 
 ## Field verification after deployment
 
-After the exact repository commit is deployed and Speed Insights is enabled, evaluate route groups
-for at least 28 days or until the dashboard has enough real-user samples. Record p75 LCP, INP, and
-CLS by mobile/desktop template. Do not describe a lab pass, a Lighthouse score, or an SDK import as
+After the exact repository commit is deployed, evaluate route groups through Search Console Core
+Web Vitals or another approved field source for at least 28 days or until there are enough real-user
+samples. Record p75 LCP, INP, and CLS by mobile/desktop template. Do not describe a lab pass or a
+Lighthouse score as
 a field-CWV pass.
 
 If field data misses a target, preserve this lab baseline and investigate the affected route,
