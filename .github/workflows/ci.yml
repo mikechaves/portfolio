@@ -52,6 +52,7 @@ jobs:
       - run: pnpm install
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm seo:audit
+      - run: pnpm analytics:audit
       - run: pnpm test:visual-smoke
       - name: Upload rendered route screenshots
         if: always()

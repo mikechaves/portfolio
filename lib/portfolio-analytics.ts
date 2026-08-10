@@ -1,5 +1,3 @@
-import { track } from "@vercel/analytics"
-
 export type AdaptiveFocusEntryPoint = "home" | "projects" | "handoff"
 export type AdaptiveFocusMode = "preset" | "custom"
 export type ProjectEvidenceSource =
@@ -18,6 +16,7 @@ export type PortfolioConversionSource =
   | "about_proof"
   | "dossier_exit"
 export type ProjectShareSource = "project_header"
+export type ContactFailureType = "configuration" | "validation" | "delivery" | "unexpected"
 
 export interface PortfolioAnalyticsEventMap {
   adaptive_focus_started: {
@@ -46,12 +45,20 @@ export interface PortfolioAnalyticsEventMap {
     project_id: string
     source: ProjectShareSource
   }
+  article_original_opened: {
+    article_id: string
+    source: "article_summary"
+  }
   portfolio_conversion_clicked: {
     destination: "role_fit" | "contact" | "resume"
     source: PortfolioConversionSource
     project_id?: string
   }
   portfolio_contact_submitted: {
+    source: "about_form"
+  }
+  portfolio_contact_failed: {
+    failure_type: ContactFailureType
     source: "about_form"
   }
 }
@@ -72,8 +79,10 @@ export const PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST = {
   adaptive_focus_failed: ["entry_point", "mode"],
   project_evidence_opened: ["project_id", "source", "match_level"],
   project_shared: ["method", "project_id", "source"],
+  article_original_opened: ["article_id", "source"],
   portfolio_conversion_clicked: ["destination", "source", "project_id"],
   portfolio_contact_submitted: ["source"],
+  portfolio_contact_failed: ["failure_type", "source"],
 } as const satisfies {
   [Name in PortfolioAnalyticsEventName]: readonly (keyof PortfolioAnalyticsEventMap[Name])[]
 }
@@ -99,8 +108,24 @@ export function trackPortfolioEvent<Name extends PortfolioAnalyticsEventName>(
   properties: PortfolioAnalyticsEventMap[Name]
 ): void {
   try {
-    track(name, buildPortfolioAnalyticsProperties(name, properties))
+    if (typeof window === "undefined") return
+
+    window.dispatchEvent(
+      new CustomEvent(PORTFOLIO_ANALYTICS_BROWSER_EVENT, {
+        detail: {
+          name,
+          properties: buildPortfolioAnalyticsProperties(name, properties),
+        } satisfies PortfolioAnalyticsBrowserEventDetail,
+      })
+    )
   } catch {
     // Analytics must never interrupt portfolio navigation or conversion flows.
   }
+}
+
+export const PORTFOLIO_ANALYTICS_BROWSER_EVENT = "portfolio:analytics-event"
+
+export interface PortfolioAnalyticsBrowserEventDetail {
+  name: PortfolioAnalyticsEventName
+  properties: Record<string, AllowedPropertyValue>
 }

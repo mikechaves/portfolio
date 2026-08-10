@@ -1,7 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, ExternalLink, MessageSquareText } from "lucide-react"
+import { ArrowLeft, ArrowRight, MessageSquareText } from "lucide-react"
 import { JsonLd } from "@/components/json-ld"
+import { TrackedArticleLink } from "@/components/tracked-article-link"
 import { getRelatedProjectsForArticle } from "@/lib/content-relationships"
 import { getArticleStructuredData } from "@/lib/seo/structured-data"
 import type { Post } from "@/types/post"
@@ -85,14 +86,7 @@ export function ArticleSummaryPage({ gradientClassName, post, summary }: Article
           Read the complete original on Medium, inspect the supporting portfolio evidence, or start a conversation about a related product problem.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <a
-            href={post.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center gap-2 bg-primary px-4 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            Read original article <ExternalLink size={14} aria-hidden="true" />
-          </a>
+          <TrackedArticleLink articleId={post.id} href={post.url} />
           <Link
             href="/projects"
             className="inline-flex min-h-10 items-center gap-2 border border-white/20 px-4 text-xs uppercase tracking-[0.1em] text-zinc-200 transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"

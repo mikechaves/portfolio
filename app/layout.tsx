@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { Barlow_Condensed, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Footer } from "@/components/footer"
+import { AnalyticsManager } from "@/components/analytics-manager"
 import { JsonLd } from "@/components/json-ld"
-import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "@/components/ui/toaster"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
@@ -33,6 +33,7 @@ import {
   SITE_URL,
 } from "@/lib/seo/site"
 import { getSiteStructuredData } from "@/lib/seo/structured-data"
+import { normalizeGa4MeasurementId } from "@/lib/analytics/config"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -50,6 +51,10 @@ const barlowCondensed = Barlow_Condensed({
 })
 
 const isVercelProduction = process.env.VERCEL_ENV === "production"
+const gaMeasurementId = normalizeGa4MeasurementId(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID)
+const analyticsDebugMode =
+  process.env.NEXT_PUBLIC_ANALYTICS_DEBUG === "1" && !isVercelProduction
+const analyticsPreferencesEnabled = analyticsDebugMode || Boolean(gaMeasurementId)
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -129,13 +134,18 @@ export default function RootLayout({
             <RouteTransition>{children}</RouteTransition>
           </AdaptiveFocusHandoffProvider>
         </main>
-        <Footer />
+        <Footer analyticsPreferencesEnabled={analyticsPreferencesEnabled} />
 
 
         <LabelsProvider>
           <Toaster />
         </LabelsProvider>
-        {isVercelProduction ? <Analytics /> : null}
+        <AnalyticsManager
+          canonicalOrigin={SITE_ORIGIN}
+          debugMode={analyticsDebugMode}
+          gaMeasurementId={gaMeasurementId}
+          productionTransportEnabled={isVercelProduction}
+        />
       </body>
     </html>
   );

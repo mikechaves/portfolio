@@ -8,6 +8,7 @@ export async function sendContactEmail(formData: FormData) {
       console.warn("Resend API key not configured. Contact form will not send emails.")
       return {
         success: false,
+        failureType: "configuration" as const,
         message: "Contact form is not configured. Please try again later or contact directly.",
       }
     }
@@ -20,6 +21,7 @@ export async function sendContactEmail(formData: FormData) {
     if (!name || !email || !message) {
       return {
         success: false,
+        failureType: "validation" as const,
         message: "Please fill in all fields",
       }
     }
@@ -28,6 +30,7 @@ export async function sendContactEmail(formData: FormData) {
     if (!emailRegex.test(email) || /[\r\n]/.test(email)) {
       return {
         success: false,
+        failureType: "validation" as const,
         message: "Please enter a valid email address",
       }
     }
@@ -78,6 +81,7 @@ export async function sendContactEmail(formData: FormData) {
       console.error("Resend API error:", error)
       return {
         success: false,
+        failureType: "delivery" as const,
         message: "Failed to send message. Please try again later.",
       }
     }
@@ -85,12 +89,14 @@ export async function sendContactEmail(formData: FormData) {
     console.log("Email sent successfully:", data)
     return {
       success: true,
+      failureType: null,
       message: "Message sent successfully! We'll get back to you soon.",
     }
   } catch (error) {
     console.error("Server action error:", error)
     return {
       success: false,
+      failureType: "unexpected" as const,
       message: "Failed to send message. Please try again later.",
     }
   }

@@ -2,7 +2,7 @@
 
 > Current execution queue for the portfolio site.
 
-_Current as of: 2026-07-12_
+_Current as of: 2026-08-09_
 
 ---
 
@@ -35,8 +35,9 @@ Rules:
   and can support Adaptive Focus without entering the public archive.
 - The production hiring-manager journey has been accepted at desktop and 390px mobile from homepage
   through Adaptive Focus, primary proof, related evidence, resume access, and contact.
-- Privacy-safe Vercel custom events now measure the Adaptive Focus-to-evidence-to-conversion funnel
-  without sending raw role text or contact-form contents.
+- The repository now defines consent-gated GA4 acquisition/conversion measurement plus
+  production-only Vercel Analytics and Speed Insights. Provider/account collection remains an
+  explicit post-deployment verification step; raw role text and contact contents are prohibited.
 - CI now captures desktop and 390px mobile smoke evidence for the homepage, project archive, and
   representative case studies, including a live project-filter interaction.
 

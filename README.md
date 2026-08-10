@@ -12,6 +12,8 @@ pnpm dev
 pnpm build
 pnpm lint
 pnpm test
+pnpm seo:audit
+pnpm analytics:audit
 ```
 
 The project uses ESLint with Next.js's strict configuration. Run `pnpm lint` to check for warnings in the codebase.
@@ -42,8 +44,15 @@ Copy `.env.example` to `.env.local` and configure only the services you use.
 - `RESEND_API_KEY` enables contact-form email delivery.
 - `NEXT_PUBLIC_SITE_URL` sets the canonical public origin and defaults to `https://www.mikechaves.io`; localhost and Vercel deployment URLs are rejected as canonical origins.
 - `GOOGLE_SITE_VERIFICATION` optionally renders a Search Console verification token through the Next.js Metadata API.
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID` enables consent-gated GA4 on Vercel Production only. Do not set it for local or Preview environments.
+- `NEXT_PUBLIC_ANALYTICS_DEBUG=1` enables the local in-memory analytics verifier without sending Google or Vercel requests. Never set it in Vercel Production.
 
 Without an OpenAI key, Adaptive Focus presets still run locally and custom requests fall back to the deterministic local parser. Without a Resend key, the contact form uses its existing mock behavior.
+
+GA4 is optional-consent only. Vercel Web Analytics and Speed Insights components are restricted to
+`VERCEL_ENV=production`; their account dashboards still need to be enabled in Vercel before field
+data exists. The complete event and privacy contract is documented in
+[`docs/analytics/PORTFOLIO_CONVERSION_ANALYTICS.md`](docs/analytics/PORTFOLIO_CONVERSION_ANALYTICS.md).
 
 ## Features
 

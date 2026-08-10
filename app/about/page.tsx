@@ -173,6 +173,10 @@ export default function AboutPage() {
           form.reset()
           toast({ title: "Message sent", description: response.message })
         } else {
+          trackPortfolioEvent("portfolio_contact_failed", {
+            failure_type: response.failureType ?? "unexpected",
+            source: "about_form",
+          })
           toast({
             title: "Message not sent",
             description: response.message || "Something went wrong. Please try again.",
@@ -181,6 +185,10 @@ export default function AboutPage() {
         }
       } catch (error) {
         console.error("Form submission error:", error)
+        trackPortfolioEvent("portfolio_contact_failed", {
+          failure_type: "unexpected",
+          source: "about_form",
+        })
         setFormStatus({ success: false, message: "An unexpected error occurred. Please try again." })
       }
     })

@@ -2,8 +2,9 @@ import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons"
+import { AnalyticsPreferencesButton } from "@/components/analytics-preferences-button"
 
-export function Footer() {
+export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPreferencesEnabled?: boolean }) {
   return (
     <footer className="relative z-10 border-t border-white/10 bg-black/90 py-4 backdrop-blur-sm">
       <div className="site-shell">
@@ -19,6 +20,7 @@ export function Footer() {
             >
               Archive
             </Link>
+            {analyticsPreferencesEnabled ? <AnalyticsPreferencesButton /> : null}
           </div>
           <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-700 lg:block">
             Built with human curiosity and machine leverage.

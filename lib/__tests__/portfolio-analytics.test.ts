@@ -1,4 +1,3 @@
-import { track } from "@vercel/analytics"
 import {
   buildPortfolioAnalyticsProperties,
   PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST,
@@ -6,15 +5,19 @@ import {
   type PortfolioAnalyticsEventMap,
 } from "@/lib/portfolio-analytics"
 
-jest.mock("@vercel/analytics", () => ({
-  track: jest.fn(),
-}))
-
-const mockedTrack = jest.mocked(track)
-
 describe("portfolio analytics", () => {
+  const dispatchEvent = jest.fn()
+
   beforeEach(() => {
-    mockedTrack.mockReset()
+    dispatchEvent.mockReset()
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: { dispatchEvent },
+    })
+  })
+
+  afterEach(() => {
+    Reflect.deleteProperty(globalThis, "window")
   })
 
   it("sends only the properties allowed for an event", () => {
@@ -41,18 +44,22 @@ describe("portfolio analytics", () => {
       primary_project_count: 3,
     })
 
-    expect(mockedTrack).toHaveBeenCalledWith("adaptive_focus_completed", {
-      entry_point: "projects",
-      mode: "custom",
-      analysis_source: "gpt",
-      clarification_needed: false,
-      requirement_count: 4,
-      primary_project_count: 3,
+    const event = dispatchEvent.mock.calls[0]?.[0] as CustomEvent
+    expect(event.detail).toEqual({
+      name: "adaptive_focus_completed",
+      properties: {
+        entry_point: "projects",
+        mode: "custom",
+        analysis_source: "gpt",
+        clarification_needed: false,
+        requirement_count: 4,
+        primary_project_count: 3,
+      },
     })
   })
 
   it("keeps analytics failures out of user workflows", () => {
-    mockedTrack.mockImplementationOnce(() => {
+    dispatchEvent.mockImplementationOnce(() => {
       throw new Error("analytics unavailable")
     })
 
@@ -72,10 +79,14 @@ describe("portfolio analytics", () => {
       source: "project_header",
     })
 
-    expect(mockedTrack).toHaveBeenCalledWith("project_shared", {
-      method: "clipboard",
-      project_id: "x-games",
-      source: "project_header",
+    const event = dispatchEvent.mock.calls[0]?.[0] as CustomEvent
+    expect(event.detail).toEqual({
+      name: "project_shared",
+      properties: {
+        method: "clipboard",
+        project_id: "x-games",
+        source: "project_header",
+      },
     })
   })
 

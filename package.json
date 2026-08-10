@@ -14,7 +14,8 @@
     "test:unit": "jest",
     "test:type": "tsc --noEmit",
     "test:visual-smoke": "playwright test --config=playwright.config.ts",
-    "seo:audit": "pnpm build && playwright test --config=playwright.seo.config.ts"
+    "seo:audit": "pnpm build && playwright test --config=playwright.seo.config.ts",
+    "analytics:audit": "NEXT_PUBLIC_ANALYTICS_DEBUG=1 pnpm build && playwright test --config=playwright.analytics.config.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "7.2.0",
@@ -26,6 +27,7 @@
     "@radix-ui/react-toast": "1.2.15",
     "@react-three/fiber": "9.5.0",
     "@vercel/analytics": "1.6.1",
+    "@vercel/speed-insights": "2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "12.34.0",

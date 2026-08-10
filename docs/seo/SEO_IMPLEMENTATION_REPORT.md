@@ -12,7 +12,7 @@ states are reported separately so a green build is not mistaken for live acquisi
 | Baseline and route inventory | Complete | `SEO_BASELINE.md` and `ROUTE_INDEXABILITY_MAP.md` record repository, live-host, route, metadata, deployment, and measurement evidence. |
 | Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
 | Acquisition surfaces/internal linking | Complete | Every indexable route has an initial-HTML inbound link; all project and writing paths expose contextual next actions. |
-| GA4/Vercel measurement | Pending | To be completed in checkpoint 4. |
+| GA4/Vercel measurement | Repository complete; account verification pending | Consent-gated GA4, production-only Vercel Analytics/Speed Insights, bounded event mapping, and a zero-transport debug audit are implemented. |
 | Page experience/CWV lab audit | Pending | To be completed in checkpoint 5. |
 | Production deployment and owner dashboards | Pending | Exact actions will remain listed even after repository completion. |
 
@@ -70,6 +70,23 @@ _This section will be updated after each checkpoint._
 16. Strengthened `pnpm seo:audit` so every sitemap URL except the root must receive a crawlable link
     from another indexable page. The audit also requires project/article breadcrumbs, project share,
     article evidence links, and original-article actions in initial HTML.
+17. Added optional-consent GA4 with a validated environment measurement ID, manual deduplicated
+    pathname pageviews, canonical query-free locations, stable page groups, advertising signals
+    disabled, and Global Privacy Control/Do Not Track support.
+18. Preserved Vercel Web Analytics as a documented production-only aggregate cross-check and added
+    `@vercel/speed-insights`. Neither component nor Vercel custom-event transport runs locally, in
+    tests, or on Preview deployments.
+19. Mapped successful contact to GA4's recommended `generate_lead`, successful case sharing to
+    `share`, project/article selections to `select_content`, and kept Adaptive Focus plus meaningful
+    failure states as product-specific events.
+20. Added a footer preferences control, consent revocation/cookie cleanup, a bounded original-article
+    event, and categorized contact failures without transmitting contact contents or provider error
+    text.
+21. Added `pnpm analytics:audit`, a local in-memory GA4-shaped debug buffer, CI coverage, and tests
+    that fail on any Google or Vercel provider request from the debug build.
+22. Replaced the older Vercel-only analytics decision with an explicit provider/environment/event
+    contract. Signup/waitlist completion is recorded as not applicable because that product flow
+    does not exist; the actual contact conversion is not relabeled as a signup.
 
 ## Evidence
 
@@ -151,6 +168,41 @@ Preserved failure evidence:
   The final visual evidence uses a clean production server at `localhost`; no configuration was
   added for a test-only origin warning.
 
+### Checkpoint 4 commands
+
+```text
+pnpm type-check
+pnpm lint
+pnpm test:unit --runInBand
+pnpm analytics:audit
+pnpm seo:audit
+pnpm test:visual-smoke
+pnpm check:links
+```
+
+Results:
+
+- type-check and lint passed;
+- 33 suites and 194 tests passed;
+- both analytics browser scenarios passed, covering allow, decline, persistence, preference
+  reopening, one pageview per pathname, Adaptive Focus start, sharing, and zero provider requests;
+- all four production SEO scenarios and all 34 intended desktop/mobile visual-smoke scenarios
+  passed after instrumentation;
+- the link/asset audit passed with 183 assets, 160 internal route references, 78 external/mailto
+  references, and all five required contact/social/resume links;
+- 1440-pixel desktop and 390-pixel mobile debug screenshots confirmed that consent choices remain
+  readable, dismissible, and consistent with the existing visual system without horizontal overflow;
+- a fresh Vercel Web Analytics query for project `portfolio`
+  (`prj_EF0vBdY7B8QOPhJM03gtO2ozDEuM`) still returned 404 `Web Analytics not found`, confirming that
+  dashboard/account enablement remains an owner action rather than a repository-complete claim.
+
+Preserved failure evidence:
+
+- The first general visual-smoke run discovered the new `e2e/analytics` specs under its broad
+  `e2e` test directory. That suite intentionally builds without analytics debug mode, so the two
+  consent-fixture checks failed and the run was stopped. The general config now ignores the isolated
+  analytics and SEO directories; each specialized contract runs through its own explicit command.
+
 ### Live routes tested before implementation
 
 ```text
@@ -191,8 +243,9 @@ https://www.mikechaves.io/
 | Crawlable inbound path | Article summaries were bypassed by outbound cards; five projects depended on a client-side “See More” interaction | All 19 non-root sitemap URLs receive an initial-HTML link from another indexable route |
 | Article-to-evidence path | None | Five substantive summaries each link to at least two contextual project cases and retain a labeled original-article action |
 | Project next actions | Uneven across templates | Breadcrumb, share, related evidence/writing, Role Fit, contact, and resume paths across all 11 cases |
-| GA4 conversion measurement | None | Pending |
-| Vercel Speed Insights integration | None | Pending |
+| GA4 conversion measurement | None | Repository-complete consent, pageview, funnel, recommended-event, privacy, and debug contract; production ID/account verification pending |
+| Vercel Web Analytics | SDK present but account API returned `Web Analytics not found` | Production-only SDK/custom events retained; dashboard enablement and production observation pending owner action |
+| Vercel Speed Insights integration | None | `@vercel/speed-insights` integrated for Vercel Production only; dashboard enablement and field data pending owner action/deployment |
 | Field CWV | Unavailable | Pending deployment/account evidence |
 
 ## Commands run
