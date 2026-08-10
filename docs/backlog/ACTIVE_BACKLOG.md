@@ -40,6 +40,8 @@ Rules:
   explicit post-deployment verification step; raw role text and contact contents are prohibited.
 - CI now captures desktop and 390px mobile smoke evidence for the homepage, project archive, and
   representative case studies, including a live project-filter interaction.
+- CI now enforces representative mobile/desktop LCP, CLS, and TBT lab budgets; field INP and Core
+  Web Vitals remain explicit post-deployment Speed Insights checks.
 
 ## Priority Legend
 

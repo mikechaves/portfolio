@@ -1,11 +1,12 @@
 # SEO Implementation Report
 
-_Work started: 2026-08-09_
+_Work started: 2026-08-09; repository implementation completed: 2026-08-09_
 
 ## Outcome status
 
-Implementation is in progress. Repository-complete, deployment-complete, and account-complete
-states are reported separately so a green build is not mistaken for live acquisition evidence.
+Repository implementation is complete on `mike/portfolio-organic-acquisition`. Deployment-complete
+and account-complete states remain separate so a green build is not mistaken for live acquisition
+evidence.
 
 | Layer | Status | Evidence |
 | --- | --- | --- |
@@ -13,8 +14,8 @@ states are reported separately so a green build is not mistaken for live acquisi
 | Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
 | Acquisition surfaces/internal linking | Complete | Every indexable route has an initial-HTML inbound link; all project and writing paths expose contextual next actions. |
 | GA4/Vercel measurement | Repository complete; account verification pending | Consent-gated GA4, production-only Vercel Analytics/Speed Insights, bounded event mapping, and a zero-transport debug audit are implemented. |
-| Page experience/CWV lab audit | Pending | To be completed in checkpoint 5. |
-| Production deployment and owner dashboards | Pending | Exact actions will remain listed even after repository completion. |
+| Page experience/CWV lab audit | Complete | All ten mobile/desktop Lighthouse checks pass the LCP, CLS, and TBT budgets; field INP remains deployment-dependent. |
+| Production deployment and owner dashboards | Owner action pending | `OWNER_ACTION_CHECKLIST.md` preserves exact release, Search Console, GA4, Vercel, and field-CWV steps. |
 
 ## Before findings
 
@@ -31,7 +32,7 @@ Full evidence and limitations are in `SEO_BASELINE.md`.
 
 ## Changes made
 
-_This section will be updated after each checkpoint._
+This is the final repository-complete change inventory. Deployment/account state remains separate.
 
 1. Created the five required SEO/acquisition documents and established an evidence-backed
    canonical-origin, route-indexability, demand, measurement, and growth contract.
@@ -87,6 +88,28 @@ _This section will be updated after each checkpoint._
 22. Replaced the older Vercel-only analytics decision with an explicit provider/environment/event
     contract. Signup/waitlist completion is recorded as not applicable because that product flow
     does not exist; the actual contact conversion is not relabeled as a signup.
+23. Replaced the 1.7 MB homepage signal-grid PNG with an 82 kB WebP on desktop and a transfer-free
+    CSS treatment on mobile. The original asset remains available as source evidence but is no
+    longer requested by the page.
+24. Preserved the server-rendered homepage while moving decorative Three.js/WebGL behind a
+    desktop-only idle boundary. Mobile and reduced-motion clients do not download that path.
+25. Replaced hosted font requests with system stacks, removed the Font Awesome runtime/stylesheet,
+    and kept the two X glyphs as a local inline SVG.
+26. Replaced the JavaScript-heavy route animation with a reduced-motion-safe CSS transition that
+    runs only on actual client-side pathname changes.
+27. Split About, Projects, dossier exit paths, the media lightbox, Role Fit details, and Adaptive
+    Focus execution along real interaction boundaries while keeping primary page meaning in initial
+    HTML.
+28. Added a compact public project index, plus synchronization coverage, so the archive does not
+    hydrate the full 63 kB evidence dataset.
+29. Disabled automatic prefetch on persistent and above-fold navigation where it caused unrelated
+    route chunks to enter the initial trace, and deferred below-the-fold/supporting media with
+    stable dimensions.
+30. Added `pnpm performance:audit`, Lighthouse 12.8.2, CI enforcement, ten JSON evidence outputs
+    retained as CI artifacts, and explicit LCP ≤ 2.5 s, CLS ≤ 0.1, and lab TBT ≤ 200 ms budgets.
+31. Added the before/after `PAGE_EXPERIENCE_AUDIT.md` and a separate
+    `OWNER_ACTION_CHECKLIST.md`, preserving the boundary between repository proof, release proof,
+    account enablement, and field evidence.
 
 ## Evidence
 
@@ -203,6 +226,25 @@ Preserved failure evidence:
   consent-fixture checks failed and the run was stopped. The general config now ignores the isolated
   analytics and SEO directories; each specialized contract runs through its own explicit command.
 
+### Checkpoint 5 command
+
+```text
+pnpm performance:audit
+```
+
+Results:
+
+- all ten Lighthouse 12.8.2 audits passed the checked budgets across Home, About, Projects, one
+  project dossier, and one article summary in standard mobile and desktop profiles;
+- mobile LCP is 2,087–2,483 ms, CLS is 0, and TBT is 3–15 ms;
+- desktop LCP is 479–644 ms, CLS is 0–0.002, and TBT is 0 ms;
+- the homepage improved from 13,435 to 2,483 ms mobile LCP and from 2,333 to 238 kB mobile transfer;
+- the production build now reports 129 kB first-load JavaScript for Home, 121 kB for About, 140 kB
+  for Projects, 131 kB for a project dossier, and 111 kB for an article summary.
+
+`PAGE_EXPERIENCE_AUDIT.md` contains the full before/after matrix and methodology. TBT is recorded as
+the repeatable lab responsiveness proxy; only post-deployment field data can establish INP.
+
 ### Live routes tested before implementation
 
 ```text
@@ -247,11 +289,50 @@ https://www.mikechaves.io/
 | Vercel Web Analytics | SDK present but account API returned `Web Analytics not found` | Production-only SDK/custom events retained; dashboard enablement and production observation pending owner action |
 | Vercel Speed Insights integration | None | `@vercel/speed-insights` integrated for Vercel Production only; dashboard enablement and field data pending owner action/deployment |
 | Field CWV | Unavailable | Pending deployment/account evidence |
+| Representative mobile lab performance | Home LCP 13,435 ms/TBT 921 ms/2,333 kB; other template LCPs 3,135–3,606 ms | All five templates pass: LCP 2,087–2,483 ms, CLS 0, TBT 3–15 ms |
+| Representative desktop lab performance | Home score 88/LCP 2,367 ms/2,369 kB | All five templates pass: score 100, LCP 479–644 ms, CLS 0–0.002, TBT 0 ms |
+| Performance regression gate | None | `pnpm performance:audit`; ten Lighthouse reports plus a summary, enforced in CI |
 
 ## Commands run
 
-See the checkpoint evidence above. Final validation commands and results will be appended rather
-than replacing failures or limitations.
+Final application validation on page-experience commit `756117e`; the remaining handoff and
+CI-artifact diff was checked separately:
+
+```text
+pnpm lint
+pnpm type-check
+pnpm test
+pnpm check:links
+pnpm check:links -- --check-external
+pnpm seo:audit
+pnpm analytics:audit
+pnpm performance:audit
+pnpm test:visual-smoke
+git diff --check
+```
+
+Results:
+
+- lint and explicit type checking passed;
+- all 33 Jest suites and 194 tests passed;
+- the link/asset audit passed with 194 local/public assets, 171 internal route references, 84
+  external/mailto references, and all five required contact/social/resume links;
+- optional live HTTP checking reached 36 of 42 unique external references successfully. The six
+  non-strict warnings are preserved: the not-yet-deployed production sitemap and robots routes
+  return 404, and four documentation-only `/*` route patterns are not literal URLs;
+- all four production-build SEO scenarios passed over the 20-URL sitemap contract;
+- both analytics scenarios passed with consent/funnel behavior and zero Google or Vercel provider
+  requests from the debug build;
+- all ten Lighthouse checks passed the LCP, CLS, and TBT budgets;
+- all 36 desktop/mobile visual and interaction checks passed, including the dynamically loaded
+  Role Fit result focus and first-activation media lightbox;
+- fresh Home and Projects screenshots at 1440-pixel desktop and 390-pixel mobile widths were
+  inspected for hierarchy, typography, fallback art, footer icons, and overflow.
+- the final handoff/CI diff passed the link/asset audit and `git diff --check`.
+
+The visual development server continues to emit the pre-existing optional
+`@react-email/render`/Prettier external-resolution warning. No scenario fails, the production builds
+complete, and this work did not hide or relabel the warning.
 
 ## Remaining risks
 
@@ -261,10 +342,12 @@ than replacing failures or limitations.
 - Existing public article pages summarize content whose canonical full articles live on Medium;
   their unique summaries must remain useful enough to justify self-canonical indexation.
 - The current HTTP apex redirect takes two hops before reaching the serving host.
+- Lighthouse is controlled lab evidence and can vary by environment. It does not establish field
+  LCP/CLS or INP, ranking improvement, traffic, or conversion lift.
 
 ## Exact manual owner actions
 
-_These are provisional and will be verified after deployment._
+The complete, ordered handoff is in `OWNER_ACTION_CHECKLIST.md`. In summary:
 
 1. Create or confirm a Google Search Console Domain property for `mikechaves.io` by adding the TXT
    record Google supplies at the DNS provider.
@@ -278,12 +361,27 @@ _These are provisional and will be verified after deployment._
 5. Optionally configure `http://mikechaves.io/*` to redirect directly to
    `https://www.mikechaves.io/*` at the domain/edge layer to remove the remaining two-hop HTTP apex
    chain.
+6. Push/review/merge the completed branch, deploy its exact reviewed SHA, and collect the first
+   Search Console, GA4, Web Analytics, and p75 field-CWV evidence without relabeling repository
+   checks as production proof.
+
+## Reviewable checkpoint history
+
+The active branch preserves separate commits for the baseline/demand contract, search foundation,
+acquisition paths, privacy-safe measurement, and page experience. This final handoff records the
+green cross-cutting validation matrix. No production deployment, provider account, DNS, or Search
+Console mutation is claimed by this report.
 
 ## Recommended next PRs
 
-1. Canonical/indexability foundation and automated regression protection.
-2. Acquisition-surface and internal-link strengthening based on the demand map.
-3. Privacy-safe GA4 plus Vercel performance measurement.
+No additional implementation PR is justified before the external owner actions produce evidence.
+After that:
 
-The active branch may combine these reviewable checkpoints into one final PR only after each slice
-has its own verification evidence.
+1. Open a production-verification evidence PR recording the exact deployed SHA, live canonical
+   crawl, Search Console sitemap/inspection status, and provider-dashboard observations. Change
+   application code only if the live evidence identifies a reproducible defect.
+2. After at least 30 days or 100 qualified visits, open a baseline-evidence PR with dated Search
+   Console query/page, GA4 funnel, and Vercel field-CWV observations; do not turn directional data
+   into traffic or hiring-outcome claims.
+3. Open a narrowly scoped field-performance correction PR only if p75 route-group evidence misses
+   LCP, INP, or CLS targets. Preserve the current lab baseline and the route/device diagnosis.

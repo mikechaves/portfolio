@@ -14,6 +14,7 @@ pnpm lint
 pnpm test
 pnpm seo:audit
 pnpm analytics:audit
+pnpm performance:audit
 ```
 
 The project uses ESLint with Next.js's strict configuration. Run `pnpm lint` to check for warnings in the codebase.
@@ -33,7 +34,10 @@ pnpm exec playwright install chromium
 pnpm test:visual-smoke
 ```
 
-The suite validates the homepage, project archive, representative evidence dossiers, and the project-category interaction. CI uploads the full-page screenshots as the `portfolio-visual-smoke` artifact for 14 days.
+The suite validates the homepage, project archive, representative evidence dossiers, project media
+lightbox, Adaptive Focus result focus, and project-category interaction. CI uploads the full-page
+screenshots as `portfolio-visual-smoke` and Lighthouse JSON reports as `portfolio-performance` for
+14 days.
 
 ### Environment Variables
 
@@ -53,6 +57,10 @@ GA4 is optional-consent only. Vercel Web Analytics and Speed Insights components
 `VERCEL_ENV=production`; their account dashboards still need to be enabled in Vercel before field
 data exists. The complete event and privacy contract is documented in
 [`docs/analytics/PORTFOLIO_CONVERSION_ANALYTICS.md`](docs/analytics/PORTFOLIO_CONVERSION_ANALYTICS.md).
+The technical SEO, page-experience evidence, and post-deployment account checklist are in
+[`docs/seo/SEO_IMPLEMENTATION_REPORT.md`](docs/seo/SEO_IMPLEMENTATION_REPORT.md),
+[`docs/seo/PAGE_EXPERIENCE_AUDIT.md`](docs/seo/PAGE_EXPERIENCE_AUDIT.md), and
+[`docs/seo/OWNER_ACTION_CHECKLIST.md`](docs/seo/OWNER_ACTION_CHECKLIST.md).
 
 ## Features
 

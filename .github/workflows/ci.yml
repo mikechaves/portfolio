@@ -55,6 +55,14 @@ jobs:
       - run: pnpm analytics:audit
       - run: pnpm performance:audit
       - run: pnpm test:visual-smoke
+      - name: Upload Lighthouse performance reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-performance
+          path: test-results/performance/
+          if-no-files-found: warn
+          retention-days: 14
       - name: Upload rendered route screenshots
         if: always()
         uses: actions/upload-artifact@v4

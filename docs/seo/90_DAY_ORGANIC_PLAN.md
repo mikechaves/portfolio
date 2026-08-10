@@ -2,6 +2,10 @@
 
 _Plan start: first production deployment containing the SEO acquisition system_
 
+Use `OWNER_ACTION_CHECKLIST.md` for the ordered release/account handoff and
+`PAGE_EXPERIENCE_AUDIT.md` for the repository lab baseline. Day 0 begins only after the exact
+reviewed commit is deployed to the public canonical host.
+
 ## KPI sequence
 
 Evaluate progress in this order. A downstream metric is not healthy if the upstream coverage is

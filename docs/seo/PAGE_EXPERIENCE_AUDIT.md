@@ -32,32 +32,32 @@ pnpm performance:audit
 ```
 
 The reports are intentionally untracked test artifacts. CI runs the same command and uploads the
-`test-results` evidence with the other browser checks.
+JSON reports and summary as the `portfolio-performance` artifact for 14 days.
 
 ## Mobile results
 
 | Template | Route | Performance | LCP before → after | CLS before → after | TBT before → after | Transfer before → after |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Home | `/` | 54 → 98 | 13,435 → 2,462 ms | 0 → 0 | 921 → 4 ms | 2,333 → 238 kB |
-| Operator/contact | `/about` | 90 → 98 | 3,606 → 2,310 ms | 0 → 0 | 16 → 7 ms | 432 → 272 kB |
-| Project hub | `/projects` | 94 → 98 | 3,135 → 2,384 ms | 0 → 0 | 3 → 4 ms | 415 → 227 kB |
+| Home | `/` | 54 → 98 | 13,435 → 2,483 ms | 0 → 0 | 921 → 15 ms | 2,333 → 238 kB |
+| Operator/contact | `/about` | 90 → 98 | 3,606 → 2,312 ms | 0 → 0 | 16 → 8 ms | 432 → 271 kB |
+| Project hub | `/projects` | 94 → 98 | 3,135 → 2,383 ms | 0 → 0 | 3 → 3 ms | 415 → 227 kB |
 | Project dossier | `/projects/x-games` | 93 → 98 | 3,204 → 2,309 ms | 0 → 0 | 5 → 3 ms | 450 → 290 kB |
-| Article summary | `/blog/voice-first-xr` | 92 → 99 | 3,307 → 2,084 ms | 0 → 0 | 0 → 3 ms | 358 → 204 kB |
+| Article summary | `/blog/voice-first-xr` | 92 → 99 | 3,307 → 2,087 ms | 0 → 0 | 0 → 4 ms | 358 → 204 kB |
 
 The homepage mobile transfer fell about 90%, and its LCP fell about 82%. The final mobile range is
-2,084–2,462 ms LCP, 0 CLS, and 3–7 ms TBT.
+2,087–2,483 ms LCP, 0 CLS, and 3–15 ms TBT.
 
 ## Desktop results
 
 | Template | Route | Performance | LCP before → after | CLS before → after | TBT before → after | Transfer before → after |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Home | `/` | 88 → 100 | 2,367 → 624 ms | 0 → 0 | 0 → 0 ms | 2,369 → 552 kB |
-| Operator/contact | `/about` | 100 → 100 | 688 → 539 ms | 0 → 0 | 0 → 0 ms | 520 → 383 kB |
+| Home | `/` | 88 → 100 | 2,367 → 644 ms | 0 → 0 | 0 → 0 ms | 2,369 → 552 kB |
+| Operator/contact | `/about` | 100 → 100 | 688 → 538 ms | 0 → 0 | 0 → 0 ms | 520 → 383 kB |
 | Project hub | `/projects` | 100 → 100 | 652 → 518 ms | 0 → 0 | 0 → 0 ms | 588 → 390 kB |
 | Project dossier | `/projects/x-games` | 100 → 100 | 676 → 587 ms | 0 → 0.002 | 0 → 0 ms | 504 → 309 kB |
-| Article summary | `/blog/voice-first-xr` | 100 → 100 | 647 → 476 ms | 0 → 0 | 0 → 0 ms | 411 → 206 kB |
+| Article summary | `/blog/voice-first-xr` | 100 → 100 | 647 → 479 ms | 0 → 0 | 0 → 0 ms | 411 → 206 kB |
 
-The final desktop range is 476–624 ms LCP, 0–0.002 CLS, and 0 ms TBT.
+The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
 
 ## Implemented corrections
 
