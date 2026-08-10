@@ -17,6 +17,7 @@ export type PortfolioConversionSource =
   | "about_contact"
   | "about_proof"
   | "dossier_exit"
+export type ProjectShareSource = "project_header"
 
 export interface PortfolioAnalyticsEventMap {
   adaptive_focus_started: {
@@ -39,6 +40,11 @@ export interface PortfolioAnalyticsEventMap {
     project_id: string
     source: ProjectEvidenceSource
     match_level: ProjectMatchLevel
+  }
+  project_shared: {
+    method: "native" | "clipboard"
+    project_id: string
+    source: ProjectShareSource
   }
   portfolio_conversion_clicked: {
     destination: "role_fit" | "contact" | "resume"
@@ -65,6 +71,7 @@ export const PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST = {
   ],
   adaptive_focus_failed: ["entry_point", "mode"],
   project_evidence_opened: ["project_id", "source", "match_level"],
+  project_shared: ["method", "project_id", "source"],
   portfolio_conversion_clicked: ["destination", "source", "project_id"],
   portfolio_contact_submitted: ["source"],
 } as const satisfies {

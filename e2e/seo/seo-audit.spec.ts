@@ -132,6 +132,7 @@ test("initial HTML, metadata, sitemap, structured data, and links form one canon
   const descriptions = new Set<string>()
   const canonicals = new Set<string>()
   const internalLinks = new Set<string>()
+  const inboundRoutes = new Map<string, Set<string>>()
   const socialImages = new Set<string>()
 
   for (const route of indexableRoutes) {
@@ -174,9 +175,16 @@ test("initial HTML, metadata, sitemap, structured data, and links form one canon
     if (route.startsWith("/projects/")) {
       expect(types.has("CreativeWork")).toBe(true)
       expect(types.has("BreadcrumbList")).toBe(true)
+      expect(html).toContain('aria-label="Breadcrumb"')
+      expect(bodyText).toContain("Share case study")
     }
     if (route === "/blog") expect(types.has("CollectionPage")).toBe(true)
-    if (route.startsWith("/blog/")) expect(types.has("Article")).toBe(true)
+    if (route.startsWith("/blog/")) {
+      expect(types.has("Article")).toBe(true)
+      expect(html).toContain('aria-label="Breadcrumb"')
+      expect(bodyText).toContain("Read original article")
+      expect(bodyText).toContain("Related project case studies")
+    }
 
     expect(titles.has(routeTitle), `${routeTitle} is duplicated`).toBe(false)
     expect(descriptions.has(description), `${description} is duplicated`).toBe(false)
@@ -185,12 +193,27 @@ test("initial HTML, metadata, sitemap, structured data, and links form one canon
     descriptions.add(description)
     canonicals.add(routeCanonical)
     socialImages.add(meta(html, "property", "og:image"))
-    for (const href of internalAnchors(html)) internalLinks.add(href)
+    for (const href of internalAnchors(html)) {
+      internalLinks.add(href)
+      const target = new URL(href, CANONICAL_ORIGIN).pathname.replace(/\/$/u, "") || "/"
+      if (indexableRoutes.includes(target) && target !== route) {
+        const inbound = inboundRoutes.get(target) ?? new Set<string>()
+        inbound.add(route)
+        inboundRoutes.set(target, inbound)
+      }
+    }
 
     const imagesWithoutAlt = [...html.matchAll(/<img\b[^>]*>/giu)]
       .map((match) => match[0])
       .filter((tag) => !/\balt=["'][^"']*["']/iu.test(tag))
     expect(imagesWithoutAlt, `${route} has images without alt attributes`).toEqual([])
+  }
+
+  for (const route of indexableRoutes.filter((candidate) => candidate !== "/")) {
+    expect(
+      inboundRoutes.get(route)?.size ?? 0,
+      `${route} needs a crawlable link from another indexable page`
+    ).toBeGreaterThan(0)
   }
 
   for (const href of internalLinks) await expectHealthyInternalLink(request, href)

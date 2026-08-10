@@ -65,6 +65,20 @@ describe("portfolio analytics", () => {
     ).not.toThrow()
   })
 
+  it("tracks only a bounded project share result", () => {
+    trackPortfolioEvent("project_shared", {
+      method: "clipboard",
+      project_id: "x-games",
+      source: "project_header",
+    })
+
+    expect(mockedTrack).toHaveBeenCalledWith("project_shared", {
+      method: "clipboard",
+      project_id: "x-games",
+      source: "project_header",
+    })
+  })
+
   it("does not allow raw visitor-data fields in any event contract", () => {
     const forbiddenProperty = /input|query|text|description|message|email|company|role_title/i
     const propertyNames = Object.values(PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST).flat()

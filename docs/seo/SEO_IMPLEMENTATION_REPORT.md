@@ -11,7 +11,7 @@ states are reported separately so a green build is not mistaken for live acquisi
 | --- | --- | --- |
 | Baseline and route inventory | Complete | `SEO_BASELINE.md` and `ROUTE_INDEXABILITY_MAP.md` record repository, live-host, route, metadata, deployment, and measurement evidence. |
 | Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
-| Acquisition surfaces/internal linking | Pending | To be completed in checkpoint 3. |
+| Acquisition surfaces/internal linking | Complete | Every indexable route has an initial-HTML inbound link; all project and writing paths expose contextual next actions. |
 | GA4/Vercel measurement | Pending | To be completed in checkpoint 4. |
 | Page experience/CWV lab audit | Pending | To be completed in checkpoint 5. |
 | Production deployment and owner dashboards | Pending | Exact actions will remain listed even after repository completion. |
@@ -56,6 +56,20 @@ _This section will be updated after each checkpoint._
    image responses. The production-like browser had correctly exposed Next Image 400 responses.
 10. Isolated the portfolio visual suite on port 3199 with server reuse disabled after the first
     run attached to an unrelated Playfold server already using port 3100.
+11. Added a problem-based project directory that gives all eleven curated cases a useful,
+    initial-HTML entrance even when the interactive archive initially displays six cards.
+12. Changed blog cards from outbound-only Medium links to on-site summaries, expanded all five
+    summaries into substantive resources, and linked each one to at least two directly relevant
+    project cases plus the original article.
+13. Added visible breadcrumbs to articles and project dossiers, bidirectional relationships between
+    writing and evidence, and clear project-hub/contact continuations.
+14. Added a canonical case-study share action with native-share and clipboard paths. Only a bounded
+    success event is emitted; cancellations and unavailable browser APIs do not interrupt reading.
+15. Extended every project exit path to include related evidence, relevant writing where available,
+    Adaptive Focus, contact, and resume actions.
+16. Strengthened `pnpm seo:audit` so every sitemap URL except the root must receive a crawlable link
+    from another indexable page. The audit also requires project/article breadcrumbs, project share,
+    article evidence links, and original-article actions in initial HTML.
 
 ## Evidence
 
@@ -105,6 +119,38 @@ Preserved failure evidence:
   produced 32 cross-project failures. The process was left untouched; the portfolio suite now uses
   a dedicated port and refuses reuse, after which all 34 checks passed.
 
+### Checkpoint 3 commands
+
+```text
+pnpm type-check
+pnpm lint
+pnpm test:unit --runInBand
+pnpm seo:audit
+pnpm test:visual-smoke
+pnpm check:links
+pnpm build
+```
+
+Results:
+
+- type-check and lint passed;
+- 31 suites and 188 tests passed, including relationship integrity and bounded share analytics;
+- all four production-build SEO scenarios passed, including the full 20-route inbound-link graph;
+- all 34 desktop/mobile visual-smoke scenarios passed;
+- the link/asset audit passed with 183 assets, 151 internal route references, 77 external/mailto
+  references, and all five required contact/social/resume links;
+- fresh production screenshots of `/projects` at 1440 pixels and `/blog/voice-first-xr` at 390
+  pixels confirmed readable hierarchy, no overflow, contextual paths, and preserved visual identity.
+
+Preserved failure evidence:
+
+- A screenshot attempt started `next start` after the visual suite had generated Turbopack dev
+  artifacts in `.next`; Next reported mixed Webpack/Turbopack bindings. A fresh production build
+  restored the correct artifact boundary, and the clean production screenshot pass succeeded.
+- The first dev screenshot used `127.0.0.1` and exposed Next's future `allowedDevOrigins` warning.
+  The final visual evidence uses a clean production server at `localhost`; no configuration was
+  added for a test-only origin warning.
+
 ### Live routes tested before implementation
 
 ```text
@@ -142,6 +188,9 @@ https://www.mikechaves.io/
 | Valid JSON-LD | 0/20 | 20/20 parse; each added type has required-field assertions |
 | Unknown project | 307 → 200 error | 404 with a useful recovery page |
 | Automated SEO audit | None | `pnpm seo:audit`; four production-build browser scenarios plus CI gate |
+| Crawlable inbound path | Article summaries were bypassed by outbound cards; five projects depended on a client-side “See More” interaction | All 19 non-root sitemap URLs receive an initial-HTML link from another indexable route |
+| Article-to-evidence path | None | Five substantive summaries each link to at least two contextual project cases and retain a labeled original-article action |
+| Project next actions | Uneven across templates | Breadcrumb, share, related evidence/writing, Role Fit, contact, and resume paths across all 11 cases |
 | GA4 conversion measurement | None | Pending |
 | Vercel Speed Insights integration | None | Pending |
 | Field CWV | Unavailable | Pending deployment/account evidence |

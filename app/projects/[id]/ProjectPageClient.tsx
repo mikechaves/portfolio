@@ -1,10 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"
+import { ArrowRight, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
 import { ImageModal } from "@/components/image-modal"
+import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
 import { DossierExitPath } from "./DossierExitPath"
 import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
@@ -166,15 +167,28 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
           {link.label}
         </a>
       ))}
+      <ShareProjectButton projectId={project.id} title={project.title} />
     </div>
   )
+
+  const projectActions = projectLinks.length > 0
+    ? projectLinkActions
+    : (
+        <div className="flex flex-wrap gap-3">
+          <ShareProjectButton projectId={project.id} title={project.title} />
+        </div>
+      )
 
   return (
     <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
       {!isEvidenceDossier && <h1 className="sr-only">{project.title || "Project Details"}</h1>}
-      <Link href="/projects" className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary transition-colors hover:text-white">
-        <ArrowLeft size={16} /> Back to systems
-      </Link>
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500">
+        <Link href="/" className="transition-colors hover:text-primary">Home</Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/projects" className="transition-colors hover:text-primary">Projects</Link>
+        <span aria-hidden="true">/</span>
+        <span className="text-zinc-300" aria-current="page">{project.title}</span>
+      </nav>
 
       {isEvidenceDossier ? (
         <>
@@ -190,7 +204,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
                 <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
                 <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
                 <p className="evidence-dossier-summary">{project.description}</p>
-                <div className="mt-6">{projectLinkActions}</div>
+                <div className="mt-6">{projectActions}</div>
               </div>
 
               <dl className="evidence-dossier-ledger">
@@ -264,7 +278,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
                   Revisit operating model <ArrowRight size={14} />
                 </Link>
               </div>
-              {projectLinkActions}
+              {projectActions}
             </div>
             <ProjectMediaShowcase media={media} onOpen={setSelectedIndex} className="lg:order-1" />
           </div>
@@ -360,13 +374,11 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       )}
         </div>
       </div>
-      {isEvidenceDossier && (
-        <DossierExitPath
-          exitPath={dossierExitPath}
-          projectId={project.id}
-          projectTitle={project.title}
-        />
-      )}
+      <DossierExitPath
+        exitPath={dossierExitPath}
+        projectId={project.id}
+        projectTitle={project.title}
+      />
       <ImageModal
         open={selectedIndex !== null}
         onOpenChange={(o) => !o && closeModal()}

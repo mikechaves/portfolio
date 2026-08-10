@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react"
 import { ArrowRight, FileCheck2, LoaderCircle } from "lucide-react"
+import Link from "next/link"
 import { NeonSeparator } from "@/components/neon-separator"
 import { JsonLd } from "@/components/json-ld"
 import { ProjectCard } from "@/components/project-card"
@@ -38,6 +39,26 @@ import { EVIDENCE_DOSSIER_PROJECT_IDS } from "./[id]/dossierConfig"
 const MOBILE_BREAKPOINT_PX = 767
 const PROJECTS_LIMIT_MOBILE = 3
 const PROJECTS_LIMIT_DESKTOP = 6
+
+const PROJECT_INTENT_PATHS = [
+  {
+    title: "AI products and human review",
+    description: "Intent-to-action systems, evaluation workflows, operational interfaces, and governed automation.",
+    projects: ["wizzo", "petition-ready", "vulnerability-visualizer", "creative-supply-engine"],
+  },
+  {
+    title: "Game and creator systems",
+    description: "Creation loops, game UX, discovery, spatial audio, and interactive play systems.",
+    projects: ["x-games", "sound-escape-vr", "portals", "die-ai"],
+  },
+  {
+    title: "Spatial and interactive tools",
+    description: "Voice-first XR, browser-native 3D authoring, and map-based collaboration.",
+    projects: ["speakeasy", "material-explorer", "geovoice"],
+  },
+] as const
+
+const projectById = new Map(PROJECTS.map((project) => [project.id, project]))
 
 function projectsForBrief(brief: AdaptiveFocusV2Result): Project[] {
   const rankedIds = [
@@ -314,6 +335,37 @@ export default function ProjectsPage() {
               <dd>{brief ? "Role fit" : activeCategoryName}</dd>
             </div>
           </dl>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-black/35 p-5 sm:p-6" aria-labelledby="project-intent-paths-title">
+        <div className="mb-5 max-w-3xl">
+          <p className="project-index-eyebrow">Explore by product problem</p>
+          <h2 id="project-intent-paths-title" className="mt-1 text-2xl font-semibold text-white">Choose an evidence path</h2>
+          <p className="mt-2 text-sm leading-6 text-zinc-400">
+            Start with the system closest to the work you are evaluating. Every public case remains available here even before interactive filters are used.
+          </p>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {PROJECT_INTENT_PATHS.map((path) => (
+            <div key={path.title} className="border-l border-white/15 pl-4">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.06em] text-zinc-100">{path.title}</h3>
+              <p className="mt-2 text-xs leading-5 text-zinc-500">{path.description}</p>
+              <ul className="mt-3 space-y-2">
+                {path.projects.map((projectId) => {
+                  const project = projectById.get(projectId)
+                  if (!project) return null
+                  return (
+                    <li key={projectId}>
+                      <Link href={`/projects/${projectId}`} className="inline-flex items-center gap-1 text-xs text-primary transition-colors hover:text-white">
+                        {project.title} <ArrowRight size={12} aria-hidden="true" />
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 

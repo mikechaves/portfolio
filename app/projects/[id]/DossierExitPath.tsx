@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight, Download, FileSearch2, MessageSquareText } from "lucide-react"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
+import { getRelatedArticlesForProject } from "@/lib/content-relationships"
 import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
 
 export function DossierExitPath({
@@ -14,6 +15,8 @@ export function DossierExitPath({
   projectId: string
   projectTitle: string
 }) {
+  const relatedArticles = getRelatedArticlesForProject(projectId)
+
   return (
     <section className="dossier-exit-path" aria-labelledby="dossier-exit-title">
       <div className="dossier-exit-status" aria-hidden="true">
@@ -37,8 +40,8 @@ export function DossierExitPath({
           </div>
         </div>
 
-        <div className="dossier-related-evidence" aria-label="Related project evidence">
-          <p>Related evidence</p>
+        <div className="dossier-related-evidence" aria-label="Related project evidence and writing">
+          <p>Related evidence and writing</p>
           {exitPath.relatedProjects.map((related, index) => (
             <Link
               key={related.projectId}
@@ -59,6 +62,16 @@ export function DossierExitPath({
                     ? `Shared evidence / ${related.sharedCapabilityLabels.join(" + ")}`
                     : "Continue through the reviewed project archive"}
                 </small>
+              </span>
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          ))}
+          {relatedArticles.map((article, index) => (
+            <Link key={article.articleId} href={`/blog/${article.articleId}`}>
+              <span className="dossier-related-index">A{index + 1}</span>
+              <span>
+                <strong>{article.title}</strong>
+                <small>{article.reason}</small>
               </span>
               <ArrowRight size={16} aria-hidden="true" />
             </Link>

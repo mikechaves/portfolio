@@ -89,6 +89,20 @@ or the sitemap.
 | `/about?focus=*` | `/about` | Context label only; canonicalize to the profile. |
 | Any sort/filter/query combination not named above | Same pathname without query | Do not add to sitemap; canonicalize to the substantive route. |
 
+## Crawlable relationship contract
+
+- `/projects` exposes all eleven curated case studies in substantive problem-based groups in its
+  initial HTML; interactive filtering and the six-card visual limit are enhancements, not the only
+  discovery path.
+- `/blog` links each card to its unique on-site summary. The external Medium URL remains a clearly
+  labeled action on the summary rather than replacing the internal route.
+- Every article summary includes visible breadcrumbs, at least two contextual project-evidence
+  links, the original-article action, the project hub, and the contact path.
+- Every project includes visible breadcrumbs, a canonical share action, related project evidence,
+  relevant writing when available, Adaptive Focus, contact, and resume paths.
+- The production-build audit requires every sitemap URL except the root to receive at least one
+  crawlable link from another indexable page. Self-links and the sitemap do not satisfy this gate.
+
 ## Quality gate for future public content
 
 A project or article may enter the sitemap only when it:
