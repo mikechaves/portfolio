@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"
 import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
 import { ImageModal } from "@/components/image-modal"
-import type { Project as ProjectSummary } from "@/types/project"
+import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
 import { DossierExitPath } from "./DossierExitPath"
 import type { DossierExitPath as DossierExitPathData } from "./dossierExitPathData"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
@@ -13,48 +13,9 @@ import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 import { getEvidenceDossierConfig } from "./dossierConfig"
 import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
 
-interface DetailItem {
-  title: string
-  description: string
-}
-
-interface ProjectDetails {
-  client?: string
-  date?: string
-  category?: string
-  proofRole?: string
-  services?: string[]
-  situation?: string | DetailItem[]
-  task?: string | DetailItem[]
-  actions?: DetailItem[]
-  results?: DetailItem[]
-  result?: string
-  exhibition?: DetailItem[]
-}
-
-interface ProjectLink {
-  label: string
-  url: string
-}
-
-interface Project {
-  id: string
-  title: string
-  image: string
-  gallery?: string[]
-  category: ProjectSummary["category"]
-  description: string
-  technologies: string[]
-  github?: string
-  demo?: string
-  demoLabel?: string
-  links?: ProjectLink[]
-  details: ProjectDetails
-}
-
 interface ProjectPageClientProps {
   dossierExitPath: DossierExitPathData
-  project: Project
+  project: ProjectDetail
 }
 
 function CaseStudySection({
@@ -88,7 +49,7 @@ function DetailTextCard({ text }: { text: string }) {
   )
 }
 
-function DetailItemCard({ item, marker }: { item: DetailItem; marker: string }) {
+function DetailItemCard({ item, marker }: { item: ProjectDetailItem; marker: string }) {
   return (
     <div className="case-study-detail-card">
       <h3 className="case-study-detail-title">
@@ -339,7 +300,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       {project.details && project.details.situation && Array.isArray(project.details.situation) && (
         <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
           <div className="case-study-detail-grid">
-            {project.details.situation.map((item: DetailItem, index: number) => (
+            {project.details.situation.map((item: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>
@@ -355,7 +316,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       {project.details && project.details.task && Array.isArray(project.details.task) && (
         <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title={isEvidenceDossier ? "Mandate" : "Task"} evidence={renderEvidence("task", "Task")}>
           <div className="case-study-detail-grid">
-            {project.details.task.map((item: DetailItem, index: number) => (
+            {project.details.task.map((item: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>
@@ -365,7 +326,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       {project.details && project.details.actions && (
         <CaseStudySection id="build" kicker={isEvidenceDossier ? "03 / Build" : undefined} title={isEvidenceDossier ? "Build" : "Action"} evidence={renderEvidence("action", "Action")}>
           <div className="case-study-detail-grid">
-            {project.details.actions.map((action: DetailItem, index: number) => (
+            {project.details.actions.map((action: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={action} marker={`${index + 1}.`} />
             ))}
           </div>
@@ -375,7 +336,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       {project.details && project.details.results && (
         <CaseStudySection id="outcomes" kicker={isEvidenceDossier ? "04 / Outcomes" : undefined} title={isEvidenceDossier ? "Outcomes" : "Result"} evidence={renderEvidence("result", "Result")}>
           <div className="case-study-detail-grid">
-            {project.details.results.map((result: DetailItem, index: number) => (
+            {project.details.results.map((result: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={result} marker="•" />
             ))}
           </div>
@@ -391,7 +352,7 @@ export default function ProjectPageClient({ dossierExitPath, project }: ProjectP
       {project.details && project.details.exhibition && (
         <CaseStudySection title="Exhibition & Future Directions" evidence={renderEvidence("exhibition", "Exhibition")}>
           <div className="case-study-detail-grid">
-            {project.details.exhibition.map((item: DetailItem, index: number) => (
+            {project.details.exhibition.map((item: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
             ))}
           </div>

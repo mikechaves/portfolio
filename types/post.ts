@@ -3,6 +3,7 @@ export interface Post {
   title: string
   excerpt: string
   date: string
+  publishedAt: string
   readingTime: string
   url: string
   image: string

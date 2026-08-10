@@ -1,13 +1,18 @@
 import Link from "next/link"
 import { Archive, ExternalLink } from "lucide-react"
+import { createPageMetadata } from "@/lib/seo/site"
 
 const technologies = ["A-Frame", "D3.js", "JavaScript", "3D Visualization", "Data Provenance"]
 const statuses = ["Archived", "Academic Prototype", "Synthetic Data Disclosed"]
 
-export const metadata = {
-  title: "Archive | Mike Chaves",
-  description: "Legacy academic prototypes and retired experiments preserved with their original context and limitations.",
-}
+export const metadata = createPageMetadata({
+  title: "Archive",
+  description:
+    "Legacy academic prototypes and retired experiments preserved with their original context, provenance, and limitations.",
+  path: "/archive",
+  noIndex: true,
+  follow: true,
+})
 
 export default function ArchivePage() {
   return (

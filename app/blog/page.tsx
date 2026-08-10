@@ -1,6 +1,18 @@
+import type { Metadata } from "next"
 import { BlogCard } from "@/components/blog-card"
+import { JsonLd } from "@/components/json-ld"
 import { FocusContextBadge } from "@/components/focus-context-badge"
 import { posts } from "@/lib/posts"
+import { createPageMetadata } from "@/lib/seo/site"
+import { getBlogCollectionStructuredData } from "@/lib/seo/structured-data"
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Writing on AI Product Design, XR & Interactive Systems",
+  description:
+    "Read Mike Chaves on AI-native UX, designing for AI as a user, emerging-technology ambiguity, voice-first XR, and accessible spatial interaction.",
+  path: "/blog",
+  imageAlt: "Writing by Mike Chaves on AI product design and XR accessibility",
+})
 
 interface BlogPageProps {
   searchParams?: Promise<{ focus?: string }>
@@ -12,6 +24,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <div className="space-y-8 pt-8">
+      <JsonLd id="blog-collection-structured-data" data={getBlogCollectionStructuredData(posts)} />
       <h1 className="sr-only">Blog</h1>
       {focus && <FocusContextBadge focus={focus} />}
       <div className="terminal-window">

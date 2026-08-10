@@ -1,4 +1,13 @@
 import Link from "next/link"
+import { createPageMetadata } from "@/lib/seo/site"
+
+export const metadata = createPageMetadata({
+  title: "Error",
+  description: "A portfolio request could not be completed.",
+  path: "/error",
+  noIndex: true,
+  follow: false,
+})
 
 interface ErrorPageProps {
   searchParams?: Promise<{ message?: string }>

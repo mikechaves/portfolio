@@ -1,10 +1,25 @@
 import Link from "next/link"
 import Image from "next/image"
+import type { Metadata } from "next"
 import { ArrowLeft } from "lucide-react"
+import { JsonLd } from "@/components/json-ld"
 import { posts } from "@/lib/posts"
+import { createPageMetadata } from "@/lib/seo/site"
+import { getArticleStructuredData } from "@/lib/seo/structured-data"
 import { notFound } from "next/navigation"
 
 const post = posts.find((p) => p.id === "ai-becomes-user")
+
+export const metadata: Metadata = post
+  ? createPageMetadata({
+      title: post.title,
+      description: post.excerpt,
+      path: `/blog/${post.id}`,
+      image: post.image,
+      imageAlt: `${post.title} article preview`,
+      type: "article",
+    })
+  : {}
 
 export default function AIBecomesUserPage() {
   if (!post) {
@@ -12,13 +27,14 @@ export default function AIBecomesUserPage() {
   }
   return (
     <div className="max-w-3xl mx-auto pt-8">
+      <JsonLd id="article-structured-data" data={getArticleStructuredData(post)} />
       <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
         <ArrowLeft size={16} /> Back to blog
       </Link>
 
       <div className="relative h-64 rounded-md overflow-hidden mb-8 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900">
         <Image
-          src={post.image.replace(/width=\d+/, "width=1200").replace(/height=\d+/, "height=600")}
+          src={post.image}
           alt={post.title}
           fill
           className="object-cover mix-blend-overlay opacity-70"

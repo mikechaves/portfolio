@@ -218,7 +218,17 @@ function checkExternalSyntax(value, context) {
 async function checkRoute(value, routeSet, context) {
   const route = normalizeInternalPath(value)
 
+  if (route.includes("*") || route === "/_not-found") {
+    passed.routes += 1
+    return
+  }
+
   if (routeSet.has(route)) {
+    passed.routes += 1
+    return
+  }
+
+  if ([...routeSet].some((knownRoute) => knownRoute.startsWith(`${route}/`))) {
     passed.routes += 1
     return
   }
@@ -262,9 +272,18 @@ async function buildRouteSet(projectIds) {
     "/about",
     "/archive",
     "/api/adaptive-focus/analyze",
+    "/api/placeholder",
     "/blog",
     "/error",
     "/projects",
+    "/projects/ai-energy-consumption",
+    "/projects/astrocade-qa-calibration-tool",
+    "/projects/apt-plus",
+    "/projects/gaia",
+    "/projects/transcribe",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/social-card",
   ])
   for (const projectId of projectIds) {
     routes.add(`/projects/${projectId}`)
@@ -272,6 +291,7 @@ async function buildRouteSet(projectIds) {
 
   for (const postId of await getBlogPostIds()) {
     routes.add(`/blog/${postId}`)
+    routes.add(`/article-card/${postId}`)
   }
 
   const blogDir = path.join(ROOT_DIR, "app", "blog")

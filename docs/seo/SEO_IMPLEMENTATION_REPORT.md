@@ -10,7 +10,7 @@ states are reported separately so a green build is not mistaken for live acquisi
 | Layer | Status | Evidence |
 | --- | --- | --- |
 | Baseline and route inventory | Complete | `SEO_BASELINE.md` and `ROUTE_INDEXABILITY_MAP.md` record repository, live-host, route, metadata, deployment, and measurement evidence. |
-| Canonical/indexability implementation | Pending | To be completed in checkpoint 2. |
+| Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
 | Acquisition surfaces/internal linking | Pending | To be completed in checkpoint 3. |
 | GA4/Vercel measurement | Pending | To be completed in checkpoint 4. |
 | Page experience/CWV lab audit | Pending | To be completed in checkpoint 5. |
@@ -35,6 +35,27 @@ _This section will be updated after each checkpoint._
 
 1. Created the five required SEO/acquisition documents and established an evidence-backed
    canonical-origin, route-indexability, demand, measurement, and growth contract.
+2. Added one canonical configuration layer that rejects HTTP, localhost, and Vercel deployment
+   URLs as metadata origins and defaults to `https://www.mikechaves.io`.
+3. Added unique titles/descriptions, self-canonicals, Open Graph and Twitter metadata, a branded
+   site social card, article-specific social cards, and deployment-aware robots directives.
+4. Added curated `robots.txt` and `sitemap.xml` App Router routes. Preview builds publish an empty
+   sitemap and disallow crawling; production exposes exactly 20 substantive URLs.
+5. Statically generated all current project IDs, retained four approved retired-ID redirects, and
+   changed unknown project IDs from a temporary redirect/indexable error to a real 404.
+6. Added accurate `Person`, `WebSite`, `ProfilePage`, `CollectionPage`, `CreativeWork`,
+   `BreadcrumbList`, and `Article` JSON-LD using only visible public records.
+7. Added canonical-host middleware that preserves path/query information for known aliases and
+   applies `X-Robots-Tag: noindex, nofollow` to preview Vercel hosts. API responses also receive the
+   noindex header.
+8. Added `pnpm seo:audit` and CI coverage for status, unique metadata, canonicals, H1, robots,
+   sitemap, internal links, social media, alt attributes, schema syntax/required types, preview and
+   localhost leakage, duplicate metadata, query variants, unknown routes, initial HTML, hydrated
+   desktop output, and representative mobile output.
+9. Replaced broken SVG placeholder previews on all five article-summary pages with allowlisted PNG
+   image responses. The production-like browser had correctly exposed Next Image 400 responses.
+10. Isolated the portfolio visual suite on port 3199 with server reuse disabled after the first
+    run attached to an unrelated Playfold server already using port 3100.
 
 ## Evidence
 
@@ -51,6 +72,38 @@ pnpm type-check
 
 Results: lint passed; 26 suites/169 tests passed; link/asset audit passed; production build passed;
 type-check passed after synchronizing the frozen Playwright dependency.
+
+### Checkpoint 2 commands
+
+```text
+pnpm type-check
+pnpm lint
+pnpm test:unit --runInBand
+pnpm seo:audit
+pnpm check:links
+pnpm test
+pnpm test:visual-smoke
+```
+
+Results:
+
+- type-check and lint passed;
+- 30 suites and 184 unit/integration tests passed;
+- the link/asset audit passed with 183 assets, 148 internal route references, 77 external/mailto
+  references, and all five required contact/social/resume links;
+- the production build generated 33 route entries, including 15 statically generated project
+  paths, robots, sitemap, and social-image endpoints;
+- all four SEO browser/audit scenarios passed across the 20-url sitemap;
+- all 34 existing desktop/mobile visual-smoke scenarios passed on a fresh portfolio server.
+
+Preserved failure evidence:
+
+- The first SEO audit run exposed test-only root-slash/order assumptions; after normalizing those,
+  it exposed a real 400 response for SVG placeholder images on article summaries. The image defect
+  was fixed rather than excluded from console checks.
+- The first visual-smoke run attached to a pre-existing Playfold Next 16 process on port 3100 and
+  produced 32 cross-project failures. The process was left untouched; the portfolio suite now uses
+  a dedicated port and refuses reuse, after which all 34 checks passed.
 
 ### Live routes tested before implementation
 
@@ -81,14 +134,14 @@ https://www.mikechaves.io/
 
 | Check | Before | After |
 | --- | --- | --- |
-| Curated sitemap | 404 | Pending |
-| Production robots policy | 404 | Pending |
-| Unique title/description | 1/20 | Pending |
-| Self-referencing canonical | 0/20 | Pending |
-| OG/Twitter preview metadata | 0/20 | Pending |
-| Valid JSON-LD | 0/20 | Pending |
-| Unknown project | 307 → 200 error | Pending |
-| Automated SEO audit | None | Pending |
+| Curated sitemap | 404 | 20 canonical, public, substantive URLs; all return 200 in the production build |
+| Production robots policy | 404 | Allows public pages, disallows APIs/error utility, references canonical sitemap, leaves rendering assets crawlable |
+| Unique title/description | 1/20 | 20/20 unique |
+| Self-referencing canonical | 0/20 | 20/20; query variants canonicalize to the pathname |
+| OG/Twitter preview metadata | 0/20 | 20/20 with loadable branded, project, or article-specific images |
+| Valid JSON-LD | 0/20 | 20/20 parse; each added type has required-field assertions |
+| Unknown project | 307 → 200 error | 404 with a useful recovery page |
+| Automated SEO audit | None | `pnpm seo:audit`; four production-build browser scenarios plus CI gate |
 | GA4 conversion measurement | None | Pending |
 | Vercel Speed Insights integration | None | Pending |
 | Field CWV | Unavailable | Pending deployment/account evidence |

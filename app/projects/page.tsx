@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react"
 import { ArrowRight, FileCheck2, LoaderCircle } from "lucide-react"
 import { NeonSeparator } from "@/components/neon-separator"
+import { JsonLd } from "@/components/json-ld"
 import { ProjectCard } from "@/components/project-card"
 import { RoleFitBrief } from "@/components/role-fit-brief"
 import { Button } from "@/components/ui/button"
@@ -31,6 +32,7 @@ import {
   type ProjectMatchLevel,
 } from "@/lib/portfolio-analytics"
 import type { Project } from "@/types/project"
+import { getProjectCollectionStructuredData } from "@/lib/seo/structured-data"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "./[id]/dossierConfig"
 
 const MOBILE_BREAKPOINT_PX = 767
@@ -272,6 +274,10 @@ export default function ProjectsPage() {
 
   return (
     <div className="projects-index-page space-y-6 pt-6">
+      <JsonLd
+        id="project-collection-structured-data"
+        data={getProjectCollectionStructuredData(PROJECTS)}
+      />
       <p className="sr-only" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </p>

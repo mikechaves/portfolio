@@ -54,6 +54,8 @@ or the sitemap.
 | --- | --- | --- |
 | `/api/adaptive-focus/analyze` | Server API | Excluded from sitemap; disallowed in production robots policy. |
 | `/api/placeholder` | Generated placeholder image API | Excluded from sitemap; disallowed in production robots policy. |
+| `/social-card` | Branded portfolio social-preview image | Image response only; excluded from sitemap. |
+| `/article-card/{public article ID}` | Article-specific social-preview image | Allowlisted image response only; excluded from sitemap. |
 | `/_next/*` | Framework assets/data | Not sitemap content; do not block assets required for rendering. |
 | `/favicon/*`, `/projects/*.{png,jpg,jpeg,mp4,pdf,html}`, `/events/*`, `/visuals/*`, `/data/*` | Public assets | Not page URLs; may be crawled when referenced, never added as sitemap pages. |
 | `/robots.txt` | Crawl policy | Public text response. |
