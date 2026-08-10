@@ -1,10 +1,33 @@
 # Organic Acquisition Owner Actions
 
-_Prepared: 2026-08-09_
+_Prepared: 2026-08-09; production checkpoint: 2026-08-10_
 
-Repository implementation and local verification do not mutate production, DNS, or provider
-accounts. Complete these actions after review; record the exact deployment SHA and date with every
-dashboard observation.
+This began as the post-merge owner runbook. The 2026-08-10 production checkpoint completed every
+currently available account action and preserves the remaining asynchronous evidence gates.
+
+## Production completion record — 2026-08-10
+
+- Application release `538332858978d62aab196ec92b807134b2923bc7` reached Vercel `Ready` and
+  served the canonical `https://www.mikechaves.io` aliases without deployment protection.
+- The `mikechaves.io` Search Console Domain property was verified with a root DNS TXT record.
+  `https://www.mikechaves.io/sitemap.xml` reports `Success` with 20 discovered pages.
+- `/`, `/about`, and `/projects` are indexed. `/projects/x-games` and
+  `/blog/voice-first-xr` are discovered but not yet indexed; one indexing request for each is in
+  Google's crawl queue. Page-indexing data is still processing. Manual Actions and Security Issues
+  both report `No issues detected`.
+- Search Console reports insufficient 90-day field data for mobile and desktop Core Web Vitals.
+  This is expected for the new property and is not replaced with Vercel Speed Insights.
+- GA4 property `Portfolio Website`, stream `Portfolio`, uses measurement ID `G-QKNK9H37SE` from
+  Vercel Production only. Enhanced Measurement is off. Unknown/denied consent sends no Google
+  script; granted consent loads the correct tag and emits one sanitized in-memory `page_view` per
+  pathname. Controlled QA browsers did not expose a Google collect request and GA4 Realtime still
+  showed zero users, so received-event verification and key-event marking remain open.
+- Vercel Web Analytics is active. Its authenticated seven-day dashboard showed 53 visitors, 91
+  page views, and 62% bounce rate at the checkpoint. The account API still returned `404 Web
+  Analytics not found`, so the authenticated dashboard is the evidence source.
+- Speed Insights is intentionally disabled by owner direction. The component and dependency were
+  removed, and a clean production trace contains Web Analytics traffic but no Speed Insights script
+  or first-party vitals beacon.
 
 ## 1. Review, merge, and deploy
 
@@ -42,6 +65,21 @@ dashboard observation.
    exposes evidence for AI Overviews, AI Mode, or other generative-search source visibility, record
    it separately; do not infer or promise inclusion when the data is unavailable.
 
+### DNS TXT walkthrough
+
+For the preferred Domain-property path, the verification value comes from Search Console—not GA4:
+
+1. In Search Console, choose **Add property**, select **Domain**, and enter `mikechaves.io` without
+   `https://` or a path.
+2. Copy the complete value beginning `google-site-verification=`.
+3. In the authoritative DNS zone, choose **Add standard record**, set the name/host to the zone root
+   (`mikechaves.io.` or `@`, depending on the provider), select `TXT`, and paste the complete value
+   as the record data. Keep the default TTL unless the provider requires another value.
+4. Save the record, confirm a public TXT lookup returns it, then return to Search Console and choose
+   **Verify**. Keep the record after verification so ownership remains valid.
+
+The production record was added and publicly resolved on 2026-08-10; no GA4 value belongs in DNS.
+
 ## 4. Connect and verify GA4
 
 1. Create or select the GA4 web stream for `https://www.mikechaves.io`.
@@ -54,6 +92,9 @@ dashboard observation.
    contact `generate_lead` behavior in Realtime/DebugView. Do not enter private role text or real
    contact content during QA.
 5. Mark only `adaptive_focus_completed` and `generate_lead` as GA4 key events initially.
+
+Steps 4–5 remain gated on GA4 receiving the first real opted-in event. After that happens, confirm
+the event names in Realtime or DebugView and mark only those two events as key events.
 
 ## 5. Use Vercel Web Analytics and collect field data
 

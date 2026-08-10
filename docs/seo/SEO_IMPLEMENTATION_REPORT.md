@@ -1,21 +1,21 @@
 # SEO Implementation Report
 
-_Work started: 2026-08-09; repository implementation completed: 2026-08-09_
+_Work started: 2026-08-09; repository implementation completed: 2026-08-09; production checkpoint: 2026-08-10_
 
 ## Outcome status
 
-Repository implementation is complete on `mike/portfolio-organic-acquisition`. Deployment-complete
-and account-complete states remain separate so a green build is not mistaken for live acquisition
-evidence.
+Repository implementation and the available production/account rollout are complete. Asynchronous
+Search Console processing, GA4 received-event evidence, and field Core Web Vitals remain separate so
+a green build or configured account is not mistaken for traffic or conversion evidence.
 
 | Layer | Status | Evidence |
 | --- | --- | --- |
 | Baseline and route inventory | Complete | `SEO_BASELINE.md` and `ROUTE_INDEXABILITY_MAP.md` record repository, live-host, route, metadata, deployment, and measurement evidence. |
 | Canonical/indexability implementation | Complete | Production-build audit passes all 20 sitemap routes in initial HTML, hydrated desktop, and representative mobile output. |
 | Acquisition surfaces/internal linking | Complete | Every indexable route has an initial-HTML inbound link; all project and writing paths expose contextual next actions. |
-| GA4/Vercel measurement | Repository complete; account verification pending | Consent-gated GA4, production-only Vercel Web Analytics, bounded event mapping, and a zero-transport debug audit are implemented. Speed Insights is intentionally disabled by owner direction. |
+| GA4/Vercel measurement | Live configuration verified; GA4 ingestion pending | Production uses `G-QKNK9H37SE` only after consent; Vercel Web Analytics has live dashboard data. Controlled QA could not establish a GA4 collect request or Realtime user. Speed Insights is intentionally disabled by owner direction. |
 | Page experience/CWV lab audit | Complete | All ten mobile/desktop Lighthouse checks pass the LCP, CLS, and TBT budgets; field INP remains deployment-dependent. |
-| Production deployment and owner dashboards | Owner action pending | `OWNER_ACTION_CHECKLIST.md` preserves exact release, Search Console, GA4, Vercel, and field-CWV steps. |
+| Production deployment and owner dashboards | Available actions complete; asynchronous evidence pending | Release `5383328` is Ready; Search Console ownership/sitemap and Vercel Web Analytics are verified. Google indexing, GA4 received events, and field CWV require time or real opted-in traffic. |
 
 ## Before findings
 
@@ -246,6 +246,37 @@ Results:
 `PAGE_EXPERIENCE_AUDIT.md` contains the full before/after matrix and methodology. TBT is recorded as
 the repeatable lab responsiveness proxy; only post-deployment field data can establish INP.
 
+### Production verification checkpoint — 2026-08-10
+
+```text
+pnpm type-check
+pnpm lint
+pnpm test --runInBand
+pnpm check:links
+pnpm analytics:audit
+SEO_AUDIT_BASE_URL=https://www.mikechaves.io pnpm exec playwright test \
+  --config=playwright.seo.config.ts \
+  --grep-invert 'noncanonical, preview, error, query, and API routes obey their controls'
+```
+
+Results:
+
+- type-check and lint passed; all 33 Jest suites and 194 tests passed;
+- all 194 local/public assets, 171 internal route references, 83 external/mailto references, and
+  five required contact/social/resume links passed the repository link audit;
+- all four analytics scenarios passed, including explicit Global Privacy Control and Do Not Track
+  suppression with zero provider requests;
+- the exact production release passed the three applicable live SEO scenarios: the complete
+  initial-HTML crawl, hydrated desktop routes, and representative mobile routes;
+- Search Console Domain ownership and the 20-URL sitemap were verified; Manual Actions and Security
+  Issues reported no issues, while Page indexing remained in Google's processing window and field
+  Core Web Vitals reported insufficient 90-day usage data;
+- GA4's Production-only measurement ID, consent boundary, tag, and data-layer commands were
+  verified. Controlled browsers did not expose a collect request or Realtime user, so received
+  events and key-event marking remain explicitly unverified;
+- Vercel Web Analytics showed live aggregate data. A clean production trace retained its view
+  request and contained no Speed Insights transport after the owner-directed removal.
+
 ### Live routes tested before implementation
 
 ```text
@@ -286,8 +317,8 @@ https://www.mikechaves.io/
 | Crawlable inbound path | Article summaries were bypassed by outbound cards; five projects depended on a client-side “See More” interaction | All 19 non-root sitemap URLs receive an initial-HTML link from another indexable route |
 | Article-to-evidence path | None | Five substantive summaries each link to at least two contextual project cases and retain a labeled original-article action |
 | Project next actions | Uneven across templates | Breadcrumb, share, related evidence/writing, Role Fit, contact, and resume paths across all 11 cases |
-| GA4 conversion measurement | None | Repository-complete consent, pageview, funnel, recommended-event, privacy, and debug contract; production ID/account verification pending |
-| Vercel Web Analytics | SDK present but account API returned `Web Analytics not found` | Production-only SDK/custom events retained; dashboard enablement and production observation pending owner action |
+| GA4 conversion measurement | None | Production ID is configured, consent/tag/data-layer behavior is verified, and privacy/funnel debug coverage passes; received-event and key-event evidence awaits real opted-in traffic |
+| Vercel Web Analytics | SDK present but account API returned `Web Analytics not found` | Production dashboard is active with a dated seven-day baseline; the API/dashboard mismatch is preserved |
 | Vercel Speed Insights integration | None | Intentionally disabled; SDK component and dependency removed by owner direction |
 | Field CWV | Unavailable | Pending Search Console Core Web Vitals or another approved field source after sufficient traffic |
 | Representative mobile lab performance | Home LCP 13,435 ms/TBT 921 ms/2,333 kB; other template LCPs 3,135–3,606 ms | All five templates pass: LCP 2,087–2,483 ms, CLS 0, TBT 3–15 ms |
@@ -338,8 +369,12 @@ complete, and this work did not hide or relabel the warning.
 ## Remaining risks
 
 - Search-volume and query evidence remain assumptions until Search Console records data.
-- Search Console, GA4 property/stream configuration, Vercel Analytics dashboard enablement, and
-  field Core Web Vitals are account/deployment state, not repository facts.
+- Search Console page-indexing data is still processing; two representative acquisition URLs are
+  discovered but not yet indexed even after a single indexing request.
+- GA4 is configured correctly, but controlled QA browsers did not expose an outbound collect request
+  and Realtime showed zero users. Received-event and key-event evidence therefore remains open.
+- Search Console has insufficient 90-day mobile and desktop Core Web Vitals data. Lab evidence does
+  not establish field INP or ranking impact.
 - Existing public article pages summarize content whose canonical full articles live on Medium;
   their unique summaries must remain useful enough to justify self-canonical indexation.
 - The current HTTP apex redirect takes two hops before reaching the serving host.
@@ -348,41 +383,35 @@ complete, and this work did not hide or relabel the warning.
 
 ## Exact manual owner actions
 
-The complete, ordered handoff is in `OWNER_ACTION_CHECKLIST.md`. In summary:
+The complete, ordered runbook and production record are in `OWNER_ACTION_CHECKLIST.md`. Search
+Console ownership/TXT verification, sitemap submission, representative inspection, manual/security
+review, the GA4 Production ID, Enhanced Measurement opt-out, Vercel Web Analytics observation, and
+the Speed Insights removal are complete. Remaining actions are evidence-gated:
 
-1. Create or confirm a Google Search Console Domain property for `mikechaves.io` by adding the TXT
-   record Google supplies at the DNS provider.
-2. Submit `https://www.mikechaves.io/sitemap.xml` and inspect the representative URLs listed in the
-   final report.
-3. Create or select the GA4 web data stream for `https://www.mikechaves.io`, set
-   `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel Production only, and verify the sanitized funnel in
-   DebugView/Realtime after deployment.
-4. Confirm Vercel Web Analytics production observations. Keep Speed Insights disabled and use
-   Search Console Core Web Vitals or another approved field source instead.
-5. Optionally configure `http://mikechaves.io/*` to redirect directly to
+1. After GA4 receives its first real opted-in visit, confirm the sanitized funnel in
+   Realtime/DebugView and mark only `adaptive_focus_completed` and `generate_lead` as key events.
+2. Recheck Search Console Page indexing after processing completes; do not resubmit the two queued
+   URLs repeatedly.
+3. After sufficient 90-day usage data exists, record mobile and desktop field LCP, INP, and CLS from
+   Search Console. Keep Speed Insights disabled.
+4. Optionally configure `http://mikechaves.io/*` to redirect directly to
    `https://www.mikechaves.io/*` at the domain/edge layer to remove the remaining two-hop HTTP apex
    chain.
-6. Push/review/merge the completed branch, deploy its exact reviewed SHA, and collect the first
-   Search Console, GA4, Web Analytics, and p75 field-CWV evidence without relabeling repository
-   checks as production proof.
 
 ## Reviewable checkpoint history
 
-The active branch preserves separate commits for the baseline/demand contract, search foundation,
-acquisition paths, privacy-safe measurement, and page experience. This final handoff records the
-green cross-cutting validation matrix. No production deployment, provider account, DNS, or Search
-Console mutation is claimed by this report.
+The history preserves separate commits for the baseline/demand contract, search foundation,
+acquisition paths, privacy-safe measurement, page experience, and production verification. The
+2026-08-10 checkpoint records the exact release, DNS/Search Console changes, provider-account
+observations, and green live crawl without treating asynchronous traffic data as complete.
 
 ## Recommended next PRs
 
-No additional implementation PR is justified before the external owner actions produce evidence.
+No additional implementation PR is justified before the asynchronous evidence gates produce data.
 After that:
 
-1. Open a production-verification evidence PR recording the exact deployed SHA, live canonical
-   crawl, Search Console sitemap/inspection status, and provider-dashboard observations. Change
-   application code only if the live evidence identifies a reproducible defect.
-2. After at least 30 days or 100 qualified visits, open a baseline-evidence PR with dated Search
+1. After at least 30 days or 100 qualified visits, open a baseline-evidence PR with dated Search
    Console query/page, GA4 funnel, and Vercel field-CWV observations; do not turn directional data
    into traffic or hiring-outcome claims.
-3. Open a narrowly scoped field-performance correction PR only if p75 route-group evidence misses
+2. Open a narrowly scoped field-performance correction PR only if p75 route-group evidence misses
    LCP, INP, or CLS targets. Preserve the current lab baseline and the route/device diagnosis.
