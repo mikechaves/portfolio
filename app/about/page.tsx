@@ -159,6 +159,7 @@ export default function AboutPage() {
               <TrackedPortfolioLink
                 href="/Michael_Chaves_Resume_min.pdf"
                 download
+                prefetch={false}
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "about_hero" }}
                 className="operating-profile-secondary-action"
@@ -335,6 +336,7 @@ export default function AboutPage() {
           <TrackedPortfolioLink
             href="/Michael_Chaves_Resume_min.pdf"
             download
+            prefetch={false}
             eventName="portfolio_conversion_clicked"
             eventProperties={{ destination: "resume", source: "about_contact" }}
             className="operating-profile-secondary-action"

@@ -108,6 +108,7 @@ export function DossierExitPath({
           <TrackedPortfolioLink
             href="/Michael_Chaves_Resume_min.pdf"
             download
+            prefetch={false}
             eventName="portfolio_conversion_clicked"
             eventProperties={{
               destination: "resume",
