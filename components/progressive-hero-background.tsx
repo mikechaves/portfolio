@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 
-const WEBGL_DEFER_MS = 1_800
+const WEBGL_DEFER_MS = 6_000
 
 const HeroBackground = dynamic(
   () => import("@/components/hero-background").then((module) => module.HeroBackground),

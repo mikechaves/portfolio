@@ -76,7 +76,7 @@ function projectsForBrief(brief: AdaptiveFocusV2Result): Project[] {
 
 export function ProjectsPageClient() {
   const [activeFilter, setActiveFilter] = useState("all")
-  const [initialLimit, setInitialLimit] = useState(PROJECTS_LIMIT_DESKTOP)
+  const [initialLimit, setInitialLimit] = useState(PROJECTS_LIMIT_MOBILE)
   const [showAll, setShowAll] = useState(false)
   const [query, setQuery] = useState("")
   const [brief, setBrief] = useState<AdaptiveFocusV2Result | null>(null)

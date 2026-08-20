@@ -236,7 +236,9 @@ standard homepage path.
 
 The priority Black Sun backdrop is served as a dedicated 1200 x 475, 17 kB static WebP. It bypasses
 the deployment provider's image-optimization quota while retaining the same source composition;
-the direct asset is part of the local link audit and repeated mobile Lighthouse checks.
+the direct asset is part of the local link audit and repeated mobile Lighthouse checks. Image
+decoding remains asynchronous, and the noncritical WebGL atmosphere waits for a six-second defer
+plus an idle window instead of entering the critical performance trace.
 
 ### First-viewport result
 
@@ -290,8 +292,8 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2463 ms; CLS 0; TBT 4 ms; 285 kB | LCP 3 ms faster; CLS preserved; TBT 1 ms lower; transfer remains within budget. |
-| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 475 kB | LCP 146 ms faster and transfer 77 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2462 ms; CLS 0; TBT 4 ms; 285 kB | LCP 4 ms faster; CLS preserved; TBT 1 ms lower; transfer remains within budget. |
+| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 581 ms; CLS 0; TBT 0 ms; 290 kB | LCP 104 ms faster and transfer 262 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
 Console ingestion. Preview readiness, exact-head merge, deployment readiness, and canonical

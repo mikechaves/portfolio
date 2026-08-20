@@ -99,7 +99,7 @@ export default function Home() {
           <Image
             src="/visuals/black-sun-signal-grid-static.webp"
             alt=""
-            decoding="sync"
+            decoding="async"
             fill
             priority
             unoptimized
