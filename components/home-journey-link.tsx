@@ -1,11 +1,8 @@
-"use client"
-
-import Link from "next/link"
-import type { ComponentProps, MouseEvent, ReactNode } from "react"
-import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
+import type { ComponentProps, ReactNode } from "react"
+import { PortfolioEventLink } from "@/components/portfolio-event-link"
 
 interface HomeJourneyLinkProps
-  extends Omit<ComponentProps<typeof Link>, "href" | "onClick"> {
+  extends Omit<ComponentProps<typeof PortfolioEventLink>, "eventName" | "eventProperties" | "href"> {
   children: ReactNode
   focusTargetId?: string
   path: "selected_work" | "role_match"
@@ -19,30 +16,16 @@ export function HomeJourneyLink({
   targetId,
   ...linkProps
 }: HomeJourneyLinkProps) {
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    const target = document.getElementById(targetId)
-    if (!target) return
-
-    event.preventDefault()
-    trackPortfolioEvent("homepage_path_selected", {
-      path,
-      source: "home_hero",
-    })
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" })
-    window.history.replaceState(null, "", `#${targetId}`)
-
-    if (focusTargetId) {
-      window.setTimeout(() => {
-        document.getElementById(focusTargetId)?.focus({ preventScroll: true })
-      }, reducedMotion ? 0 : 260)
-    }
-  }
-
   return (
-    <Link {...linkProps} href={`#${targetId}`} onClick={handleClick}>
+    <PortfolioEventLink
+      {...linkProps}
+      href={`#${targetId}`}
+      eventName="homepage_path_selected"
+      eventProperties={{ path, source: "home_hero" }}
+      homeFocusTargetId={focusTargetId}
+      homeTargetId={targetId}
+    >
       {children}
-    </Link>
+    </PortfolioEventLink>
   )
 }

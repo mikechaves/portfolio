@@ -287,7 +287,7 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - frozen-lockfile install: pass;
 - lint: pass (the repository's legacy ESLint config emits its ESLint 10 migration notice only);
 - type-check: pass;
-- unit tests: 35 suites, 206 tests passed;
+- unit tests: 36 suites, 209 tests passed;
 - link/asset audit: 197 assets, 177 internal routes, 82 external or mail references, and all five
   required contact/social/resume links passed;
 - production build: pass, homepage first-load JavaScript 122 kB and project-index first-load
@@ -296,12 +296,16 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - SEO audit: 4 tests passed;
 - analytics audit: 5 tests passed with zero-provider privacy scenarios;
 - performance audit: all 10 route/profile scenarios passed.
+- homepage hydration: conversion, evidence, public-practice, hero-path analytics, and hero-canvas
+  drawing share one delegated client bridge; their links and cards remain server-rendered. Adaptive
+  Focus, deferred project media, and the delayed immersive background retain isolated client
+  boundaries.
 
 ### Homepage performance comparison
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2314 ms; CLS 0; TBT 6 ms; 232 kB | LCP 152 ms faster; CLS preserved; transfer 5 kB lower; TBT remains well inside budget. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2312 ms; CLS 0; TBT 7 ms; 232 kB | LCP 154 ms faster; CLS preserved; transfer 5 kB lower; TBT remains well inside budget. |
 | Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 498 ms; CLS 0; TBT 0 ms; 288 kB | LCP 187 ms faster and transfer 264 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search

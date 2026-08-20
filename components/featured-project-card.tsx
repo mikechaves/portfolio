@@ -1,5 +1,5 @@
 import { DeferredFeaturedProjectImage } from "@/components/deferred-featured-project-image"
-import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
+import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
 interface FeaturedProjectCardProps {
@@ -24,7 +24,7 @@ export function FeaturedProjectCard({
   summary,
 }: FeaturedProjectCardProps) {
   return (
-    <TrackedPortfolioLink
+    <PortfolioEventLink
       href={`/projects/${project.id}`}
       eventName="project_evidence_opened"
       eventProperties={{
@@ -51,6 +51,6 @@ export function FeaturedProjectCard({
           </strong>
         </div>
       </article>
-    </TrackedPortfolioLink>
+    </PortfolioEventLink>
   )
 }

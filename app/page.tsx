@@ -10,11 +10,11 @@ import {
 } from "lucide-react"
 import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
 import { FeaturedProjectCard } from "@/components/featured-project-card"
-import { HeroVisualCanvas } from "@/components/hero-visual-canvas"
 import { HomeJourneyLink } from "@/components/home-journey-link"
+import { HomepageClientBridge } from "@/components/homepage-client-bridge"
+import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { ProgressiveHeroBackground } from "@/components/progressive-hero-background"
-import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
 import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
 import { PROJECTS } from "@/data/projects"
 import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evidence/professional-experience"
@@ -93,6 +93,7 @@ export default function Home() {
   return (
     <div className="home-immersive-page relative isolate">
       <ProgressiveHeroBackground />
+      <HomepageClientBridge />
 
       <div className="home-content-layer relative z-10">
         <link
@@ -102,7 +103,7 @@ export default function Home() {
           fetchPriority="high"
         />
         <section className="home-journey-hero" aria-labelledby="home-title">
-          <HeroVisualCanvas />
+          <canvas className="home-journey-visual" aria-hidden="true" />
           <div className="home-journey-copy">
             <p className="home-section-kicker">AI-Native Design Engineer</p>
             <h1 id="home-title">
@@ -128,7 +129,7 @@ export default function Home() {
               >
                 Match me to a role
               </HomeJourneyLink>
-              <TrackedPortfolioLink
+              <PortfolioEventLink
                 href="/Michael_Chaves_Resume_min.pdf"
                 download
                 prefetch={false}
@@ -137,7 +138,7 @@ export default function Home() {
                 className="home-text-action"
               >
                 Download resume <Download size={15} aria-hidden="true" />
-              </TrackedPortfolioLink>
+              </PortfolioEventLink>
             </div>
           </div>
           <p className="home-journey-signature">
@@ -227,7 +228,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="home-practice-grid">
-            <TrackedPortfolioLink
+            <PortfolioEventLink
               href="/blog/voice-first-xr"
               prefetch={false}
               eventName="public_practice_item_opened"
@@ -245,10 +246,10 @@ export default function Home() {
               </span>
               <time dateTime="2025-06-18">June 18, 2025 / 5 min read</time>
               <strong>Read article <ArrowRight size={15} aria-hidden="true" /></strong>
-            </TrackedPortfolioLink>
+            </PortfolioEventLink>
             <div className="home-practice-list">
               {publicPracticeItems.map((item) => (
-                <TrackedPortfolioLink
+                <PortfolioEventLink
                   key={item.id}
                   href="/about#public-practice-title"
                   prefetch={false}
@@ -263,7 +264,7 @@ export default function Home() {
                   <h3>{item.title}</h3>
                   <p>{item.meta}</p>
                   <strong>View public practice <ArrowRight size={14} aria-hidden="true" /></strong>
-                </TrackedPortfolioLink>
+                </PortfolioEventLink>
               ))}
             </div>
           </div>
@@ -277,7 +278,7 @@ export default function Home() {
             interaction meet.
           </p>
           <div className="home-contact-actions">
-            <TrackedPortfolioLink
+            <PortfolioEventLink
               href="/about#contact"
               prefetch={false}
               eventName="portfolio_conversion_clicked"
@@ -285,8 +286,8 @@ export default function Home() {
               className="home-primary-action"
             >
               Contact Mike <ArrowRight size={16} aria-hidden="true" />
-            </TrackedPortfolioLink>
-            <TrackedPortfolioLink
+            </PortfolioEventLink>
+            <PortfolioEventLink
               href="/Michael_Chaves_Resume_min.pdf"
               download
               prefetch={false}
@@ -295,8 +296,8 @@ export default function Home() {
               className="home-secondary-action"
             >
               Download resume <Download size={15} aria-hidden="true" />
-            </TrackedPortfolioLink>
-            <TrackedPortfolioLink
+            </PortfolioEventLink>
+            <PortfolioEventLink
               href="https://www.linkedin.com/in/mikejchaves"
               target="_blank"
               rel="noopener noreferrer"
@@ -305,7 +306,7 @@ export default function Home() {
               className="home-text-action"
             >
               LinkedIn <Linkedin size={15} aria-hidden="true" />
-            </TrackedPortfolioLink>
+            </PortfolioEventLink>
           </div>
           <small>
             Contact opens the site&apos;s protected form. No email address or message content is exposed
