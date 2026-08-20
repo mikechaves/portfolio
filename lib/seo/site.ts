@@ -4,7 +4,7 @@ export const SITE_NAME = "Mike Chaves"
 export const SITE_TITLE = "Mike Chaves | AI-Native Design Engineer"
 export const DEFAULT_SITE_ORIGIN = "https://www.mikechaves.io"
 export const DEFAULT_DESCRIPTION =
-  "Mike Chaves designs and builds AI-native product systems, human-in-the-loop workflows, game and creator tools, and immersive interfaces."
+  "Mike Chaves builds trustworthy AI product systems, playable experiences, creator workflows, and accessible immersive tools."
 export const DEFAULT_SOCIAL_IMAGE = "/social-card"
 
 export const SITE_SOCIAL_PROFILES = [

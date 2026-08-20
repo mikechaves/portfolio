@@ -4,24 +4,25 @@ import { isSiteNavItemActive, SITE_NAV_ITEMS } from "../components/site-nav-stat
 
 describe("global route context", () => {
   it.each([
-    ["/", "/", true],
-    ["/projects", "/projects", true],
-    ["/projects/x-games", "/projects", true],
-    ["/blog/voice-first-xr", "/blog", true],
-    ["/about", "/about", true],
-    ["/archive", "/", false],
-    ["/project", "/projects", false],
-    ["/blogroll", "/blog", false],
-  ])("matches %s against %s as %s", (pathname, itemPath, expected) => {
-    expect(isSiteNavItemActive(pathname, itemPath)).toBe(expected)
+    ["/projects", "/projects", "", true],
+    ["/projects/x-games", "/projects", "", true],
+    ["/blog/voice-first-xr", "/blog", "", true],
+    ["/about", "/about", "", true],
+    ["/about", "/about#professional-experience", "#professional-experience", true],
+    ["/about", "/about", "#professional-experience", false],
+    ["/about", "/about#professional-experience", "#contact", false],
+    ["/project", "/projects", "", false],
+    ["/blogroll", "/blog", "", false],
+  ])("matches %s against %s at %s as %s", (pathname, itemPath, hash, expected) => {
+    expect(isSiteNavItemActive(pathname, itemPath, hash)).toBe(expected)
   })
 
-  it("keeps the four public navigation destinations stable", () => {
+  it("publishes the four task-oriented navigation destinations", () => {
     expect(SITE_NAV_ITEMS).toEqual([
-      { name: "impact", path: "/" },
-      { name: "systems", path: "/projects" },
-      { name: "writing", path: "/blog" },
-      { name: "about", path: "/about" },
+      { name: "Work", path: "/projects" },
+      { name: "Experience", path: "/about#professional-experience" },
+      { name: "Writing", path: "/blog" },
+      { name: "About", path: "/about" },
     ])
   })
 
@@ -48,7 +49,9 @@ describe("global route context", () => {
     expect(source.match(/aria-current=\{isActive \? "page" : undefined\}/gu)).toHaveLength(2)
     expect(source).toContain('aria-controls="site-mobile-menu"')
     expect(source).toContain('aria-label="Mobile navigation"')
-    expect(source).toContain("setIsMobileMenuOpen(false)")
+    expect(source).toContain("<Dialog.Content")
+    expect(source).toContain("<Dialog.Close")
+    expect(source).toContain("onOpenChange={setIsMobileMenuOpen}")
   })
 
   it("keeps the contact conversion target clear of the sticky navigation", () => {
@@ -57,6 +60,6 @@ describe("global route context", () => {
       "utf8"
     )
 
-    expect(source).toContain('id="contact-title" className="scroll-mt-24"')
+    expect(source).toContain('id="contact" className="profile-contact-section scroll-mt-24"')
   })
 })

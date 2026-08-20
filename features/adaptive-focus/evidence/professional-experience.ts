@@ -26,7 +26,7 @@ export const PROFESSIONAL_EXPERIENCE_DELIVERY_LABELS: Record<
   "production-ai-operations": "Production AI game-quality operations",
   "production-manufacturing-system": "Production manufacturing system",
   "exploratory-prototypes": "Emerging technology prototypes",
-  "ai-training-and-evaluation": "AI training and evaluation contribution",
+  "ai-training-and-evaluation": "Approved public contribution",
 }
 
 export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [

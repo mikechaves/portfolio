@@ -15,6 +15,9 @@ export type PortfolioConversionSource =
   | "about_contact"
   | "about_proof"
   | "dossier_exit"
+  | "home_hero"
+  | "home_contact"
+  | "site_nav"
 export type ProjectShareSource = "project_header"
 export type ContactFailureType = "configuration" | "validation" | "delivery" | "unexpected"
 
@@ -35,6 +38,13 @@ export interface PortfolioAnalyticsEventMap {
     entry_point: AdaptiveFocusEntryPoint
     mode: AdaptiveFocusMode
   }
+  homepage_path_selected: {
+    path: "selected_work" | "role_match"
+    source: "home_hero"
+  }
+  adaptive_focus_more_lenses_expanded: {
+    entry_point: "home"
+  }
   project_evidence_opened: {
     project_id: string
     source: ProjectEvidenceSource
@@ -49,8 +59,16 @@ export interface PortfolioAnalyticsEventMap {
     article_id: string
     source: "article_summary"
   }
+  public_practice_item_opened: {
+    item_id: string
+    item_type: "writing" | "talk" | "panel"
+    source: "home_public_practice"
+  }
+  metaverse_entered: {
+    source: "desktop_nav" | "mobile_nav"
+  }
   portfolio_conversion_clicked: {
-    destination: "role_fit" | "contact" | "resume"
+    destination: "role_fit" | "contact" | "resume" | "linkedin"
     source: PortfolioConversionSource
     project_id?: string
   }
@@ -77,9 +95,13 @@ export const PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST = {
     "primary_project_count",
   ],
   adaptive_focus_failed: ["entry_point", "mode"],
+  homepage_path_selected: ["path", "source"],
+  adaptive_focus_more_lenses_expanded: ["entry_point"],
   project_evidence_opened: ["project_id", "source", "match_level"],
   project_shared: ["method", "project_id", "source"],
   article_original_opened: ["article_id", "source"],
+  public_practice_item_opened: ["item_id", "item_type", "source"],
+  metaverse_entered: ["source"],
   portfolio_conversion_clicked: ["destination", "source", "project_id"],
   portfolio_contact_submitted: ["source"],
   portfolio_contact_failed: ["failure_type", "source"],

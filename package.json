@@ -8,7 +8,7 @@
     "build": "next build",
     "check:links": "node scripts/check-links-assets.mjs",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint app components data e2e features lib packages scripts __tests__ --ext .js,.jsx,.mjs,.ts,.tsx",
     "type-check": "tsc --noEmit",
     "test": "pnpm type-check && jest",
     "test:unit": "jest",

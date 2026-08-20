@@ -1,19 +1,8 @@
 "use client"
 
-import { useId, useState, type FormEvent } from "react"
-import Link from "next/link"
+import { useState, type FormEvent, type SyntheticEvent } from "react"
 import { useRouter } from "next/navigation"
-import {
-  ArrowRight,
-  AudioLines,
-  Boxes,
-  Braces,
-  BrainCircuit,
-  CircuitBoard,
-  Gamepad2,
-  LoaderCircle,
-  Workflow,
-} from "lucide-react"
+import { ChevronDown, LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ADAPTIVE_FOCUS_PRESETS } from "@/features/adaptive-focus/config/presets"
@@ -21,22 +10,43 @@ import { ADAPTIVE_FOCUS_INPUT_MAX_LENGTH } from "@/features/adaptive-focus/hando
 import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
+const INPUT_ID = "adaptive-focus-role-input"
+const PRIMARY_PRESET_PRESENTATION = [
+  { id: "ai-product-systems", label: "AI product systems" },
+  { id: "game-ux-creator-systems", label: "Game UX" },
+  { id: "hitl-evaluation", label: "Human-in-loop" },
+  { id: "design-engineering", label: "Product + design eng" },
+] as const
+
+const primaryPresetIds = new Set(PRIMARY_PRESET_PRESENTATION.map((preset) => preset.id))
+const primaryPresets = PRIMARY_PRESET_PRESENTATION.map((presentation) => ({
+  ...ADAPTIVE_FOCUS_PRESETS.find((preset) => preset.id === presentation.id)!,
+  compactLabel: presentation.label,
+}))
+const secondaryPresets = ADAPTIVE_FOCUS_PRESETS.filter(
+  (preset) => !primaryPresetIds.has(preset.id as (typeof PRIMARY_PRESET_PRESENTATION)[number]["id"])
+)
+
 export function AdaptiveFocusEntry() {
   const router = useRouter()
-  const inputId = useId()
   const { preparePendingInput } = useAdaptiveFocusHandoff()
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const lensIcons = [
-    CircuitBoard,
-    Boxes,
-    BrainCircuit,
-    Workflow,
-    Braces,
-    AudioLines,
-    Gamepad2,
-  ]
+  const showCharacterCount = input.length >= ADAPTIVE_FOCUS_INPUT_MAX_LENGTH * 0.8
+
+  const openPreset = (presetId: string) => {
+    trackPortfolioEvent("adaptive_focus_started", {
+      entry_point: "home",
+      mode: "preset",
+    })
+    router.push(`/projects?focusPreset=${presetId}`)
+  }
+
+  const handleMoreLensesToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
+    if (!event.currentTarget.open) return
+    trackPortfolioEvent("adaptive_focus_more_lenses_expanded", { entry_point: "home" })
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -46,6 +56,7 @@ export function AdaptiveFocusEntry() {
       entry_point: "home",
       mode: "custom",
     })
+
     try {
       preparePendingInput(input)
       const [runtime, entities, handoff] = await Promise.all([
@@ -72,95 +83,102 @@ export function AdaptiveFocusEntry() {
         mode: "custom",
       })
       setError(
-        "Adaptive Focus could not prepare this brief. Try again or open Projects and use a preset lens."
+        "Adaptive Focus could not prepare this brief. Try again or choose a preset lens."
       )
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="signal-command-deck border border-primary/35 bg-black/90">
-      <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-b border-primary/25 px-3.5 py-2">
-        <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Adaptive Focus</h2>
-        <p className="text-[0.66rem] text-zinc-500">Define role. Activate lenses. Inspect evidence.</p>
+    <section
+      id="adaptive-focus"
+      className="home-focus-panel scroll-mt-24"
+      aria-labelledby="adaptive-focus-title"
+    >
+      <div className="home-focus-heading">
+        <div>
+          <p className="home-section-kicker">Optional role lens</p>
+          <h2 id="adaptive-focus-title">Adaptive Focus</h2>
+        </div>
+        <p>Paste a role or choose a lens to rank the same reviewed evidence.</p>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="grid divide-y divide-white/10 lg:grid-cols-[minmax(16rem,0.9fr)_minmax(0,1.8fr)_minmax(13rem,0.62fr)] lg:divide-x lg:divide-y-0">
-          <div className="p-3">
-            <div className="mb-2 flex items-center justify-between gap-3">
-              <label htmlFor={inputId} className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">
-                Role input
-              </label>
-              <span className="text-[0.58rem] text-zinc-600">
+      <form onSubmit={handleSubmit} className="home-focus-form">
+        <div className="home-focus-input-row">
+          <div className="home-focus-input-wrap">
+            <label htmlFor={INPUT_ID} className="sr-only">
+              Role or job description
+            </label>
+            <Textarea
+              id={INPUT_ID}
+              value={input}
+              maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="Paste a role or job description"
+              aria-describedby={`${INPUT_ID}-privacy`}
+              className="home-focus-input"
+            />
+            {showCharacterCount ? (
+              <span className="home-focus-count" aria-live="polite">
                 {input.length.toLocaleString()} / {ADAPTIVE_FOCUS_INPUT_MAX_LENGTH.toLocaleString()}
               </span>
-            </div>
-            <div className="flex items-start gap-2 border-t border-primary/30 pt-2">
-              <span className="mt-2 text-sm text-primary" aria-hidden="true">&gt;</span>
-              <Textarea
-                id={inputId}
-                value={input}
-                maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
-                onChange={(event) => setInput(event.target.value)}
-                placeholder="Senior AI/UX engineer building human-in-the-loop systems..."
-                aria-describedby={`${inputId}-privacy`}
-                className="min-h-12 resize-none border-0 bg-transparent px-0 py-2 text-xs italic shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
-            </div>
+            ) : null}
           </div>
-
-          <div className="p-3">
-            <p className="mb-2 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">Select a lens</p>
-            <div className="grid gap-px bg-white/10 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
-              {ADAPTIVE_FOCUS_PRESETS.map((preset, index) => {
-                const LensIcon = lensIcons[index] ?? CircuitBoard
-                return (
-                  <button
-                    key={preset.id}
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => {
-                      trackPortfolioEvent("adaptive_focus_started", {
-                        entry_point: "home",
-                        mode: "preset",
-                      })
-                      router.push(`/projects?focusPreset=${preset.id}`)
-                    }}
-                    className="group min-h-16 bg-black px-3 py-2 text-left transition-colors hover:bg-primary/[0.07] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <span className="flex items-center gap-2 text-xs font-semibold text-zinc-200 group-hover:text-primary">
-                      <LensIcon size={15} aria-hidden="true" /> {preset.label}
-                    </span>
-                    <span className="mt-1.5 line-clamp-2 block text-[0.62rem] leading-4 text-zinc-500 xl:hidden 2xl:block">
-                      {preset.description}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-between gap-2 p-3">
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-primary">Action</p>
-            <Button type="submit" disabled={!input.trim() || isLoading} className="h-10 w-full rounded-none text-xs uppercase tracking-[0.08em]">
-              {isLoading ? <LoaderCircle className="animate-spin" size={16} aria-hidden="true" /> : null}
-              {isLoading ? "Mapping evidence..." : "Build Role Fit Brief"}
-              {!isLoading ? <ArrowRight size={16} aria-hidden="true" /> : null}
-            </Button>
-            <Link href="/projects" className="inline-flex min-h-9 items-center justify-center border border-white/15 text-[0.65rem] text-zinc-400 transition-colors hover:border-primary/40 hover:text-primary">
-              Inspect Proof
-            </Link>
-          </div>
+          <Button
+            type="submit"
+            disabled={!input.trim() || isLoading}
+            className="home-focus-submit"
+          >
+            {isLoading ? <LoaderCircle className="animate-spin" size={16} aria-hidden="true" /> : null}
+            {isLoading ? "Mapping evidence" : "Analyze role"}
+          </Button>
         </div>
 
-        <div className="border-t border-white/10 px-3.5 py-1.5">
-          <p id={`${inputId}-privacy`} className="line-clamp-1 text-[0.56rem] leading-4 text-zinc-600 sm:line-clamp-none">
-            Custom role text is processed through the OpenAI API and is not stored by this website. Avoid confidential or personally identifying information. Preset lenses do not make a model request.
+        <div className="home-focus-presets" aria-label="Suggested role lenses">
+          {primaryPresets.map((preset) => (
+            <button
+              key={preset.id}
+              type="button"
+              disabled={isLoading}
+              onClick={() => openPreset(preset.id)}
+              className="home-focus-preset"
+              aria-label={`${preset.label}: ${preset.description}`}
+            >
+              {preset.compactLabel}
+            </button>
+          ))}
+        </div>
+
+        <div className="home-focus-footer">
+          <details className="home-focus-more" onToggle={handleMoreLensesToggle}>
+            <summary>
+              More lenses <ChevronDown size={15} aria-hidden="true" />
+            </summary>
+            <div className="home-focus-more-grid">
+              {secondaryPresets.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => openPreset(preset.id)}
+                >
+                  <strong>{preset.label}</strong>
+                  <span>{preset.description}</span>
+                </button>
+              ))}
+            </div>
+          </details>
+
+          <p id={`${INPUT_ID}-privacy`} className="home-focus-privacy">
+            Custom role text is processed by OpenAI and not stored. Do not submit confidential
+            information.
+            <span className="home-focus-privacy-detail">
+              {" "}Preset lenses stay local and do not call the model.
+            </span>
           </p>
-          {error ? <p role="alert" className="mt-1 text-xs text-destructive">{error}</p> : null}
         </div>
+        {error ? <p role="alert" className="home-focus-error">{error}</p> : null}
       </form>
-    </div>
+    </section>
   )
 }

@@ -62,8 +62,8 @@ const REQUIRED_SOURCE_LINKS = [
     value: "https://www.linkedin.com/in/mikejchaves",
   },
   {
-    label: "contact email",
-    value: "mailto:founder@gowizzo.io",
+    label: "protected contact form",
+    value: "/about#contact",
   },
   {
     label: "resume download",
@@ -93,10 +93,6 @@ function normalizeInternalPath(value) {
 
 function hasPublicAssetExtension(value) {
   return PUBLIC_ASSET_EXTENSIONS.has(path.extname(normalizeInternalPath(value)).toLowerCase())
-}
-
-function isHttpUrl(value) {
-  return value.startsWith("http://") || value.startsWith("https://")
 }
 
 function isMailto(value) {

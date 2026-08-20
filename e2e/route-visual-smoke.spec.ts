@@ -7,7 +7,11 @@ interface SmokeRoute {
 }
 
 const routes: SmokeRoute[] = [
-  { name: "home", path: "/", heading: /^Mike_\s*Chaves_$/i },
+  {
+    name: "home",
+    path: "/",
+    heading: "I build AI product systems, playable experiences, and immersive tools.",
+  },
   { name: "projects", path: "/projects", heading: "Project Signal Index" },
   { name: "wizzo", path: "/projects/wizzo", heading: "Wizzo" },
   { name: "playfold", path: "/projects/x-games", heading: "Playfold" },
@@ -115,7 +119,7 @@ test("project category controls update the rendered archive", async ({ page }, t
 
 test("homepage features only the curated public proof", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" })
-  const featured = page.locator('section[aria-labelledby="featured-projects-heading"]')
+  const featured = page.locator('section[aria-labelledby="selected-work-title"]')
 
   await expect(featured.getByRole("heading", { level: 3 })).toHaveText([
     "Wizzo",
@@ -123,6 +127,36 @@ test("homepage features only the curated public proof", async ({ page }) => {
     "SpeakEasy",
   ])
   await expect(featured).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
+  await expectNoHorizontalOverflow(page)
+})
+
+test("homepage role path focuses Adaptive Focus without suppressing core proof", async ({ page }) => {
+  await page.goto("/", { waitUntil: "domcontentloaded" })
+  await page.getByRole("link", { name: "Match me to a role" }).click()
+
+  await expect(page).toHaveURL(/#adaptive-focus$/u)
+  await expect(page.getByLabel("Role or job description")).toBeFocused()
+  await expect(page.getByRole("heading", { name: "Selected work" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Professional systems experience" })).toBeAttached()
+})
+
+test("mobile task menu traps focus, closes on Escape, and returns focus", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/", { waitUntil: "domcontentloaded" })
+  const trigger = page.getByRole("button", { name: "Open menu" })
+  await trigger.click()
+
+  const dialog = page.getByRole("dialog", { name: "Navigate portfolio" })
+  await expect(dialog).toBeVisible()
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
+  await page.keyboard.press("Shift+Tab")
+  await expect(dialog.getByRole("link", { name: "Enter Metaverse" })).toBeFocused()
+  await page.keyboard.press("Tab")
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
+
+  await page.keyboard.press("Escape")
+  await expect(dialog).toHaveCount(0)
+  await expect(trigger).toBeFocused()
   await expectNoHorizontalOverflow(page)
 })
 

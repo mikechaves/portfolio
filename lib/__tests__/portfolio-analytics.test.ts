@@ -90,6 +90,40 @@ describe("portfolio analytics", () => {
     })
   })
 
+  it("tracks homepage paths and disclosure without role or contact text", () => {
+    trackPortfolioEvent("homepage_path_selected", {
+      path: "role_match",
+      source: "home_hero",
+    })
+    trackPortfolioEvent("adaptive_focus_more_lenses_expanded", {
+      entry_point: "home",
+    })
+    trackPortfolioEvent("public_practice_item_opened", {
+      item_id: "futuressummit-2025",
+      item_type: "panel",
+      source: "home_public_practice",
+    })
+
+    expect(dispatchEvent.mock.calls.map(([event]) => (event as CustomEvent).detail)).toEqual([
+      {
+        name: "homepage_path_selected",
+        properties: { path: "role_match", source: "home_hero" },
+      },
+      {
+        name: "adaptive_focus_more_lenses_expanded",
+        properties: { entry_point: "home" },
+      },
+      {
+        name: "public_practice_item_opened",
+        properties: {
+          item_id: "futuressummit-2025",
+          item_type: "panel",
+          source: "home_public_practice",
+        },
+      },
+    ])
+  })
+
   it("does not allow raw visitor-data fields in any event contract", () => {
     const forbiddenProperty = /input|query|text|description|message|email|company|role_title/i
     const propertyNames = Object.values(PORTFOLIO_ANALYTICS_PROPERTY_ALLOWLIST).flat()

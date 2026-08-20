@@ -1,4 +1,4 @@
-import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowRight, Download, Github, Linkedin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
@@ -326,7 +326,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="profile-contact-section" aria-labelledby="contact-title">
+      <section id="contact" className="profile-contact-section scroll-mt-24" aria-labelledby="contact-title">
         <div className="profile-contact-intro">
           <p className="operating-profile-eyebrow">Location and availability</p>
           <h2 id="contact-title" className="scroll-mt-24">Start with the system you need to make usable</h2>
@@ -348,7 +348,6 @@ export default function AboutPage() {
             <a href="https://github.com/mikechaves" target="_blank" rel="noopener noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a>
             <a href="https://x.com/mikechaves_io" target="_blank" rel="noopener noreferrer"><XIcon className="h-4 w-4" /> X</a>
             <a href="https://www.linkedin.com/in/mikejchaves" target="_blank" rel="noopener noreferrer"><Linkedin size={17} aria-hidden="true" /> LinkedIn</a>
-            <a href="mailto:founder@gowizzo.io"><Mail size={17} aria-hidden="true" /> Email</a>
           </div>
         </div>
 

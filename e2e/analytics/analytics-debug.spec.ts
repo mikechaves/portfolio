@@ -52,6 +52,50 @@ test("consent-gated debug mode verifies the real funnel with zero provider trans
   expect(providerRequests).toEqual([])
 })
 
+test("homepage journey analytics records bounded paths, disclosure, and public practice", async ({
+  page,
+}) => {
+  const providerRequests: string[] = []
+  page.on("request", (request) => {
+    if (PROVIDER_REQUEST.test(request.url())) providerRequests.push(request.url())
+  })
+
+  await page.goto("/")
+  await page.getByRole("button", { name: "Allow optional analytics" }).click()
+  await page.getByRole("link", { name: "Match me to a role" }).click()
+  await page.getByText("More lenses", { exact: true }).click()
+
+  await expect
+    .poll(async () => (await debugEvents(page)).some(
+      (event) => event.parameters.item_id === "role_match"
+    ))
+    .toBe(true)
+  await expect
+    .poll(async () => (await debugEvents(page)).some(
+      (event) => event.parameters.item_list_id === "adaptive_focus_more_lenses"
+    ))
+    .toBe(true)
+
+  await page.getByRole("link", {
+    name: /Voice-First XR: Five Lessons from the Front Lines of Inclusive Design/iu,
+  }).click()
+  await page.waitForURL(/\/blog\/voice-first-xr$/u)
+
+  const events = await debugEvents(page)
+  expect(
+    events.some(
+      (event) =>
+        event.name === "select_content" &&
+        event.parameters.content_type === "writing" &&
+        event.parameters.item_id === "voice-first-xr"
+    )
+  ).toBe(true)
+  expect(JSON.stringify(events)).not.toMatch(
+    /job description|role text|message content|email address/iu
+  )
+  expect(providerRequests).toEqual([])
+})
+
 test("declining persists, records nothing, and remains reversible from the footer", async ({ page }) => {
   const providerRequests: string[] = []
   page.on("request", (request) => {

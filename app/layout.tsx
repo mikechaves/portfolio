@@ -89,6 +89,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-mono bg-black text-white min-h-screen flex flex-col">
         <JsonLd id="site-structured-data" data={getSiteStructuredData()} />
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <div
           className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
           aria-hidden="true"
@@ -97,7 +98,7 @@ export default function RootLayout({
         {/* SnowCrashEffects keeps the opt-in Metaverse entry available on the homepage. */}
         <SnowCrashEffects />
 
-        <main className="site-main flex-1 relative z-10">
+        <main id="main-content" tabIndex={-1} className="site-main flex-1 relative z-10">
           <AdaptiveFocusHandoffProvider>
             <RouteTransition>{children}</RouteTransition>
           </AdaptiveFocusHandoffProvider>
