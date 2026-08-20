@@ -234,6 +234,10 @@ and focus returns to its trigger. The main content has a skip link, stable secti
 ordered `h2` sections, visible focus states, and no new immersive or Three.js dependency in the
 standard homepage path.
 
+The priority Black Sun backdrop is served as a dedicated 1200 x 475, 17 kB static WebP. It bypasses
+the deployment provider's image-optimization quota while retaining the same source composition;
+the direct asset is part of the local link audit and repeated mobile Lighthouse checks.
+
 ### First-viewport result
 
 | Viewport | Hero height | Adaptive Focus height | Selected work begins | Featured cards begin | Result |
@@ -286,8 +290,8 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2460 ms; CLS 0; TBT 1 ms; 277 kB | LCP 6 ms faster; CLS preserved; TBT 4 ms lower; transfer remains within budget. |
-| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 559 ms; CLS 0; TBT 0 ms; 502 kB | LCP 126 ms faster and transfer 50 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2463 ms; CLS 0; TBT 4 ms; 285 kB | LCP 3 ms faster; CLS preserved; TBT 1 ms lower; transfer remains within budget. |
+| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 475 kB | LCP 146 ms faster and transfer 77 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
 Console ingestion. Preview readiness, exact-head merge, deployment readiness, and canonical

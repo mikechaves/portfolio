@@ -97,12 +97,12 @@ export default function Home() {
       <div className="home-content-layer relative z-10">
         <section className="home-journey-hero" aria-labelledby="home-title">
           <Image
-            src="/visuals/black-sun-signal-grid.webp"
+            src="/visuals/black-sun-signal-grid-static.webp"
             alt=""
             decoding="sync"
             fill
             priority
-            quality={60}
+            unoptimized
             sizes="100vw"
             className="home-journey-visual"
           />
