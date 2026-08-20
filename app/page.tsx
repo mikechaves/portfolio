@@ -1,5 +1,4 @@
 import Link from "next/link"
-import Image from "next/image"
 import {
   ArrowRight,
   AudioLines,
@@ -10,10 +9,11 @@ import {
   Linkedin,
 } from "lucide-react"
 import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
+import { FeaturedProjectCard } from "@/components/featured-project-card"
+import { HeroVisualCanvas } from "@/components/hero-visual-canvas"
 import { HomeJourneyLink } from "@/components/home-journey-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { ProgressiveHeroBackground } from "@/components/progressive-hero-background"
-import { ProjectCard } from "@/components/project-card"
 import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
 import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
 import { PROJECTS } from "@/data/projects"
@@ -95,17 +95,14 @@ export default function Home() {
       <ProgressiveHeroBackground />
 
       <div className="home-content-layer relative z-10">
+        <link
+          rel="preload"
+          as="image"
+          href="/visuals/black-sun-signal-grid-static.webp"
+          fetchPriority="high"
+        />
         <section className="home-journey-hero" aria-labelledby="home-title">
-          <Image
-            src="/visuals/black-sun-signal-grid-static.webp"
-            alt=""
-            decoding="async"
-            fill
-            priority
-            unoptimized
-            sizes="100vw"
-            className="home-journey-visual"
-          />
+          <HeroVisualCanvas />
           <div className="home-journey-copy">
             <p className="home-section-kicker">AI-Native Design Engineer</p>
             <h1 id="home-title">
@@ -166,12 +163,10 @@ export default function Home() {
           </div>
           <div className="home-featured-grid">
             {featuredProjects.map(({ project, presentation }) => (
-              <ProjectCard
+              <FeaturedProjectCard
                 key={project.id}
-                {...project}
+                project={project}
                 {...presentation}
-                analyticsContext="home_featured"
-                variant="featured"
               />
             ))}
           </div>

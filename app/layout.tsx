@@ -9,7 +9,6 @@ import { SnowCrashEffects } from "@/components/snow-crash-effects"
 
 import { LabelsProvider } from "@/components/labels-provider"
 import { RouteTransition } from "@/components/route-transition"
-import { AdaptiveFocusHandoffProvider } from "@/features/adaptive-focus/handoff-context"
 import {
   createRobotsMetadata,
   DEFAULT_DESCRIPTION,
@@ -99,9 +98,7 @@ export default function RootLayout({
         <SnowCrashEffects />
 
         <main id="main-content" tabIndex={-1} className="site-main flex-1 relative z-10">
-          <AdaptiveFocusHandoffProvider>
-            <RouteTransition>{children}</RouteTransition>
-          </AdaptiveFocusHandoffProvider>
+          <RouteTransition>{children}</RouteTransition>
         </main>
         <Footer analyticsPreferencesEnabled={analyticsPreferencesEnabled} />
 

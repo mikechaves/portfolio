@@ -6,8 +6,10 @@ import { ChevronDown, LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ADAPTIVE_FOCUS_PRESETS } from "@/features/adaptive-focus/config/presets"
-import { ADAPTIVE_FOCUS_INPUT_MAX_LENGTH } from "@/features/adaptive-focus/handoff"
-import { useAdaptiveFocusHandoff } from "@/features/adaptive-focus/handoff-context"
+import {
+  ADAPTIVE_FOCUS_INPUT_MAX_LENGTH,
+  savePendingAdaptiveFocusInput,
+} from "@/features/adaptive-focus/handoff"
 import { trackPortfolioEvent } from "@/lib/portfolio-analytics"
 
 const INPUT_ID = "adaptive-focus-role-input"
@@ -29,7 +31,6 @@ const secondaryPresets = ADAPTIVE_FOCUS_PRESETS.filter(
 
 export function AdaptiveFocusEntry() {
   const router = useRouter()
-  const { preparePendingInput } = useAdaptiveFocusHandoff()
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -58,7 +59,7 @@ export function AdaptiveFocusEntry() {
     })
 
     try {
-      preparePendingInput(input)
+      savePendingAdaptiveFocusInput(window.sessionStorage, input)
       const [runtime, entities, handoff] = await Promise.all([
         import("@/features/adaptive-focus/runtime"),
         import("@/features/adaptive-focus/evidence/entities"),

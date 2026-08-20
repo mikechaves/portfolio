@@ -39,6 +39,8 @@ describe("homepage progressive disclosure", () => {
     expect(HOMEPAGE_FEATURED_PROJECT_IDS).toEqual(["wizzo", "x-games", "speakeasy"])
     expect(PUBLIC_PROJECT_ORDER).toHaveLength(11)
     expect(homeSource).toContain('actionLabel: "View Playfold"')
+    expect(homeSource).toContain("<FeaturedProjectCard")
+    expect(homeSource).not.toContain("<ProjectCard")
     expect(homeSource).not.toContain('href="/projects/playfold"')
   })
 
@@ -68,6 +70,8 @@ describe("homepage progressive disclosure", () => {
   it("adds a skip link and keeps new contact paths on the protected form", () => {
     expect(layoutSource).toContain('href="#main-content"')
     expect(layoutSource).toContain('id="main-content"')
+    expect(layoutSource).not.toContain("AdaptiveFocusHandoffProvider")
+    expect(focusSource).toContain("savePendingAdaptiveFocusInput")
     expect(homeSource).toContain('href="/about#contact"')
     expect(homeSource).not.toMatch(/mailto:/u)
   })

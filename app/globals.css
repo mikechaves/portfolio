@@ -2476,9 +2476,11 @@ footer .container {
 }
 
 .home-journey-visual {
+  position: absolute;
   z-index: 0;
-  object-fit: cover;
-  object-position: right center;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .home-journey-copy {
@@ -3206,10 +3208,6 @@ footer .container {
   .home-journey-hero {
     min-height: 0;
     align-items: flex-start;
-  }
-
-  .home-journey-visual {
-    object-position: 58% center;
   }
 
   .home-journey-hero::before {

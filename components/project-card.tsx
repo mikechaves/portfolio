@@ -1,22 +1,14 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import {
-  trackPortfolioEvent,
-  type ProjectEvidenceSource,
-  type ProjectMatchLevel,
-} from "@/lib/portfolio-analytics"
+import type { ReactNode } from "react"
+import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
+import type { ProjectEvidenceSource, ProjectMatchLevel } from "@/lib/portfolio-analytics"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
 type ProjectCardProps = Project & {
-  actionLabel?: string
   analyticsContext?: ProjectEvidenceSource
   analyticsMatchLevel?: ProjectMatchLevel
-  eyebrow?: string
   priority?: boolean
-  summary?: string
-  variant?: "default" | "featured"
 }
 
 const THUMBNAIL_OBJECT_POSITIONS: Record<ProjectThumbnailFocalPoint, string> = {
@@ -27,73 +19,63 @@ const THUMBNAIL_OBJECT_POSITIONS: Record<ProjectThumbnailFocalPoint, string> = {
   right: "right center",
 }
 
+interface ProjectCardLinkProps {
+  analyticsContext?: ProjectEvidenceSource
+  analyticsMatchLevel: ProjectMatchLevel
+  children: ReactNode
+  className: string
+  projectId: string
+}
+
+function ProjectCardLink({
+  analyticsContext,
+  analyticsMatchLevel,
+  children,
+  className,
+  projectId,
+}: ProjectCardLinkProps) {
+  const href = `/projects/${projectId}`
+
+  if (analyticsContext) {
+    return (
+      <TrackedPortfolioLink
+        href={href}
+        eventName="project_evidence_opened"
+        eventProperties={{
+          project_id: projectId,
+          source: analyticsContext,
+          match_level: analyticsMatchLevel,
+        }}
+        className={className}
+      >
+        {children}
+      </TrackedPortfolioLink>
+    )
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export function ProjectCard({
-  actionLabel = "Inspect evidence",
   id,
   title,
   description,
-  eyebrow,
   image,
   technologies,
   thumbnailFocalPoint = "center",
   analyticsContext,
   analyticsMatchLevel = "unranked",
   priority,
-  summary,
-  variant = "default",
 }: ProjectCardProps) {
-  if (variant === "featured") {
-    return (
-      <Link
-        href={`/projects/${id}`}
-        onClick={
-          analyticsContext
-            ? () =>
-                trackPortfolioEvent("project_evidence_opened", {
-                  project_id: id,
-                  source: analyticsContext,
-                  match_level: analyticsMatchLevel,
-                })
-            : undefined
-        }
-        className="home-featured-card group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-      >
-        <article>
-          <div className="home-featured-image">
-            <Image
-              src={image || `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`}
-              alt={`${title} project interface`}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-              style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }}
-              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-              priority={priority}
-            />
-          </div>
-          <div className="home-featured-copy">
-            {eyebrow ? <p>{eyebrow}</p> : null}
-            <h3>{title}</h3>
-            <span>{summary ?? description}</span>
-            <strong>{actionLabel} <span aria-hidden="true">↗</span></strong>
-          </div>
-        </article>
-      </Link>
-    )
-  }
-
   return (
-    <Link
-      href={`/projects/${id}`}
-      onClick={
-        analyticsContext
-          ? () =>
-              trackPortfolioEvent("project_evidence_opened", {
-                project_id: id,
-                source: analyticsContext,
-                match_level: analyticsMatchLevel,
-              })
-          : undefined
-      }
+    <ProjectCardLink
+      projectId={id}
+      analyticsContext={analyticsContext}
+      analyticsMatchLevel={analyticsMatchLevel}
       className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
@@ -133,6 +115,6 @@ export function ProjectCard({
           </div>
         </div>
       </article>
-    </Link>
-  );
+    </ProjectCardLink>
+  )
 }

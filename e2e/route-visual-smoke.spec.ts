@@ -52,6 +52,13 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
+async function revealProjectExplorer(page: Page) {
+  const explorer = page.locator("[data-project-explorer]")
+  await expect(explorer).toBeAttached()
+  await explorer.scrollIntoViewIfNeeded()
+  await expect(page.locator('section[aria-labelledby="project-archive-heading"]')).toBeVisible()
+}
+
 async function openPreset(page: Page, presetId: string) {
   await page.goto(`/projects?focusPreset=${presetId}`, { waitUntil: "domcontentloaded" })
   const heading = page.getByRole("heading", { level: 2, name: "Role Fit Brief", exact: true })
@@ -175,6 +182,7 @@ test("project media loads the fullscreen viewer on first activation", async ({ p
 
 test("public archive follows the canonical project order", async ({ page }) => {
   await page.goto("/projects", { waitUntil: "domcontentloaded" })
+  await revealProjectExplorer(page)
   const archive = page.locator('section[aria-labelledby="project-archive-heading"]')
   const seeMore = archive.getByRole("button", { name: "See More" })
   if (await seeMore.isVisible()) await seeMore.click()
