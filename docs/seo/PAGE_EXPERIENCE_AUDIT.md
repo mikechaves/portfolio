@@ -78,10 +78,16 @@ The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
    unrelated route chunks into the initial trace.
 8. Deferred below-the-fold and supporting media, while keeping explicit dimensions and accessible
    labels to preserve layout stability.
+9. Published the standard homepage as static Pages Router markup with `unstable_runtimeJS: false`.
+   Its generated HTML contains no Next.js/React script or `__NEXT_DATA__`; three small deferred
+   scripts retain the baseline homepage, bounded-link, and native-dialog interactions. A fourth
+   lightweight consent bridge is emitted only where analytics is configured.
 
-The current Next.js first-load JavaScript report is 102 kB for Home, 121 kB for About, 106 kB for
-Projects, 131 kB for a project dossier, and 111 kB for an article summary. The pre-change report was
-approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for project dossiers.
+The current build report lists a theoretical 124 kB Pages bundle for Home, 121 kB for About, 106 kB
+for Projects, 131 kB for a project dossier, and 111 kB for an article summary. The Home bundle is
+not emitted into its HTML because runtime JavaScript is disabled for that page. The pre-change
+report was approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for project
+dossiers.
 
 ## Homepage progressive-disclosure revalidation — 2026-08-20
 
@@ -91,11 +97,11 @@ passed:
 
 | Template | Mobile score / LCP / CLS / TBT / transfer | Desktop score / LCP / CLS / TBT / transfer |
 | --- | --- | --- |
-| Home | 99 / 2,171 ms / 0 / 11 ms / 174 kB | 100 / 498 ms / 0 / 0 ms / 239 kB |
-| Operator/contact | 98 / 2,384 ms / 0 / 2 ms / 216 kB | 100 / 538 ms / 0 / 0 ms / 305 kB |
-| Project hub | 100 / 1,855 ms / 0 / 2 ms / 177 kB | 100 / 417 ms / 0 / 0 ms / 380 kB |
-| Project dossier | 98 / 2,307 ms / 0 / 1 ms / 260 kB | 100 / 561 ms / 0.001 / 0 ms / 279 kB |
-| Article summary | 100 / 1,929 ms / 0 / 0 ms / 179 kB | 100 / 436 ms / 0 / 0 ms / 180 kB |
+| Home | 100 / 1,364 ms / 0 / 0 ms / 59 kB | 100 / 326 ms / 0 / 0 ms / 124 kB |
+| Operator/contact | 98 / 2,384 ms / 0 / 2 ms / 216 kB | 100 / 539 ms / 0 / 0 ms / 305 kB |
+| Project hub | 100 / 1,852 ms / 0 / 0 ms / 177 kB | 100 / 416 ms / 0 / 0 ms / 380 kB |
+| Project dossier | 98 / 2,382 ms / 0 / 1 ms / 250 kB | 100 / 561 ms / 0.001 / 0 ms / 269 kB |
+| Article summary | 100 / 1,928 ms / 0 / 0 ms / 169 kB | 100 / 457 ms / 0 / 0 ms / 171 kB |
 
 This is controlled local lab evidence. Hosted Preview, canonical Production, and field-CWV proof
 remain separate release gates.

@@ -81,7 +81,7 @@ export function AnalyticsManager({
   gaMeasurementId,
   productionTransportEnabled,
 }: AnalyticsManagerProps) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? "/"
   const [consent, setConsent] = useState<AnalyticsConsent>("unknown")
   const [gaReady, setGaReady] = useState(false)
   const [preferencesOpen, setPreferencesOpen] = useState(false)

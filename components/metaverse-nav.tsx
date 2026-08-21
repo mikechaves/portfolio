@@ -1618,7 +1618,7 @@ function HudDock({
 // Top-level
 // -----------------------------------------------------------------------------
 export function MetaverseNav() {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? "/"
   const router = useRouter()
   const searchParams = useSearchParams()
   const [showMetaverse, setShowMetaverse] = useState(false)
@@ -1666,7 +1666,7 @@ export function MetaverseNav() {
   useEffect(() => {
     if (
       (pathname !== "/" && pathname !== "/metaverse") ||
-      searchParams.get("metaverse") !== "true" ||
+      searchParams?.get("metaverse") !== "true" ||
       openedFromQueryRef.current
     ) return
 

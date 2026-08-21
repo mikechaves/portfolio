@@ -232,7 +232,12 @@ The implemented homepage now follows the required hiring journey in source and v
 The mobile task menu uses the browser's modal dialog behavior with a small progressive-enhancement
 script: Escape closes it, focus is contained while open, and focus returns to its trigger. The main
 content has a skip link, stable section anchors, one `h1`, ordered `h2` sections, visible focus
-states, and no immersive or Three.js dependency in the standard homepage path.
+states, and no immersive or Three.js dependency in the standard homepage path. The root route is a
+Pages Router static page with `unstable_runtimeJS: false`: the emitted document contains no Next.js
+or React scripts and no `__NEXT_DATA__`. Three baseline deferred scripts own only homepage
+interaction, bounded link events, and the native navigation dialog; a fourth lightweight consent
+bridge is emitted only where the analytics runtime is configured. App Router routes keep their
+existing runtime boundaries.
 
 The priority Black Sun backdrop remains a dedicated 1200 x 475, 17 kB static WebP. A high-priority
 preload and semantic image request paint the approved source composition without entering the
@@ -288,27 +293,29 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - frozen-lockfile install: pass;
 - lint: pass (the repository's legacy ESLint config emits its ESLint 10 migration notice only);
 - type-check: pass;
-- unit tests: 36 suites, 210 tests passed;
-- link/asset audit: 202 assets, 179 internal routes, 82 external or mail references, and all five
+- unit tests: 36 suites, 211 tests passed;
+- link/asset audit: 210 assets, 180 internal routes, 82 external or mail references, and all five
   required contact/social/resume links passed;
-- production build: pass, homepage first-load JavaScript 102 kB and project-index first-load
-  JavaScript 106 kB;
+- production build: pass; the build report's theoretical Pages bundle is 124 kB, but the emitted
+  homepage has zero framework scripts and no `__NEXT_DATA__`; project-index first-load JavaScript
+  remains 106 kB;
 - visual/browser smoke: 40 tests passed across desktop and mobile;
 - SEO audit: 4 tests passed;
 - analytics audit: 5 tests passed with zero-provider privacy scenarios;
 - performance audit: all 10 route/profile scenarios passed.
 - homepage runtime: Adaptive Focus, conversion/evidence/public-practice analytics, strict
-  below-fold media loading, and the native mobile dialog use small deferred browser scripts instead
-  of React client boundaries. Forms, links, cards, the Black Sun image, and optimized image shells
-  remain server-rendered. The root layout leaves route content server-owned instead of passing the
-  full page tree through a client-side transition wrapper.
+  below-fold media loading, consent preferences, and the native mobile dialog use small deferred
+  browser scripts instead of React client boundaries. Forms, links, cards, icons, and the Black Sun
+  image remain static server-rendered markup. The standard homepage ships no React hydration
+  runtime; the explicit Metaverse route and the rest of the application retain their scoped App
+  Router behavior.
 
 ### Homepage performance comparison
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 99; LCP 2171 ms; CLS 0; TBT 11 ms; 174 kB | LCP 295 ms faster; CLS preserved; TBT remains 189 ms inside budget; transfer 63 kB lower. |
-| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 498 ms; CLS 0; TBT 0 ms; 239 kB | LCP 187 ms faster and transfer 313 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 100; LCP 1364 ms; CLS 0; TBT 0 ms; 59 kB | LCP 1102 ms faster; CLS preserved; TBT removed; transfer 178 kB lower. |
+| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 326 ms; CLS 0; TBT 0 ms; 124 kB | LCP 359 ms faster and transfer 428 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
 Console ingestion. Preview readiness, exact-head merge, deployment readiness, and canonical

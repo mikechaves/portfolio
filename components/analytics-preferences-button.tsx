@@ -7,6 +7,7 @@ export function AnalyticsPreferencesButton() {
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(ANALYTICS_PREFERENCES_EVENT))}
+      data-analytics-preferences-open
       className="min-h-11 text-[0.62rem] uppercase tracking-[0.1em] text-zinc-400 transition-colors hover:text-primary"
     >
       Analytics preferences

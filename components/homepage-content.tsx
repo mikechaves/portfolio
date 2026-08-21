@@ -86,18 +86,10 @@ const publicPracticeItems = [
   },
 ] as const
 
-export default function Home() {
+export function HomepageContent() {
   return (
     <div className="home-immersive-page relative isolate">
-      <script src="/scripts/homepage.js" defer data-homepage-script />
-
       <div className="home-content-layer relative z-10">
-        <link
-          rel="preload"
-          as="image"
-          href="/visuals/black-sun-signal-grid-static.webp"
-          fetchPriority="high"
-        />
         <section className="home-journey-hero" aria-labelledby="home-title">
           {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimized local art avoids runtime image billing */}
           <img

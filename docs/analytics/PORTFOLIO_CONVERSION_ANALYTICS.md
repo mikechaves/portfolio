@@ -48,6 +48,12 @@ Vercel telemetry.
 All properties pass through the runtime allowlist in `lib/portfolio-analytics.ts`. GA4 mapping is
 defined in `lib/analytics/ga4.ts`.
 
+The zero-framework-runtime homepage mirrors those same allowlist and mapping contracts in its
+small deferred analytics bridge. It preserves the same consent storage key and reload-bounded debug
+session, so a deliberate full-page handoff from `/` into an App Router route carries only sanitized
+GA4-shaped events. The automated audit exercises that cross-router handoff and rejects provider
+requests in debug mode.
+
 | App/GA4 event | Trigger | Allowed parameters | GA4 meaning | Business meaning |
 | --- | --- | --- | --- | --- |
 | `page_view` | First consented view of a pathname and each subsequent client-side pathname change. Query and hash are removed; the same pathname is sent once per document lifecycle. | `page_path`, canonical `page_location`, `page_title`, `page_group` | Recommended GA4 pageview. | Acquisition landing page and navigation baseline. |

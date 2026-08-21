@@ -7,10 +7,10 @@ const readSource = (relativePath: string) =>
   fs.readFileSync(path.join(process.cwd(), relativePath), "utf8")
 
 describe("homepage progressive disclosure", () => {
-  const homeSource = readSource("app/page.tsx")
+  const homeSource = readSource("components/homepage-content.tsx")
+  const pageSource = readSource("pages/index.tsx")
   const focusSource = readSource("components/adaptive-focus-entry.tsx")
   const bridgeSource = readSource("public/scripts/homepage.js")
-  const layoutSource = readSource("app/layout.tsx")
 
   it("publishes the hiring-first statement and three requested hero actions", () => {
     expect(homeSource).toContain("AI-Native Design Engineer")
@@ -69,9 +69,9 @@ describe("homepage progressive disclosure", () => {
   })
 
   it("adds a skip link and keeps new contact paths on the protected form", () => {
-    expect(layoutSource).toContain('href="#main-content"')
-    expect(layoutSource).toContain('id="main-content"')
-    expect(layoutSource).not.toContain("AdaptiveFocusHandoffProvider")
+    expect(pageSource).toContain('href="#main-content"')
+    expect(pageSource).toContain('id="main-content"')
+    expect(pageSource).not.toContain("AdaptiveFocusHandoffProvider")
     expect(bridgeSource).toContain('const pendingKey = "adaptive-focus:pending:v2"')
     expect(bridgeSource).toContain("window.sessionStorage.setItem(pendingKey, payload)")
     expect(homeSource).toContain('href="/about#contact"')

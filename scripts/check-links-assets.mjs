@@ -429,7 +429,7 @@ function extractExternalReferences(fileText, isMarkdown = false) {
 }
 
 async function validateSourceReferences(routeSet) {
-  const sourceRoots = ["app", "components", "data", "docs", "features", "lib", "public/data"]
+  const sourceRoots = ["app", "components", "data", "docs", "features", "lib", "pages", "public/data"]
   const sourceFiles = []
   for (const sourceRoot of sourceRoots) {
     sourceFiles.push(...await listFiles(path.join(ROOT_DIR, sourceRoot)))
