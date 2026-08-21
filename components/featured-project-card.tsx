@@ -1,4 +1,4 @@
-import { DeferredFeaturedProjectImage } from "@/components/deferred-featured-project-image"
+import { FeaturedProjectImage } from "@/components/featured-project-image"
 import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
@@ -17,12 +17,33 @@ const THUMBNAIL_OBJECT_POSITIONS: Record<ProjectThumbnailFocalPoint, string> = {
   right: "right center",
 }
 
+const HOME_FEATURED_IMAGES = {
+  wizzo: {
+    src: "/projects/wizzo/app-interface-home.webp",
+    width: 900,
+    height: 404,
+  },
+  "x-games": {
+    src: "/projects/x-games/generated-game-detail-home.webp",
+    width: 900,
+    height: 657,
+  },
+  speakeasy: {
+    src: "/projects/speakeasy/thesis-defense-home.webp",
+    width: 900,
+    height: 675,
+  },
+} as const
+
 export function FeaturedProjectCard({
   actionLabel,
   eyebrow,
   project,
   summary,
 }: FeaturedProjectCardProps) {
+  const image = HOME_FEATURED_IMAGES[project.id as keyof typeof HOME_FEATURED_IMAGES]
+  if (!image) throw new Error(`Missing homepage image for featured project: ${project.id}`)
+
   return (
     <PortfolioEventLink
       href={`/projects/${project.id}`}
@@ -35,8 +56,8 @@ export function FeaturedProjectCard({
       className="home-featured-card group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
     >
       <article>
-        <DeferredFeaturedProjectImage
-          src={project.image}
+        <FeaturedProjectImage
+          {...image}
           alt={`${project.title} project interface`}
           objectPosition={
             THUMBNAIL_OBJECT_POSITIONS[project.thumbnailFocalPoint ?? "center"]

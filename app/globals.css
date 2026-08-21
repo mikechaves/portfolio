@@ -2910,6 +2910,24 @@ footer .container {
   background: #050505;
 }
 
+.home-featured-native-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 180ms ease, transform 500ms ease;
+}
+
+.home-featured-native-image[data-home-featured-loaded="true"] {
+  opacity: 1;
+}
+
+.home-featured-card:hover .home-featured-native-image {
+  transform: scale(1.02);
+}
+
 .home-featured-copy {
   padding: 1rem;
 }

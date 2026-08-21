@@ -9,12 +9,16 @@ describe("server-first homepage interactions", () => {
   const bridgeSource = readSource("components/homepage-client-bridge.tsx")
   const eventLinkSource = readSource("components/portfolio-event-link.tsx")
   const journeyLinkSource = readSource("components/home-journey-link.tsx")
+  const focusSource = readSource("components/adaptive-focus-entry.tsx")
   const featuredCardSource = readSource("components/featured-project-card.tsx")
+  const featuredImageSource = readSource("components/featured-project-image.tsx")
 
   it("hydrates one homepage bridge instead of per-link handlers", () => {
     expect(pageSource.match(/<HomepageClientBridge \/>/gu)).toHaveLength(1)
     expect(pageSource).not.toContain("TrackedPortfolioLink")
     expect(pageSource).not.toContain("HeroVisualCanvas")
+    expect(pageSource).not.toContain("ProgressiveHeroBackground")
+    expect(pageSource).not.toContain('from "next/link"')
     expect(pageSource).toContain('<canvas className="home-journey-visual"')
   })
 
@@ -22,10 +26,17 @@ describe("server-first homepage interactions", () => {
     expect(eventLinkSource).not.toMatch(/^\s*["']use client["']/u)
     expect(eventLinkSource).toContain("data-portfolio-event")
     expect(eventLinkSource).toContain("data-portfolio-properties")
+    expect(eventLinkSource).not.toContain('from "next/link"')
     expect(journeyLinkSource).not.toMatch(/^\s*["']use client["']/u)
     expect(journeyLinkSource).toContain("PortfolioEventLink")
     expect(journeyLinkSource).not.toContain("onClick")
     expect(featuredCardSource).toContain("PortfolioEventLink")
+    expect(focusSource).not.toMatch(/^\s*["']use client["']/u)
+    expect(focusSource).not.toContain("onSubmit")
+    expect(focusSource).not.toContain("onClick")
+    expect(focusSource).toContain("data-adaptive-focus-form")
+    expect(featuredImageSource).not.toMatch(/^\s*["']use client["']/u)
+    expect(featuredImageSource).toContain("data-home-featured-src")
   })
 
   it("bounds delegated homepage analytics and preserves journey behavior", () => {
@@ -38,6 +49,10 @@ describe("server-first homepage interactions", () => {
       expect(bridgeSource).toContain(`case "${eventName}"`)
     }
     expect(bridgeSource).toContain('document.addEventListener("click", handleClick)')
+    expect(bridgeSource).toContain('focusForm?.addEventListener("submit"')
+    expect(bridgeSource).toContain("data-adaptive-focus-preset")
+    expect(bridgeSource).toContain("IntersectionObserver")
+    expect(bridgeSource).toContain("HeroBackground")
     expect(bridgeSource).toContain("prefers-reduced-motion: reduce")
     expect(bridgeSource).toContain("focus({ preventScroll: true })")
   })

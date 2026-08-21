@@ -9,6 +9,7 @@ const readSource = (relativePath: string) =>
 describe("homepage progressive disclosure", () => {
   const homeSource = readSource("app/page.tsx")
   const focusSource = readSource("components/adaptive-focus-entry.tsx")
+  const bridgeSource = readSource("components/homepage-client-bridge.tsx")
   const layoutSource = readSource("app/layout.tsx")
 
   it("publishes the hiring-first statement and three requested hero actions", () => {
@@ -71,7 +72,7 @@ describe("homepage progressive disclosure", () => {
     expect(layoutSource).toContain('href="#main-content"')
     expect(layoutSource).toContain('id="main-content"')
     expect(layoutSource).not.toContain("AdaptiveFocusHandoffProvider")
-    expect(focusSource).toContain("savePendingAdaptiveFocusInput")
+    expect(bridgeSource).toContain("savePendingAdaptiveFocusInput")
     expect(homeSource).toContain('href="/about#contact"')
     expect(homeSource).not.toMatch(/mailto:/u)
   })

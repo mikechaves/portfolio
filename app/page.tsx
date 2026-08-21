@@ -1,4 +1,3 @@
-import Link from "next/link"
 import {
   ArrowRight,
   AudioLines,
@@ -14,7 +13,6 @@ import { HomeJourneyLink } from "@/components/home-journey-link"
 import { HomepageClientBridge } from "@/components/homepage-client-bridge"
 import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
-import { ProgressiveHeroBackground } from "@/components/progressive-hero-background"
 import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
 import { PROJECTS } from "@/data/projects"
 import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evidence/professional-experience"
@@ -92,7 +90,6 @@ const publicPracticeItems = [
 export default function Home() {
   return (
     <div className="home-immersive-page relative isolate">
-      <ProgressiveHeroBackground />
       <HomepageClientBridge />
 
       <div className="home-content-layer relative z-10">
@@ -132,7 +129,6 @@ export default function Home() {
               <PortfolioEventLink
                 href="/Michael_Chaves_Resume_min.pdf"
                 download
-                prefetch={false}
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "home_hero" }}
                 className="home-text-action"
@@ -158,9 +154,10 @@ export default function Home() {
               <p className="home-section-kicker">Three flagship proofs</p>
               <h2 id="selected-work-title">Selected work</h2>
             </div>
-            <Link href="/projects" prefetch={false}>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- keeps the homepage server-first */}
+            <a href="/projects">
               View all projects <ArrowRight size={15} aria-hidden="true" />
-            </Link>
+            </a>
           </div>
           <div className="home-featured-grid">
             {featuredProjects.map(({ project, presentation }) => (
@@ -223,14 +220,14 @@ export default function Home() {
               <p className="home-section-kicker">Ideas in the open</p>
               <h2 id="public-practice-title">Writing and public practice</h2>
             </div>
-            <Link href="/blog" prefetch={false}>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- keeps the homepage server-first */}
+            <a href="/blog">
               View all writing <ArrowRight size={15} aria-hidden="true" />
-            </Link>
+            </a>
           </div>
           <div className="home-practice-grid">
             <PortfolioEventLink
               href="/blog/voice-first-xr"
-              prefetch={false}
               eventName="public_practice_item_opened"
               eventProperties={{
                 item_id: "voice-first-xr",
@@ -252,7 +249,6 @@ export default function Home() {
                 <PortfolioEventLink
                   key={item.id}
                   href="/about#public-practice-title"
-                  prefetch={false}
                   eventName="public_practice_item_opened"
                   eventProperties={{
                     item_id: item.id,
@@ -280,7 +276,6 @@ export default function Home() {
           <div className="home-contact-actions">
             <PortfolioEventLink
               href="/about#contact"
-              prefetch={false}
               eventName="portfolio_conversion_clicked"
               eventProperties={{ destination: "contact", source: "home_contact" }}
               className="home-primary-action"
@@ -290,7 +285,6 @@ export default function Home() {
             <PortfolioEventLink
               href="/Michael_Chaves_Resume_min.pdf"
               download
-              prefetch={false}
               eventName="portfolio_conversion_clicked"
               eventProperties={{ destination: "resume", source: "home_contact" }}
               className="home-secondary-action"

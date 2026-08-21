@@ -1,4 +1,3 @@
-import Link from "next/link"
 import type { ComponentProps } from "react"
 import type {
   PortfolioAnalyticsEventMap,
@@ -6,7 +5,7 @@ import type {
 } from "@/lib/portfolio-analytics"
 
 type PortfolioEventLinkProps<Name extends PortfolioAnalyticsEventName> = Omit<
-  ComponentProps<typeof Link>,
+  ComponentProps<"a">,
   "onClick"
 > & {
   eventName: Name
@@ -23,7 +22,7 @@ export function PortfolioEventLink<Name extends PortfolioAnalyticsEventName>({
   ...linkProps
 }: PortfolioEventLinkProps<Name>) {
   return (
-    <Link
+    <a
       {...linkProps}
       data-portfolio-event={eventName}
       data-portfolio-properties={JSON.stringify(eventProperties)}
