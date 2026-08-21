@@ -39,13 +39,29 @@ describe("global route context", () => {
       path.join(__dirname, "..", "components", "site-nav.tsx"),
       "utf8"
     )
+    const runtime = fs.readFileSync(
+      path.join(__dirname, "..", "public", "scripts", "site-nav.js"),
+      "utf8"
+    )
 
-    expect(source.match(/aria-current=\{isActive \? "page" : undefined\}/gu)).toHaveLength(2)
+    expect(source).not.toMatch(/^\s*["']use client["']/u)
     expect(source).toContain('aria-controls="site-mobile-menu"')
     expect(source).toContain('aria-label="Mobile navigation"')
-    expect(source).toContain("<Dialog.Content")
-    expect(source).toContain("<Dialog.Close")
-    expect(source).toContain("onOpenChange={setIsMobileMenuOpen}")
+    expect(source).toContain("<dialog")
+    expect(source).toContain("data-site-menu-open")
+    expect(runtime).toContain("dialog.showModal()")
+    expect(runtime).toContain('dialog.addEventListener("close"')
+    expect(runtime).toContain('trigger.setAttribute("aria-expanded", "false")')
+  })
+
+  it("keeps the optional Metaverse bundle off the standard homepage", () => {
+    const layout = fs.readFileSync(path.join(__dirname, "..", "app", "layout.tsx"), "utf8")
+    const middleware = fs.readFileSync(path.join(__dirname, "..", "middleware.ts"), "utf8")
+
+    expect(layout).toContain("<SiteNav />")
+    expect(layout).not.toContain("SnowCrashEffects")
+    expect(middleware).toContain('request.nextUrl.searchParams.get("metaverse") === "true"')
+    expect(middleware).toContain("NextResponse.rewrite")
   })
 
   it("keeps the contact conversion target clear of the sticky navigation", () => {

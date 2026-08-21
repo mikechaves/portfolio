@@ -1664,13 +1664,16 @@ export function MetaverseNav() {
   }, [])
 
   useEffect(() => {
-    if (pathname !== "/" || searchParams.get("metaverse") !== "true" || openedFromQueryRef.current) return
+    if (
+      (pathname !== "/" && pathname !== "/metaverse") ||
+      searchParams.get("metaverse") !== "true" ||
+      openedFromQueryRef.current
+    ) return
 
     openedFromQueryRef.current = true
     setTransitioning(false)
     setShowMetaverse(true)
-    router.replace("/", { scroll: false })
-  }, [pathname, router, searchParams])
+  }, [pathname, searchParams])
 
   const navItems = useMemo(() => [
     { name: "impact", path: "/" },

@@ -229,17 +229,16 @@ The implemented homepage now follows the required hiring journey in source and v
 6. four capability families, one article plus two public-practice signals, and a protected contact,
    resume, and LinkedIn conversion.
 
-The mobile task menu is a focus-managed dialog: Escape closes it, focus is contained while open,
-and focus returns to its trigger. The main content has a skip link, stable section anchors, one `h1`,
-ordered `h2` sections, visible focus states, and no new immersive or Three.js dependency in the
-standard homepage path.
+The mobile task menu uses the browser's modal dialog behavior with a small progressive-enhancement
+script: Escape closes it, focus is contained while open, and focus returns to its trigger. The main
+content has a skip link, stable section anchors, one `h1`, ordered `h2` sections, visible focus
+states, and no immersive or Three.js dependency in the standard homepage path.
 
 The priority Black Sun backdrop remains a dedicated 1200 x 475, 17 kB static WebP. A high-priority
-preload feeds a lightweight presentational canvas that paints the approved source composition
-without entering the deployment provider's image-optimization path or displacing the semantic hero
-heading as the LCP candidate. The canvas image decode remains asynchronous, and the noncritical
-WebGL atmosphere waits for a six-second defer plus an idle window instead of entering the critical
-performance trace.
+preload and semantic image request paint the approved source composition without entering the
+deployment provider's image-optimization path or displacing the hero heading as the primary
+meaning. The image decode remains asynchronous. Three.js and WebGL are reserved for the explicit
+`/?metaverse=true` entry and are absent from the standard homepage bundle.
 
 Homepage featured-card media now loads only when its card enters the viewport; public project
 titles, proof copy, routes, and analytics links remain server-rendered. The `/projects` response
@@ -262,9 +261,11 @@ mobile link, button, summary, input, and textarea measures at least 44 x 44 CSS 
 navigation remains intentionally compact while retaining visible keyboard focus.
 
 Final local captures are stored outside the Git tree under
-`homepage-progressive-disclosure/after/`, including all six required QA widths, a full-page capture,
-and a same-viewport concept-versus-implementation comparison. They contain public portfolio content
-only and are not served by the site.
+`homepage-progressive-disclosure/after/`. The final runtime proof includes
+`local-final-server-owned-1440x900.jpg`, `local-final-server-owned-390x844.jpg`,
+`local-final-mobile-menu-390x844.jpg`, `local-final-metaverse-1440x900.jpg`, and same-viewport
+desktop/mobile before-versus-final composites. They contain public portfolio content only and are
+not served by the site.
 
 ## Privacy, analytics, and crawl contracts
 
@@ -287,27 +288,27 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - frozen-lockfile install: pass;
 - lint: pass (the repository's legacy ESLint config emits its ESLint 10 migration notice only);
 - type-check: pass;
-- unit tests: 37 suites, 211 tests passed;
-- link/asset audit: 200 assets, 178 internal routes, 82 external or mail references, and all five
+- unit tests: 36 suites, 210 tests passed;
+- link/asset audit: 202 assets, 179 internal routes, 82 external or mail references, and all five
   required contact/social/resume links passed;
-- production build: pass, homepage first-load JavaScript 105 kB and project-index first-load
-  JavaScript 107 kB;
+- production build: pass, homepage first-load JavaScript 102 kB and project-index first-load
+  JavaScript 106 kB;
 - visual/browser smoke: 40 tests passed across desktop and mobile;
 - SEO audit: 4 tests passed;
 - analytics audit: 5 tests passed with zero-provider privacy scenarios;
 - performance audit: all 10 route/profile scenarios passed.
-- homepage hydration: Adaptive Focus, conversion/evidence/public-practice analytics, strict
-  below-fold media loading, hero-canvas drawing, and the delayed immersive background share one
-  delegated client bridge. Their forms, links, cards, and optimized image shells remain
-  server-rendered. The root layout leaves route content server-owned instead of passing the full
-  page tree through a client-side transition wrapper.
+- homepage runtime: Adaptive Focus, conversion/evidence/public-practice analytics, strict
+  below-fold media loading, and the native mobile dialog use small deferred browser scripts instead
+  of React client boundaries. Forms, links, cards, the Black Sun image, and optimized image shells
+  remain server-rendered. The root layout leaves route content server-owned instead of passing the
+  full page tree through a client-side transition wrapper.
 
 ### Homepage performance comparison
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2313 ms; CLS 0; TBT 7 ms; 199 kB | LCP 153 ms faster; CLS preserved; TBT 2 ms higher and well inside budget; transfer 38 kB lower. |
-| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 264 kB | LCP 146 ms faster and transfer 288 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 99; LCP 2171 ms; CLS 0; TBT 11 ms; 174 kB | LCP 295 ms faster; CLS preserved; TBT remains 189 ms inside budget; transfer 63 kB lower. |
+| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 498 ms; CLS 0; TBT 0 ms; 239 kB | LCP 187 ms faster and transfer 313 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
 Console ingestion. Preview readiness, exact-head merge, deployment readiness, and canonical

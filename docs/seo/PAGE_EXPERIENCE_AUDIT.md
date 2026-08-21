@@ -24,10 +24,8 @@ Lighthouse's standard simulated mobile profile; desktop uses `--preset=desktop`.
 single controlled lab run, so the tables are regression evidence rather than field-CWV claims.
 
 The checked command rebuilds the application, starts a dedicated server, rejects an occupied test
-port, warms the one-time Lighthouse/Chromium harness against an isolated script-free document,
-captures all ten application JSON reports, writes `test-results/performance/summary.json`, and
-exits nonzero if any budget fails. The warmup does not request an application route or asset, and
-the measured routes remain single cold-cache runs with unchanged thresholds:
+port, captures all ten JSON reports, writes `test-results/performance/summary.json`, and exits
+nonzero if any budget fails:
 
 ```bash
 pnpm exec playwright install chromium
@@ -66,13 +64,12 @@ The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
 
 1. Replaced the 1.7 MB homepage PNG signal grid with an 82 kB WebP for desktop and a
    transfer-free CSS treatment on mobile.
-2. Kept the homepage meaning and visual hierarchy in server-rendered HTML while deferring the
-   decorative WebGL layer until desktop idle time. Mobile and reduced-motion users do not download
-   that Three.js path.
+2. Kept the homepage meaning and visual hierarchy in server-rendered HTML while removing the
+   decorative WebGL layer from the standard route. The Three.js path is exclusive to the explicit
+   Metaverse entry.
 3. Removed hosted font requests in favor of explicit system font stacks and replaced two X social
    glyphs with a tiny local SVG, removing the Font Awesome runtime and render-blocking stylesheet.
-4. Replaced the JavaScript-heavy route entrance with a small CSS transition that runs only after a
-   client-side pathname change and disables itself for reduced motion.
+4. Removed the client-owned route entrance so page content remains server-owned across navigation.
 5. Split About, Projects, project dossier exits, Adaptive Focus execution, Role Fit details, and the
    media lightbox at their actual interaction boundaries instead of hydrating them all up front.
 6. Added a compact public project index so the archive client does not receive the full evidence
@@ -82,9 +79,26 @@ The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
 8. Deferred below-the-fold and supporting media, while keeping explicit dimensions and accessible
    labels to preserve layout stability.
 
-The resulting Next.js first-load JavaScript report is 129 kB for Home, 121 kB for About, 140 kB for
+The current Next.js first-load JavaScript report is 102 kB for Home, 121 kB for About, 106 kB for
 Projects, 131 kB for a project dossier, and 111 kB for an article summary. The pre-change report was
 approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for project dossiers.
+
+## Homepage progressive-disclosure revalidation — 2026-08-20
+
+The hiring-journey redesign was rechecked with the same command and unchanged budgets after the
+standard homepage became server-owned markup plus small deferred browser scripts. All ten checks
+passed:
+
+| Template | Mobile score / LCP / CLS / TBT / transfer | Desktop score / LCP / CLS / TBT / transfer |
+| --- | --- | --- |
+| Home | 99 / 2,171 ms / 0 / 11 ms / 174 kB | 100 / 498 ms / 0 / 0 ms / 239 kB |
+| Operator/contact | 98 / 2,384 ms / 0 / 2 ms / 216 kB | 100 / 538 ms / 0 / 0 ms / 305 kB |
+| Project hub | 100 / 1,855 ms / 0 / 2 ms / 177 kB | 100 / 417 ms / 0 / 0 ms / 380 kB |
+| Project dossier | 98 / 2,307 ms / 0 / 1 ms / 260 kB | 100 / 561 ms / 0.001 / 0 ms / 279 kB |
+| Article summary | 100 / 1,929 ms / 0 / 0 ms / 179 kB | 100 / 436 ms / 0 / 0 ms / 180 kB |
+
+This is controlled local lab evidence. Hosted Preview, canonical Production, and field-CWV proof
+remain separate release gates.
 
 ## Field verification after deployment
 

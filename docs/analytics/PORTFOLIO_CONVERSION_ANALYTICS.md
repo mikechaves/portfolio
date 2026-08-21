@@ -16,7 +16,7 @@ The systems are not interchangeable:
 | GA4 | Acquisition source/landing-page analysis and the real product/conversion funnel. | Loads only on Vercel Production, with a valid `NEXT_PUBLIC_GA_MEASUREMENT_ID`, after explicit consent. |
 | Vercel Web Analytics | Simple first-party traffic trends and bounded custom-event cross-checks. | Component and custom-event transport run only when `VERCEL_ENV=production`; dashboard must also be enabled by the owner. |
 | Vercel Speed Insights | Route-level real-user LCP, INP, CLS, FCP, and TTFB. | Component runs only when `VERCEL_ENV=production`; field data requires deployment, dashboard enablement, and real visits. |
-| Local debug buffer | Deterministic verification without contaminating production data. | `NEXT_PUBLIC_ANALYTICS_DEBUG=1` captures sanitized GA4-shaped events in memory; Google and Vercel requests remain blocked. |
+| Local debug buffer | Deterministic verification without contaminating production data. | `NEXT_PUBLIC_ANALYTICS_DEBUG=1` captures sanitized GA4-shaped events in a reload-bounded browser session buffer; Google and Vercel requests remain blocked. |
 
 Vercel is retained because it provides a privacy-oriented operational view and field-performance
 surface independent of GA4 attribution. It is not a ranking mechanism, and agreement between two
@@ -121,8 +121,10 @@ After allowing optional analytics, inspect:
 window.__portfolioAnalyticsDebugEvents
 ```
 
-This array contains GA4-shaped, allowlisted events only for the current document. Debug mode never
-enables provider transport and is explicitly disabled when `VERCEL_ENV=production`.
+This array contains only GA4-shaped, allowlisted events. Debug mode carries that sanitized evidence
+across deliberate full-page route changes so the complete funnel can be asserted, then clears it on
+an explicit reload. Debug mode never enables provider transport and is explicitly disabled when
+`VERCEL_ENV=production`.
 
 After the production environment variables and dashboards are configured, verify the same contract
 in GA4 DebugView/Realtime and Vercel dashboards. Repository tests do not prove that account-level

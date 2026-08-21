@@ -10,7 +10,6 @@ import {
 import { AdaptiveFocusEntry } from "@/components/adaptive-focus-entry"
 import { FeaturedProjectCard } from "@/components/featured-project-card"
 import { HomeJourneyLink } from "@/components/home-journey-link"
-import { HomepageClientBridge } from "@/components/homepage-client-bridge"
 import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { HOMEPAGE_FEATURED_PROJECT_IDS } from "@/data/portfolio-curation"
@@ -90,7 +89,7 @@ const publicPracticeItems = [
 export default function Home() {
   return (
     <div className="home-immersive-page relative isolate">
-      <HomepageClientBridge />
+      <script src="/scripts/homepage.js" defer data-homepage-script />
 
       <div className="home-content-layer relative z-10">
         <link
@@ -100,7 +99,17 @@ export default function Home() {
           fetchPriority="high"
         />
         <section className="home-journey-hero" aria-labelledby="home-title">
-          <canvas className="home-journey-visual" aria-hidden="true" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimized local art avoids runtime image billing */}
+          <img
+            src="/visuals/black-sun-signal-grid-static.webp"
+            alt=""
+            width={1200}
+            height={475}
+            decoding="async"
+            fetchPriority="high"
+            className="home-journey-visual"
+            aria-hidden="true"
+          />
           <div className="home-journey-copy">
             <p className="home-section-kicker">AI-Native Design Engineer</p>
             <h1 id="home-title">

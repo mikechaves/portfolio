@@ -1,5 +1,7 @@
 import type { ReactNode } from "react"
 import { JsonLd } from "@/components/json-ld"
+import { LabelsProvider } from "@/components/labels-provider"
+import { Toaster } from "@/components/ui/toaster"
 import { createPageMetadata } from "@/lib/seo/site"
 import { getProfilePageStructuredData } from "@/lib/seo/structured-data"
 
@@ -16,6 +18,9 @@ export default function AboutLayout({ children }: { children: ReactNode }) {
     <>
       <JsonLd id="profile-page-structured-data" data={getProfilePageStructuredData()} />
       {children}
+      <LabelsProvider>
+        <Toaster />
+      </LabelsProvider>
     </>
   )
 }

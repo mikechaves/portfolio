@@ -6,20 +6,23 @@ const readSource = (relativePath: string) =>
 
 describe("server-first homepage interactions", () => {
   const pageSource = readSource("app/page.tsx")
-  const bridgeSource = readSource("components/homepage-client-bridge.tsx")
+  const bridgeSource = readSource("public/scripts/homepage.js")
+  const eventRuntimeSource = readSource("public/scripts/portfolio-events.js")
   const eventLinkSource = readSource("components/portfolio-event-link.tsx")
   const journeyLinkSource = readSource("components/home-journey-link.tsx")
   const focusSource = readSource("components/adaptive-focus-entry.tsx")
   const featuredCardSource = readSource("components/featured-project-card.tsx")
   const featuredImageSource = readSource("components/featured-project-image.tsx")
 
-  it("hydrates one homepage bridge instead of per-link handlers", () => {
-    expect(pageSource.match(/<HomepageClientBridge \/>/gu)).toHaveLength(1)
+  it("enhances server-owned homepage markup without a React client boundary", () => {
+    expect(pageSource).toContain('<script src="/scripts/homepage.js" defer data-homepage-script />')
+    expect(pageSource).not.toContain("HomepageClientBridge")
     expect(pageSource).not.toContain("TrackedPortfolioLink")
     expect(pageSource).not.toContain("HeroVisualCanvas")
     expect(pageSource).not.toContain("ProgressiveHeroBackground")
     expect(pageSource).not.toContain('from "next/link"')
-    expect(pageSource).toContain('<canvas className="home-journey-visual"')
+    expect(pageSource).toContain('className="home-journey-visual"')
+    expect(pageSource).toContain('src="/visuals/black-sun-signal-grid-static.webp"')
   })
 
   it("keeps event and journey links server-renderable", () => {
@@ -40,20 +43,23 @@ describe("server-first homepage interactions", () => {
   })
 
   it("bounds delegated homepage analytics and preserves journey behavior", () => {
+    const trackedMarkupSources = [pageSource, journeyLinkSource, featuredCardSource].join("\n")
     for (const eventName of [
       "homepage_path_selected",
       "portfolio_conversion_clicked",
       "project_evidence_opened",
       "public_practice_item_opened",
     ]) {
-      expect(bridgeSource).toContain(`case "${eventName}"`)
+      expect(trackedMarkupSources).toContain(`eventName="${eventName}"`)
     }
-    expect(bridgeSource).toContain('document.addEventListener("click", handleClick)')
+    expect(eventRuntimeSource).toContain('a[data-portfolio-event]')
+    expect(eventRuntimeSource).toContain('new CustomEvent(browserEventName')
+    expect(bridgeSource).toContain('document.addEventListener("click"')
     expect(bridgeSource).toContain('focusForm?.addEventListener("submit"')
     expect(bridgeSource).toContain("data-adaptive-focus-preset")
     expect(bridgeSource).toContain("IntersectionObserver")
-    expect(bridgeSource).toContain("HeroBackground")
     expect(bridgeSource).toContain("prefers-reduced-motion: reduce")
     expect(bridgeSource).toContain("focus({ preventScroll: true })")
+    expect(bridgeSource).not.toContain("HeroBackground")
   })
 })

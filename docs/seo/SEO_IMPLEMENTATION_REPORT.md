@@ -84,20 +84,20 @@ This is the final repository-complete change inventory. Deployment/account state
 20. Added a footer preferences control, consent revocation/cookie cleanup, a bounded original-article
     event, and categorized contact failures without transmitting contact contents or provider error
     text.
-21. Added `pnpm analytics:audit`, a local in-memory GA4-shaped debug buffer, CI coverage, and tests
-    that fail on any Google or Vercel provider request from the debug build.
+21. Added `pnpm analytics:audit`, a local reload-bounded GA4-shaped debug buffer, CI coverage, and
+    tests that fail on any Google or Vercel provider request from the debug build.
 22. Replaced the older Vercel-only analytics decision with an explicit provider/environment/event
     contract. Signup/waitlist completion is recorded as not applicable because that product flow
     does not exist; the actual contact conversion is not relabeled as a signup.
 23. Replaced the 1.7 MB homepage signal-grid PNG with an 82 kB WebP on desktop and a transfer-free
     CSS treatment on mobile. The original asset remains available as source evidence but is no
     longer requested by the page.
-24. Preserved the server-rendered homepage while moving decorative Three.js/WebGL behind a
-    desktop-only idle boundary. Mobile and reduced-motion clients do not download that path.
+24. Preserved the server-rendered homepage while removing decorative Three.js/WebGL from its
+    standard route. The immersive bundle is now exclusive to the explicit Metaverse entry.
 25. Replaced hosted font requests with system stacks, removed the Font Awesome runtime/stylesheet,
     and kept the two X glyphs as a local inline SVG.
-26. Replaced the JavaScript-heavy route animation with a reduced-motion-safe CSS transition that
-    runs only on actual client-side pathname changes.
+26. Removed the JavaScript-heavy route transition wrapper so the root route tree remains
+    server-owned; reduced-motion-safe visual treatment remains in CSS without a pathname client.
 27. Split About, Projects, dossier exit paths, the media lightbox, Role Fit details, and Adaptive
     Focus execution along real interaction boundaries while keeping primary page meaning in initial
     HTML.
