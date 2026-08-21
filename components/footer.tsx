@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail } from "lucide-react"
+import { Github, Linkedin } from "lucide-react"
 import { AnalyticsPreferencesButton } from "@/components/analytics-preferences-button"
 import { XIcon } from "@/components/x-icon"
 
@@ -9,25 +9,25 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
       <div className="site-shell">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-4">
-            <p className="text-[0.62rem] uppercase tracking-[0.1em] text-zinc-600">
+            <p className="text-[0.62rem] uppercase tracking-[0.1em] text-zinc-400">
               &copy; {new Date().getFullYear()} MIKE_CHAVES. All rights
               reserved.
             </p>
             <Link
               href="/archive"
-              className="text-[0.62rem] uppercase tracking-[0.1em] text-zinc-500 transition-colors hover:text-primary"
+              className="inline-flex min-h-11 items-center text-[0.62rem] uppercase tracking-[0.1em] text-zinc-400 transition-colors hover:text-primary"
             >
               Archive
             </Link>
             {analyticsPreferencesEnabled ? <AnalyticsPreferencesButton /> : null}
           </div>
-          <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-700 lg:block">
+          <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-500 lg:block">
             Built with human curiosity and machine leverage.
           </p>
           <div className="flex space-x-4">
             <Link
               href="https://github.com/mikechaves"
-              className="text-zinc-500 transition-colors hover:text-primary"
+              className="inline-flex h-11 w-11 items-center justify-center text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -36,7 +36,7 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
             </Link>
             <a
               href="https://x.com/mikechaves_io"
-              className="text-zinc-500 transition-colors hover:text-primary"
+              className="inline-flex h-11 w-11 items-center justify-center text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -47,19 +47,12 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
             </a>
             <Link
               href="https://www.linkedin.com/in/mikejchaves"
-              className="text-zinc-500 transition-colors hover:text-primary"
+              className="inline-flex h-11 w-11 items-center justify-center text-zinc-500 transition-colors hover:text-primary"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Linkedin size={20} />
               <span className="sr-only">LinkedIn</span>
-            </Link>
-            <Link
-              href="mailto:founder@gowizzo.io"
-              className="text-zinc-500 transition-colors hover:text-primary"
-            >
-              <Mail size={20} />
-              <span className="sr-only">Email</span>
             </Link>
           </div>
         </div>

@@ -59,6 +59,21 @@ function run(command, args, options = {}) {
   })
 }
 
+function getLighthouseArgs(url, outputPath, profileArgs = []) {
+  return [
+    "exec",
+    "lighthouse",
+    url,
+    "--only-categories=performance",
+    "--output=json",
+    `--output-path=${outputPath}`,
+    `--chrome-path=${chromium.executablePath()}`,
+    "--chrome-flags=--headless --no-sandbox",
+    "--quiet",
+    ...profileArgs,
+  ]
+}
+
 async function assertPortIsFree() {
   try {
     await fetch(BASE_URL, { signal: AbortSignal.timeout(1_000) })
@@ -170,18 +185,9 @@ async function main() {
         const url = new URL(route.pathname, BASE_URL).toString()
 
         process.stdout.write(`Auditing ${route.pathname} (${profile.id})... `)
-        await run(PNPM, [
-          "exec",
-          "lighthouse",
-          url,
-          "--only-categories=performance",
-          "--output=json",
-          `--output-path=${outputPath}`,
-          `--chrome-path=${chromium.executablePath()}`,
-          "--chrome-flags=--headless --no-sandbox",
-          "--quiet",
-          ...profile.lighthouseArgs,
-        ], { stdio: "ignore" })
+        await run(PNPM, getLighthouseArgs(url, outputPath, profile.lighthouseArgs), {
+          stdio: "ignore",
+        })
 
         const report = JSON.parse(await fs.readFile(outputPath, "utf8"))
         const metrics = readMetrics(report)

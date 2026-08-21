@@ -25,12 +25,11 @@ project detail media, navigation, or global styling.
 - Check that `document.documentElement.scrollWidth <= window.innerWidth` after accounting for
   browser scrollbar behavior.
 
-## Homepage WebGL And Motion
+## Homepage Motion And Metaverse Boundary
 
-- At desktop width, the homepage WebGL canvas appears after idle time, remains decorative, and is
-  `aria-hidden`.
-- Mobile and reduced-motion visits retain the CSS signal treatment without downloading the WebGL
-  path.
+- The standard homepage uses the optimized static Black Sun artwork and does not request WebGL or
+  Three.js chunks.
+- Desktop, mobile, and reduced-motion visits retain the same static signal treatment.
 - The default homepage tab order does not include Metaverse-only controls.
 - `Enter Metaverse` remains the only path into Snow Crash-inspired theatrical effects.
 - Reduced-motion users do not get typing delays, hover glitch animation, pulsing badges, or card

@@ -15,7 +15,9 @@ import {
 } from "@/lib/analytics/config"
 import { mapPortfolioEventToGa4, type Ga4Event } from "@/lib/analytics/ga4"
 import {
+  buildPortfolioAnalyticsProperties,
   PORTFOLIO_ANALYTICS_BROWSER_EVENT,
+  type PortfolioAnalyticsEventMap,
   type PortfolioAnalyticsBrowserEventDetail,
 } from "@/lib/portfolio-analytics"
 
@@ -24,6 +26,35 @@ interface AnalyticsManagerProps {
   debugMode: boolean
   gaMeasurementId: string | null
   productionTransportEnabled: boolean
+}
+
+const ANALYTICS_DEBUG_SESSION_KEY = "portfolio:analytics:debug-events:v1"
+
+function readDebugSessionEvents(): Ga4Event[] {
+  try {
+    const navigation = performance.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined
+    if (navigation?.type === "reload") {
+      window.sessionStorage.removeItem(ANALYTICS_DEBUG_SESSION_KEY)
+      return []
+    }
+
+    const stored = window.sessionStorage.getItem(ANALYTICS_DEBUG_SESSION_KEY)
+    if (!stored) return []
+    const parsed: unknown = JSON.parse(stored)
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter(
+      (event): event is Ga4Event =>
+        Boolean(event) &&
+        typeof event === "object" &&
+        typeof (event as Ga4Event).name === "string" &&
+        Boolean((event as Ga4Event).parameters) &&
+        typeof (event as Ga4Event).parameters === "object"
+    )
+  } catch {
+    return []
+  }
 }
 
 function browserPrivacySignalEnabled(): boolean {
@@ -50,7 +81,7 @@ export function AnalyticsManager({
   gaMeasurementId,
   productionTransportEnabled,
 }: AnalyticsManagerProps) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? "/"
   const [consent, setConsent] = useState<AnalyticsConsent>("unknown")
   const [gaReady, setGaReady] = useState(false)
   const [preferencesOpen, setPreferencesOpen] = useState(false)
@@ -64,6 +95,14 @@ export function AnalyticsManager({
       if (debugMode) {
         window.__portfolioAnalyticsDebugEvents ??= []
         window.__portfolioAnalyticsDebugEvents.push(event)
+        try {
+          window.sessionStorage.setItem(
+            ANALYTICS_DEBUG_SESSION_KEY,
+            JSON.stringify(window.__portfolioAnalyticsDebugEvents)
+          )
+        } catch {
+          // Debug capture remains available in memory when session storage is unavailable.
+        }
         return
       }
 
@@ -75,7 +114,7 @@ export function AnalyticsManager({
   )
 
   useEffect(() => {
-    if (debugMode) window.__portfolioAnalyticsDebugEvents = []
+    if (debugMode) window.__portfolioAnalyticsDebugEvents = readDebugSessionEvents()
     if (!optionalAnalyticsAvailable) return
 
     const hasPrivacySignal = browserPrivacySignalEnabled()
@@ -149,17 +188,21 @@ export function AnalyticsManager({
     const handlePortfolioEvent = (event: Event) => {
       const detail = (event as CustomEvent<PortfolioAnalyticsBrowserEventDetail>).detail
       if (!detail) return
+      const properties = buildPortfolioAnalyticsProperties(
+        detail.name,
+        detail.properties as PortfolioAnalyticsEventMap[typeof detail.name]
+      )
 
       if (productionTransportEnabled) {
         try {
-          trackVercelEvent(detail.name, detail.properties)
+          trackVercelEvent(detail.name, properties)
         } catch {
           // Provider failures must not interrupt portfolio actions.
         }
       }
 
       if (consent === "granted" && gaReady) {
-        emitGa4(mapPortfolioEventToGa4(detail.name, detail.properties))
+        emitGa4(mapPortfolioEventToGa4(detail.name, properties))
       }
     }
 

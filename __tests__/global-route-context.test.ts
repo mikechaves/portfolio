@@ -4,39 +4,34 @@ import { isSiteNavItemActive, SITE_NAV_ITEMS } from "../components/site-nav-stat
 
 describe("global route context", () => {
   it.each([
-    ["/", "/", true],
-    ["/projects", "/projects", true],
-    ["/projects/x-games", "/projects", true],
-    ["/blog/voice-first-xr", "/blog", true],
-    ["/about", "/about", true],
-    ["/archive", "/", false],
-    ["/project", "/projects", false],
-    ["/blogroll", "/blog", false],
-  ])("matches %s against %s as %s", (pathname, itemPath, expected) => {
-    expect(isSiteNavItemActive(pathname, itemPath)).toBe(expected)
+    ["/projects", "/projects", "", true],
+    ["/projects/x-games", "/projects", "", true],
+    ["/blog/voice-first-xr", "/blog", "", true],
+    ["/about", "/about", "", true],
+    ["/about", "/about#professional-experience", "#professional-experience", true],
+    ["/about", "/about", "#professional-experience", false],
+    ["/about", "/about#professional-experience", "#contact", false],
+    ["/project", "/projects", "", false],
+    ["/blogroll", "/blog", "", false],
+  ])("matches %s against %s at %s as %s", (pathname, itemPath, hash, expected) => {
+    expect(isSiteNavItemActive(pathname, itemPath, hash)).toBe(expected)
   })
 
-  it("keeps the four public navigation destinations stable", () => {
+  it("publishes the four task-oriented navigation destinations", () => {
     expect(SITE_NAV_ITEMS).toEqual([
-      { name: "impact", path: "/" },
-      { name: "systems", path: "/projects" },
-      { name: "writing", path: "/blog" },
-      { name: "about", path: "/about" },
+      { name: "Work", path: "/projects" },
+      { name: "Experience", path: "/about#professional-experience" },
+      { name: "Writing", path: "/blog" },
+      { name: "About", path: "/about" },
     ])
   })
 
-  it("keeps the route transition lightweight and reduced-motion safe", () => {
-    const component = fs.readFileSync(
-      path.join(__dirname, "..", "components", "route-transition.tsx"),
-      "utf8"
-    )
-    const styles = fs.readFileSync(path.join(__dirname, "..", "app", "globals.css"), "utf8")
+  it("keeps the route tree server-owned instead of hydrating it through a client wrapper", () => {
+    const layout = fs.readFileSync(path.join(__dirname, "..", "app", "layout.tsx"), "utf8")
 
-    expect(component).not.toContain("framer-motion")
-    expect(component).toContain('routeChanged ? "route-transition-enter" : undefined')
-    expect(styles).toContain("@keyframes route-signal-enter")
-    expect(styles).toContain(".route-transition-enter")
-    expect(styles).toContain("@media (prefers-reduced-motion: reduce)")
+    expect(layout).not.toContain("RouteTransition")
+    expect(layout).not.toContain('from "next/navigation"')
+    expect(layout).toContain('{children}')
   })
 
   it("publishes active-route and mobile-menu semantics", () => {
@@ -44,19 +39,37 @@ describe("global route context", () => {
       path.join(__dirname, "..", "components", "site-nav.tsx"),
       "utf8"
     )
+    const runtime = fs.readFileSync(
+      path.join(__dirname, "..", "public", "scripts", "site-nav.js"),
+      "utf8"
+    )
 
-    expect(source.match(/aria-current=\{isActive \? "page" : undefined\}/gu)).toHaveLength(2)
+    expect(source).not.toMatch(/^\s*["']use client["']/u)
     expect(source).toContain('aria-controls="site-mobile-menu"')
     expect(source).toContain('aria-label="Mobile navigation"')
-    expect(source).toContain("setIsMobileMenuOpen(false)")
+    expect(source).toContain("<dialog")
+    expect(source).toContain("data-site-menu-open")
+    expect(runtime).toContain("dialog.showModal()")
+    expect(runtime).toContain('dialog.addEventListener("close"')
+    expect(runtime).toContain('trigger.setAttribute("aria-expanded", "false")')
+  })
+
+  it("keeps the optional Metaverse bundle off the standard homepage", () => {
+    const layout = fs.readFileSync(path.join(__dirname, "..", "app", "layout.tsx"), "utf8")
+    const middleware = fs.readFileSync(path.join(__dirname, "..", "middleware.ts"), "utf8")
+
+    expect(layout).toContain("<SiteNav />")
+    expect(layout).not.toContain("SnowCrashEffects")
+    expect(middleware).toContain('request.nextUrl.searchParams.get("metaverse") === "true"')
+    expect(middleware).toContain("NextResponse.rewrite")
   })
 
   it("keeps the contact conversion target clear of the sticky navigation", () => {
     const source = fs.readFileSync(
-      path.join(__dirname, "..", "app", "about", "page.tsx"),
+      path.join(__dirname, "..", "components", "about-content.tsx"),
       "utf8"
     )
 
-    expect(source).toContain('id="contact-title" className="scroll-mt-24"')
+    expect(source).toContain('id="contact" className="profile-contact-section scroll-mt-24"')
   })
 })

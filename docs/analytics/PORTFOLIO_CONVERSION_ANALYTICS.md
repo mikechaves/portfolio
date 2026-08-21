@@ -16,7 +16,7 @@ The systems are not interchangeable:
 | GA4 | Acquisition source/landing-page analysis and the real product/conversion funnel. | Loads only on Vercel Production, with a valid `NEXT_PUBLIC_GA_MEASUREMENT_ID`, after explicit consent. |
 | Vercel Web Analytics | Simple first-party traffic trends and bounded custom-event cross-checks. | Component and custom-event transport run only when `VERCEL_ENV=production`; dashboard must also be enabled by the owner. |
 | Vercel Speed Insights | Route-level real-user LCP, INP, CLS, FCP, and TTFB. | Component runs only when `VERCEL_ENV=production`; field data requires deployment, dashboard enablement, and real visits. |
-| Local debug buffer | Deterministic verification without contaminating production data. | `NEXT_PUBLIC_ANALYTICS_DEBUG=1` captures sanitized GA4-shaped events in memory; Google and Vercel requests remain blocked. |
+| Local debug buffer | Deterministic verification without contaminating production data. | `NEXT_PUBLIC_ANALYTICS_DEBUG=1` captures sanitized GA4-shaped events in a reload-bounded browser session buffer; Google and Vercel requests remain blocked. |
 
 Vercel is retained because it provides a privacy-oriented operational view and field-performance
 surface independent of GA4 attribution. It is not a ranking mechanism, and agreement between two
@@ -48,6 +48,12 @@ Vercel telemetry.
 All properties pass through the runtime allowlist in `lib/portfolio-analytics.ts`. GA4 mapping is
 defined in `lib/analytics/ga4.ts`.
 
+The zero-framework-runtime Home and About routes mirror those same allowlist and mapping contracts
+in one small deferred analytics bridge. It preserves the same consent storage key and
+reload-bounded debug session, so a deliberate full-page handoff between Pages and App Router routes
+carries only sanitized GA4-shaped events. The automated audit exercises that cross-router handoff
+and rejects provider requests in debug mode.
+
 | App/GA4 event | Trigger | Allowed parameters | GA4 meaning | Business meaning |
 | --- | --- | --- | --- | --- |
 | `page_view` | First consented view of a pathname and each subsequent client-side pathname change. Query and hash are removed; the same pathname is sent once per document lifecycle. | `page_path`, canonical `page_location`, `page_title`, `page_group` | Recommended GA4 pageview. | Acquisition landing page and navigation baseline. |
@@ -58,7 +64,7 @@ defined in `lib/analytics/ga4.ts`.
 | `article_original_opened` → `select_content` | A summary reader selects the original Medium article. | `article_id`, `source` | Recommended content selection. | Resource engagement beyond the on-site summary. |
 | `portfolio_conversion_clicked` → `select_content` | A Role Fit, contact, or resume action is selected. | `destination`, `source`, optional `project_id` | Recommended content selection. | Conversion-path intent before completion. |
 | `project_shared` → `share` | Native share succeeds or canonical URL copy succeeds. Cancellations are not counted. | `method`, `project_id`, `source` | Recommended share event. | Secondary case-study distribution action. |
-| `portfolio_contact_submitted` → `generate_lead` | The contact server action returns success. | `source`; GA4 adds bounded `method=contact_form` | Recommended lead event; configure as a GA4 key event. | Primary business conversion. |
+| `portfolio_contact_submitted` → `generate_lead` | The protected same-origin contact endpoint returns success. | `source`; GA4 adds bounded `method=contact_form` | Recommended lead event; configure as a GA4 key event. | Primary business conversion. |
 | `portfolio_contact_failed` → `contact_form_error` | Configuration, validation, delivery, or unexpected contact failure. | `failure_type`, `source` | Product-specific error event. | Meaningful business-conversion failure. |
 
 There is no signup, account-registration, newsletter, or waitlist flow in the public product. A
@@ -121,8 +127,10 @@ After allowing optional analytics, inspect:
 window.__portfolioAnalyticsDebugEvents
 ```
 
-This array contains GA4-shaped, allowlisted events only for the current document. Debug mode never
-enables provider transport and is explicitly disabled when `VERCEL_ENV=production`.
+This array contains only GA4-shaped, allowlisted events. Debug mode carries that sanitized evidence
+across deliberate full-page route changes so the complete funnel can be asserted, then clears it on
+an explicit reload. Debug mode never enables provider transport and is explicitly disabled when
+`VERCEL_ENV=production`.
 
 After the production environment variables and dashboards are configured, verify the same contract
 in GA4 DebugView/Realtime and Vercel dashboards. Repository tests do not prove that account-level

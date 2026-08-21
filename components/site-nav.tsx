@@ -1,123 +1,159 @@
-"use client"
+import { ArrowUpRight, Download, Menu, X } from "lucide-react"
+import { PortfolioEventLink } from "@/components/portfolio-event-link"
+import { SITE_NAV_ITEMS } from "./site-nav-state"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { MouseEvent } from "react"
-import { useEffect, useState } from "react"
-import { ArrowUpRight, Menu, X } from "lucide-react"
-import { isSiteNavItemActive, SITE_NAV_ITEMS } from "./site-nav-state"
+const navLinkClass =
+  "signal-nav-link relative py-2 text-[0.68rem] uppercase tracking-[0.12em] text-zinc-300 transition-colors hover:text-primary"
+const mobileNavLinkClass =
+  "flex min-h-12 items-center justify-between bg-black px-3 text-sm uppercase tracking-[0.1em] text-zinc-100 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
 
 export function SiteNav() {
-  const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false)
-  }, [pathname])
-
-  const enterMetaverse = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    window.location.assign("/?metaverse=true")
-  }
-
   return (
-    <div className="fixed inset-x-0 top-0 z-50">
+    <div className="fixed inset-x-0 top-0 z-50" data-standard-nav>
       <header className="signal-nav h-[4.5rem] border-b border-white/10 bg-black/85 backdrop-blur-md">
         <div className="site-shell h-full">
-          <nav aria-label="Main navigation" className="grid h-full grid-cols-[1fr_auto] items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
-            <Link href="/" prefetch={false} className="group flex w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-              <span className="tracking-[0.08em] transition-colors group-hover:text-primary">MIKE_CHAVES</span>
-              <span className="hidden items-center gap-1.5 text-[0.58rem] font-medium uppercase tracking-[0.16em] text-primary sm:flex">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
-                online
-              </span>
-            </Link>
-
-            <Link
-              href="/?metaverse=true"
-              prefetch={false}
-              onClick={enterMetaverse}
-              className="hidden min-h-9 items-center justify-center gap-2 border border-primary/45 px-7 text-xs font-semibold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:inline-flex"
+          <nav
+            aria-label="Main navigation"
+            className="grid h-full grid-cols-[1fr_auto] items-center gap-5 lg:grid-cols-[auto_1fr_auto]"
+          >
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- native navigation keeps the global shell server-owned */}
+            <a
+              href="/"
+              className="group flex min-h-11 w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
-            </Link>
+              <span className="tracking-[0.08em] transition-colors group-hover:text-primary">
+                MIKE_CHAVES
+              </span>
+            </a>
 
-            <ul className="hidden items-center justify-end gap-7 md:flex">
-              {SITE_NAV_ITEMS.map((item) => {
-                const isActive = isSiteNavItemActive(pathname, item.path)
-                return (
-                  <li key={item.path}>
-                    <Link
-                      href={item.path}
-                      prefetch={false}
-                      aria-current={isActive ? "page" : undefined}
-                      className={`signal-nav-link relative py-2 text-[0.7rem] uppercase tracking-[0.14em] transition-colors hover:text-primary ${
-                        isActive ? "text-primary" : "text-zinc-300"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                )
-              })}
+            <ul className="hidden items-center justify-center gap-5 lg:flex xl:gap-7">
+              {SITE_NAV_ITEMS.map((item) => (
+                <li key={`${item.name}:${item.path}`}>
+                  <a
+                    href={item.path}
+                    className={navLinkClass}
+                    data-site-nav-item
+                    data-site-nav-path={item.path}
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
 
+            <div className="hidden items-center justify-end gap-3 lg:flex">
+              <PortfolioEventLink
+                href="/Michael_Chaves_Resume_min.pdf"
+                download
+                eventName="portfolio_conversion_clicked"
+                eventProperties={{ destination: "resume", source: "site_nav" }}
+                className="site-nav-utility"
+              >
+                Resume <Download size={13} aria-hidden="true" />
+              </PortfolioEventLink>
+              <PortfolioEventLink
+                href="/about#contact"
+                eventName="portfolio_conversion_clicked"
+                eventProperties={{ destination: "contact", source: "site_nav" }}
+                className="site-nav-utility"
+              >
+                Contact
+              </PortfolioEventLink>
+              <PortfolioEventLink
+                href="/?metaverse=true"
+                eventName="metaverse_entered"
+                eventProperties={{ source: "desktop_nav" }}
+                className="site-nav-metaverse"
+              >
+                Metaverse <ArrowUpRight size={13} aria-hidden="true" />
+              </PortfolioEventLink>
+            </div>
+
             <button
-              className="justify-self-end text-white md:hidden"
-              onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center justify-self-end border border-white/20 text-white transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
+              aria-label="Open menu"
+              aria-expanded="false"
               aria-controls="site-mobile-menu"
+              data-site-menu-open
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              <Menu size={22} aria-hidden="true" />
             </button>
+
+            <dialog
+              id="site-mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="site-mobile-menu-title"
+              className="site-mobile-menu fixed inset-x-0 top-[4.5rem] z-50 m-0 w-full max-w-none border-x-0 border-b border-t-0 border-primary/25 bg-black/[0.98] px-[clamp(0.9rem,2.4vw,2rem)] pb-5 pt-4 text-white shadow-2xl shadow-black focus:outline-none lg:hidden"
+              data-site-menu
+            >
+              <div className="mx-auto w-full max-w-[1520px]">
+                <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
+                  <h2
+                    id="site-mobile-menu-title"
+                    className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400"
+                  >
+                    Navigate portfolio
+                  </h2>
+                  <button
+                    type="button"
+                    className="inline-flex h-11 w-11 items-center justify-center border border-white/20 text-zinc-200 hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    aria-label="Close menu"
+                    data-site-menu-close
+                  >
+                    <X size={21} aria-hidden="true" />
+                  </button>
+                </div>
+                <nav aria-label="Mobile navigation">
+                  <ul className="grid gap-px bg-white/10">
+                    {SITE_NAV_ITEMS.map((item) => (
+                      <li key={`${item.name}:${item.path}`}>
+                        <a
+                          href={item.path}
+                          className={mobileNavLinkClass}
+                          data-site-nav-item
+                          data-site-nav-path={item.path}
+                        >
+                          {item.name}
+                          <ArrowUpRight size={14} aria-hidden="true" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <PortfolioEventLink
+                      href="/Michael_Chaves_Resume_min.pdf"
+                      download
+                      eventName="portfolio_conversion_clicked"
+                      eventProperties={{ destination: "resume", source: "site_nav" }}
+                      className="site-nav-utility"
+                    >
+                      Resume <Download size={13} aria-hidden="true" />
+                    </PortfolioEventLink>
+                    <PortfolioEventLink
+                      href="/about#contact"
+                      eventName="portfolio_conversion_clicked"
+                      eventProperties={{ destination: "contact", source: "site_nav" }}
+                      className="site-nav-utility"
+                    >
+                      Contact
+                    </PortfolioEventLink>
+                  </div>
+                  <PortfolioEventLink
+                    href="/?metaverse=true"
+                    eventName="metaverse_entered"
+                    eventProperties={{ source: "mobile_nav" }}
+                    className="mt-3 flex min-h-12 items-center justify-between border border-primary/35 px-3 text-xs uppercase tracking-[0.12em] text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
+                  </PortfolioEventLink>
+                </nav>
+              </div>
+            </dialog>
           </nav>
         </div>
       </header>
-
-      {isMobileMenuOpen && (
-        <nav
-          id="site-mobile-menu"
-          aria-label="Mobile navigation"
-          className="border-b border-primary/25 bg-black/95 backdrop-blur-md md:hidden"
-        >
-          <ul className="site-shell space-y-px py-3">
-            <li className="md:hidden">
-              <Link
-                href="/?metaverse=true"
-                prefetch={false}
-                onClick={(event) => {
-                  setIsMobileMenuOpen(false)
-                  enterMetaverse(event)
-                }}
-                className="mb-2 flex items-center justify-between border border-primary/30 px-3 py-2 text-xs uppercase tracking-[0.14em] text-primary"
-              >
-                Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
-              </Link>
-            </li>
-            {SITE_NAV_ITEMS.map((item) => {
-              const isActive = isSiteNavItemActive(pathname, item.path)
-              return (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    prefetch={false}
-                    aria-current={isActive ? "page" : undefined}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block border-l-2 px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
-                      isActive
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-transparent text-white hover:border-primary/40 hover:text-primary"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
-      )}
     </div>
   )
 }

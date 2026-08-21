@@ -7,7 +7,11 @@ interface SmokeRoute {
 }
 
 const routes: SmokeRoute[] = [
-  { name: "home", path: "/", heading: /^Mike_\s*Chaves_$/i },
+  {
+    name: "home",
+    path: "/",
+    heading: "I build AI product systems, playable experiences, and immersive tools.",
+  },
   { name: "projects", path: "/projects", heading: "Project Signal Index" },
   { name: "wizzo", path: "/projects/wizzo", heading: "Wizzo" },
   { name: "playfold", path: "/projects/x-games", heading: "Playfold" },
@@ -46,6 +50,13 @@ async function expectNoHorizontalOverflow(page: Page) {
     scrollWidth: document.documentElement.scrollWidth,
   }))
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
+}
+
+async function revealProjectExplorer(page: Page) {
+  const explorer = page.locator("[data-project-explorer]")
+  await expect(explorer).toBeAttached()
+  await explorer.scrollIntoViewIfNeeded()
+  await expect(page.locator('section[aria-labelledby="project-archive-heading"]')).toBeVisible()
 }
 
 async function openPreset(page: Page, presetId: string) {
@@ -115,7 +126,7 @@ test("project category controls update the rendered archive", async ({ page }, t
 
 test("homepage features only the curated public proof", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" })
-  const featured = page.locator('section[aria-labelledby="featured-projects-heading"]')
+  const featured = page.locator('section[aria-labelledby="selected-work-title"]')
 
   await expect(featured.getByRole("heading", { level: 3 })).toHaveText([
     "Wizzo",
@@ -123,6 +134,36 @@ test("homepage features only the curated public proof", async ({ page }) => {
     "SpeakEasy",
   ])
   await expect(featured).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
+  await expectNoHorizontalOverflow(page)
+})
+
+test("homepage role path focuses Adaptive Focus without suppressing core proof", async ({ page }) => {
+  await page.goto("/", { waitUntil: "domcontentloaded" })
+  await page.getByRole("link", { name: "Match me to a role" }).click()
+
+  await expect(page).toHaveURL(/#adaptive-focus$/u)
+  await expect(page.getByLabel("Role or job description")).toBeFocused()
+  await expect(page.getByRole("heading", { name: "Selected work" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Professional systems experience" })).toBeAttached()
+})
+
+test("mobile task menu traps focus, closes on Escape, and returns focus", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/", { waitUntil: "domcontentloaded" })
+  const trigger = page.getByRole("button", { name: "Open menu" })
+  await trigger.click()
+
+  const dialog = page.getByRole("dialog", { name: "Navigate portfolio" })
+  await expect(dialog).toBeVisible()
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
+  await page.keyboard.press("Shift+Tab")
+  await expect(dialog.getByRole("link", { name: "Enter Metaverse" })).toBeFocused()
+  await page.keyboard.press("Tab")
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
+
+  await page.keyboard.press("Escape")
+  await expect(dialog).toHaveCount(0)
+  await expect(trigger).toBeFocused()
   await expectNoHorizontalOverflow(page)
 })
 
@@ -141,6 +182,7 @@ test("project media loads the fullscreen viewer on first activation", async ({ p
 
 test("public archive follows the canonical project order", async ({ page }) => {
   await page.goto("/projects", { waitUntil: "domcontentloaded" })
+  await revealProjectExplorer(page)
   const archive = page.locator('section[aria-labelledby="project-archive-heading"]')
   const seeMore = archive.getByRole("button", { name: "See More" })
   if (await seeMore.isVisible()) await seeMore.click()
@@ -297,6 +339,38 @@ test("about distinguishes confidential and approved professional summaries witho
   )
   await expect(experience.locator("img")).toHaveCount(0)
   await expect(experience.locator("a")).toHaveCount(0)
+  await expectNoHorizontalOverflow(page)
+})
+
+test("about progressively enhances focus context and contact submission", async ({ page }) => {
+  await page.route("**/api/contact", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        success: true,
+        failureType: null,
+        message: "Message sent successfully! We'll get back to you soon.",
+      }),
+    })
+  })
+
+  await page.goto("/about?focus=AI%20product%20systems#contact", {
+    waitUntil: "domcontentloaded",
+  })
+  await expect(page.getByText("AI product systems", { exact: true })).toBeVisible()
+
+  await page.getByLabel("Name").fill("QA Visitor")
+  await page.getByLabel("Email").fill("qa@example.com")
+  await page.getByLabel("Message").fill("Testing the protected contact path.")
+  await page.getByRole("button", { name: "Send Message" }).click()
+
+  await expect(page.getByRole("status")).toHaveText(
+    "Message sent successfully! We'll get back to you soon."
+  )
+  await expect(page.getByLabel("Name")).toHaveValue("")
+  await expect(page.getByLabel("Email")).toHaveValue("")
+  await expect(page.getByLabel("Message")).toHaveValue("")
   await expectNoHorizontalOverflow(page)
 })
 

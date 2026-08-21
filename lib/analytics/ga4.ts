@@ -47,6 +47,41 @@ export function mapPortfolioEventToGa4(
           source: String(safe.source),
         },
       }
+    case "public_practice_item_opened":
+      return {
+        name: "select_content",
+        parameters: {
+          content_type: String(safe.item_type),
+          item_id: String(safe.item_id),
+          source: String(safe.source),
+        },
+      }
+    case "homepage_path_selected":
+      return {
+        name: "select_content",
+        parameters: {
+          content_type: "homepage_path",
+          item_id: String(safe.path),
+          source: String(safe.source),
+        },
+      }
+    case "adaptive_focus_more_lenses_expanded":
+      return {
+        name: "view_item_list",
+        parameters: {
+          item_list_id: "adaptive_focus_more_lenses",
+          source: String(safe.entry_point),
+        },
+      }
+    case "metaverse_entered":
+      return {
+        name: "select_content",
+        parameters: {
+          content_type: "optional_metaverse",
+          item_id: "metaverse",
+          source: String(safe.source),
+        },
+      }
     case "project_shared":
       return {
         name: "share",

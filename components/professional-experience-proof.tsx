@@ -21,7 +21,7 @@ interface ProfessionalExperienceProofProps {
   matchedCapabilities?: AdaptiveCapability[]
   evidence?: EvidenceReference[]
   level?: MatchLevel
-  variant?: "brief" | "summary" | "row"
+  variant?: "brief" | "summary" | "row" | "homepage"
   context?: "role-fit" | "about"
 }
 
@@ -46,6 +46,22 @@ export function ProfessionalExperienceProof({
     ? "border-emerald-400/35 bg-emerald-400/[0.035]"
     : "border-amber-300/30 bg-amber-300/[0.025]"
   const accentTone = isApproved ? "text-emerald-300" : "text-amber-200"
+
+  if (variant === "homepage") {
+    return (
+      <article className="home-experience-record">
+        <div className="home-experience-identity">
+          <h3>{record.company}</h3>
+          <p>{record.role}{record.dates ? ` / ${record.dates}` : ""}</p>
+        </div>
+        <p className="home-experience-status">{statusLabel}</p>
+        <p className="home-experience-summary">{record.summary}</p>
+        <p className="home-experience-disclosure">
+          {isApproved ? "Employer-approved public summary" : "Confidential high-level summary"}
+        </p>
+      </article>
+    )
+  }
 
   if (variant === "row") {
     return (

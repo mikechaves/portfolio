@@ -64,13 +64,12 @@ The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
 
 1. Replaced the 1.7 MB homepage PNG signal grid with an 82 kB WebP for desktop and a
    transfer-free CSS treatment on mobile.
-2. Kept the homepage meaning and visual hierarchy in server-rendered HTML while deferring the
-   decorative WebGL layer until desktop idle time. Mobile and reduced-motion users do not download
-   that Three.js path.
+2. Kept the homepage meaning and visual hierarchy in server-rendered HTML while removing the
+   decorative WebGL layer from the standard route. The Three.js path is exclusive to the explicit
+   Metaverse entry.
 3. Removed hosted font requests in favor of explicit system font stacks and replaced two X social
    glyphs with a tiny local SVG, removing the Font Awesome runtime and render-blocking stylesheet.
-4. Replaced the JavaScript-heavy route entrance with a small CSS transition that runs only after a
-   client-side pathname change and disables itself for reduced motion.
+4. Removed the client-owned route entrance so page content remains server-owned across navigation.
 5. Split About, Projects, project dossier exits, Adaptive Focus execution, Role Fit details, and the
    media lightbox at their actual interaction boundaries instead of hydrating them all up front.
 6. Added a compact public project index so the archive client does not receive the full evidence
@@ -79,10 +78,37 @@ The final desktop range is 479–644 ms LCP, 0–0.002 CLS, and 0 ms TBT.
    unrelated route chunks into the initial trace.
 8. Deferred below-the-fold and supporting media, while keeping explicit dimensions and accessible
    labels to preserve layout stability.
+9. Published the standard homepage as static Pages Router markup with `unstable_runtimeJS: false`.
+   Its generated HTML contains no Next.js/React script or `__NEXT_DATA__`; three small deferred
+   scripts retain the baseline homepage, bounded-link, and native-dialog interactions. A fourth
+   lightweight consent bridge is emitted only where analytics is configured.
+10. Moved the operator/contact route onto the same static boundary after hosted CI exposed a cold
+    App Router hydration long task. Its initial HTML retains the full profile, professional proof,
+    structured data, focus context target, and contact form; one small script progressively enhances
+    focus-query display and same-origin contact submission.
 
-The resulting Next.js first-load JavaScript report is 129 kB for Home, 121 kB for About, 140 kB for
-Projects, 131 kB for a project dossier, and 111 kB for an article summary. The pre-change report was
-approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for project dossiers.
+The current build report lists theoretical Pages bundles for Home and About, 106 kB for Projects,
+131 kB for a project dossier, and 111 kB for an article summary. The Home and About framework
+bundles are not emitted into their HTML because runtime JavaScript is disabled for those pages. The
+pre-change report was approximately 159 kB for Home/Projects, 179 kB for About, and 184 kB for
+project dossiers.
+
+## Homepage progressive-disclosure revalidation — 2026-08-20
+
+The hiring-journey redesign was rechecked with the same command and unchanged budgets after the
+standard homepage became server-owned markup plus small deferred browser scripts. All ten checks
+passed:
+
+| Template | Mobile score / LCP / CLS / TBT / transfer | Desktop score / LCP / CLS / TBT / transfer |
+| --- | --- | --- |
+| Home | 100 / 1,360 ms / 0 / 0 ms / 59 kB | 100 / 326 ms / 0 / 0 ms / 124 kB |
+| Operator/contact | 100 / 1,211 ms / 0 / 0 ms / 81 kB | 100 / 289 ms / 0 / 0 ms / 130 kB |
+| Project hub | 100 / 1,862 ms / 0 / 8 ms / 176 kB | 100 / 417 ms / 0 / 0 ms / 379 kB |
+| Project dossier | 98 / 2,305 ms / 0 / 0 ms / 250 kB | 100 / 561 ms / 0.001 / 0 ms / 269 kB |
+| Article summary | 100 / 1,927 ms / 0 / 0 ms / 169 kB | 100 / 437 ms / 0 / 0 ms / 171 kB |
+
+This is controlled local lab evidence. Hosted Preview, canonical Production, and field-CWV proof
+remain separate release gates.
 
 ## Field verification after deployment
 

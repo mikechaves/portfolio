@@ -1,12 +1,8 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import {
-  trackPortfolioEvent,
-  type ProjectEvidenceSource,
-  type ProjectMatchLevel,
-} from "@/lib/portfolio-analytics"
+import type { ReactNode } from "react"
+import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
+import type { ProjectEvidenceSource, ProjectMatchLevel } from "@/lib/portfolio-analytics"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
 type ProjectCardProps = Project & {
@@ -23,6 +19,47 @@ const THUMBNAIL_OBJECT_POSITIONS: Record<ProjectThumbnailFocalPoint, string> = {
   right: "right center",
 }
 
+interface ProjectCardLinkProps {
+  analyticsContext?: ProjectEvidenceSource
+  analyticsMatchLevel: ProjectMatchLevel
+  children: ReactNode
+  className: string
+  projectId: string
+}
+
+function ProjectCardLink({
+  analyticsContext,
+  analyticsMatchLevel,
+  children,
+  className,
+  projectId,
+}: ProjectCardLinkProps) {
+  const href = `/projects/${projectId}`
+
+  if (analyticsContext) {
+    return (
+      <TrackedPortfolioLink
+        href={href}
+        eventName="project_evidence_opened"
+        eventProperties={{
+          project_id: projectId,
+          source: analyticsContext,
+          match_level: analyticsMatchLevel,
+        }}
+        className={className}
+      >
+        {children}
+      </TrackedPortfolioLink>
+    )
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export function ProjectCard({
   id,
   title,
@@ -35,18 +72,10 @@ export function ProjectCard({
   priority,
 }: ProjectCardProps) {
   return (
-    <Link
-      href={`/projects/${id}`}
-      onClick={
-        analyticsContext
-          ? () =>
-              trackPortfolioEvent("project_evidence_opened", {
-                project_id: id,
-                source: analyticsContext,
-                match_level: analyticsMatchLevel,
-              })
-          : undefined
-      }
+    <ProjectCardLink
+      projectId={id}
+      analyticsContext={analyticsContext}
+      analyticsMatchLevel={analyticsMatchLevel}
       className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
@@ -86,6 +115,6 @@ export function ProjectCard({
           </div>
         </div>
       </article>
-    </Link>
-  );
+    </ProjectCardLink>
+  )
 }

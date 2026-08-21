@@ -4,12 +4,7 @@ import "./globals.css"
 import { Footer } from "@/components/footer"
 import { AnalyticsManager } from "@/components/analytics-manager"
 import { JsonLd } from "@/components/json-ld"
-import { Toaster } from "@/components/ui/toaster"
-import { SnowCrashEffects } from "@/components/snow-crash-effects"
-
-import { LabelsProvider } from "@/components/labels-provider"
-import { RouteTransition } from "@/components/route-transition"
-import { AdaptiveFocusHandoffProvider } from "@/features/adaptive-focus/handoff-context"
+import { SiteNav } from "@/components/site-nav"
 import {
   createRobotsMetadata,
   DEFAULT_DESCRIPTION,
@@ -29,6 +24,7 @@ const gaMeasurementId = normalizeGa4MeasurementId(process.env.NEXT_PUBLIC_GA_MEA
 const analyticsDebugMode =
   process.env.NEXT_PUBLIC_ANALYTICS_DEBUG === "1" && !isVercelProduction
 const analyticsPreferencesEnabled = analyticsDebugMode || Boolean(gaMeasurementId)
+const analyticsRuntimeEnabled = analyticsPreferencesEnabled || isVercelProduction
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -89,31 +85,28 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-mono bg-black text-white min-h-screen flex flex-col">
         <JsonLd id="site-structured-data" data={getSiteStructuredData()} />
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <div
           className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
           aria-hidden="true"
         ></div>
 
-        {/* SnowCrashEffects keeps the opt-in Metaverse entry available on the homepage. */}
-        <SnowCrashEffects />
+        <SiteNav />
 
-        <main className="site-main flex-1 relative z-10">
-          <AdaptiveFocusHandoffProvider>
-            <RouteTransition>{children}</RouteTransition>
-          </AdaptiveFocusHandoffProvider>
+        <main id="main-content" tabIndex={-1} className="site-main flex-1 relative z-10">
+          {children}
         </main>
         <Footer analyticsPreferencesEnabled={analyticsPreferencesEnabled} />
-
-
-        <LabelsProvider>
-          <Toaster />
-        </LabelsProvider>
-        <AnalyticsManager
-          canonicalOrigin={SITE_ORIGIN}
-          debugMode={analyticsDebugMode}
-          gaMeasurementId={gaMeasurementId}
-          productionTransportEnabled={isVercelProduction}
-        />
+        <script src="/scripts/portfolio-events.js" defer />
+        <script src="/scripts/site-nav.js" defer />
+        {analyticsRuntimeEnabled ? (
+          <AnalyticsManager
+            canonicalOrigin={SITE_ORIGIN}
+            debugMode={analyticsDebugMode}
+            gaMeasurementId={gaMeasurementId}
+            productionTransportEnabled={isVercelProduction}
+          />
+        ) : null}
       </body>
     </html>
   );

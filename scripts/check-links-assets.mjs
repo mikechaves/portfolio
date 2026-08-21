@@ -14,6 +14,7 @@ const PUBLIC_ASSET_EXTENSIONS = new Set([
   ".ico",
   ".jpg",
   ".jpeg",
+  ".js",
   ".json",
   ".mp4",
   ".pdf",
@@ -62,8 +63,8 @@ const REQUIRED_SOURCE_LINKS = [
     value: "https://www.linkedin.com/in/mikejchaves",
   },
   {
-    label: "contact email",
-    value: "mailto:founder@gowizzo.io",
+    label: "protected contact form",
+    value: "/about#contact",
   },
   {
     label: "resume download",
@@ -93,10 +94,6 @@ function normalizeInternalPath(value) {
 
 function hasPublicAssetExtension(value) {
   return PUBLIC_ASSET_EXTENSIONS.has(path.extname(normalizeInternalPath(value)).toLowerCase())
-}
-
-function isHttpUrl(value) {
-  return value.startsWith("http://") || value.startsWith("https://")
 }
 
 function isMailto(value) {
@@ -272,9 +269,11 @@ async function buildRouteSet(projectIds) {
     "/about",
     "/archive",
     "/api/adaptive-focus/analyze",
+    "/api/contact",
     "/api/placeholder",
     "/blog",
     "/error",
+    "/metaverse",
     "/projects",
     "/projects/ai-energy-consumption",
     "/projects/astrocade-qa-calibration-tool",
@@ -431,7 +430,7 @@ function extractExternalReferences(fileText, isMarkdown = false) {
 }
 
 async function validateSourceReferences(routeSet) {
-  const sourceRoots = ["app", "components", "data", "docs", "features", "lib", "public/data"]
+  const sourceRoots = ["app", "components", "data", "docs", "features", "lib", "pages", "public/data"]
   const sourceFiles = []
   for (const sourceRoot of sourceRoots) {
     sourceFiles.push(...await listFiles(path.join(ROOT_DIR, sourceRoot)))

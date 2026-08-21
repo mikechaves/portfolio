@@ -75,4 +75,31 @@ describe("GA4 event mapping", () => {
       },
     })
   })
+
+  it("maps bounded homepage journey events to content interactions", () => {
+    expect(
+      mapPortfolioEventToGa4("homepage_path_selected", {
+        path: "selected_work",
+        source: "home_hero",
+      })
+    ).toEqual({
+      name: "select_content",
+      parameters: {
+        content_type: "homepage_path",
+        item_id: "selected_work",
+        source: "home_hero",
+      },
+    })
+
+    expect(
+      mapPortfolioEventToGa4("metaverse_entered", { source: "desktop_nav" })
+    ).toEqual({
+      name: "select_content",
+      parameters: {
+        content_type: "optional_metaverse",
+        item_id: "metaverse",
+        source: "desktop_nav",
+      },
+    })
+  })
 })
