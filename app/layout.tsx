@@ -8,7 +8,6 @@ import { Toaster } from "@/components/ui/toaster"
 import { SnowCrashEffects } from "@/components/snow-crash-effects"
 
 import { LabelsProvider } from "@/components/labels-provider"
-import { RouteTransition } from "@/components/route-transition"
 import {
   createRobotsMetadata,
   DEFAULT_DESCRIPTION,
@@ -98,7 +97,7 @@ export default function RootLayout({
         <SnowCrashEffects />
 
         <main id="main-content" tabIndex={-1} className="site-main flex-1 relative z-10">
-          <RouteTransition>{children}</RouteTransition>
+          {children}
         </main>
         <Footer analyticsPreferencesEnabled={analyticsPreferencesEnabled} />
 

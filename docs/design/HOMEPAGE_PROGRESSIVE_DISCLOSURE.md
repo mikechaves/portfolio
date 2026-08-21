@@ -299,14 +299,15 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - homepage hydration: Adaptive Focus, conversion/evidence/public-practice analytics, strict
   below-fold media loading, hero-canvas drawing, and the delayed immersive background share one
   delegated client bridge. Their forms, links, cards, and optimized image shells remain
-  server-rendered.
+  server-rendered. The root layout leaves route content server-owned instead of passing the full
+  page tree through a client-side transition wrapper.
 
 ### Homepage performance comparison
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2326 ms; CLS 0; TBT 20 ms; 200 kB | LCP 140 ms faster; CLS preserved; transfer 37 kB lower; TBT remains well inside budget. |
-| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 265 kB | LCP 146 ms faster and transfer 287 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2311 ms; CLS 0; TBT 5 ms; 199 kB | LCP 155 ms faster; CLS and TBT preserved; transfer 38 kB lower. |
+| Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 264 kB | LCP 146 ms faster and transfer 288 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
 Console ingestion. Preview readiness, exact-head merge, deployment readiness, and canonical

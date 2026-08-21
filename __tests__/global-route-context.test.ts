@@ -26,18 +26,12 @@ describe("global route context", () => {
     ])
   })
 
-  it("keeps the route transition lightweight and reduced-motion safe", () => {
-    const component = fs.readFileSync(
-      path.join(__dirname, "..", "components", "route-transition.tsx"),
-      "utf8"
-    )
-    const styles = fs.readFileSync(path.join(__dirname, "..", "app", "globals.css"), "utf8")
+  it("keeps the route tree server-owned instead of hydrating it through a client wrapper", () => {
+    const layout = fs.readFileSync(path.join(__dirname, "..", "app", "layout.tsx"), "utf8")
 
-    expect(component).not.toContain("framer-motion")
-    expect(component).toContain('routeChanged ? "route-transition-enter" : undefined')
-    expect(styles).toContain("@keyframes route-signal-enter")
-    expect(styles).toContain(".route-transition-enter")
-    expect(styles).toContain("@media (prefers-reduced-motion: reduce)")
+    expect(layout).not.toContain("RouteTransition")
+    expect(layout).not.toContain('from "next/navigation"')
+    expect(layout).toContain('{children}')
   })
 
   it("publishes active-route and mobile-menu semantics", () => {
