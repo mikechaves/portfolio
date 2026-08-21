@@ -133,7 +133,30 @@ test("homepage features only the curated public proof", async ({ page }) => {
     "Playfold",
     "SpeakEasy",
   ])
-  await expect(featured).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
+  await expect(featured).not.toContainText(
+    /Astrocade|Ford|Starbucks|Snorkel AI|Knitting Factory Entertainment/u
+  )
+  await expectNoHorizontalOverflow(page)
+})
+
+test("homepage presents five professional records without engagement-type qualifiers", async ({
+  page,
+}) => {
+  await page.goto("/", { waitUntil: "domcontentloaded" })
+  const experience = page.locator("#professional-experience")
+
+  await expect(experience.getByRole("article")).toHaveCount(5)
+  await expect(experience.getByRole("heading", { level: 3 })).toHaveText([
+    "Astrocade",
+    "Snorkel AI",
+    "Ford Motor Company",
+    "Starbucks",
+    "Knitting Factory Entertainment",
+  ])
+  await expect(
+    experience.getByRole("article").filter({ hasText: "Knitting Factory Entertainment" })
+  ).toContainText("Creative Director")
+  await expect(experience).not.toContainText(/temporary employment|contract/iu)
   await expectNoHorizontalOverflow(page)
 })
 
@@ -200,7 +223,9 @@ test("public archive follows the canonical project order", async ({ page }) => {
     "Portals",
     "Die, AI!",
   ])
-  await expect(archive).not.toContainText(/Astrocade|Ford|Starbucks|Snorkel AI/u)
+  await expect(archive).not.toContainText(
+    /Astrocade|Ford|Starbucks|Snorkel AI|Knitting Factory Entertainment/u
+  )
 })
 
 test("Games & Interactive exposes only the curated game set", async ({ page }) => {
@@ -319,7 +344,7 @@ test("about distinguishes confidential and approved professional summaries witho
   await expect(
     experience.getByRole("heading", { level: 2, name: "Selected professional experience" })
   ).toBeVisible()
-  await expect(experience.getByRole("article")).toHaveCount(4)
+  await expect(experience.getByRole("article")).toHaveCount(5)
 
   const snorkel = experience.getByRole("article").filter({ hasText: "Snorkel AI" })
   await expect(snorkel).toContainText("Approved public experience")
@@ -337,6 +362,13 @@ test("about distinguishes confidential and approved professional summaries witho
   await expect(experience.getByRole("article").filter({ hasText: "Starbucks" })).toContainText(
     "Emerging technology prototypes"
   )
+  const knittingFactory = experience
+    .getByRole("article")
+    .filter({ hasText: "Knitting Factory Entertainment" })
+  await expect(knittingFactory).toContainText("Public professional experience")
+  await expect(knittingFactory).toContainText("Creative Director")
+  await expect(knittingFactory).not.toContainText("Confidential employment evidence")
+  await expect(experience).not.toContainText(/temporary employment|contract/iu)
   await expect(experience.locator("img")).toHaveCount(0)
   await expect(experience.locator("a")).toHaveCount(0)
   await expectNoHorizontalOverflow(page)

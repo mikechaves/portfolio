@@ -34,18 +34,24 @@ export function ProfessionalExperienceProof({
   context = "role-fit",
 }: ProfessionalExperienceProofProps) {
   const isApproved = record.disclosureLevel === "approved-public-summary"
-  const Icon = isApproved ? BadgeCheck : LockKeyhole
+  const isPublicResume = record.disclosureLevel === "public-resume-summary"
+  const isPublic = isApproved || isPublicResume
+  const Icon = isPublic ? BadgeCheck : LockKeyhole
   const disclosureLabel = isApproved
     ? "Approved public experience"
-    : "Confidential employment evidence"
+    : isPublicResume
+      ? "Public professional experience"
+      : "Confidential employment evidence"
   const footer = isApproved
     ? "Public description uses employer-approved, non-confidential language. Project-specific materials and internal evaluation details are not public."
-    : "Detailed case study withheld. Internal interfaces, data, metrics, and implementation details are not public."
+    : isPublicResume
+      ? "Public description uses resume-sourced professional information. Detailed campaign materials and proprietary assets are not public."
+      : "Detailed case study withheld. Internal interfaces, data, metrics, and implementation details are not public."
   const statusLabel = PROFESSIONAL_EXPERIENCE_DELIVERY_LABELS[record.deliveryStatus]
-  const recordTone = isApproved
+  const recordTone = isPublic
     ? "border-emerald-400/35 bg-emerald-400/[0.035]"
     : "border-amber-300/30 bg-amber-300/[0.025]"
-  const accentTone = isApproved ? "text-emerald-300" : "text-amber-200"
+  const accentTone = isPublic ? "text-emerald-300" : "text-amber-200"
 
   if (variant === "homepage") {
     return (
@@ -57,7 +63,11 @@ export function ProfessionalExperienceProof({
         <p className="home-experience-status">{statusLabel}</p>
         <p className="home-experience-summary">{record.summary}</p>
         <p className="home-experience-disclosure">
-          {isApproved ? "Employer-approved public summary" : "Confidential high-level summary"}
+          {isApproved
+            ? "Employer-approved public summary"
+            : isPublicResume
+              ? "Public professional summary"
+              : "Confidential high-level summary"}
         </p>
       </article>
     )
@@ -97,6 +107,9 @@ export function ProfessionalExperienceProof({
           </p>
           {isApproved && context === "about" ? (
             <p className="mt-1 text-xs text-emerald-300">Approved public contribution</p>
+          ) : null}
+          {isPublicResume && context === "about" ? (
+            <p className="mt-1 text-xs text-emerald-300">Public professional summary</p>
           ) : null}
         </div>
         <span className="w-fit border border-current/25 px-2.5 py-1 text-xs text-foreground">

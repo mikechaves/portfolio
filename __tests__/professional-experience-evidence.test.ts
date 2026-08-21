@@ -59,6 +59,18 @@ describe("professional experience entity integrity", () => {
       disclosureLevel: "approved-public-summary",
       deliveryStatus: "ai-training-and-evaluation",
     })
+    expect(PROFESSIONAL_EXPERIENCE_BY_ID.get("employment-knitting-factory")).toMatchObject({
+      role: "Creative Director",
+      dates: "August 2008 - January 2016",
+      disclosureLevel: "public-resume-summary",
+      deliveryStatus: "creative-direction-live-entertainment",
+    })
+  })
+
+  it("keeps engagement-type qualifiers out of public role titles", () => {
+    expect(PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => record.role).join("\n")).not.toMatch(
+      /temporary employment|contract/i
+    )
   })
 
   it("keeps Starbucks evidence prototype-only", () => {
@@ -105,7 +117,9 @@ describe("professional experience rendering", () => {
     )
 
     expect(source).toContain('record.disclosureLevel === "approved-public-summary"')
+    expect(source).toContain('record.disclosureLevel === "public-resume-summary"')
     expect(source).toContain('"Approved public experience"')
+    expect(source).toContain('"Public professional experience"')
     expect(source).toContain('"Confidential employment evidence"')
     expect(source).toContain("Detailed case study withheld")
     expect(source).not.toMatch(/<Image\b|<ProjectCard\b|<Link\b|href=/u)

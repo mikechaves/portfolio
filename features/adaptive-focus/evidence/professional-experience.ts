@@ -1,12 +1,14 @@
 export type ProfessionalExperienceDisclosureLevel =
   | "confidential-summary"
   | "approved-public-summary"
+  | "public-resume-summary"
 
 export type ProfessionalExperienceDeliveryStatus =
   | "production-ai-operations"
   | "production-manufacturing-system"
   | "exploratory-prototypes"
   | "ai-training-and-evaluation"
+  | "creative-direction-live-entertainment"
 
 export interface ProfessionalExperienceRecord {
   id: string
@@ -27,13 +29,14 @@ export const PROFESSIONAL_EXPERIENCE_DELIVERY_LABELS: Record<
   "production-manufacturing-system": "Production manufacturing system",
   "exploratory-prototypes": "Emerging technology prototypes",
   "ai-training-and-evaluation": "Approved public contribution",
+  "creative-direction-live-entertainment": "Creative direction for live entertainment",
 }
 
 export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-astrocade",
     company: "Astrocade",
-    role: "UGC Engineer, Temporary Employment",
+    role: "UGC Engineer",
     dates: "November 2025 - April 2026",
     disclosureLevel: "confidential-summary",
     deliveryStatus: "production-ai-operations",
@@ -45,7 +48,7 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-snorkel",
     company: "Snorkel AI",
-    role: "Expert Contributor, Contract",
+    role: "Expert Contributor",
     disclosureLevel: "approved-public-summary",
     deliveryStatus: "ai-training-and-evaluation",
     summary:
@@ -56,7 +59,7 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-ford",
     company: "Ford Motor Company",
-    role: "Software Engineer II, Unity, Contract",
+    role: "Software Engineer II, Unity",
     dates: "October 2021 - March 2022",
     disclosureLevel: "confidential-summary",
     deliveryStatus: "production-manufacturing-system",
@@ -68,7 +71,7 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-starbucks",
     company: "Starbucks",
-    role: "Lead UX/UI Designer III, Contract",
+    role: "Lead UX/UI Designer III",
     dates: "March 2022 - December 2022",
     disclosureLevel: "confidential-summary",
     deliveryStatus: "exploratory-prototypes",
@@ -76,6 +79,18 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
       "Designed exploratory mobile, Unity, and speech-to-text prototypes within an emerging technology team. The work tested spatial learning, retail operations, accessibility, and high-noise communication concepts through research, prototyping, and usability evaluation. These were experiments and prototypes, not production systems. Specific interfaces, pilot materials, participant evidence, metrics, and internal project names are confidential.",
     disclosureNote:
       "Exploratory prototypes, not production deployments. Internal project names, interfaces, pilot materials, participant evidence, metrics, and implementation details are withheld.",
+  },
+  {
+    id: "employment-knitting-factory",
+    company: "Knitting Factory Entertainment",
+    role: "Creative Director",
+    dates: "August 2008 - January 2016",
+    disclosureLevel: "public-resume-summary",
+    deliveryStatus: "creative-direction-live-entertainment",
+    summary:
+      "Directed digital creative projects and managed teams across five live music venues and subsidiaries, unifying brand identity, visual storytelling, and promotional standards across web, campaign, and event experiences. Redesigned the ticketing platform and supporting digital experiences while coordinating event visuals and interactive assets for live productions.",
+    disclosureNote:
+      "Public professional summary based on resume-provided information. Detailed campaign materials, operational data, and proprietary assets are not published.",
   },
 ]
 

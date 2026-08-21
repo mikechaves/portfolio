@@ -51,6 +51,7 @@ describe("homepage progressive disclosure", () => {
       "employment-snorkel",
       "employment-ford",
       "employment-starbucks",
+      "employment-knitting-factory",
     ])
     expect(homeSource).toContain('variant="homepage"')
     expect(homeSource).toContain("Public summaries only")

@@ -2,11 +2,12 @@
 
 ## Purpose
 
-The portfolio supports three evidence states:
+The portfolio supports four evidence states:
 
 1. Public project case studies with inspectable media and a route under the Projects section.
 2. Confidential employment summaries with no project artifacts or case-study route.
 3. Employer-approved public experience summaries whose wording is approved for public use but whose underlying artifacts remain private.
+4. Resume-sourced public professional summaries authorized for publication but kept separate from project case studies.
 
 Professional experience records are not projects. They do not enter project counts, category counts, the project archive, related-project navigation, homepage project cards, or immersive navigation.
 
@@ -15,7 +16,8 @@ Professional experience records are not projects. They do not enter project coun
 - Confidential summaries preserve company, role, verified dates, delivery status, high-level scope, and approved capabilities.
 - Employer-approved summaries may use only the approved wording or independently public facts.
 - Approved wording is not permission to publish project files, customer information, prompts, dataset examples, evaluation rubrics, internal systems, or metrics.
-- No confidential or approved-public experience record may include an image, gallery, demo, repository URL, project route, password gate, or access-request path.
+- Resume-sourced summaries may use only the role, dates, scope, and outcomes the owner has authorized for public use.
+- No professional experience record may include an image, gallery, demo, repository URL, project route, password gate, or access-request path.
 - Internal media and detailed copy must not remain in disabled objects, comments, client JSON, test fixtures, or hidden metadata.
 - Exact metrics require explicit approval before they can enter public source data or evidence copy.
 - Source approval documents and private employment documents must never be committed to this public repository.
@@ -28,6 +30,7 @@ Delivery status must remain explicit:
 - Starbucks evidence describes exploratory prototypes, not production deployments.
 - Astrocade evidence describes production AI game-quality operations at a high level.
 - Snorkel evidence describes an approved public AI training and evaluation contribution.
+- Knitting Factory Entertainment evidence describes creative direction across live-entertainment brands, teams, ticketing, and digital experiences.
 
 ## Adaptive Focus Contract
 
@@ -36,6 +39,7 @@ Adaptive Focus ranks a unified evidence-entity list containing public project ID
 - Public project matches render project media and a case-study link.
 - Confidential summaries render a shielded, non-linked employment record.
 - Approved public summaries render a verified, non-linked experience record.
+- Resume-sourced public summaries render a non-linked professional experience record.
 - Requirement coverage resolves every entity ID to a public display name.
 - The public archive reorders only public projects, even when professional evidence ranks highly.
 
@@ -49,7 +53,7 @@ Deleting files from the current tree does not erase prior Git commits, forks, de
 
 ## Public Exceptions
 
-GeoVoice remains a public case study because it became a public product and has approved public proof. Snorkel remains professional experience rather than a project: employer-approved wording permits a contribution summary, not a case-study route or project artifacts.
+GeoVoice remains a public case study because it became a public product and has approved public proof. Snorkel remains professional experience rather than a project: employer-approved wording permits a contribution summary, not a case-study route or project artifacts. Knitting Factory Entertainment remains a resume-sourced professional summary without a case-study route or internal assets.
 
 ## Adding Future Public Proof
 

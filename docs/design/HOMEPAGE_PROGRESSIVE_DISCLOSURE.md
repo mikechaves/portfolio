@@ -149,7 +149,7 @@ Console or approved-RUM gate.
 - Preserve `/projects/x-games` and other technical identifiers while using Playfold publicly.
 - Professional experience remains image-free, non-linked evidence: Astrocade confidential
   production AI operations, Snorkel approved public contribution, Ford production manufacturing,
-  and Starbucks exploratory prototypes.
+  Starbucks exploratory prototypes, and Knitting Factory Entertainment creative direction.
 - Do not modify matching/ranking behavior unless a verified bug requires it.
 - Do not store or measure role text.
 - Do not make repository readiness, Preview readiness, merge authorization, and Production proof
@@ -224,8 +224,8 @@ The implemented homepage now follows the required hiring journey in source and v
 3. a compact Adaptive Focus launcher with one role input, four default presets, three disclosed
    presets, and explicit model/privacy copy;
 4. Wizzo, Playfold, and SpeakEasy featured cards using the stable public routes and concise proof;
-5. image-free, non-linked Astrocade, Snorkel AI, Ford, and Starbucks records with their disclosure
-   and production/prototype distinctions intact;
+5. image-free, non-linked Astrocade, Snorkel AI, Ford, Starbucks, and Knitting Factory
+   Entertainment records with their disclosure and production/prototype distinctions intact;
 6. four capability families, one article plus two public-practice signals, and a protected contact,
    resume, and LinkedIn conversion.
 

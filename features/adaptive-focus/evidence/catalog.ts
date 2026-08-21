@@ -229,6 +229,39 @@ export const EVIDENCE_CATALOG: EvidenceRecord[] = [
     confidence: "supporting",
   },
   {
+    id: "employment-knitting-factory-creative-direction",
+    entityId: "employment-knitting-factory",
+    capability: "creative-technology",
+    statement:
+      "Directed digital creative projects across five live music venues and subsidiaries, connecting brand identity, visual storytelling, campaigns, web, and event experiences.",
+    sourcePath: professionalExperiencePath,
+    evidenceType: "designed",
+    ownership: "led",
+    confidence: "direct",
+  },
+  {
+    id: "employment-knitting-factory-people-management",
+    entityId: "employment-knitting-factory",
+    capability: "people-management",
+    statement:
+      "Managed creative teams delivering coordinated digital, campaign, promotional, and live-event work across multiple venues.",
+    sourcePath: professionalExperiencePath,
+    evidenceType: "implemented",
+    ownership: "led",
+    confidence: "direct",
+  },
+  {
+    id: "employment-knitting-factory-product-ownership",
+    entityId: "employment-knitting-factory",
+    capability: "product-ownership",
+    statement:
+      "Led the redesign of the ticketing platform and supporting digital experiences for live entertainment audiences.",
+    sourcePath: professionalExperiencePath,
+    evidenceType: "designed",
+    ownership: "led",
+    confidence: "direct",
+  },
+  {
     id: "wizzo-ai-system",
     entityId: "wizzo",
     capability: "ai-product-systems",
