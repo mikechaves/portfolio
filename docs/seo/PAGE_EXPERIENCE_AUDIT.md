@@ -24,8 +24,10 @@ Lighthouse's standard simulated mobile profile; desktop uses `--preset=desktop`.
 single controlled lab run, so the tables are regression evidence rather than field-CWV claims.
 
 The checked command rebuilds the application, starts a dedicated server, rejects an occupied test
-port, captures all ten JSON reports, writes `test-results/performance/summary.json`, and exits
-nonzero if any budget fails:
+port, warms the one-time Lighthouse/Chromium harness against an isolated script-free document,
+captures all ten application JSON reports, writes `test-results/performance/summary.json`, and
+exits nonzero if any budget fails. The warmup does not request an application route or asset, and
+the measured routes remain single cold-cache runs with unchanged thresholds:
 
 ```bash
 pnpm exec playwright install chromium

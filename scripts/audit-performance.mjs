@@ -2,6 +2,7 @@
 
 import { spawn } from "node:child_process"
 import { promises as fs } from "node:fs"
+import { createServer } from "node:http"
 import path from "node:path"
 import process from "node:process"
 import { chromium } from "@playwright/test"
@@ -57,6 +58,62 @@ function run(command, args, options = {}) {
       )
     })
   })
+}
+
+function getLighthouseArgs(url, outputPath, profileArgs = []) {
+  return [
+    "exec",
+    "lighthouse",
+    url,
+    "--only-categories=performance",
+    "--output=json",
+    `--output-path=${outputPath}`,
+    `--chrome-path=${chromium.executablePath()}`,
+    "--chrome-flags=--headless --no-sandbox",
+    "--quiet",
+    ...profileArgs,
+  ]
+}
+
+async function warmLighthouseHarness() {
+  const warmupOutputPath = path.join(OUTPUT_DIR, ".harness-warmup.json")
+  const warmupServer = createServer((_request, response) => {
+    response.writeHead(200, {
+      "Cache-Control": "no-store",
+      "Content-Type": "text/html; charset=utf-8",
+    })
+    response.end(
+      "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Audit harness warmup</title></head><body><main>Audit harness warmup</main></body></html>"
+    )
+  })
+
+  await new Promise((resolve, reject) => {
+    warmupServer.once("error", reject)
+    warmupServer.listen(0, "127.0.0.1", resolve)
+  })
+
+  const address = warmupServer.address()
+  if (!address || typeof address === "string") {
+    warmupServer.close()
+    throw new Error("Lighthouse harness warmup did not receive a local port")
+  }
+
+  try {
+    process.stdout.write("Warming Lighthouse harness... ")
+    await run(
+      PNPM,
+      getLighthouseArgs(`http://127.0.0.1:${address.port}`, warmupOutputPath),
+      { stdio: "ignore" }
+    )
+    console.log("done")
+  } finally {
+    await Promise.all([
+      fs.rm(warmupOutputPath, { force: true }),
+      new Promise((resolve, reject) => {
+        warmupServer.close((error) => (error ? reject(error) : resolve()))
+      }),
+    ])
+  }
 }
 
 async function assertPortIsFree() {
@@ -163,6 +220,9 @@ async function main() {
 
   try {
     await waitForServer(server, () => serverLog)
+    // Calibrate one-time Lighthouse/Chromium startup against an isolated, script-free document.
+    // No application route, asset, cache, or threshold is warmed or changed.
+    await warmLighthouseHarness()
 
     for (const profile of PROFILES) {
       for (const route of ROUTES) {
@@ -170,18 +230,9 @@ async function main() {
         const url = new URL(route.pathname, BASE_URL).toString()
 
         process.stdout.write(`Auditing ${route.pathname} (${profile.id})... `)
-        await run(PNPM, [
-          "exec",
-          "lighthouse",
-          url,
-          "--only-categories=performance",
-          "--output=json",
-          `--output-path=${outputPath}`,
-          `--chrome-path=${chromium.executablePath()}`,
-          "--chrome-flags=--headless --no-sandbox",
-          "--quiet",
-          ...profile.lighthouseArgs,
-        ], { stdio: "ignore" })
+        await run(PNPM, getLighthouseArgs(url, outputPath, profile.lighthouseArgs), {
+          stdio: "ignore",
+        })
 
         const report = JSON.parse(await fs.readFile(outputPath, "utf8"))
         const metrics = readMetrics(report)

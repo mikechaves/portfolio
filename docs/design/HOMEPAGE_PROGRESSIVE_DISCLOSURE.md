@@ -287,7 +287,7 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 - frozen-lockfile install: pass;
 - lint: pass (the repository's legacy ESLint config emits its ESLint 10 migration notice only);
 - type-check: pass;
-- unit tests: 36 suites, 209 tests passed;
+- unit tests: 37 suites, 211 tests passed;
 - link/asset audit: 200 assets, 178 internal routes, 82 external or mail references, and all five
   required contact/social/resume links passed;
 - production build: pass, homepage first-load JavaScript 105 kB and project-index first-load
@@ -306,7 +306,7 @@ All required local commands pass on Node 20.19.5 and pnpm 10.15.1:
 
 | Profile | Baseline | Implementation | Change |
 | --- | --- | --- | --- |
-| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2311 ms; CLS 0; TBT 5 ms; 199 kB | LCP 155 ms faster; CLS and TBT preserved; transfer 38 kB lower. |
+| Mobile | score 98; LCP 2466 ms; CLS 0; TBT 5 ms; 237 kB | score 98; LCP 2313 ms; CLS 0; TBT 7 ms; 199 kB | LCP 153 ms faster; CLS preserved; TBT 2 ms higher and well inside budget; transfer 38 kB lower. |
 | Desktop | score 100; LCP 685 ms; CLS 0; TBT 0 ms; 552 kB | score 100; LCP 539 ms; CLS 0; TBT 0 ms; 264 kB | LCP 146 ms faster and transfer 288 kB lower. |
 
 These are controlled Lighthouse lab results. They are not field Core Web Vitals or proof of Search
