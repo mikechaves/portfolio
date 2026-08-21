@@ -48,11 +48,11 @@ Vercel telemetry.
 All properties pass through the runtime allowlist in `lib/portfolio-analytics.ts`. GA4 mapping is
 defined in `lib/analytics/ga4.ts`.
 
-The zero-framework-runtime homepage mirrors those same allowlist and mapping contracts in its
-small deferred analytics bridge. It preserves the same consent storage key and reload-bounded debug
-session, so a deliberate full-page handoff from `/` into an App Router route carries only sanitized
-GA4-shaped events. The automated audit exercises that cross-router handoff and rejects provider
-requests in debug mode.
+The zero-framework-runtime Home and About routes mirror those same allowlist and mapping contracts
+in one small deferred analytics bridge. It preserves the same consent storage key and
+reload-bounded debug session, so a deliberate full-page handoff between Pages and App Router routes
+carries only sanitized GA4-shaped events. The automated audit exercises that cross-router handoff
+and rejects provider requests in debug mode.
 
 | App/GA4 event | Trigger | Allowed parameters | GA4 meaning | Business meaning |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ requests in debug mode.
 | `article_original_opened` → `select_content` | A summary reader selects the original Medium article. | `article_id`, `source` | Recommended content selection. | Resource engagement beyond the on-site summary. |
 | `portfolio_conversion_clicked` → `select_content` | A Role Fit, contact, or resume action is selected. | `destination`, `source`, optional `project_id` | Recommended content selection. | Conversion-path intent before completion. |
 | `project_shared` → `share` | Native share succeeds or canonical URL copy succeeds. Cancellations are not counted. | `method`, `project_id`, `source` | Recommended share event. | Secondary case-study distribution action. |
-| `portfolio_contact_submitted` → `generate_lead` | The contact server action returns success. | `source`; GA4 adds bounded `method=contact_form` | Recommended lead event; configure as a GA4 key event. | Primary business conversion. |
+| `portfolio_contact_submitted` → `generate_lead` | The protected same-origin contact endpoint returns success. | `source`; GA4 adds bounded `method=contact_form` | Recommended lead event; configure as a GA4 key event. | Primary business conversion. |
 | `portfolio_contact_failed` → `contact_form_error` | Configuration, validation, delivery, or unexpected contact failure. | `failure_type`, `source` | Product-specific error event. | Meaningful business-conversion failure. |
 
 There is no signup, account-registration, newsletter, or waitlist flow in the public product. A

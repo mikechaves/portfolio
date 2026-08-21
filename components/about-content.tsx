@@ -3,9 +3,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
 import { AboutContactForm } from "@/components/about-contact-form"
-import { FocusContextFromQuery } from "@/components/focus-context-from-query"
+import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
-import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
 import { XIcon } from "@/components/x-icon"
 import { PROJECTS } from "@/data/projects"
 import { EVIDENCE_CATALOG } from "@/features/adaptive-focus/evidence/catalog"
@@ -130,10 +129,25 @@ const publicSignals = [
   },
 ]
 
-export default function AboutPage() {
+export function AboutContent() {
   return (
     <div className="about-operating-page space-y-8 pt-6">
-      <FocusContextFromQuery />
+      <div
+        hidden
+        className="rounded-md border border-primary/30 bg-primary/5 px-4 py-3"
+        data-focus-context
+      >
+        <p className="mb-1 text-xs text-muted-foreground">Current focus</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm" data-focus-context-value />
+          <Link
+            href="/projects"
+            className="-my-3 inline-flex min-h-11 items-center text-sm text-primary hover:underline"
+          >
+            View project archive
+          </Link>
+        </div>
+      </div>
 
       <section className="operating-profile-hero" aria-labelledby="about-title">
         <div className="operating-profile-status" aria-hidden="true">
@@ -156,16 +170,15 @@ export default function AboutPage() {
               <Link href="/projects" prefetch={false} className="operating-profile-primary-action">
                 Inspect project proof <ArrowRight size={15} aria-hidden="true" />
               </Link>
-              <TrackedPortfolioLink
+              <PortfolioEventLink
                 href="/Michael_Chaves_Resume_min.pdf"
                 download
-                prefetch={false}
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "about_hero" }}
                 className="operating-profile-secondary-action"
               >
                 Download resume <Download size={15} aria-hidden="true" />
-              </TrackedPortfolioLink>
+              </PortfolioEventLink>
             </div>
           </div>
 
@@ -223,7 +236,7 @@ export default function AboutPage() {
         <div className="profile-proof-grid">
           {proofPoints.map((proof) => (
             proof.projectId ? (
-              <TrackedPortfolioLink
+              <PortfolioEventLink
                 key={proof.caseFile}
                 href={proof.href}
                 eventName="project_evidence_opened"
@@ -241,7 +254,7 @@ export default function AboutPage() {
                 <h3>{proof.title}</h3>
                 <p>{proof.description}</p>
                 <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
-              </TrackedPortfolioLink>
+              </PortfolioEventLink>
             ) : (
               <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
                 <div className="profile-proof-meta">
@@ -333,16 +346,15 @@ export default function AboutPage() {
           <p>
             Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
           </p>
-          <TrackedPortfolioLink
+          <PortfolioEventLink
             href="/Michael_Chaves_Resume_min.pdf"
             download
-            prefetch={false}
             eventName="portfolio_conversion_clicked"
             eventProperties={{ destination: "resume", source: "about_contact" }}
             className="operating-profile-secondary-action"
           >
             Download resume <Download size={15} aria-hidden="true" />
-          </TrackedPortfolioLink>
+          </PortfolioEventLink>
 
           <div className="profile-network-links" aria-label="Professional network links">
             <a href="https://github.com/mikechaves" target="_blank" rel="noopener noreferrer"><Github size={17} aria-hidden="true" /> GitHub</a>

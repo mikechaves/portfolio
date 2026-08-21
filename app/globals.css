@@ -1660,7 +1660,7 @@ textarea {
 .operating-profile-primary-action,
 .operating-profile-secondary-action {
   display: inline-flex;
-  min-height: 2.6rem;
+  min-height: 2.75rem;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -1803,6 +1803,7 @@ textarea {
 
 .profile-section-heading > a {
   display: inline-flex;
+  min-height: 2.75rem;
   align-items: center;
   gap: 0.4rem;
   color: #00ff8c;
@@ -2027,7 +2028,10 @@ textarea {
 
 .profile-network-links a {
   display: inline-flex;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   color: rgb(161 161 170);
   font-size: 0.68rem;

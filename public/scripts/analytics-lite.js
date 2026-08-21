@@ -2,7 +2,7 @@
   const browserEventName = "portfolio:analytics-event"
   const consentStorageKey = "portfolio.analytics-consent.v1"
   const debugSessionKey = "portfolio:analytics:debug-events:v1"
-  const config = document.querySelector("[data-home-analytics]")
+  const config = document.querySelector("[data-portfolio-analytics]")
   if (!(config instanceof HTMLElement)) return
 
   let allowedProperties = {}
@@ -22,6 +22,8 @@
     ? config.dataset.gaMeasurementId
     : null
   const canonicalOrigin = config.dataset.canonicalOrigin || window.location.origin
+  const pagePath = config.dataset.pagePath || "/"
+  const pageGroup = config.dataset.pageGroup || "utility"
   const preferencesPanel = document.querySelector("[data-analytics-preferences-panel]")
   const privacyControls = document.querySelector("[data-analytics-privacy-controls]")
   const standardControls = document.querySelector("[data-analytics-standard-controls]")
@@ -201,9 +203,9 @@
     emitGa4({
       name: "page_view",
       parameters: {
-        page_group: "portfolio_overview",
-        page_location: new URL("/", canonicalOrigin).toString(),
-        page_path: "/",
+        page_group: pageGroup,
+        page_location: new URL(pagePath, canonicalOrigin).toString(),
+        page_path: pagePath,
         page_title: document.title,
       },
     })

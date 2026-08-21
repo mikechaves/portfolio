@@ -79,6 +79,13 @@
   window.addEventListener("hashchange", syncActiveRoute)
   window.addEventListener("popstate", syncActiveRoute)
   const scheduleInitialRouteSync = () => {
+    const developmentRuntimePresent = [...document.scripts].some((script) =>
+      script.src.includes("/_next/static/development/")
+    )
+    if (developmentRuntimePresent) {
+      window.setTimeout(syncActiveRoute, 250)
+      return
+    }
     if ("requestIdleCallback" in window) {
       window.requestIdleCallback(syncActiveRoute, { timeout: 2000 })
     } else {

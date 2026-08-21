@@ -269,6 +269,7 @@ async function buildRouteSet(projectIds) {
     "/about",
     "/archive",
     "/api/adaptive-focus/analyze",
+    "/api/contact",
     "/api/placeholder",
     "/blog",
     "/error",

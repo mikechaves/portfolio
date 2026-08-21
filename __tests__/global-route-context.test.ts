@@ -66,7 +66,7 @@ describe("global route context", () => {
 
   it("keeps the contact conversion target clear of the sticky navigation", () => {
     const source = fs.readFileSync(
-      path.join(__dirname, "..", "app", "about", "page.tsx"),
+      path.join(__dirname, "..", "components", "about-content.tsx"),
       "utf8"
     )
 

@@ -342,6 +342,38 @@ test("about distinguishes confidential and approved professional summaries witho
   await expectNoHorizontalOverflow(page)
 })
 
+test("about progressively enhances focus context and contact submission", async ({ page }) => {
+  await page.route("**/api/contact", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        success: true,
+        failureType: null,
+        message: "Message sent successfully! We'll get back to you soon.",
+      }),
+    })
+  })
+
+  await page.goto("/about?focus=AI%20product%20systems#contact", {
+    waitUntil: "domcontentloaded",
+  })
+  await expect(page.getByText("AI product systems", { exact: true })).toBeVisible()
+
+  await page.getByLabel("Name").fill("QA Visitor")
+  await page.getByLabel("Email").fill("qa@example.com")
+  await page.getByLabel("Message").fill("Testing the protected contact path.")
+  await page.getByRole("button", { name: "Send Message" }).click()
+
+  await expect(page.getByRole("status")).toHaveText(
+    "Message sent successfully! We'll get back to you soon."
+  )
+  await expect(page.getByLabel("Name")).toHaveValue("")
+  await expect(page.getByLabel("Email")).toHaveValue("")
+  await expect(page.getByLabel("Message")).toHaveValue("")
+  await expectNoHorizontalOverflow(page)
+})
+
 test("retired case-study routes redirect server-side to professional experience", async ({
   page,
   request,

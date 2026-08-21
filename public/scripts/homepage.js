@@ -42,6 +42,13 @@
     }
   }
   const scheduleFeaturedImages = () => {
+    const developmentRuntimePresent = [...document.scripts].some((script) =>
+      script.src.includes("/_next/static/development/")
+    )
+    if (developmentRuntimePresent) {
+      window.setTimeout(observeFeaturedImages, 250)
+      return
+    }
     if ("requestIdleCallback" in window) {
       window.requestIdleCallback(observeFeaturedImages, { timeout: 2000 })
     } else {
