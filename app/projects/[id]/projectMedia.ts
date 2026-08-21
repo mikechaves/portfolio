@@ -230,30 +230,30 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   wizzo: {
     "/projects/wizzo/app-interface.png": {
-      label: "AI mentor product cockpit",
-      caption: "Current product surface connecting chat, goals, voice, work context, and quest follow-through.",
+      label: "Living Mentor workspace",
+      caption: "Current authenticated product surface shown without personal content, pairing a focused mentor prompt, voice controls, quick starts, campaigns, and reviewable follow-through.",
       section: "action",
     },
     "/projects/wizzo/main-image.png": {
-      label: "Quest progress system",
-      caption: "Supporting product evidence showing the AI mentor, quest status, and progress-oriented navigation.",
+      label: "Public Wizzo product story",
+      caption: "Current public product surface frames plans as quests, keeps one next action visible, and makes human review part of the product promise.",
       section: "result",
     },
   },
   "x-games": {
     "/projects/x-games/platform-home.png": {
-      label: "Live game discovery platform",
-      caption: "Historical shipped product surface captured before the Playfold naming transition, connecting the post-to-game promise to a live catalog of generated games, creator attribution, genres, play actions, and engagement signals.",
+      label: "Source-to-game product story",
+      caption: "Current public Playfold surface connects a real source post, the interpreted game hook, a playable result, and a direct creator action in one legible product narrative.",
       section: "situation",
     },
     "/projects/x-games/generated-game-detail.png": {
-      label: "Generated-game control surface",
-      caption: "Historical shipped product state captured before the Playfold naming transition; a source post, generated game, tuning controls, play statistics, library action, and reporting path stay connected in one reviewable surface.",
+      label: "Adaptive discovery catalog",
+      caption: "Current app surface organizes latest, popular, and all-public refolds while preserving game creator, source-post attribution, genre, play activity, and direct launch paths.",
       section: "action",
     },
     "/projects/x-games/leaderboard.png": {
-      label: "Ranked game ecosystem",
-      caption: "Historical shipped product state captured before the Playfold naming transition; the all-time leaderboard turns generated games into persistent social objects with ranked discovery, play counts, creator identity, and direct replay paths.",
+      label: "Verified seasonal leaderboard",
+      caption: "Current competition surface makes qualification, total-score ranking, tie-break logic, game identity, player counts, and direct replay visibly reviewable.",
       section: "result",
     },
   },

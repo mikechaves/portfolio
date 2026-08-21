@@ -45,8 +45,8 @@ describe("Wizzo evidence dossier", () => {
     })
 
     expect(media.map((item) => item.label)).toEqual([
-      "AI mentor product cockpit",
-      "Quest progress system",
+      "Living Mentor workspace",
+      "Public Wizzo product story",
     ])
     expect(media.some((item) => item.section === "result")).toBe(true)
   })

@@ -2,7 +2,7 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Designed and built an AI mentor product system that turns chat, connected work context, goals, and follow-up into actionable quests.",
+    "description": "Designed and built an AI mentor product system that turns goals, blockers, context, and progress into one clear next move with reviewable follow-through.",
     "image": "/projects/wizzo/app-interface.png",
     "technologies": [
       "Next.js",
@@ -21,6 +21,10 @@
       {
         "label": "Launch App",
         "url": "https://app.gowizzo.io"
+      },
+      {
+        "label": "Wizzo Labs",
+        "url": "https://wizzolabs.net"
       }
     ],
     "gallery": [
@@ -31,7 +35,7 @@
       "client": "Wizzo Labs",
       "date": "2025 - Present",
       "category": "AI Product Systems",
-      "proofRole": "AI product systems connecting intent, work context, and accountable follow-through",
+      "proofRole": "AI product systems connecting intent, execution context, and accountable follow-through across Mentor, Campaign, Focus, and Vault surfaces",
       "services": [
         "AI Workflow Design",
         "Product Systems",
@@ -46,7 +50,7 @@
         },
         {
           "title": "Product Context",
-          "description": "The public beta positions Wizzo as an AI adventure mentor that combines chat, voice, connected work context, achievement loops, and quest-based follow-through."
+          "description": "The public beta positions Wizzo as an AI mentor for real-world follow-through: plans become quests, one next move stays visible, and the user reviews every meaningful action."
         },
         {
           "title": "System Context",
@@ -56,7 +60,7 @@
       "task": [
         {
           "title": "Design an AI Mentor Loop",
-          "description": "Create a product loop where chat can capture intent, remember execution context, suggest grounded next steps, and translate progress into quests."
+          "description": "Create a product loop where the Mentor can capture intent, preserve execution context, suggest grounded next moves, and translate progress into quests and campaigns."
         },
         {
           "title": "Connect Work Context",
@@ -64,7 +68,7 @@
         },
         {
           "title": "Make AI Actions Grounded",
-          "description": "Pair conversation with tools for search, research, code execution, image generation, files, and voice so the assistant can move beyond generic coaching."
+          "description": "Pair the Mentor with explicit, user-invoked tools and visible review points so assistance can move beyond generic coaching without pretending the AI owns the outcome."
         },
         {
           "title": "Preserve User Control",
@@ -74,7 +78,7 @@
       "actions": [
         {
           "title": "Product System Architecture",
-          "description": "Designed the core experience around main chat, execution-aware memory, quest tracking, achievements, and connector-backed work context."
+          "description": "Designed the current experience around the Living Mentor, campaigns, focused next moves, progress visibility, and a Vault for account and trust controls."
         },
         {
           "title": "Full-Stack Implementation",
@@ -82,7 +86,7 @@
         },
         {
           "title": "AI Workflow Surfaces",
-          "description": "Created mentor interactions for goal planning, progress reflection, grounded research, connected notes, and voice-supported follow-up."
+          "description": "Created mentor interactions for goal planning, progress reflection, guided focus, grounded research, connected notes, and voice-supported follow-through."
         },
         {
           "title": "Trust and Account Controls",
@@ -92,11 +96,11 @@
       "results": [
         {
           "title": "Public Beta",
-          "description": "Shipped a public beta with a marketing site, live web app, AI mentor interface, quest system, and connected work context."
+          "description": "Shipped a public beta with a marketing site, live web app, Living Mentor, campaigns, focused next moves, quest progress, and connected work context."
         },
         {
           "title": "AI Product Proof",
-          "description": "Demonstrated an AI-native product system that combines chat, memory, work connectors, tools, privacy controls, and habit-forming progress loops."
+          "description": "Demonstrated an AI-native product system that combines a mentor, campaigns, focused action, work connectors, explicit tools, privacy controls, and visible progress loops."
         },
         {
           "title": "Portfolio Relevance",
@@ -108,7 +112,7 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Built and operate an AI-first social game platform that turns X posts into playable browser games, then supports discovery, tuning, replay, sharing, reporting, and ranked competition around the generated catalog.",
+    "description": "Built and operate an AI-native social game platform that turns X posts into playable browser games, then supports discovery, bounded tuning, replay, attribution, sharing, and verified competition.",
     "image": "/projects/x-games/generated-game-detail.png",
     "technologies": [
       "AI Game Generation",
@@ -120,15 +124,21 @@
     ],
     "github": "",
     "demo": "https://playfold.wizzolabs.net/",
+    "links": [
+      {
+        "label": "Wizzo Labs",
+        "url": "https://wizzolabs.net"
+      }
+    ],
     "gallery": [
       "/projects/x-games/platform-home.png",
       "/projects/x-games/leaderboard.png"
     ],
     "details": {
-      "client": "Playfold",
+      "client": "Wizzo Labs",
       "date": "2026",
       "category": "AI Game Platform",
-      "proofRole": "Direct product proof for AI-native generation, social distribution, game tuning, and ranked play in a live browser platform.",
+      "proofRole": "Direct product proof for source-grounded AI generation, adaptive discovery, bounded tuning, and score-backed ranked play in a live browser platform.",
       "services": [
         "AI Product Systems",
         "Generated Game UX",
@@ -138,7 +148,7 @@
       "situation": [
         {
           "title": "From Post to Playable System",
-          "description": "Playfold is a live AI-native product loop: start from a post on X, generate a playable browser game with Grok, then make that game discoverable, replayable, tunable, shareable, and rankable."
+          "description": "Playfold is a live AI-native product loop: start from a post on X, interpret its premise and tone, build a playable browser game, then make that game discoverable, replayable, tunable, shareable, and rankable."
         },
         {
           "title": "Product Challenge",
@@ -146,7 +156,7 @@
         },
         {
           "title": "Operating Context",
-          "description": "The system connects a live X feed, AI-assisted concept generation, generated game art and mechanics, browser gameplay, social distribution, moderation, and leaderboard behavior."
+          "description": "The system connects public source attribution, AI-assisted concept generation, generated game art and mechanics, an adaptive app shell, focused browser play, moderation, and seasonal and all-time leaderboards."
         }
       ],
       "task": [
@@ -160,13 +170,13 @@
         },
         {
           "title": "Build a Social Game Ecosystem",
-          "description": "Turn generated games into persistent social objects with creator attribution, discovery, saves, reporting, engagement signals, leaderboards, and replay paths."
+          "description": "Turn generated games into persistent social objects with source and creator attribution, discovery, saves, reporting, engagement signals, verified seasonal competition, all-time rankings, and replay paths."
         }
       ],
       "actions": [
         {
           "title": "Connected Source Context to Generation",
-          "description": "Built feed and game-detail surfaces that keep the originating account and post visible while carrying the generated title, genre, premise, art, and playable runtime into the product."
+          "description": "Built Discover, Feed, creator, and focused-player surfaces that keep the source post visible while carrying the generated title, genre, premise, art, and playable runtime through the product."
         },
         {
           "title": "Designed the Generated-Game Cockpit",
@@ -174,7 +184,7 @@
         },
         {
           "title": "Built Discovery and Competition",
-          "description": "Created trending discovery and all-time ranking surfaces that organize generated games by creator, genre, play activity, and direct replay actions."
+          "description": "Created latest, popular, and all-public discovery surfaces plus seasonal and all-time rankings that organize games by source, creator, genre, plays, scores, and direct replay actions."
         }
       ],
       "results": [
@@ -188,7 +198,7 @@
         },
         {
           "title": "Persistent Social Proof",
-          "description": "Trending and leaderboard surfaces make generated games browseable and comparable, connecting AI creation to creator identity, distribution, engagement, and ranked play."
+          "description": "Discover and leaderboard surfaces make generated games browsable and comparable, connecting AI creation to source provenance, creator identity, distribution, engagement, and ranked play."
         }
       ]
     }

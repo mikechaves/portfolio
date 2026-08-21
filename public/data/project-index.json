@@ -2,7 +2,7 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Designed and built an AI mentor product system that turns chat, connected work context, goals, and follow-up into actionable quests.",
+    "description": "Designed and built an AI mentor product system that turns goals, blockers, context, and progress into one clear next move with reviewable follow-through.",
     "image": "/projects/wizzo/app-interface.png",
     "technologies": [
       "Next.js",
@@ -18,7 +18,7 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Built and operate an AI-first social game platform that turns X posts into playable browser games, then supports discovery, tuning, replay, sharing, reporting, and ranked competition around the generated catalog.",
+    "description": "Built and operate an AI-native social game platform that turns X posts into playable browser games, then supports discovery, bounded tuning, replay, attribution, sharing, and verified competition.",
     "image": "/projects/x-games/generated-game-detail.png",
     "technologies": [
       "AI Game Generation",

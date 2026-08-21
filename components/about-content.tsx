@@ -164,7 +164,7 @@ export function AboutContent() {
               I design and build product systems for workflows where software, automation, and human judgment have to work together.
             </p>
             <p className="operating-profile-summary">
-              My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I am strongest in ambiguous environments that require both systems thinking and hands-on execution.
+              My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I also operate <a href="https://wizzolabs.net" target="_blank" rel="noopener noreferrer" className="text-primary underline decoration-primary/35 underline-offset-4 hover:decoration-primary">Wizzo Labs</a>, the studio behind Wizzo and Playfold. I am strongest in ambiguous environments that require both systems thinking and hands-on execution.
             </p>
             <div className="operating-profile-actions">
               <Link href="/projects" prefetch={false} className="operating-profile-primary-action">

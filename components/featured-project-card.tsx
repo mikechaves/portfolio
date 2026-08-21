@@ -21,12 +21,12 @@ const HOME_FEATURED_IMAGES = {
   wizzo: {
     src: "/projects/wizzo/app-interface-home.webp",
     width: 900,
-    height: 404,
+    height: 506,
   },
   "x-games": {
     src: "/projects/x-games/generated-game-detail-home.webp",
     width: 900,
-    height: 657,
+    height: 506,
   },
   speakeasy: {
     src: "/projects/speakeasy/thesis-defense-home.webp",

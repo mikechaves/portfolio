@@ -33,7 +33,7 @@ describe("Playfold evidence dossier", () => {
 
     expect(project.title).toBe("Playfold")
     expect(project.demo).toBe("https://playfold.wizzolabs.net/")
-    expect(project.details.client).toBe("Playfold")
+    expect(project.details.client).toBe("Wizzo Labs")
     expect(project.details.situation?.[0]?.description).toContain("Playfold is")
     expect(JSON.stringify(project)).not.toContain('"X Games"')
   })
@@ -41,7 +41,7 @@ describe("Playfold evidence dossier", () => {
   it("states direct product-system proof instead of portfolio-value fallback copy", () => {
     const project = projects["x-games"]
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("AI-native generation")
+    expect(project.details.proofRole).toContain("source-grounded AI generation")
     expect(project.details.proofRole).toContain("ranked play")
     expect(project.details.services).toEqual([
       "AI Product Systems",
@@ -75,9 +75,9 @@ describe("Playfold evidence dossier", () => {
     })
 
     expect(media.map((item) => item.label)).toEqual([
-      "Generated-game control surface",
-      "Live game discovery platform",
-      "Ranked game ecosystem",
+      "Adaptive discovery catalog",
+      "Source-to-game product story",
+      "Verified seasonal leaderboard",
     ])
     expect(media.map((item) => item.section)).toEqual(["action", "situation", "result"])
     expect(media.every((item) => item.caption.length > 60)).toBe(true)

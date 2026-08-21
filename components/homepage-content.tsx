@@ -21,13 +21,13 @@ const featuredProjectPresentation = {
   wizzo: {
     eyebrow: "AI product system",
     summary:
-      "An AI mentor system that turns conversation, connected context, and goals into actionable quests.",
+      "An AI mentor system that turns goals, blockers, and progress into one clear next move with reviewable follow-through.",
     actionLabel: "View Wizzo",
   },
   "x-games": {
     eyebrow: "Game + creator platform",
     summary:
-      "An AI-first social game platform that turns posts into playable browser games and persistent creator content.",
+      "An AI-native social game platform that turns source posts into playable browser games, adaptive discovery, and verified competition.",
     actionLabel: "View Playfold",
   },
   speakeasy: {
@@ -108,8 +108,16 @@ export function HomepageContent() {
               I build AI product systems, playable experiences, and immersive tools.
             </h1>
             <p className="home-journey-lede">
-              Founder of Wizzo Labs. I design trustworthy AI products, creator workflows, and
-              human-in-the-loop multimodal experiences.
+              <a
+                href="https://wizzolabs.net"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white underline decoration-white/30 underline-offset-4 transition-colors hover:text-primary"
+              >
+                Founder of Wizzo Labs
+              </a>
+              . I design trustworthy AI products, creator workflows, and human-in-the-loop
+              multimodal experiences.
             </p>
             <div className="home-journey-actions" aria-label="Homepage paths">
               <HomeJourneyLink
