@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { isSelfOptimizedImage } from "@/lib/image-delivery"
 
 interface ImageModalProps {
   open: boolean
@@ -51,6 +52,7 @@ export function ImageModal({ open, onOpenChange, src, alt, caption, onPrev, onNe
                     alt={alt}
                     width={1200}
                     height={800}
+                    unoptimized={isSelfOptimizedImage(src)}
                     className="w-full h-auto max-h-[90vh] object-contain rounded-md shadow-lg"
                     style={{ width: "100%", height: "auto" }}
                     sizes="100vw"

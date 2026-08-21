@@ -35,5 +35,6 @@ describe("project thumbnail framing", () => {
     expect(source).toContain('className="relative aspect-[16/9]')
     expect(source).not.toContain("lg:aspect-[16/7]")
     expect(source).toContain("THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint]")
+    expect(source).toContain("unoptimized={isSelfOptimizedImage(imageSource)}")
   })
 })

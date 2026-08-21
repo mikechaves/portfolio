@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
+import { isSelfOptimizedImage } from "@/lib/image-delivery"
 import type { ProjectEvidenceSource, ProjectMatchLevel } from "@/lib/portfolio-analytics"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
@@ -71,6 +72,9 @@ export function ProjectCard({
   analyticsMatchLevel = "unranked",
   priority,
 }: ProjectCardProps) {
+  const imageSource =
+    image || `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`
+
   return (
     <ProjectCardLink
       projectId={id}
@@ -81,12 +85,10 @@ export function ProjectCard({
       <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
         <div className="relative aspect-[16/9] min-h-44 overflow-hidden border-b border-white/10 bg-zinc-950">
           <Image
-            src={
-              image ||
-              `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`
-            }
+            src={imageSource}
             alt={title}
             fill
+            unoptimized={isSelfOptimizedImage(imageSource)}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
             style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }}
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"

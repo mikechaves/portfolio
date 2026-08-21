@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { buildProjectMedia } from "../app/projects/[id]/projectMedia"
+import { isSelfOptimizedImage } from "../lib/image-delivery"
 
 type ProjectRecord = {
   title: string
@@ -24,6 +25,26 @@ const HIGH_SIGNAL_PROJECT_IDS = [
 ]
 
 describe("high-signal project media", () => {
+  test("self-optimized media bypasses the image transformer", () => {
+    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.webp")).toBe(true)
+    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.webp?height=400&width=600")).toBe(true)
+    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.png")).toBe(false)
+
+    const componentPaths = [
+      path.join(__dirname, "..", "app", "projects", "[id]", "ProjectMediaShowcase.tsx"),
+      path.join(__dirname, "..", "app", "projects", "[id]", "ProjectEvidenceStrip.tsx"),
+      path.join(__dirname, "..", "components", "image-modal.tsx"),
+    ]
+
+    for (const componentPath of componentPaths) {
+      const source = fs.readFileSync(componentPath, "utf8")
+      const imageCount = source.match(/<Image\b/gu)?.length ?? 0
+      const unoptimizedCount = source.match(/\bunoptimized\b/gu)?.length ?? 0
+
+      expect(unoptimizedCount).toBe(imageCount)
+    }
+  })
+
   test("the shared viewer defers below-fold project media", () => {
     const source = fs.readFileSync(
       path.join(__dirname, "..", "app", "projects", "[id]", "ProjectMediaShowcase.tsx"),
