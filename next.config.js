@@ -25,6 +25,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // Serve committed, pre-compressed assets directly. This avoids coupling
+    // portfolio media availability to the deployment image-transform quota.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

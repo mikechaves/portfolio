@@ -207,7 +207,7 @@
     "title": "GeoVoice",
     "category": "web",
     "description": "Designed a map-based stakeholder-feedback system that connects project layers, location-specific comments, participant context, and public-facing infrastructure review in one workflow.",
-    "image": "/projects/geovoice/geovoice-demo.png",
+    "image": "/projects/geovoice/geovoice-demo.webp",
     "technologies": [
       "Geospatial Mapping",
       "UX/UI Design",
@@ -217,9 +217,9 @@
     "github": "",
     "demo": "https://geovoice.powereng.com/demo/",
     "gallery": [
-      "/projects/geovoice/geovoice-prototype.png",
-      "/projects/geovoice/interface.png",
-      "/projects/geovoice/geovoice-cvow.png"
+      "/projects/geovoice/geovoice-prototype.webp",
+      "/projects/geovoice/interface.webp",
+      "/projects/geovoice/geovoice-cvow.webp"
     ],
     "details": {
       "client": "POWER Engineers",
@@ -294,7 +294,7 @@
     "title": "SpeakEasy",
     "category": "research",
     "description": "Designed and built a Quest 3 voice-first accessibility prototype in Unity, using Meta Voice SDK, multimodal feedback, and three research-through-design iterations to reduce dependence on handheld XR controllers.",
-    "image": "/projects/speakeasy/thesis-defense.jpg",
+    "image": "/projects/speakeasy/thesis-defense.webp",
     "technologies": [
       "Voice-Driven AI",
       "XR Accessibility",
@@ -304,9 +304,9 @@
     "demo": "/projects/speakeasy/Chaves_Thesis_process-book_final.pdf",
     "demoLabel": "Read Process Book",
     "gallery": [
-      "/projects/speakeasy/thesis-exhibition.jpg",
-      "/projects/speakeasy/thesis-defense.jpg",
-      "/projects/speakeasy/ten-pillars-recap.png"
+      "/projects/speakeasy/thesis-exhibition.webp",
+      "/projects/speakeasy/thesis-defense.webp",
+      "/projects/speakeasy/ten-pillars-recap.webp"
     ],
     "details": {
       "client": "Master of Design in Experience Design, SJSU",
@@ -403,7 +403,7 @@
     "title": "PetitionReady",
     "category": "development",
     "description": "Built an AI-assisted bankruptcy intake readiness console for paralegals, focused on case blockers, document gaps, readiness scoring, client follow-up, and attorney-review packet preparation without crossing into legal advice.",
-    "image": "/projects/petition-ready/main-image.png",
+    "image": "/projects/petition-ready/main-image.webp",
     "technologies": [
       "Next.js",
       "TypeScript",
@@ -415,10 +415,10 @@
     "github": "https://github.com/mikechaves/petition-ready-bankruptcy-intake",
     "demo": "https://petition-ready-bankruptcy-intake.vercel.app/",
     "gallery": [
-      "/projects/petition-ready/notifications.png",
-      "/projects/petition-ready/selected-dashboard-state.jpeg",
-      "/projects/petition-ready/matter-inspector.jpeg",
-      "/projects/petition-ready/copilot-review-state.png"
+      "/projects/petition-ready/notifications.webp",
+      "/projects/petition-ready/selected-dashboard-state.webp",
+      "/projects/petition-ready/matter-inspector.webp",
+      "/projects/petition-ready/copilot-review-state.webp"
     ],
     "details": {
       "client": "Personal Project",
@@ -497,7 +497,7 @@
     "title": "Creative Supply Engine",
     "category": "development",
     "description": "Built a Python creative automation pipeline that turns structured campaign briefs and reusable product assets into localized AI-assisted social creatives across 1:1, 9:16, and 16:9 formats, with deterministic logo/text overlays, compliance checks, run logs, and review galleries.",
-    "image": "/projects/creative-supply-engine/main-image.jpg",
+    "image": "/projects/creative-supply-engine/main-image.webp",
     "technologies": [
       "Python",
       "Pillow",
@@ -510,13 +510,13 @@
     "demo": "/projects/creative-supply-engine/review-gallery.html",
     "demoLabel": "Open Review Gallery",
     "gallery": [
-      "/projects/creative-supply-engine/citrus-en-1x1.jpg",
-      "/projects/creative-supply-engine/citrus-en-9x16.jpg",
-      "/projects/creative-supply-engine/oat-es-1x1.jpg",
-      "/projects/creative-supply-engine/oat-es-9x16.jpg",
-      "/projects/creative-supply-engine/oat-es-16x9.jpg",
-      "/projects/creative-supply-engine/pulse-beverages-logo.png",
-      "/projects/creative-supply-engine/cli-run-summary.png"
+      "/projects/creative-supply-engine/citrus-en-1x1.webp",
+      "/projects/creative-supply-engine/citrus-en-9x16.webp",
+      "/projects/creative-supply-engine/oat-es-1x1.webp",
+      "/projects/creative-supply-engine/oat-es-9x16.webp",
+      "/projects/creative-supply-engine/oat-es-16x9.webp",
+      "/projects/creative-supply-engine/pulse-beverages-logo.webp",
+      "/projects/creative-supply-engine/cli-run-summary.webp"
     ],
     "details": {
       "client": "Pulse Beverages (Sample Brand)",
@@ -595,7 +595,7 @@
     "title": "Material Explorer",
     "category": "web",
     "description": "Material Explorer is a production-minded interactive web app for creating, comparing, and sharing physically based 3D materials in real time. Built with React + Three.js/React Three Fiber, it now includes autosave/restore, A/B compare, texture workflows, draft history, and shareable presets for rapid iteration.",
-    "image": "/projects/material-explorer/main-image.png",
+    "image": "/projects/material-explorer/main-image.webp",
     "technologies": [
       "TypeScript",
       "React 19",
@@ -608,10 +608,10 @@
     "demo": "https://mikechaves.github.io/material-explorer/",
     "demoLabel": "Open Live Lab",
     "gallery": [
-      "/projects/material-explorer/live-pbr-lab.png",
-      "/projects/material-explorer/live-compare.png",
-      "/projects/material-explorer/texture-workflow.png",
-      "/projects/material-explorer/power-tools.png"
+      "/projects/material-explorer/live-pbr-lab.webp",
+      "/projects/material-explorer/live-compare.webp",
+      "/projects/material-explorer/texture-workflow.webp",
+      "/projects/material-explorer/power-tools.webp"
     ],
     "details": {
       "client": "Personal Project",
@@ -690,7 +690,7 @@
     "title": "Vulnerability Visualizer",
     "category": "web",
     "description": "Built a React + TypeScript security-review dashboard that keeps a 236,656-record vulnerability dataset searchable, visualizes manual-versus-AI assessment patterns, and exposes source provenance, record detail, comparison, and export controls.",
-    "image": "/projects/vulnerability-visualizer/main-image.jpg",
+    "image": "/projects/vulnerability-visualizer/main-image.webp",
     "technologies": [
       "React 18",
       "TypeScript",
@@ -703,10 +703,10 @@
     "demo": "https://vulnerability-visualizer.vercel.app/",
     "demoLabel": "Open Review Dashboard",
     "gallery": [
-      "/projects/vulnerability-visualizer/full-dataset-ai-filter.png",
-      "/projects/vulnerability-visualizer/analysis-charts.png",
-      "/projects/vulnerability-visualizer/vulnerability-detail.png",
-      "/projects/vulnerability-visualizer/local-sample-fallback.png"
+      "/projects/vulnerability-visualizer/full-dataset-ai-filter.webp",
+      "/projects/vulnerability-visualizer/analysis-charts.webp",
+      "/projects/vulnerability-visualizer/vulnerability-detail.webp",
+      "/projects/vulnerability-visualizer/local-sample-fallback.webp"
     ],
     "details": {
       "client": "Personal Project",
@@ -789,7 +789,7 @@
     "title": "Sound Escape VR",
     "category": "ar-vr",
     "description": "Built a Unity VR music system that turns a four-channel, 16-step sequencer into an audio-reactive spatial performance, with persisted patterns, microphone sampling, eight-band FFT analysis, and Quest 3 interaction updates.",
-    "image": "/projects/soundescape/music-interface.png",
+    "image": "/projects/soundescape/music-interface.webp",
     "technologies": [
       "Unity 2022 LTS",
       "C#",
@@ -802,9 +802,9 @@
     "demo": "https://www.youtube.com/watch?v=z2tbf1AHm7w",
     "demoLabel": "Watch Prototype Demo",
     "gallery": [
-      "/projects/soundescape/fractal-visuals.png",
-      "/projects/soundescape/spatial-environment.png",
-      "/projects/soundescape/main-image.jpg"
+      "/projects/soundescape/fractal-visuals.webp",
+      "/projects/soundescape/spatial-environment.webp",
+      "/projects/soundescape/main-image.webp"
     ],
     "details": {
       "client": "Independent Prototype",
@@ -891,7 +891,7 @@
     "title": "Portals",
     "category": "ar-vr",
     "description": "Led SnapAR development for a four-person Spectacles hackathon prototype that opens and routes cultural portals through VoiceML commands, supports explicit return phrases, and lets users resize portal objects with hand-tracked pinch input.",
-    "image": "/projects/portals/main-image.png",
+    "image": "/projects/portals/main-image.webp",
     "technologies": [
       "Lens Studio",
       "JavaScript",
@@ -905,10 +905,10 @@
     "demo": "https://devpost.com/software/strings",
     "demoLabel": "Open Devpost Showcase",
     "gallery": [
-      "/projects/portals/voice-portal-source.png",
-      "/projects/portals/voice-routing-source.png",
-      "/projects/portals/pinch-scale-source.png",
-      "/projects/portals/devpost-showcase.png"
+      "/projects/portals/voice-portal-source.webp",
+      "/projects/portals/voice-routing-source.webp",
+      "/projects/portals/pinch-scale-source.webp",
+      "/projects/portals/devpost-showcase.webp"
     ],
     "details": {
       "client": "Stanford Immerse the Bay 2024 / Four-person team",
@@ -995,7 +995,7 @@
     "title": "Die, AI!",
     "category": "web",
     "description": "Preserved a 2018 ActionScript game as a playable modern-browser artifact by keeping the original FLA, source, GreenSock dependency, and SWF intact while adding a static Ruffle wrapper, verified controls, fallback context, checksums, and archival documentation.",
-    "image": "/projects/die-ai/level-one.png",
+    "image": "/projects/die-ai/level-one.webp",
     "technologies": [
       "ActionScript 3",
       "Adobe Animate",
@@ -1008,12 +1008,12 @@
     "demo": "https://mikechaves.github.io/dieai-flash/",
     "demoLabel": "Play Preserved Game",
     "gallery": [
-      "/projects/die-ai/live-ruffle-wrapper.png",
-      "/projects/die-ai/start-screen.png",
-      "/projects/die-ai/intro-good.png",
-      "/projects/die-ai/intro-hacked.png",
-      "/projects/die-ai/game-over.png",
-      "/projects/die-ai/main-image.png"
+      "/projects/die-ai/live-ruffle-wrapper.webp",
+      "/projects/die-ai/start-screen.webp",
+      "/projects/die-ai/intro-good.webp",
+      "/projects/die-ai/intro-hacked.webp",
+      "/projects/die-ai/game-over.webp",
+      "/projects/die-ai/main-image.webp"
     ],
     "details": {
       "client": "GIMM 110 student project / Independent preservation",

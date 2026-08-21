@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
-import { isSelfOptimizedImage } from "@/lib/image-delivery"
 import type { ProjectEvidenceSource, ProjectMatchLevel } from "@/lib/portfolio-analytics"
 import type { Project, ProjectThumbnailFocalPoint } from "@/types/project"
 
@@ -88,7 +87,6 @@ export function ProjectCard({
             src={imageSource}
             alt={title}
             fill
-            unoptimized={isSelfOptimizedImage(imageSource)}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
             style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }}
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"

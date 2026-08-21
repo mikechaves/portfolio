@@ -24,205 +24,205 @@ interface ProjectMediaCopy {
 
 const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   "creative-supply-engine": {
-    "/projects/creative-supply-engine/main-image.jpg": {
+    "/projects/creative-supply-engine/main-image.webp": {
       label: "Localized 16:9 campaign output",
       caption: "The final citrus creative combines a reusable campaign hero with deterministic Pulse branding, English-market copy, CTA treatment, and a verified 1920 x 1080 output ratio.",
     },
-    "/projects/creative-supply-engine/pulse-beverages-logo.png": {
+    "/projects/creative-supply-engine/pulse-beverages-logo.webp": {
       label: "Deterministic brand source",
       caption: "The source logo is composited after image generation so brand presence remains explicit, repeatable, and independently checkable across every ratio.",
       section: "task",
     },
-    "/projects/creative-supply-engine/cli-run-summary.png": {
+    "/projects/creative-supply-engine/cli-run-summary.webp": {
       label: "Repeatable CLI run",
       caption: "The pulse-cse command records brief loading, four localized creative sets, run-log output, and the browser review gallery produced by the same pipeline.",
       section: "action",
     },
-    "/projects/creative-supply-engine/citrus-en-1x1.jpg": {
+    "/projects/creative-supply-engine/citrus-en-1x1.webp": {
       label: "English citrus 1:1",
       caption: "The square placement preserves the English campaign message, CTA, logo, and product focus while recropping the same reusable hero asset.",
       section: "result",
     },
-    "/projects/creative-supply-engine/citrus-en-9x16.jpg": {
+    "/projects/creative-supply-engine/citrus-en-9x16.webp": {
       label: "English citrus 9:16",
       caption: "The vertical placement demonstrates ratio-aware cropping and safe deterministic overlays from the same brief and approved asset source.",
       section: "result",
     },
-    "/projects/creative-supply-engine/oat-es-1x1.jpg": {
+    "/projects/creative-supply-engine/oat-es-1x1.webp": {
       label: "Spanish oat bar 1:1",
       caption: "The square oat-bar output applies Spanish-market message and CTA fields while retaining the shared Pulse brand rules.",
       section: "result",
     },
-    "/projects/creative-supply-engine/oat-es-9x16.jpg": {
+    "/projects/creative-supply-engine/oat-es-9x16.webp": {
       label: "Spanish oat bar 9:16",
       caption: "The vertical oat-bar output keeps localized copy and the deterministic overlay system legible across the taller social format.",
       section: "result",
     },
-    "/projects/creative-supply-engine/oat-es-16x9.jpg": {
+    "/projects/creative-supply-engine/oat-es-16x9.webp": {
       label: "Spanish oat bar 16:9",
       caption: "The landscape variation completes the representative review set and shows the same localized campaign state across all three output ratios.",
       section: "result",
     },
   },
   "material-explorer": {
-    "/projects/material-explorer/main-image.png": {
+    "/projects/material-explorer/main-image.webp": {
       label: "Material authoring workspace",
       caption: "The product workspace combines a searchable material library, typed editor controls, and a live 3D preview so authors can inspect the system before committing a material.",
     },
-    "/projects/material-explorer/live-pbr-lab.png": {
+    "/projects/material-explorer/live-pbr-lab.webp": {
       label: "Live PBR material lab",
       caption: "The deployed lab renders a React Three Fiber preview alongside quick presets, environment and camera controls, and a starter library of editable materials.",
       section: "action",
     },
-    "/projects/material-explorer/live-compare.png": {
+    "/projects/material-explorer/live-compare.webp": {
       label: "Dual-canvas A/B comparison",
       caption: "The comparison state renders two live canvases side by side, keeping the material library visible while authors evaluate a saved reference against the current draft.",
       section: "result",
     },
-    "/projects/material-explorer/texture-workflow.png": {
+    "/projects/material-explorer/texture-workflow.webp": {
       label: "Texture-map workflow",
       caption: "The working editor exposes base-color, normal, roughness, metalness, AO, emissive, and alpha map inputs while preserving the live preview and library context.",
       section: "action",
     },
-    "/projects/material-explorer/power-tools.png": {
+    "/projects/material-explorer/power-tools.webp": {
       label: "Draft history and power tools",
       caption: "Draft recovery, undo and redo, duplicate, randomize, texture clearing, JSON transfer, and save controls make rapid iteration explicit instead of hiding it behind the renderer.",
       section: "result",
     },
   },
   "die-ai": {
-    "/projects/die-ai/level-one.png": {
+    "/projects/die-ai/level-one.webp": {
       label: "Preserved Sector 12 gameplay",
       caption: "The primary artifact is the original SWF gameplay state: a two-minute defense loop with score, timer, player movement, laser fire, robot waves, and an exit-failure condition preserved through Ruffle.",
     },
-    "/projects/die-ai/live-ruffle-wrapper.png": {
+    "/projects/die-ai/live-ruffle-wrapper.webp": {
       label: "Live Ruffle start state",
       caption: "The deployed GitHub Pages wrapper loads the original SWF through pinned Ruffle, exposes the runtime-confirmed A, D, and Space controls, and keeps source and project context beside the player.",
       section: "action",
     },
-    "/projects/die-ai/start-screen.png": {
+    "/projects/die-ai/start-screen.webp": {
       label: "Original Flash start screen",
       caption: "The preserved opening screen keeps the 2018 neon-grid identity and first interaction intact rather than recreating it in a new engine.",
       section: "situation",
     },
-    "/projects/die-ai/intro-good.png": {
+    "/projects/die-ai/intro-good.webp": {
       label: "AICorp launch narrative",
       caption: "The original intro establishes the Buddy Bot product launch before the attack, preserving the timeline-authored story context around the gameplay loop.",
       section: "task",
     },
-    "/projects/die-ai/intro-hacked.png": {
+    "/projects/die-ai/intro-hacked.webp": {
       label: "Compromised Buddy Bot state",
       caption: "The hacked warning supplies the transition from product announcement to defense scenario and remains part of the unchanged SWF sequence.",
       section: "action",
     },
-    "/projects/die-ai/game-over.png": {
+    "/projects/die-ai/game-over.webp": {
       label: "Preserved failure state",
       caption: "The game-over screen confirms that the wrapper retains the original loss path and replay loop rather than stopping at a static screenshot or menu shell.",
       section: "result",
     },
-    "/projects/die-ai/main-image.png": {
+    "/projects/die-ai/main-image.webp": {
       label: "Modern preservation identity",
       caption: "The revival identity gives the archive a current public-facing frame while the playable artifact, screenshots, source, and checksums remain tied to the preserved 2018 build.",
       section: "result",
     },
   },
   geovoice: {
-    "/projects/geovoice/main-image.png": {
+    "/projects/geovoice/main-image.webp": {
       label: "Location-feedback concept",
       caption: "The initial concept frames location as the organizing unit for public input before the workflow is expressed through maps, forms, and project layers.",
     },
-    "/projects/geovoice/situation.png": {
+    "/projects/geovoice/situation.webp": {
       label: "Stakeholder workflow brief",
       caption: "The project brief connects fragmented public-input channels with the need to collect, map, and review location-specific feedback in one workflow.",
       section: "situation",
     },
-    "/projects/geovoice/geovoice-prototype.png": {
+    "/projects/geovoice/geovoice-prototype.webp": {
       label: "Location-selection prototype",
       caption: "The prototype lets a participant attach a comment to an address, parcel, identified map point, or current location before continuing through submission.",
       section: "task",
     },
-    "/projects/geovoice/action.png": {
+    "/projects/geovoice/action.webp": {
       label: "Research and build record",
       caption: "The action record documents stakeholder research, GIS review, iterative prototyping, map-layer integration, and the central feedback dashboard.",
       section: "action",
     },
-    "/projects/geovoice/interface.png": {
+    "/projects/geovoice/interface.webp": {
       label: "Structured comment workflow",
       caption: "The submission form captures participant context, comment categories, and detailed feedback without separating the response from its selected map location.",
       section: "action",
     },
-    "/projects/geovoice/geovoice-demo.png": {
+    "/projects/geovoice/geovoice-demo.webp": {
       label: "Infrastructure feedback map",
       caption: "The working demo combines a project route, basemap controls, sign-up, measurement tools, and a persistent comment action in one public-facing map surface.",
     },
-    "/projects/geovoice/geovoice-cvow.png": {
+    "/projects/geovoice/geovoice-cvow.webp": {
       label: "Regional project deployment",
       caption: "A Coastal Virginia Offshore Wind project view demonstrates the same layer, notification, and comment model across a substantially different infrastructure context.",
       section: "result",
     },
-    "/projects/geovoice/result.png": {
+    "/projects/geovoice/result.webp": {
       label: "Documented workflow outcomes",
       caption: "The case-study record attributes fewer information silos, faster feedback cycles, and reuse across regions and project types to the centralized map-and-comment workflow.",
       section: "result",
     },
   },
   "petition-ready": {
-    "/projects/petition-ready/main-image.png": {
+    "/projects/petition-ready/main-image.webp": {
       label: "Matter readiness operating console",
       caption: "The working paralegal dashboard connects queue state, readiness scoring, blockers, next action, attorney-review items, and source-grounded Copilot evidence without hiding the human review boundary.",
     },
-    "/projects/petition-ready/notifications.png": {
+    "/projects/petition-ready/notifications.webp": {
       label: "Exception and notification queue",
       caption: "The notification state surfaces new matters, document exceptions, top blockers, and the next paralegal action without separating alerts from the operating queue.",
       section: "action",
     },
-    "/projects/petition-ready/selected-dashboard-state.jpeg": {
+    "/projects/petition-ready/selected-dashboard-state.webp": {
       label: "Selected-matter readiness review",
       caption: "A selected Chapter 13 matter connects its readiness score and payment-plan blocker to the evidence and cleanup action required before attorney review.",
       section: "result",
     },
-    "/projects/petition-ready/matter-inspector.jpeg": {
+    "/projects/petition-ready/matter-inspector.webp": {
       label: "Blocker-to-next-action inspector",
       caption: "The inspector keeps source notes, unresolved evidence, the next paralegal action, and attorney-review preparation in one inspectable matter state.",
       section: "action",
     },
-    "/projects/petition-ready/copilot-review-state.png": {
+    "/projects/petition-ready/copilot-review-state.webp": {
       label: "Case-grounded Copilot evidence",
       caption: "The Copilot panel exposes its evidence snapshot alongside bounded modes for blocker analysis, conflict checks, client follow-up drafts, and attorney-review brief compilation.",
       section: "task",
     },
   },
   speakeasy: {
-    "/projects/speakeasy/thesis-defense.jpg": {
+    "/projects/speakeasy/thesis-defense.webp": {
       label: "Thesis defense",
       caption: "Michael Chaves publicly defended SpeakEasy as a voice-driven AI system for inclusive XR at San Jose State University on May 14, 2025.",
     },
-    "/projects/speakeasy/situation.png": {
+    "/projects/speakeasy/situation.webp": {
       label: "Controller-access problem frame",
       caption: "The thesis brief frames precise controller input and complex gesture navigation as barriers for people with limited upper-limb mobility and low muscle tone.",
       section: "situation",
     },
-    "/projects/speakeasy/ten-pillars-recap.png": {
+    "/projects/speakeasy/ten-pillars-recap.webp": {
       label: "Ten-pillar implementation ledger",
       caption: "The final framework records six implemented pillars, two partial pillars, and two planned pillars rather than presenting the accessibility system as complete.",
       section: "task",
     },
-    "/projects/speakeasy/action.png": {
+    "/projects/speakeasy/action.webp": {
       label: "Research-to-prototype record",
       caption: "The build record connects literature review and co-design with ShapesXR exploration, Unity development, voice recognition, multimodal feedback, and structured participant testing.",
       section: "action",
     },
-    "/projects/speakeasy/result.png": {
+    "/projects/speakeasy/result.webp": {
       label: "Documented participant outcomes",
       caption: "The result record summarizes reported comfort and engagement gains while keeping broader scalability as a direction for future research.",
       section: "result",
     },
-    "/projects/speakeasy/thesis-exhibition.jpg": {
+    "/projects/speakeasy/thesis-exhibition.webp": {
       label: "Interactive thesis exhibition",
       caption: "The completed gallery installation pairs the Quest headset, live Unity environment, project framing, and process evidence in a public hands-on review setting.",
       section: "exhibition",
     },
-    "/projects/speakeasy/exhibition.png": {
+    "/projects/speakeasy/exhibition.webp": {
       label: "Exhibition plan",
       caption: "The planning artifact defines the prototype station, participant feedback, and future gesture and personalization concepts before the final installation was delivered.",
       section: "exhibition",
@@ -258,73 +258,73 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
   },
   "vulnerability-visualizer": {
-    "/projects/vulnerability-visualizer/main-image.jpg": {
+    "/projects/vulnerability-visualizer/main-image.webp": {
       label: "Security review operating dashboard",
       caption: "The primary operating surface combines source provenance, analysis modes, search and filters, severity counts, trend evidence, record exploration, and filtered export.",
     },
-    "/projects/vulnerability-visualizer/full-dataset-ai-filter.png": {
+    "/projects/vulnerability-visualizer/full-dataset-ai-filter.webp": {
       label: "Full-dataset AI analysis mode",
       caption: "The deployed prebuilt source exposes a 236,656-record baseline, a 224,697-record AI Analysis view, and the remaining severity mix without hiding the active mode or source.",
       section: "action",
     },
-    "/projects/vulnerability-visualizer/analysis-charts.png": {
+    "/projects/vulnerability-visualizer/analysis-charts.webp": {
       label: "Manual-versus-AI analysis charts",
       caption: "Severity, status, risk-factor, trend, and manual-versus-AI relationship charts keep aggregate patterns and classification disagreement visible to the reviewer.",
       section: "action",
     },
-    "/projects/vulnerability-visualizer/vulnerability-detail.png": {
+    "/projects/vulnerability-visualizer/vulnerability-detail.webp": {
       label: "Record-level vulnerability evidence",
       caption: "The Log4Shell detail view carries package, version, severity, status, score, risk factors, dates, and external references from the operating dashboard into one inspectable record.",
       section: "result",
     },
-    "/projects/vulnerability-visualizer/local-sample-fallback.png": {
+    "/projects/vulnerability-visualizer/local-sample-fallback.webp": {
       label: "Visible local-sample fallback",
       caption: "When the full source was not ready, the dashboard remained usable with a ten-record local sample and labeled that provenance directly instead of presenting the fallback as complete evidence.",
       section: "task",
     },
   },
   "sound-escape-vr": {
-    "/projects/soundescape/music-interface.png": {
+    "/projects/soundescape/music-interface.webp": {
       label: "Four-channel spatial sequencer",
       caption: "The primary artifact shows the in-headset music surface: four sample channels arranged across a 16-step grid with transport and tempo controls kept inside the composition space.",
     },
-    "/projects/soundescape/fractal-visuals.png": {
+    "/projects/soundescape/fractal-visuals.webp": {
       label: "Eight-band audio-reactive geometry",
       caption: "Project documentation captures Koch lines, neon towers, and the sequencer environment driven by normalized FFT bands rather than a disconnected animation timeline.",
       section: "action",
     },
-    "/projects/soundescape/spatial-environment.png": {
+    "/projects/soundescape/spatial-environment.webp": {
       label: "Spatial performance environment",
       caption: "The environment board shows the sequencer, held sample objects, luminous architecture, and reflective space that turn loop building into a spatial performance rather than a flat control panel.",
       section: "result",
     },
-    "/projects/soundescape/main-image.jpg": {
+    "/projects/soundescape/main-image.webp": {
       label: "Original Sound Escape identity",
       caption: "The original identity establishes the synthwave world that framed the prototype before the interaction stack was reworked for Unity 2022 LTS and Meta Quest 3.",
       section: "situation",
     },
   },
   portals: {
-    "/projects/portals/main-image.png": {
+    "/projects/portals/main-image.webp": {
       label: "Three-destination Spectacles scene",
       caption: "The primary on-device artifact places Samoa, India, and San Francisco portals in one hackathon scene with visible spoken-entry prompts instead of a conventional menu.",
     },
-    "/projects/portals/voice-portal-source.png": {
+    "/projects/portals/voice-portal-source.webp": {
       label: "Guarded VoiceML portal lifecycle",
       caption: "The implemented Lens Studio script validates scene inputs, prevents competing VoiceML sessions, starts from a disabled portal state, and handles activation, animation, deactivation, and listening errors.",
       section: "action",
     },
-    "/projects/portals/voice-routing-source.png": {
+    "/projects/portals/voice-routing-source.webp": {
       label: "Phrase-routed destination states",
       caption: "The routing source defines explicit phrases for entering India, Samoa, and America and for exiting, leaving, or returning home, then maps final transcriptions into controlled scene-object states.",
       section: "action",
     },
-    "/projects/portals/pinch-scale-source.png": {
+    "/projects/portals/pinch-scale-source.webp": {
       label: "Hand-tracked pinch scaling",
       caption: "A second input path reads active hand and pinch state, captures initial distance and scale, and uniformly resizes the portal while the gesture remains active.",
       section: "result",
     },
-    "/projects/portals/devpost-showcase.png": {
+    "/projects/portals/devpost-showcase.webp": {
       label: "Four-person hackathon showcase",
       caption: "The submitted Devpost frame preserves the project identity and four-person team context around the voice-and-hand Spectacles build.",
       section: "situation",

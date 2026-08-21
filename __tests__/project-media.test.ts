@@ -1,7 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
 import { buildProjectMedia } from "../app/projects/[id]/projectMedia"
-import { isSelfOptimizedImage } from "../lib/image-delivery"
 
 type ProjectRecord = {
   title: string
@@ -25,23 +24,32 @@ const HIGH_SIGNAL_PROJECT_IDS = [
 ]
 
 describe("high-signal project media", () => {
-  test("self-optimized media bypasses the image transformer", () => {
-    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.webp")).toBe(true)
-    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.webp?height=400&width=600")).toBe(true)
-    expect(isSelfOptimizedImage("/projects/wizzo/app-interface.png")).toBe(false)
+  test("all project media uses direct, pre-compressed delivery", () => {
+    const nextConfigSource = fs.readFileSync(
+      path.join(__dirname, "..", "next.config.js"),
+      "utf8",
+    )
+
+    expect(nextConfigSource).toMatch(/images:\s*\{[\s\S]*?unoptimized:\s*true/u)
+
+    for (const project of Object.values(projects)) {
+      expect(project.image.split("?")[0]).toMatch(/\.webp$/u)
+      expect((project.gallery || []).every((src) => src.split("?")[0].endsWith(".webp"))).toBe(true)
+    }
 
     const componentPaths = [
       path.join(__dirname, "..", "app", "projects", "[id]", "ProjectMediaShowcase.tsx"),
       path.join(__dirname, "..", "app", "projects", "[id]", "ProjectEvidenceStrip.tsx"),
+      path.join(__dirname, "..", "components", "about-content.tsx"),
+      path.join(__dirname, "..", "components", "article-summary-page.tsx"),
       path.join(__dirname, "..", "components", "image-modal.tsx"),
+      path.join(__dirname, "..", "components", "project-card.tsx"),
     ]
 
     for (const componentPath of componentPaths) {
       const source = fs.readFileSync(componentPath, "utf8")
-      const imageCount = source.match(/<Image\b/gu)?.length ?? 0
-      const unoptimizedCount = source.match(/\bunoptimized\b/gu)?.length ?? 0
-
-      expect(unoptimizedCount).toBe(imageCount)
+      expect(source).not.toContain("isSelfOptimizedImage")
+      expect(source).not.toMatch(/\bunoptimized=/u)
     }
   })
 

@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { Maximize2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { isSelfOptimizedImage } from "@/lib/image-delivery"
 import type { ProjectMediaItem } from "./projectMedia"
 
 interface ProjectMediaShowcaseProps {
@@ -49,7 +48,6 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
               alt={primaryItem.alt}
               width={1600}
               height={1000}
-              unoptimized={isSelfOptimizedImage(primaryItem.src)}
               className="relative z-10 max-h-[min(68vh,620px)] w-full rounded-sm object-contain"
               sizes="(min-width: 1280px) 760px, (min-width: 1024px) 60vw, 100vw"
               loading="lazy"
@@ -83,7 +81,6 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
                   src={item.src}
                   alt={item.alt}
                   fill
-                  unoptimized={isSelfOptimizedImage(item.src)}
                   loading="lazy"
                   className="object-contain"
                   sizes="(min-width: 1024px) 224px, 128px"

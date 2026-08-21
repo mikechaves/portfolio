@@ -101,7 +101,7 @@ const publicSignals = [
     role: "Panelist",
     title: "The Rise of Synthetic AI Companions: Promise or Peril",
     date: "September 2025",
-    image: "/events/chaves_futuressummit_2025_thumb.png",
+    image: "/events/chaves_futuressummit_2025_thumb.webp",
   },
   {
     id: "gatherverse-2025",
@@ -109,7 +109,7 @@ const publicSignals = [
     role: "Panelist",
     title: "AR & AI: The Intersection of the Future",
     date: "June 2025",
-    image: "/events/chaves_gatherverse_2025_thumb.png",
+    image: "/events/chaves_gatherverse_2025_thumb.webp",
   },
   {
     id: "xr-access-2024",
@@ -117,7 +117,7 @@ const publicSignals = [
     role: "Speaker",
     title: "Voice-Driven Mixed Reality for Accessibility",
     date: "July 2024",
-    image: "/events/chaves_xraccess_2024_thumb.png",
+    image: "/events/chaves_xraccess_2024_thumb.webp",
   },
   {
     id: "adobe-2023",
@@ -125,7 +125,7 @@ const publicSignals = [
     role: "Host / Presenter",
     title: "Industry Roundtable and Demo Showcase",
     date: "October 2023",
-    image: "/events/chaves_adobesympo_2023_thumb.png",
+    image: "/events/chaves_adobesympo_2023_thumb.webp",
   },
 ]
 
@@ -184,7 +184,7 @@ export function AboutContent() {
 
           <figure className="operating-profile-portrait">
             <Image
-              src="/events/chaves_adobesympo_2023_thumb.png"
+              src="/events/chaves_adobesympo_2023_thumb.webp"
               alt="Mike Chaves presenting at the Adobe Experiential Horizons Symposium"
               fill
               className="object-cover"

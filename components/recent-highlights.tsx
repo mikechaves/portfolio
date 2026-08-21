@@ -16,7 +16,7 @@ const highlights: Highlight[] = [
     title: "The Rise of Synthetic AI Companions: Promise or Peril",
     date: "September 2025",
     description: "Panel explored AI companionship across education and industry.",
-    image: "/events/chaves_futuressummit_2025_thumb.png",
+    image: "/events/chaves_futuressummit_2025_thumb.webp",
   },
   {
     id: "gatherverse-xrevolve-2025",
@@ -25,7 +25,7 @@ const highlights: Highlight[] = [
     title: "AR & AI: The Intersection of the Future",
     date: "June 2025",
     description: "Roundtable on the future of AI-powered XR and accessibility",
-    image: "/events/chaves_gatherverse_2025_thumb.png",
+    image: "/events/chaves_gatherverse_2025_thumb.webp",
   },
   {
     id: "xr-access-2024",
@@ -33,7 +33,7 @@ const highlights: Highlight[] = [
     role: "Speaker",
     title: "Voice-Driven Mixed Reality for Accessibility",
     date: "July 2024",
-    image: "/events/chaves_xraccess_2024_thumb.png",
+    image: "/events/chaves_xraccess_2024_thumb.webp",
   },
   {
     id: "adobe-experiential-2023",
@@ -41,7 +41,7 @@ const highlights: Highlight[] = [
     role: "Host/Presenter",
     title: "Industry Roundtable, Demo Showcase",
     date: "October 2023",
-    image: "/events/chaves_adobesympo_2023_thumb.png",
+    image: "/events/chaves_adobesympo_2023_thumb.webp",
   },
 ]
 

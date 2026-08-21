@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { Maximize2 } from "lucide-react"
-import { isSelfOptimizedImage } from "@/lib/image-delivery"
 import type { ProjectMediaItem } from "./projectMedia"
 
 interface ProjectEvidenceStripProps {
@@ -38,7 +37,6 @@ export function ProjectEvidenceStrip({ media, onOpen, title }: ProjectEvidenceSt
                 alt={item.alt}
                 width={900}
                 height={620}
-                unoptimized={isSelfOptimizedImage(item.src)}
                 className="relative z-10 max-h-80 w-full rounded-sm object-contain"
                 sizes="(min-width: 768px) 460px, 100vw"
                 quality={84}

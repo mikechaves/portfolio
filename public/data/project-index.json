@@ -33,7 +33,7 @@
     "title": "GeoVoice",
     "category": "web",
     "description": "Designed a map-based stakeholder-feedback system that connects project layers, location-specific comments, participant context, and public-facing infrastructure review in one workflow.",
-    "image": "/projects/geovoice/geovoice-demo.png",
+    "image": "/projects/geovoice/geovoice-demo.webp",
     "technologies": [
       "Geospatial Mapping",
       "UX/UI Design",
@@ -45,7 +45,7 @@
     "title": "SpeakEasy",
     "category": "research",
     "description": "Designed and built a Quest 3 voice-first accessibility prototype in Unity, using Meta Voice SDK, multimodal feedback, and three research-through-design iterations to reduce dependence on handheld XR controllers.",
-    "image": "/projects/speakeasy/thesis-defense.jpg",
+    "image": "/projects/speakeasy/thesis-defense.webp",
     "technologies": [
       "Voice-Driven AI",
       "XR Accessibility",
@@ -56,7 +56,7 @@
     "title": "PetitionReady",
     "category": "development",
     "description": "Built an AI-assisted bankruptcy intake readiness console for paralegals, focused on case blockers, document gaps, readiness scoring, client follow-up, and attorney-review packet preparation without crossing into legal advice.",
-    "image": "/projects/petition-ready/main-image.png",
+    "image": "/projects/petition-ready/main-image.webp",
     "technologies": [
       "Next.js",
       "TypeScript",
@@ -70,7 +70,7 @@
     "title": "Creative Supply Engine",
     "category": "development",
     "description": "Built a Python creative automation pipeline that turns structured campaign briefs and reusable product assets into localized AI-assisted social creatives across 1:1, 9:16, and 16:9 formats, with deterministic logo/text overlays, compliance checks, run logs, and review galleries.",
-    "image": "/projects/creative-supply-engine/main-image.jpg",
+    "image": "/projects/creative-supply-engine/main-image.webp",
     "technologies": [
       "Python",
       "Pillow",
@@ -84,7 +84,7 @@
     "title": "Material Explorer",
     "category": "web",
     "description": "Material Explorer is a production-minded interactive web app for creating, comparing, and sharing physically based 3D materials in real time. Built with React + Three.js/React Three Fiber, it now includes autosave/restore, A/B compare, texture workflows, draft history, and shareable presets for rapid iteration.",
-    "image": "/projects/material-explorer/main-image.png",
+    "image": "/projects/material-explorer/main-image.webp",
     "technologies": [
       "TypeScript",
       "React 19",
@@ -98,7 +98,7 @@
     "title": "Vulnerability Visualizer",
     "category": "web",
     "description": "Built a React + TypeScript security-review dashboard that keeps a 236,656-record vulnerability dataset searchable, visualizes manual-versus-AI assessment patterns, and exposes source provenance, record detail, comparison, and export controls.",
-    "image": "/projects/vulnerability-visualizer/main-image.jpg",
+    "image": "/projects/vulnerability-visualizer/main-image.webp",
     "technologies": [
       "React 18",
       "TypeScript",
@@ -112,7 +112,7 @@
     "title": "Sound Escape VR",
     "category": "ar-vr",
     "description": "Built a Unity VR music system that turns a four-channel, 16-step sequencer into an audio-reactive spatial performance, with persisted patterns, microphone sampling, eight-band FFT analysis, and Quest 3 interaction updates.",
-    "image": "/projects/soundescape/music-interface.png",
+    "image": "/projects/soundescape/music-interface.webp",
     "technologies": [
       "Unity 2022 LTS",
       "C#",
@@ -126,7 +126,7 @@
     "title": "Portals",
     "category": "ar-vr",
     "description": "Led SnapAR development for a four-person Spectacles hackathon prototype that opens and routes cultural portals through VoiceML commands, supports explicit return phrases, and lets users resize portal objects with hand-tracked pinch input.",
-    "image": "/projects/portals/main-image.png",
+    "image": "/projects/portals/main-image.webp",
     "technologies": [
       "Lens Studio",
       "JavaScript",
@@ -141,7 +141,7 @@
     "title": "Die, AI!",
     "category": "web",
     "description": "Preserved a 2018 ActionScript game as a playable modern-browser artifact by keeping the original FLA, source, GreenSock dependency, and SWF intact while adding a static Ruffle wrapper, verified controls, fallback context, checksums, and archival documentation.",
-    "image": "/projects/die-ai/level-one.png",
+    "image": "/projects/die-ai/level-one.webp",
     "technologies": [
       "ActionScript 3",
       "Adobe Animate",
