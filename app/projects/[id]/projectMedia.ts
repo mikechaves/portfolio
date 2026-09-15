@@ -229,17 +229,48 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
   },
   wizzo: {
-    "/projects/wizzo/app-interface.webp": {
-      label: "Living Mentor workspace",
-      caption: "Current authenticated product surface shown without personal content, pairing a focused mentor prompt, voice controls, quick starts, campaigns, and reviewable follow-through.",
-      section: "action",
+    "/projects/wizzo/home-2026.webp": {
+        "label": "Home: recommendation hierarchy",
+        section: "action",
+        "caption": "September 2026 Figma screen. A dominant next move, quiet task surface and amber action establish a clear starting point."
     },
-    "/projects/wizzo/main-image.webp": {
-      label: "Public Wizzo product story",
-      caption: "Current public product surface frames plans as quests, keeps one next action visible, and makes human review part of the product promise.",
-      section: "result",
+    "/projects/wizzo/review-2026.webp": {
+        "label": "Onboarding: review before commitment",
+        "caption": "Campaign, first move, supporting detail and duration remain visible before confirmation. Figma prototype with illustrative content."
     },
-  },
+    "/projects/wizzo/recovery-2026.webp": {
+        "label": "Recovery: preserve the decision",
+        "caption": "A failed save keeps the entered plan in view and provides a retry. Prototype save outcomes are simulated."
+    },
+    "/projects/wizzo/mobile-2026.webp": {
+        "label": "Mobile: a reachable confirmation",
+        "caption": "The review content scrolls above fixed navigation, keeping the confirmation reachable on a compact screen."
+    },
+    "/projects/wizzo/components-2026.webp": {
+        "label": "Reusable controls and interaction states",
+        "caption": "Native Figma Action variants: default, focus, disabled and busy, with editable labels and swappable icons."
+    },
+    "/projects/wizzo/stress-2026.webp": {
+        "label": "Components under content stress",
+        "caption": "Long labels, multiline Campaign content, responsive review rows and state variants expose the shared layout rules."
+    },
+    "/projects/wizzo/wisp-direction-2026.webp": {
+        "label": "Wisp: accepted replacement",
+        "caption": "The accepted Celestial Familiar image follows the direction critique. This is the replacement, not the rejected export."
+    },
+    "/projects/wizzo/wisp-states-2026.webp": {
+        "label": "Wisp: a shared state family",
+        "caption": "Eight distinct states carry one recognizable character across surfaces. Essential status also remains available in text."
+    },
+    "/projects/wizzo/home-inline-2026.webp": {
+        "label": "Home proposal A: inline adjustment",
+        "caption": "Preferred proposal, pending review. Snooze, Not for now and Keep this recommendation stay beside the task."
+    },
+    "/projects/wizzo/home-drawer-2026.webp": {
+        "label": "Home proposal B: context drawer",
+        "caption": "Alternative proposal. The drawer offers more room for reasons and controls while adding a context shift."
+    }
+},
   "x-games": {
     "/projects/x-games/platform-home.webp": {
       label: "Source-to-game product story",

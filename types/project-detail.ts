@@ -24,6 +24,28 @@ export interface ProjectDetailLink {
   url: string
 }
 
+export interface ProjectDesignStory {
+  quote: string
+  attribution: string
+  sections: {
+    id: string
+    label: string
+    title: string
+    body: string
+    decisions?: ProjectDetailItem[]
+    images?: string[]
+    note?: string
+    link?: ProjectDetailLink
+  }[]
+  downloads: {
+    title: string
+    description: string
+    url: string
+    pages: number
+    size: string
+  }[]
+}
+
 export interface ProjectDetail {
   id: string
   title: string
@@ -37,4 +59,5 @@ export interface ProjectDetail {
   demoLabel?: string
   links?: ProjectDetailLink[]
   details: ProjectDetails
+  designStory?: ProjectDesignStory
 }

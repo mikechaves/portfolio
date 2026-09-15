@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect, useMemo } from "react"
 import type { ReactNode } from "react"
 import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
+import { ProjectDesignStory } from "./ProjectDesignStory"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
 import { getEvidenceDossierConfig } from "./dossierConfig"
@@ -69,6 +70,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [hasOpenedMedia, setHasOpenedMedia] = useState(false)
   const dossierConfig = getEvidenceDossierConfig(project.id)
   const isEvidenceDossier = Boolean(dossierConfig)
+  const designStory = project.designStory
   const projectLinks = useMemo(
     () => [
       ...(project.github
@@ -202,7 +204,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
             <div className="evidence-dossier-status">
               <span>CASE FILE / {dossierConfig?.caseFile}</span>
-              <span>REVIEWED EVIDENCE</span>
+              <span>{designStory ? "PRODUCT DESIGN" : "REVIEWED EVIDENCE"}</span>
               <span>ACTIVE SYSTEM / {project.details.date}</span>
             </div>
 
@@ -216,20 +218,20 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
 
               <dl className="evidence-dossier-ledger">
                 <div>
-                  <dt>Operating proof</dt>
+                  <dt>{designStory ? "My role" : "Operating proof"}</dt>
                   <dd>{project.details.proofRole}</dd>
                 </div>
                 <div>
-                  <dt>Engagement</dt>
+                  <dt>{designStory ? "Product" : "Engagement"}</dt>
                   <dd>{project.details.client}</dd>
                 </div>
                 <div>
-                  <dt>Evidence set</dt>
-                  <dd>{media.length} reviewed artifacts</dd>
+                  <dt>{designStory ? "Design scope" : "Evidence set"}</dt>
+                  <dd>{designStory ? "Desktop, mobile and recovery" : `${media.length} reviewed artifacts`}</dd>
                 </div>
                 <div>
-                  <dt>Capability coverage</dt>
-                  <dd>{project.details.services?.length || 0} documented areas</dd>
+                  <dt>{designStory ? "Design resources" : "Capability coverage"}</dt>
+                  <dd>{designStory ? <a href="#downloads" className="text-primary underline underline-offset-4">Case study + two guides ↓</a> : `${project.details.services?.length || 0} documented areas`}</dd>
                 </div>
               </dl>
             </div>
@@ -239,9 +241,14 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             </div>
           </section>
 
+          {designStory && <figure className="border-l-2 border-primary/60 py-2 pl-6 md:pl-8">
+            <blockquote className="max-w-5xl text-xl leading-relaxed text-zinc-100 md:text-2xl">“{designStory.quote}”</blockquote>
+            <figcaption className="mt-4 text-sm text-zinc-400">{designStory.attribution}</figcaption>
+          </figure>}
+
           <section className="evidence-dossier-artifact" aria-labelledby="primary-artifact-title">
             <div className="signal-section-heading">
-              <h2 id="primary-artifact-title">Primary artifact</h2>
+              <h2 id="primary-artifact-title">{designStory ? "The Wizzo experience" : "Primary artifact"}</h2>
               <span>01 / {String(media.length).padStart(2, "0")}</span>
             </div>
             <ProjectMediaShowcase media={media} onOpen={openMedia} />
@@ -297,21 +304,27 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           <aside className="evidence-dossier-index">
             <nav aria-label="Case study sections">
               <p>Case index</p>
+              {designStory ? <>
+                {designStory.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{String(index + 1).padStart(2, "0")}</span> {section.label}</a>)}
+                <a href="#downloads"><span>↓</span> Downloads</a>
+              </> : <>
               <a href="#situation"><span>01</span> Situation</a>
               <a href="#mandate"><span>02</span> Mandate</a>
               <a href="#build"><span>03</span> Build</a>
               <a href="#outcomes"><span>04</span> Outcomes</a>
+              </>}
             </nav>
             <dl>
               <div><dt>Artifacts</dt><dd>{String(media.length).padStart(2, "0")}</dd></div>
               <div><dt>Signals</dt><dd>{dossierConfig?.signals}</dd></div>
-              <div><dt>Integrity</dt><dd>Repository reviewed</dd></div>
+              {!designStory && <div><dt>Integrity</dt><dd>Repository reviewed</dd></div>}
             </dl>
           </aside>
         )}
 
         <div className={isEvidenceDossier ? "evidence-dossier-sections" : "space-y-8"}>
 
+      {designStory ? <ProjectDesignStory story={designStory} media={media} onOpen={openMedia} /> : <>
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
         <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
           <DetailTextCard text={project.details.situation} />
@@ -379,6 +392,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
           </div>
         </CaseStudySection>
       )}
+      </>}
         </div>
       </div>
       {hasOpenedMedia ? (
