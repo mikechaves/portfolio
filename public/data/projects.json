@@ -2,8 +2,8 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Designed and built an AI mentor product system that turns goals, blockers, context, and progress into one clear next move with reviewable follow-through.",
-    "image": "/projects/wizzo/app-interface.webp",
+    "description": "Product and visual direction for an AI mentor: a clear next move, deliberate user control and a shared Observatory design system.",
+    "image": "/projects/wizzo/home-2026.webp",
     "technologies": [
       "Next.js",
       "TypeScript",
@@ -28,83 +28,262 @@
       }
     ],
     "gallery": [
-      "/projects/wizzo/app-interface.webp",
-      "/projects/wizzo/main-image.webp"
+      "/projects/wizzo/home-2026.webp",
+      "/projects/wizzo/review-2026.webp",
+      "/projects/wizzo/recovery-2026.webp",
+      "/projects/wizzo/mobile-2026.webp",
+      "/projects/wizzo/components-2026.webp",
+      "/projects/wizzo/stress-2026.webp",
+      "/projects/wizzo/wisp-direction-2026.webp",
+      "/projects/wizzo/wisp-states-2026.webp",
+      "/projects/wizzo/home-inline-2026.webp",
+      "/projects/wizzo/home-drawer-2026.webp"
     ],
     "details": {
       "client": "Wizzo Labs",
       "date": "2025 - Present",
-      "category": "AI Product Systems",
-      "proofRole": "AI product systems connecting intent, execution context, and accountable follow-through across Mentor, Campaign, Focus, and Vault surfaces",
+      "category": "Product Design",
+      "proofRole": "Founder and product designer — product direction, visual identity, interaction design, prototyping and implementation",
       "services": [
-        "AI Workflow Design",
-        "Product Systems",
-        "Full-Stack Prototyping",
-        "Work Connectors",
-        "Privacy Controls"
+        "Product Direction",
+        "Interaction Design",
+        "Visual Identity",
+        "Design Systems",
+        "AI-Assisted Design"
       ],
       "situation": [
         {
-          "title": "Intent-to-Action Gap",
-          "description": "AI conversations often stop at advice. Wizzo reframes that moment as an execution problem: how to turn goals, blockers, deadlines, and recent progress into next steps a user can actually finish."
-        },
-        {
-          "title": "Product Context",
-          "description": "The public beta positions Wizzo as an AI mentor for real-world follow-through: plans become quests, one next move stays visible, and the user reviews every meaningful action."
-        },
-        {
-          "title": "System Context",
-          "description": "The product needed to connect AI guidance with real work surfaces while keeping privacy, account controls, and product trust visible from the start."
+          "title": "Founder assessment",
+          "description": "The original Wizzo was functional, but it felt too generic to me. It did not express the identity or sense of direction I wanted the product to have."
         }
       ],
       "task": [
         {
-          "title": "Design an AI Mentor Loop",
-          "description": "Create a product loop where the Mentor can capture intent, preserve execution context, suggest grounded next moves, and translate progress into quests and campaigns."
-        },
-        {
-          "title": "Connect Work Context",
-          "description": "Support Drive, Gmail, Calendar, and technical workflows so the AI mentor can reason from the artifacts and deadlines that shape real follow-through."
-        },
-        {
-          "title": "Make AI Actions Grounded",
-          "description": "Pair the Mentor with explicit, user-invoked tools and visible review points so assistance can move beyond generic coaching without pretending the AI owns the outcome."
-        },
-        {
-          "title": "Preserve User Control",
-          "description": "Build account export, confirmed deletion, and privacy-aware controls into the product system so personal progress data remains manageable."
+          "title": "Design direction",
+          "description": "I wanted Wizzo to make progress feel tangible: one useful action, a visible place in a Campaign, and a clear way to begin. I directed the product toward a Living Observatory identity and made hierarchy, user control and consistency the organizing principles."
         }
       ],
       "actions": [
         {
-          "title": "Product System Architecture",
-          "description": "Designed the current experience around the Living Mentor, campaigns, focused next moves, progress visibility, and a Vault for account and trust controls."
+          "title": "How does the interface make the next action clear?",
+          "description": "Home gives the task a destination. The primary card pairs an actionable title with a short instruction, duration and Start Focus. Amber identifies the action; cyan organizes context; the atmosphere stays behind the working surface."
         },
         {
-          "title": "Full-Stack Implementation",
-          "description": "Built the product with Next.js, TypeScript, Postgres, Drizzle ORM, Neon, Vercel, OpenAI integrations, and Google workspace connectors."
+          "title": "What stays editable before commitment?",
+          "description": "Onboarding turns an intention into a first move through selection, definition and review. The review screen makes the Campaign, task and duration explicit before anything is saved."
         },
         {
-          "title": "AI Workflow Surfaces",
-          "description": "Created mentor interactions for goal planning, progress reflection, guided focus, grounded research, connected notes, and voice-supported follow-through."
+          "title": "How does the experience recover from failure?",
+          "description": "A failed save should preserve the decision. The error state retains the plan and explains the next action. On mobile, scrolling content sits above fixed navigation so the continuation remains reachable."
         },
         {
-          "title": "Trust and Account Controls",
-          "description": "Added export and confirmed deletion paths covering product, AI, notification, integration, ML-derived, and community records."
+          "title": "How do shared components preserve consistency?",
+          "description": "I carried the same action hierarchy, feedback and spacing logic across the product. The editable Figma system includes reusable controls, named semantic roles and instances that can be inspected with long content and narrower widths."
+        },
+        {
+          "title": "How does identity support the task?",
+          "description": "I chose the Celestial Familiar direction for its warm core, asymmetric silhouette and ribbon-like form. I rejected an early simplified export because it lost the character that made the direction work. The accepted replacement became a shared visual and behavioral family."
+        },
+        {
+          "title": "Can the explanation help someone choose?",
+          "description": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. I prefer the inline proposal for the current two-action scope."
         }
       ],
       "results": [
         {
-          "title": "Public Beta",
-          "description": "Shipped a public beta with a marketing site, live web app, Living Mentor, campaigns, focused next moves, quest progress, and connected work context."
+          "title": "Result and evaluation",
+          "description": "The result brings a recognizable identity, a clearer next-action hierarchy, an explicit commitment boundary and reusable interaction rules into one experience. The next evaluation should test whether that clarity supports useful action."
+        }
+      ]
+    },
+    "designStory": {
+      "quote": "The original Wizzo was functional, but it felt too generic to me. It did not express the identity or sense of direction I wanted the product to have.",
+      "attribution": "Mike Chaves · Founder and product designer · Assessment of the original product",
+      "sections": [
+        {
+          "id": "direction",
+          "label": "Direction",
+          "title": "Give ambition a clear next move.",
+          "body": "I wanted Wizzo to make progress feel tangible: one useful action, a visible place in a Campaign, and a clear way to begin. I directed the product toward a Living Observatory identity and made hierarchy, user control and consistency the organizing principles.",
+          "decisions": [
+            {
+              "title": "A recognizable identity",
+              "description": "Deep space, Cinzel display typography and Wisp create a distinct world. Quiet panels and Inter working text keep reading and action clear."
+            },
+            {
+              "title": "One leading action",
+              "description": "The recommended move receives the strongest hierarchy. Supporting context and other Campaign moves remain available without competing for equal attention."
+            }
+          ]
         },
         {
-          "title": "AI Product Proof",
-          "description": "Demonstrated an AI-native product system that combines a mentor, campaigns, focused action, work connectors, explicit tools, privacy controls, and visible progress loops."
+          "id": "hierarchy",
+          "label": "Home",
+          "title": "How does the interface make the next action clear?",
+          "body": "Home gives the task a destination. The primary card pairs an actionable title with a short instruction, duration and Start Focus. Amber identifies the action; cyan organizes context; the atmosphere stays behind the working surface.",
+          "images": [
+            "/projects/wizzo/home-2026.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Hierarchy before density",
+              "description": "I concentrated emphasis on the next move instead of giving every card the same visual weight."
+            },
+            {
+              "title": "Choice remains visible",
+              "description": "Other Campaign moves sit alongside the recommendation. A strong default should still leave room to choose differently."
+            }
+          ]
         },
         {
-          "title": "Portfolio Relevance",
-          "description": "Serves as proof of product design, engineering execution, AI workflow design, and operational thinking across a real shipped SaaS surface."
+          "id": "commitment",
+          "label": "Commitment",
+          "title": "What stays editable before commitment?",
+          "body": "Onboarding turns an intention into a first move through selection, definition and review. The review screen makes the Campaign, task and duration explicit before anything is saved.",
+          "images": [
+            "/projects/wizzo/review-2026.webp"
+          ],
+          "decisions": [
+            {
+              "title": "A deliberate review step",
+              "description": "Review adds effort, but it lets someone inspect the commitment and return to edit it."
+            },
+            {
+              "title": "Carry context forward",
+              "description": "The selected Campaign and duration persist through review and back navigation, then carry into Focus."
+            }
+          ]
+        },
+        {
+          "id": "recovery",
+          "label": "Recovery + mobile",
+          "title": "How does the experience recover from failure?",
+          "body": "A failed save should preserve the decision. The error state retains the plan and explains the next action. On mobile, scrolling content sits above fixed navigation so the continuation remains reachable.",
+          "images": [
+            "/projects/wizzo/recovery-2026.webp",
+            "/projects/wizzo/mobile-2026.webp"
+          ],
+          "note": "The Figma prototype simulates saves and uses predefined field content and static timers. Its desktop, 390 px and 360 px screens are review samples; responsive components are evaluated separately."
+        },
+        {
+          "id": "system",
+          "label": "Shared system",
+          "title": "How do shared components preserve consistency?",
+          "body": "I carried the same action hierarchy, feedback and spacing logic across the product. The editable Figma system includes reusable controls, named semantic roles and instances that can be inspected with long content and narrower widths.",
+          "images": [
+            "/projects/wizzo/components-2026.webp",
+            "/projects/wizzo/stress-2026.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Name the purpose",
+              "description": "Text, surface, border, action and feedback roles make the reason for a value visible. Bindings let shared controls inherit those decisions."
+            },
+            {
+              "title": "Test the content",
+              "description": "Long labels, multiline Campaign names, state variants and icon swaps reveal where a component needs to wrap, grow or preserve alignment."
+            }
+          ],
+          "link": {
+            "label": "Explore the editable component system",
+            "url": "https://www.figma.com/design/duo7gEGQEwnkwAiNLsgJYe?node-id=11-2"
+          }
+        },
+        {
+          "id": "wisp",
+          "label": "Wisp",
+          "title": "How does identity support the task?",
+          "body": "I chose the Celestial Familiar direction for its warm core, asymmetric silhouette and ribbon-like form. I rejected an early simplified export because it lost the character that made the direction work. The accepted replacement became a shared visual and behavioral family.",
+          "images": [
+            "/projects/wizzo/wisp-direction-2026.webp",
+            "/projects/wizzo/wisp-states-2026.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Art direction is an acceptance decision",
+              "description": "AI-assisted exploration expanded the options. I set the direction, critiqued fidelity and judged the result at product sizes."
+            },
+            {
+              "title": "One character, explicit behavior",
+              "description": "Eight states and four size tiers preserve identity across contexts. Static fallbacks and text status keep the experience useful when motion is reduced or unavailable."
+            }
+          ]
+        },
+        {
+          "id": "home-exploration",
+          "label": "Home exploration",
+          "title": "Can the explanation help someone choose?",
+          "body": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. I prefer the inline proposal for the current two-action scope.",
+          "images": [
+            "/projects/wizzo/home-inline-2026.webp",
+            "/projects/wizzo/home-drawer-2026.webp"
+          ],
+          "decisions": [
+            {
+              "title": "A / Inline adjustment",
+              "description": "Keeps the task and controls together, with a small interaction cost. Expanded controls take space inside the recommendation card."
+            },
+            {
+              "title": "B / Context drawer",
+              "description": "Makes room for richer context and more controls, but requires a shift away from the main card."
+            },
+            {
+              "title": "Comparison criteria",
+              "description": "Can someone explain the recommendation, predict what Snooze or Not for now changes, and cancel or recover without losing their place?"
+            }
+          ],
+          "note": "New proposal pending review; not implemented. Illustrative tasks, reason signals and metrics. Snooze moves the due date to tomorrow; Not for now dismisses the first-win path while retaining the quest in Trials.",
+          "link": {
+            "label": "Play the preferred Home prototype",
+            "url": "https://www.figma.com/proto/duo7gEGQEwnkwAiNLsgJYe?node-id=56-2861&starting-point-node-id=56-2861"
+          }
+        },
+        {
+          "id": "evaluation",
+          "label": "Result + evaluation",
+          "title": "A coherent experience with deliberate control.",
+          "body": "The result brings a recognizable identity, a clearer next-action hierarchy, an explicit commitment boundary and reusable interaction rules into one experience. The next evaluation should test whether that clarity supports useful action.",
+          "decisions": [
+            {
+              "title": "Understand and choose",
+              "description": "Ask people to explain why a move leads and predict an adjustment before using it."
+            },
+            {
+              "title": "Act and recover",
+              "description": "Observe useful first actions and independent recovery, including narrow screens and failed saves."
+            },
+            {
+              "title": "Measure the right outcome",
+              "description": "Pair activation and return behavior with comprehension and task completion. These are planned evaluation priorities, not measured conversion or retention gains."
+            }
+          ],
+          "link": {
+            "label": "Open the editable case study and guides",
+            "url": "https://www.figma.com/design/mQkdiFgJj0mcY7C9ik4A5F"
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "title": "Wizzo product-design case study",
+          "description": "The complete narrative: design decisions, interaction tradeoffs, Wisp, the Home exploration and evaluation priorities.",
+          "url": "/projects/wizzo/Wizzo-Product-Design-Case-Study.pdf",
+          "pages": 30,
+          "size": "16.2 MB"
+        },
+        {
+          "title": "Wizzo brand guide",
+          "description": "Identity, real logo assets, typography, semantic color roles, voice and practical applications.",
+          "url": "/projects/wizzo/Wizzo_Brand_Guide.pdf",
+          "pages": 10,
+          "size": "2.0 MB"
+        },
+        {
+          "title": "Wizzo design system",
+          "description": "Component anatomy, editable properties, interaction states, responsive rules and accessibility specifications.",
+          "url": "/projects/wizzo/Wizzo_Design_System.pdf",
+          "pages": 12,
+          "size": "2.5 MB"
         }
       ]
     }

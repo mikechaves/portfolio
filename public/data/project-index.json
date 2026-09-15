@@ -2,8 +2,8 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Designed and built an AI mentor product system that turns goals, blockers, context, and progress into one clear next move with reviewable follow-through.",
-    "image": "/projects/wizzo/app-interface.webp",
+    "description": "Product and visual direction for an AI mentor: a clear next move, deliberate user control and a shared Observatory design system.",
+    "image": "/projects/wizzo/home-2026.webp",
     "technologies": [
       "Next.js",
       "TypeScript",

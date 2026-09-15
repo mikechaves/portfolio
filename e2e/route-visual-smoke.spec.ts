@@ -98,6 +98,31 @@ for (const route of routes) {
   })
 }
 
+test("Wizzo design narrative, image viewer and public downloads work", async ({ page }, testInfo) => {
+  await page.goto("/projects/wizzo")
+  await expect(page.getByText("Founder and product designer — product direction, visual identity, interaction design, prototyping and implementation", { exact: true })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "What stays editable before commitment?" })).toBeVisible()
+  await page.locator("#home-exploration").scrollIntoViewIfNeeded()
+  await expect(page.locator("#home-exploration")).toContainText("New proposal pending review; not implemented")
+  await page.getByRole("button", { name: "Open Home proposal A: inline adjustment fullscreen", exact: true }).click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await page.keyboard.press("Escape")
+  await expect(page.getByRole("dialog")).not.toBeVisible()
+  await page.locator("#downloads").scrollIntoViewIfNeeded()
+  const downloads = page.locator("#downloads a[download]")
+  await expect(downloads).toHaveCount(3)
+  for (const link of await downloads.all()) {
+    const href = await link.getAttribute("href")
+    expect(href).toMatch(/^\/projects\/wizzo\/.*\.pdf$/)
+    const response = await page.request.get(href!)
+    expect(response.status()).toBe(200)
+    expect(response.headers()["content-type"]).toContain("application/pdf")
+    expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-")
+  }
+  await expectNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath("wizzo-downloads.png"), animations: "disabled" })
+})
+
 test("project category controls update the rendered archive", async ({ page }, testInfo) => {
   const pageErrors: string[] = []
   const consoleErrors: string[] = []

@@ -7,8 +7,8 @@ export interface EvidenceDossierConfig {
 const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
   wizzo: {
     caseFile: "AF-02",
-    eyebrow: "AI product systems / Intent to action",
-    signals: "Chat / Context / Quests",
+    eyebrow: "Product design / A clear next move",
+    signals: "Hierarchy / Control / Identity",
   },
   "x-games": {
     caseFile: "AF-03",

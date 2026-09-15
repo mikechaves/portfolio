@@ -1,5 +1,25 @@
 # Wizzo Evidence Dossier Design QA
 
+## September 15, 2026 — product-design presentation
+
+The Wizzo route now leads with Mike's product and visual direction, founder assessment, and thematic design questions. It pairs interaction decisions with ten new, explicitly captioned images from the September Figma/design-artifact package. The Home refinement remains labeled as a proposal pending review, and evaluation priorities are not presented as measured results.
+
+### Public resources
+
+- 30-page product-design case study, 10-page brand guide and 12-page design-system guide, served as same-origin PDFs with download links and visible page counts/file sizes.
+- Product Figma: `duo7gEGQEwnkwAiNLsgJYe`; editable documentation: `mQkdiFgJj0mcY7C9ik4A5F`.
+- Private interview, role-evidence and speaking-sheet documents are excluded from publication.
+- Ten direct WebP assets total approximately 548 KB. Existing image-delivery configuration is preserved.
+
+### Validation
+
+- Lint, TypeScript, 217 unit tests, link/asset audit and production build passed locally with Node 24.
+- Four desktop/mobile Wizzo browser tests passed, covering rendered content, proposal status, fullscreen open/close, PDF HTTP/content signatures and horizontal overflow.
+- Full-page desktop (1440 px) and mobile (390 px) captures and download cards were visually inspected.
+- The new narrative is optional typed project content; existing project pages retain their original presentation when it is absent.
+
+## Earlier dossier baseline
+
 ## Reference
 
 - Production baseline: `/tmp/wizzo-production-before.png`
