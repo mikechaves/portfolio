@@ -25,8 +25,9 @@ export interface ProjectDetailLink {
 }
 
 export interface ProjectDesignStory {
-  quote: string
-  attribution: string
+  quote?: string
+  attribution?: string
+  mediaDimensions?: Record<string, { width: number; height: number }>
   sections: {
     id: string
     label: string

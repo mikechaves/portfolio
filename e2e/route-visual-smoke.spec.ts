@@ -123,6 +123,140 @@ test("Wizzo design narrative, image viewer and public downloads work", async ({ 
   await page.screenshot({ path: testInfo.outputPath("wizzo-downloads.png"), animations: "disabled" })
 })
 
+test("Playfold design proposal, image focus return and frozen public resources work", async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await page.goto("/projects/x-games")
+  await expect(page.getByRole("heading", { name: /^\+?The Playfold experience$/ })).toBeVisible()
+  await expect(page.getByRole("heading", { name: /^\+?The Wizzo experience$/ })).toHaveCount(0)
+  await expect(page.locator("blockquote")).toHaveCount(0)
+  await expect(page.locator("#private-creation")).toContainText("New creation is disabled")
+  await expect(page.locator("#result-exploration")).toContainText("Alternative A is recommended pending Mike’s review; it is not implemented or evaluated")
+
+  const previews = page.locator('[aria-label="Supporting media"] img')
+  await expect(previews).toHaveCount(5)
+  for (const preview of await previews.all()) await expect(preview).toHaveAttribute("src", /-thumbnail\.webp$/)
+
+  const opener = page.locator("#result-exploration").getByRole("button", {
+    name: "Open Private-result alternatives: inline receipt and dedicated page fullscreen", exact: true,
+  })
+  await opener.click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await page.getByRole("button", { name: "Close image viewer", exact: true }).click()
+  await expect(page.getByRole("dialog")).not.toBeVisible()
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await page.keyboard.press("Escape")
+  await expect(page.getByRole("dialog")).not.toBeVisible()
+  await expect(opener).toBeFocused()
+
+  const mobileImage = page.locator("#responsive-play").getByRole("img", {
+    name: "Playfold: Mobile player scrolled to movement, Fire and Restart", exact: true,
+  })
+  await mobileImage.scrollIntoViewIfNeeded()
+  await expect.poll(() => mobileImage.evaluate((image) => (image as HTMLImageElement).naturalHeight)).toBeGreaterThan(0)
+  const imageSize = await mobileImage.evaluate((element) => {
+    const image = element as HTMLImageElement
+    const box = image.getBoundingClientRect()
+    return { width: box.width, height: box.height, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight }
+  })
+  expect(imageSize.naturalHeight).toBeGreaterThan(imageSize.naturalWidth)
+  expect(imageSize.width / imageSize.height).toBeCloseTo(imageSize.naturalWidth / imageSize.naturalHeight, 2)
+
+  await page.locator("#responsive-play").getByRole("button", {
+    name: "Open Mobile player scrolled to movement, Fire and Restart fullscreen", exact: true,
+  }).click()
+  const portraitDialog = page.getByRole("dialog")
+  await expect(portraitDialog.locator('[data-caption-placement="below"]')).toBeVisible()
+  const portrait = portraitDialog.locator("img")
+  await expect(portrait).toHaveAttribute("src", "/images/projects/x-games/design/player-mobile-scrolled.webp")
+  await expect.poll(() => portrait.evaluate((img) => (img as HTMLImageElement).naturalHeight)).toBeGreaterThan(0)
+  const geometry = await portraitDialog.evaluate((dialog) => {
+    const image = dialog.querySelector("img") as HTMLImageElement
+    const caption = dialog.querySelector("[data-image-caption]")!
+    const bounds = (element: Element) => {
+      const box = element.getBoundingClientRect()
+      return { x: box.x, y: box.y, right: box.right, bottom: box.bottom, width: box.width, height: box.height }
+    }
+    return { image: bounds(image), caption: bounds(caption), dialog: bounds(dialog),
+      naturalRatio: image.naturalWidth / image.naturalHeight,
+      controls: Array.from(dialog.querySelectorAll("button")).map(bounds),
+      viewport: { width: innerWidth, height: innerHeight } }
+  })
+  expect(geometry.image.width).toBeGreaterThan(0)
+  expect(geometry.image.height).toBeGreaterThan(0)
+  expect(geometry.image.width / geometry.image.height).toBeCloseTo(geometry.naturalRatio, 2)
+  expect(geometry.image.bottom).toBeLessThanOrEqual(geometry.caption.y)
+  for (const box of [geometry.dialog, geometry.image, geometry.caption, ...geometry.controls]) {
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.y).toBeGreaterThanOrEqual(0)
+    expect(box.right).toBeLessThanOrEqual(geometry.viewport.width)
+    expect(box.bottom).toBeLessThanOrEqual(geometry.viewport.height)
+  }
+  for (const box of geometry.controls) {
+    expect(box.width).toBeGreaterThanOrEqual(44)
+    expect(box.height).toBeGreaterThanOrEqual(44)
+    expect(box.y).toBeGreaterThanOrEqual(geometry.caption.bottom)
+  }
+  await page.screenshot({ path: testInfo.outputPath("playfold-portrait-viewer.png"), animations: "disabled" })
+  await portraitDialog.getByRole("button", { name: "Next image", exact: true }).click()
+  await expect(portraitDialog.locator("img")).toHaveAttribute("src", "/images/projects/x-games/design/components.webp")
+  await portraitDialog.getByRole("button", { name: "Previous image", exact: true }).click()
+  await expect(portraitDialog.locator("img")).toHaveAttribute("src", "/images/projects/x-games/design/player-mobile-scrolled.webp")
+  await portraitDialog.getByRole("button", { name: "Close image viewer", exact: true }).click()
+  await expect(portraitDialog).not.toBeVisible()
+
+  const pageImages = page.locator("main img")
+  await expect(pageImages).toHaveCount(12)
+  for (const image of await pageImages.all()) {
+    await image.scrollIntoViewIfNeeded()
+    await expect.poll(() => image.evaluate((element) => {
+      const img = element as HTMLImageElement
+      return img.complete && img.naturalWidth > 0 && img.naturalHeight > 0
+    })).toBe(true)
+  }
+
+  await page.locator("#downloads").scrollIntoViewIfNeeded()
+  await expect(page.locator("#downloads")).not.toContainText("Pending final export")
+  const downloads = page.locator("#downloads a[download]")
+  const filenames = ["Playfold-Product-Design-Case-Study.pdf", "Playfold_Brand_Guide.pdf", "Playfold_Design_System.pdf"]
+  await expect(downloads).toHaveCount(3)
+  for (let index = 0; index < filenames.length; index += 1) {
+    const href = `/projects/x-games/${filenames[index]}`
+    await expect(downloads.nth(index)).toHaveAttribute("href", href)
+    const response = await page.request.get(href)
+    expect(response.status()).toBe(200)
+    expect(response.headers()["content-type"]).toContain("application/pdf")
+    expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-")
+  }
+  const prototypeLinks = page.locator('a[href^="https://www.figma.com/proto/"]')
+  expect(await prototypeLinks.count()).toBeGreaterThanOrEqual(4)
+  for (const link of await prototypeLinks.all()) {
+    expect(new URL((await link.getAttribute("href"))!).searchParams.get("starting-point-node-id")).toBeTruthy()
+  }
+  await expectNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath("playfold-downloads.png"), animations: "disabled" })
+})
+
+test("Wizzo shared viewer restores focus after button close and Escape", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await page.goto("/projects/wizzo")
+  const opener = page.locator("#home-exploration").getByRole("button", {
+    name: "Open Home proposal A: inline adjustment fullscreen", exact: true,
+  })
+  await opener.click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await expect(page.getByRole("dialog").locator('[data-caption-placement="overlay"]')).toBeVisible()
+  await page.getByRole("button", { name: "Close image viewer", exact: true }).click()
+  await expect(page.getByRole("dialog")).not.toBeVisible()
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await expect(page.getByRole("dialog")).toBeVisible()
+  await page.keyboard.press("Escape")
+  await expect(page.getByRole("dialog")).not.toBeVisible()
+  await expect(opener).toBeFocused()
+})
+
 test("project category controls update the rendered archive", async ({ page }, testInfo) => {
   const pageErrors: string[] = []
   const consoleErrors: string[] = []

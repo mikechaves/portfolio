@@ -7,6 +7,7 @@ export interface ProjectMediaItem {
   label: string
   section?: ProjectEvidenceSection
   src: string
+  thumbnailSrc?: string
 }
 
 interface ProjectMediaSource {
@@ -17,6 +18,7 @@ interface ProjectMediaSource {
 }
 
 interface ProjectMediaCopy {
+  thumbnailSrc?: string
   caption: string
   label: string
   section?: ProjectEvidenceSection
@@ -272,20 +274,40 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     }
 },
   "x-games": {
-    "/projects/x-games/platform-home.webp": {
-      label: "Source-to-game product story",
-      caption: "Current public Playfold surface connects a real source post, the interpreted game hook, a playable result, and a direct creator action in one legible product narrative.",
+    "/images/projects/x-games/design/creator-source.webp": {
+      label: "Creator source: owned post and selected static image",
+      caption: "The illustrative Signal Range scenario keeps Alex Rivera's owned source and selected Image 1 visible. New creation is disabled in the inspected baseline; a separate prototype entry simulates the gated workflow.",
       section: "situation",
     },
-    "/projects/x-games/generated-game-detail.webp": {
-      label: "Adaptive discovery catalog",
-      caption: "Current app surface organizes latest, popular, and all-public refolds while preserving game creator, source-post attribution, genre, play activity, and direct launch paths.",
+    "/images/projects/x-games/design/creator-outcome.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/creator-outcome-thumbnail.webp",
+      label: "Creator result: Signal Range saved privately",
+      caption: "The simulated creator result distinguishes Ready — saved privately from public publication. Reopening and rebuilding use retained work; the completed creation does not require another Save action.",
       section: "action",
     },
-    "/projects/x-games/leaderboard.webp": {
-      label: "Verified seasonal leaderboard",
-      caption: "Current competition surface makes qualification, total-score ranking, tie-break logic, game identity, player counts, and direct replay visibly reviewable.",
-      section: "result",
+    "/images/projects/x-games/design/exploration-lowfi.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/exploration-lowfi-thumbnail.webp",
+      label: "Private-result alternatives: inline receipt and dedicated page",
+      caption: "Both alternatives explain the same Signal Range private-save meaning and return actions. The inline receipt is recommended pending Mike's review; neither alternative is implemented or supported by participant findings.",
+      section: "task",
+    },
+    "/images/projects/x-games/design/player-desktop.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/player-desktop-thumbnail.webp",
+      label: "Desktop player: Signal Range context and controls",
+      caption: "Sam Chen's illustrative player journey keeps source context distinct from Signal Range’s movement, Fire, Restart and three-target objective. Fullscreen remains an application capability outside this prototype. The published context is simulated, not a live catalog listing.",
+      section: "action",
+    },
+    "/images/projects/x-games/design/player-mobile-scrolled.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/player-mobile-scrolled-thumbnail.webp",
+      label: "Mobile player scrolled to movement, Fire and Restart",
+      caption: "The narrow-screen Signal Range state is scrolled to the controls below the viewport. It demonstrates action access while retaining the same game identity and objective; the prototype simulates play rather than running WebGL.",
+      section: "action",
+    },
+    "/images/projects/x-games/design/components.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/components-thumbnail.webp",
+      label: "Shared actions, attribution and outcome components",
+      caption: "Playfold's editable system maps semantic roles to source, game identity, actions and outcome states, with long-content and narrow-width examples. The current creator styling variation remains documented alongside the proposed system.",
+      section: "action",
     },
   },
   "vulnerability-visualizer": {
@@ -409,6 +431,7 @@ export function buildProjectMedia({ gallery = [], id, image, title }: ProjectMed
       label: copy.label,
       section: copy.section,
       src,
+      thumbnailSrc: copy.thumbnailSrc,
     }
   })
 }

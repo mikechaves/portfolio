@@ -18,15 +18,15 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Built and operate an AI-native social game platform that turns X posts into playable browser games, then supports discovery, bounded tuning, replay, attribution, sharing, and verified competition.",
-    "image": "/projects/x-games/generated-game-detail.webp",
+    "description": "Founder-led product design for Playfold: source-driven creation, private results, recovery and browser play, with a proposed result refinement.",
+    "image": "/images/projects/x-games/design/creator-source.webp",
     "technologies": [
-      "AI Game Generation",
-      "Grok",
+      "Product Design",
+      "Interaction Design",
+      "Design Systems",
+      "Figma",
       "Next.js",
-      "Vercel",
-      "Social Game UX",
-      "Leaderboards"
+      "Browser Games"
     ]
   },
   "geovoice": {
