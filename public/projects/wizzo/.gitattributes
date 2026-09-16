@@ -1,0 +1,2 @@
+# Native Figma PDF exports are binary assets.
+*.pdf binary

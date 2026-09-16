@@ -1,5 +1,19 @@
 # Wizzo Evidence Dossier Design QA
 
+## September 15, 2026 — design-artifact closeout
+
+- Updated only Wizzo copy, three screenshots, three public PDF files and the existing Wizzo smoke assertion.
+- Home A retains its reason during adjustment. A is recommended pending Mike's review; Snooze changes the due date, and Not for now removes the suggested first step while retaining the task in Trials.
+- Mobile evidence is the actual prototype scrolled to Confirm first move, clear of fixed navigation. Images preserve their native 390×844 and 1440×1000 proportions.
+- Native editable Figma exports retain 30 case-study, 10 brand and 12 system pages. All pages were rendered and visually reviewed; all merged text, annotations and dimensions were compared with native exports. The separate 10-page presentation was also reviewed.
+- Brand examples now demonstrate clear space, clipping, correct black-backed hat treatment and an actual-size 36 px header mark.
+- Section-specific prototype links, guide edit links, component source links, page numbers and bookmarks were checked.
+- Local validation passed: lint, TypeScript, 217 tests, link/asset audit, production build and four Wizzo desktop/mobile browser tests, including image enlargement and all three PDF responses.
+- PDF SHA-256:
+  - Case study: `aac814062103ba125fd27917f341ab1523ce4f9199669b2a5b06cf26f6f8db04`
+  - Brand guide: `174696eb7fd9e51a99bb9c0b2f5007faf793de5d7ed3d0e1cb15f950aee55da5`
+  - Design system: `d50dd5939312d0f76c818b0fcd51adf65ba1fdc9433cb0505f9d0294c1b3fd08`
+
 ## September 15, 2026 — product-design presentation
 
 The Wizzo route now leads with Mike's product and visual direction, founder assessment, and thematic design questions. It pairs interaction decisions with ten new, explicitly captioned images from the September Figma/design-artifact package. The Home refinement remains labeled as a proposal pending review, and evaluation priorities are not presented as measured results.
