@@ -130,10 +130,16 @@ test("Playfold design proposal, image focus return and frozen public resources w
   await expect(page.getByRole("heading", { name: /^\+?The Wizzo experience$/ })).toHaveCount(0)
   await expect(page.locator("blockquote")).toHaveCount(0)
   await expect(page.locator("#private-creation")).toContainText("New creation is disabled")
-  await expect(page.locator("#result-exploration")).toContainText("Alternative A is recommended pending Mike’s review; it is not implemented or evaluated")
+  await expect(page.locator("#result-exploration")).toContainText("I recommend Alternative A for design review. It is not implemented or evaluated")
+
+  for (const id of ["product-introduction", "public-discovery", "public-play", "mobile-product", "game-rankings", "product-navigation"]) {
+    await expect(page.locator(`#${id}`)).toBeAttached()
+  }
+  await expect(page.locator("#game-rankings")).toContainText("total verified score")
+  await expect(page.locator("#public-discovery")).toContainText("/games")
 
   const previews = page.locator('[aria-label="Supporting media"] img')
-  await expect(previews).toHaveCount(5)
+  await expect(previews).toHaveCount(12)
   for (const preview of await previews.all()) await expect(preview).toHaveAttribute("src", /-thumbnail\.webp$/)
 
   const opener = page.locator("#result-exploration").getByRole("button", {
@@ -207,7 +213,7 @@ test("Playfold design proposal, image focus return and frozen public resources w
   await expect(portraitDialog).not.toBeVisible()
 
   const pageImages = page.locator("main img")
-  await expect(pageImages).toHaveCount(12)
+  await expect(pageImages).toHaveCount(25)
   for (const image of await pageImages.all()) {
     await image.scrollIntoViewIfNeeded()
     await expect.poll(() => image.evaluate((element) => {

@@ -274,40 +274,72 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     }
 },
   "x-games": {
+    "/images/projects/x-games/design/homepage.webp": {
+      label: "Homepage: source-to-game introduction",
+      caption: "The existing homepage connects Playfold’s proposition, a source post, an interpretation and a public game. The full native desktop and mobile pages continue through examples, product explanation, support and footer.",
+    },
+    "/images/projects/x-games/design/homepage-explanation.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/homepage-explanation-thumbnail.webp",
+      label: "Homepage: how a source becomes play",
+      caption: "The homepage’s lower explanation makes the source-to-game sequence visible before the product tour. It connects source selection, interpretation, game construction, browser play and supported follow-on actions.",
+    },
+    "/images/projects/x-games/design/catalog.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/catalog-thumbnail.webp",
+      label: "Discover: latest refolds, popular shelf and public grid",
+      section: "action",
+      caption: "The current catalog uses wide latest-refold cards, a popular shelf and a browse grid, with search and separate creator/source attribution. AETHERSEED is the connected public walkthrough example.",
+    },
+    "/images/projects/x-games/design/public-game.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/public-game-thumbnail.webp",
+      label: "AETHERSEED: public game context and focused play",
+      caption: "The public game page keeps artwork, objective, creator and source beside Play, with further context and utilities below. Its focused shell removes the app rail; the separate prototype bar models browser-style return.",
+    },
+    "/images/projects/x-games/design/public-game-mobile.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/public-game-mobile-thumbnail.webp",
+      label: "Mobile AETHERSEED: game, source and scrollable controls",
+      caption: "The native mobile public-game page preserves AETHERSEED’s identity while stacking game and source context. Lower utility groups remain reachable by scrolling; the game scene is a capture rather than an executing Figma runtime.",
+    },
+    "/images/projects/x-games/design/leaderboard.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/leaderboard-thumbnail.webp",
+      label: "Leaderboard: verified Season game rankings",
+      caption: "Season ranks games by total verified score, then best run and scored plays. The system also represents All time shares with plays as the tie-break, plus unavailable data; the shown dataset is illustrative.",
+    },
+    "/images/projects/x-games/design/library.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/library-thumbnail.webp",
+      label: "Library: saved public bookmarks and personal views",
+      caption: "Library distinguishes Created, Saved, Refolded and Recent views. This illustrative standard account contains existing public-game bookmarks, separate from Signal Range’s creator-private saved result.",
+    },
     "/images/projects/x-games/design/creator-source.webp": {
+      thumbnailSrc: "/images/projects/x-games/design/creator-source-thumbnail.webp",
       label: "Creator source: owned post and selected static image",
-      caption: "The illustrative Signal Range scenario keeps Alex Rivera's owned source and selected Image 1 visible. New creation is disabled in the inspected baseline; a separate prototype entry simulates the gated workflow.",
-      section: "situation",
+      caption: "The disabled creator baseline retains its actual legacy navigation, owned-post field, primary-image selector and attempt history region. This representative account state does not enable creation or expose private production history.",
     },
     "/images/projects/x-games/design/creator-outcome.webp": {
       thumbnailSrc: "/images/projects/x-games/design/creator-outcome-thumbnail.webp",
       label: "Creator result: Signal Range saved privately",
-      caption: "The simulated creator result distinguishes Ready — saved privately from public publication. Reopening and rebuilding use retained work; the completed creation does not require another Save action.",
-      section: "action",
+      section: "result",
+      caption: "The proposed inline result preserves the source excerpt and selected Image 1 beside a private-save receipt. Play and Open private library are grouped with that result; reopening does not introduce another Save step.",
     },
     "/images/projects/x-games/design/exploration-lowfi.webp": {
       thumbnailSrc: "/images/projects/x-games/design/exploration-lowfi-thumbnail.webp",
       label: "Private-result alternatives: inline receipt and dedicated page",
-      caption: "Both alternatives explain the same Signal Range private-save meaning and return actions. The inline receipt is recommended pending Mike's review; neither alternative is implemented or supported by participant findings.",
-      section: "task",
+      caption: "The native sketches compare the same Signal Range private result and preserved source. I recommend the inline receipt for design review; both alternatives keep their branch on reopen and use read-only source inspection.",
     },
     "/images/projects/x-games/design/player-desktop.webp": {
       thumbnailSrc: "/images/projects/x-games/design/player-desktop-thumbnail.webp",
       label: "Desktop player: Signal Range context and controls",
-      caption: "Sam Chen's illustrative player journey keeps source context distinct from Signal Range’s movement, Fire, Restart and three-target objective. Fullscreen remains an application capability outside this prototype. The published context is simulated, not a live catalog listing.",
-      section: "action",
+      caption: "Sam Chen’s illustrative Signal Range journey separates runtime instructions, restart and return from prototype outcome controls. This focused exploration is simulated and remains separate from the existing public catalog.",
     },
     "/images/projects/x-games/design/player-mobile-scrolled.webp": {
       thumbnailSrc: "/images/projects/x-games/design/player-mobile-scrolled-thumbnail.webp",
       label: "Mobile player scrolled to movement, Fire and Restart",
-      caption: "The narrow-screen Signal Range state is scrolled to the controls below the viewport. It demonstrates action access while retaining the same game identity and objective; the prototype simulates play rather than running WebGL.",
-      section: "action",
+      caption: "The actual presentation is scrolled to Signal Range’s controls below the viewport. Movement, Fire, Restart and return remain accessible; Figma navigates simulated outcomes and does not execute the game engine.",
     },
     "/images/projects/x-games/design/components.webp": {
       thumbnailSrc: "/images/projects/x-games/design/components-thumbnail.webp",
-      label: "Shared actions, attribution and outcome components",
-      caption: "Playfold's editable system maps semantic roles to source, game identity, actions and outcome states, with long-content and narrow-width examples. The current creator styling variation remains documented alongside the proposed system.",
-      section: "action",
+      label: "Shared public-game cards across responsive densities",
+      section: "result",
+      caption: "The editable game-card family preserves artwork, title, genre and creator/source attribution across shelf, wide-card and marketing treatments. Navigation, action states, outcomes and ranking families extend the same product system.",
     },
   },
   "vulnerability-visualizer": {
