@@ -244,7 +244,7 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
     "/projects/wizzo/mobile-2026.webp": {
         "label": "Mobile: a reachable confirmation",
-        "caption": "The review content scrolls above fixed navigation, keeping the confirmation reachable on a compact screen."
+        "caption": "The real mobile prototype, scrolled to Confirm first move. The action is fully visible above fixed navigation."
     },
     "/projects/wizzo/components-2026.webp": {
         "label": "Reusable controls and interaction states",
@@ -264,11 +264,11 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
     },
     "/projects/wizzo/home-inline-2026.webp": {
         "label": "Home proposal A: inline adjustment",
-        "caption": "Preferred proposal, pending review. Snooze, Not for now and Keep this recommendation stay beside the task."
+        "caption": "Recommended proposal, pending review by Mike. The reason remains visible while Snooze, Not for now and Keep this recommendation stay beside the task."
     },
     "/projects/wizzo/home-drawer-2026.webp": {
         "label": "Home proposal B: context drawer",
-        "caption": "Alternative proposal. The drawer offers more room for reasons and controls while adding a context shift."
+        "caption": "Alternative proposal with the same task and consequences. The drawer adds a context shift; closing it keeps the recommendation unchanged."
     }
 },
   "x-games": {

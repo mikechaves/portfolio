@@ -86,7 +86,7 @@
         },
         {
           "title": "Can the explanation help someone choose?",
-          "description": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. I prefer the inline proposal for the current two-action scope."
+          "description": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. The inline proposal keeps the reason visible during adjustment and is recommended for the current two-action scope, pending review."
         }
       ],
       "results": [
@@ -213,7 +213,7 @@
           "id": "home-exploration",
           "label": "Home exploration",
           "title": "Can the explanation help someone choose?",
-          "body": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. I prefer the inline proposal for the current two-action scope.",
+          "body": "I explored two new alternatives in Figma before implementation. Both separate the recommendation reason from the task instruction and make adjustment consequences explicit. The inline proposal keeps the reason visible during adjustment and is recommended for the current two-action scope, pending review.",
           "images": [
             "/projects/wizzo/home-inline-2026.webp",
             "/projects/wizzo/home-drawer-2026.webp"
@@ -221,7 +221,7 @@
           "decisions": [
             {
               "title": "A / Inline adjustment",
-              "description": "Keeps the task and controls together, with a small interaction cost. Expanded controls take space inside the recommendation card."
+              "description": "Keeps the task, reason and controls together, with a small interaction cost. Expanded controls take space inside the recommendation card."
             },
             {
               "title": "B / Context drawer",
@@ -232,9 +232,9 @@
               "description": "Can someone explain the recommendation, predict what Snooze or Not for now changes, and cancel or recover without losing their place?"
             }
           ],
-          "note": "New proposal pending review; not implemented. Illustrative tasks, reason signals and metrics. Snooze moves the due date to tomorrow; Not for now dismisses the first-win path while retaining the quest in Trials.",
+          "note": "Alternative A is recommended pending review by Mike; not implemented. Illustrative tasks, reason signals and metrics. Snooze moves the due date to tomorrow. Not for now removes this as a suggested first step; the task stays in Trials and can still be recommended when due.",
           "link": {
-            "label": "Play the preferred Home prototype",
+            "label": "Play Home proposal A",
             "url": "https://www.figma.com/proto/duo7gEGQEwnkwAiNLsgJYe?node-id=56-2861&starting-point-node-id=56-2861"
           }
         },
@@ -269,21 +269,21 @@
           "description": "The complete narrative: design decisions, interaction tradeoffs, Wisp, the Home exploration and evaluation priorities.",
           "url": "/projects/wizzo/Wizzo-Product-Design-Case-Study.pdf",
           "pages": 30,
-          "size": "16.2 MB"
+          "size": "16.5 MB"
         },
         {
           "title": "Wizzo brand guide",
           "description": "Identity, real logo assets, typography, semantic color roles, voice and practical applications.",
           "url": "/projects/wizzo/Wizzo_Brand_Guide.pdf",
           "pages": 10,
-          "size": "2.0 MB"
+          "size": "3.8 MB"
         },
         {
           "title": "Wizzo design system",
           "description": "Component anatomy, editable properties, interaction states, responsive rules and accessibility specifications.",
           "url": "/projects/wizzo/Wizzo_Design_System.pdf",
           "pages": 12,
-          "size": "2.5 MB"
+          "size": "5.4 MB"
         }
       ]
     }

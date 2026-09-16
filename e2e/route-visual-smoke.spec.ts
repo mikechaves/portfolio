@@ -103,7 +103,7 @@ test("Wizzo design narrative, image viewer and public downloads work", async ({ 
   await expect(page.getByText("Founder and product designer — product direction, visual identity, interaction design, prototyping and implementation", { exact: true })).toBeVisible()
   await expect(page.getByRole("heading", { name: "What stays editable before commitment?" })).toBeVisible()
   await page.locator("#home-exploration").scrollIntoViewIfNeeded()
-  await expect(page.locator("#home-exploration")).toContainText("New proposal pending review; not implemented")
+  await expect(page.locator("#home-exploration")).toContainText("Alternative A is recommended pending review by Mike; not implemented")
   await page.getByRole("button", { name: "Open Home proposal A: inline adjustment fullscreen", exact: true }).click()
   await expect(page.getByRole("dialog")).toBeVisible()
   await page.keyboard.press("Escape")
