@@ -78,7 +78,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
                 aria-label={getThumbnailLabel(item)}
               >
                 <Image
-                  src={item.src}
+                  src={item.thumbnailSrc ?? item.src}
                   alt={item.alt}
                   fill
                   loading="lazy"

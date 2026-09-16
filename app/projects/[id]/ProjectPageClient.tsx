@@ -3,7 +3,7 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { ArrowRight, Github, ExternalLink } from "lucide-react"
-import { useState, useCallback, useEffect, useMemo } from "react"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import type { ReactNode } from "react"
 import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
@@ -68,6 +68,7 @@ function DetailItemCard({ item, marker }: { item: ProjectDetailItem; marker: str
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [hasOpenedMedia, setHasOpenedMedia] = useState(false)
+  const mediaOpenerRef = useRef<HTMLElement | null>(null)
   const dossierConfig = getEvidenceDossierConfig(project.id)
   const isEvidenceDossier = Boolean(dossierConfig)
   const designStory = project.designStory
@@ -118,7 +119,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   const selectedMedia = selectedIndex !== null ? media[selectedIndex] : undefined
 
   const closeModal = useCallback(() => setSelectedIndex(null), [])
+  const restoreMediaFocus = useCallback(() => mediaOpenerRef.current?.focus(), [])
   const openMedia = useCallback((index: number) => {
+    mediaOpenerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     setHasOpenedMedia(true)
     setSelectedIndex(index)
   }, [])
@@ -241,14 +244,14 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             </div>
           </section>
 
-          {designStory && <figure className="border-l-2 border-primary/60 py-2 pl-6 md:pl-8">
+          {designStory?.quote && <figure className="border-l-2 border-primary/60 py-2 pl-6 md:pl-8">
             <blockquote className="max-w-5xl text-xl leading-relaxed text-zinc-100 md:text-2xl">“{designStory.quote}”</blockquote>
-            <figcaption className="mt-4 text-sm text-zinc-400">{designStory.attribution}</figcaption>
+            {designStory.attribution && <figcaption className="mt-4 text-sm text-zinc-400">{designStory.attribution}</figcaption>}
           </figure>}
 
           <section className="evidence-dossier-artifact" aria-labelledby="primary-artifact-title">
             <div className="signal-section-heading">
-              <h2 id="primary-artifact-title">{designStory ? "The Wizzo experience" : "Primary artifact"}</h2>
+              <h2 id="primary-artifact-title">{designStory ? `The ${project.title} experience` : "Primary artifact"}</h2>
               <span>01 / {String(media.length).padStart(2, "0")}</span>
             </div>
             <ProjectMediaShowcase media={media} onOpen={openMedia} />
@@ -399,9 +402,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <ImageModal
           open={selectedIndex !== null}
           onOpenChange={(o) => !o && closeModal()}
+          onRestoreFocus={restoreMediaFocus}
           src={selectedMedia?.src || ""}
           alt={selectedMedia?.alt || project.title}
           caption={selectedMedia?.caption}
+          captionPlacement={designStory?.mediaDimensions ? "below" : "overlay"}
+          imageWidth={selectedMedia ? designStory?.mediaDimensions?.[selectedMedia.src]?.width : undefined}
+          imageHeight={selectedMedia ? designStory?.mediaDimensions?.[selectedMedia.src]?.height : undefined}
           onPrev={images.length > 1 ? handlePrev : undefined}
           onNext={images.length > 1 ? handleNext : undefined}
           title={selectedMedia?.label}

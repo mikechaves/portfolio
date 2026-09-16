@@ -291,95 +291,288 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Built and operate an AI-native social game platform that turns X posts into playable browser games, then supports discovery, bounded tuning, replay, attribution, sharing, and verified competition.",
-    "image": "/projects/x-games/generated-game-detail.webp",
+    "description": "Founder-led product design for Playfold: source-driven creation, private results, recovery and browser play, with a proposed result refinement.",
+    "image": "/images/projects/x-games/design/creator-source.webp",
     "technologies": [
-      "AI Game Generation",
-      "Grok",
+      "Product Design",
+      "Interaction Design",
+      "Design Systems",
+      "Figma",
       "Next.js",
-      "Vercel",
-      "Social Game UX",
-      "Leaderboards"
+      "Browser Games"
     ],
     "github": "",
     "demo": "https://playfold.wizzolabs.net/",
+    "demoLabel": "Visit Playfold",
     "links": [
       {
-        "label": "Wizzo Labs",
-        "url": "https://wizzolabs.net"
+        "label": "Creator prototype",
+        "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=12-49&starting-point-node-id=12%3A49"
+      },
+      {
+        "label": "Player prototype",
+        "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=15-219&starting-point-node-id=15%3A219"
+      },
+      {
+        "label": "UX exploration board",
+        "url": "https://www.figma.com/board/DhsCDMjXeG0OCoKn24LP1j"
+      },
+      {
+        "label": "Editable product design system",
+        "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic"
+      },
+      {
+        "label": "Editable case study and guidelines",
+        "url": "https://www.figma.com/design/lNKpvksDNg6rK1D6S98XRQ"
       }
     ],
     "gallery": [
-      "/projects/x-games/platform-home.webp",
-      "/projects/x-games/leaderboard.webp"
+      "/images/projects/x-games/design/creator-outcome.webp",
+      "/images/projects/x-games/design/exploration-lowfi.webp",
+      "/images/projects/x-games/design/player-desktop.webp",
+      "/images/projects/x-games/design/player-mobile-scrolled.webp",
+      "/images/projects/x-games/design/components.webp"
     ],
     "details": {
       "client": "Wizzo Labs",
       "date": "2026",
-      "category": "AI Game Platform",
-      "proofRole": "Direct product proof for source-grounded AI generation, adaptive discovery, bounded tuning, and score-backed ranked play in a live browser platform.",
+      "category": "Product Design · Browser Games",
+      "proofRole": "Founder and product designer — product direction, interaction design, visual system, prototyping and engineering of the existing product.",
       "services": [
-        "AI Product Systems",
-        "Generated Game UX",
-        "Social Distribution",
-        "Ranking and Replay"
+        "Product Design",
+        "Interaction Design",
+        "Design Systems",
+        "Responsive Prototyping"
       ],
       "situation": [
         {
-          "title": "From Post to Playable System",
-          "description": "Playfold is a live AI-native product loop: start from a post on X, interpret its premise and tone, build a playable browser game, then make that game discoverable, replayable, tunable, shareable, and rankable."
-        },
-        {
-          "title": "Product Challenge",
-          "description": "The experience had to make a probabilistic generation process feel immediate and legible while preserving the source post, game premise, creator identity, and a clear path into play."
-        },
-        {
-          "title": "Operating Context",
-          "description": "The system connects public source attribution, AI-assisted concept generation, generated game art and mechanics, an adaptive app shell, focused browser play, moderation, and seasonal and all-time leaderboards."
+          "title": "A Source-Driven Product",
+          "description": "Playfold is a browser game product that keeps source context connected to creation and play. The current private creator accepts an owned X post with text and a static image; new creation is disabled in the inspected baseline."
         }
       ],
       "task": [
         {
-          "title": "Design the Generation Loop",
-          "description": "Create a coherent path from source post to game concept, generated assets, playable runtime, and persistent game page without hiding where the game came from."
-        },
-        {
-          "title": "Create Player Control",
-          "description": "Give players bounded ways to tune pace, difficulty, run length, hazards, power-ups, feedback, mechanics, and replay focus without losing the original game premise."
-        },
-        {
-          "title": "Build a Social Game Ecosystem",
-          "description": "Turn generated games into persistent social objects with source and creator attribution, discovery, saves, reporting, engagement signals, verified seasonal competition, all-time rankings, and replay paths."
+          "title": "Make Consequences Understandable",
+          "description": "Distinguish a generated candidate, a playable result, a privately saved game and a separately reviewed public release. Preserve source and game identity through waiting, recovery and return."
         }
       ],
       "actions": [
         {
-          "title": "Connected Source Context to Generation",
-          "description": "Built Discover, Feed, creator, and focused-player surfaces that keep the source post visible while carrying the generated title, genre, premise, art, and playable runtime through the product."
+          "title": "Connect the Creator and Player Journeys",
+          "description": "Use the same illustrative Signal Range fixture across source selection, simulated gated creation, private reopening and a simulated published player context."
         },
         {
-          "title": "Designed the Generated-Game Cockpit",
-          "description": "Combined game playback, bounded tuning controls, play statistics, library behavior, reporting, and source-post access in a single product surface."
-        },
-        {
-          "title": "Built Discovery and Competition",
-          "description": "Created latest, popular, and all-public discovery surfaces plus seasonal and all-time rankings that organize games by source, creator, genre, plays, scores, and direct replay actions."
+          "title": "Compare a Bounded Refinement",
+          "description": "Compare an inline outcome receipt with a dedicated result page. Recommend the inline approach pending Mike’s review, without changing Playfold application code."
         }
       ],
       "results": [
         {
-          "title": "Live AI Product System",
-          "description": "The result is an operating browser platform rather than a static generation demo: real posts become persistent game pages inside a discoverable catalog."
-        },
-        {
-          "title": "Human Control After Generation",
-          "description": "Players can inspect source context, tune generated behavior, save or report a game, replay it, and compare its activity through product-level controls."
-        },
-        {
-          "title": "Persistent Social Proof",
-          "description": "Discover and leaderboard surfaces make generated games browsable and comparable, connecting AI creation to source provenance, creator identity, distribution, engagement, and ranked play."
+          "title": "A Design Proposal with Explicit Boundaries",
+          "description": "The connected design artifacts make state, visibility, recovery and responsive controls inspectable. The new private-result refinement remains a proposal; participant evaluation and implementation approval are still open."
         }
       ]
+    },
+    "designStory": {
+      "sections": [
+        {
+          "id": "source-and-intent",
+          "label": "Source and intent",
+          "title": "How does a post become a game without losing its context?",
+          "body": "I design and build Playfold through Wizzo Labs. The product begins with a selected source: the current private creator uses the signed-in person’s own X post with text and a static image. This design scenario follows Alex Rivera, an illustrative creator, turning a source about unstable signal beacons into Signal Range. Sam Chen is the illustrative player. Reusing the same game makes each state and consequence easier to compare.",
+          "images": [
+            "/images/projects/x-games/design/creator-source.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Preserve two relationships",
+              "description": "Game by and From a post by remain separate labels even when Alex fills both roles. Attribution identifies origin; it does not grant permission to redistribute source material."
+            },
+            {
+              "title": "Keep the input concrete",
+              "description": "Alex selects Image 1 from the source post. This creator flow does not accept a blank game prompt, video or animated source."
+            }
+          ],
+          "link": {
+            "label": "Open the creator prototype",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=12-49&starting-point-node-id=12%3A49"
+          }
+        },
+        {
+          "id": "private-creation",
+          "label": "Private creation and recovery",
+          "title": "What has actually happened when creation finishes?",
+          "body": "In the inspected application, Create and save privately moves through Checking source, Interpreting and Building and saving before Ready — saved privately confirms the retained result. A generated candidate is not yet a playable saved game, and private saving does not publish it. The application can reopen or rebuild retained work without another interpretation. The selected prototype demonstrates reopening and a separate recovery path; the saved receipt needs no second Save step.",
+          "images": [
+            "/images/projects/x-games/design/creator-outcome.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Recovery keeps the attempt",
+              "description": "Recover saved work — no new interpretation may reuse a valid saved specification. It can also be unavailable; it does not promise an automatic retry."
+            },
+            {
+              "title": "Cancellation can take time",
+              "description": "Cancel remaining creation requests a stop. A result already in flight may still arrive, so cancellation pending must not promise that nothing was created."
+            }
+          ],
+          "note": "New creation is disabled in the inspected product. The prototype simulates the gated creation and persistence sequence. Public release remains a separate owner-only review and authorization process.",
+          "link": {
+            "label": "Explore recovery from the same saved attempt",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=12-178&starting-point-node-id=12%3A178"
+          }
+        },
+        {
+          "id": "result-exploration",
+          "label": "Private-result exploration",
+          "title": "Where should the result explain what to do next?",
+          "body": "I explored two approaches to the same private Signal Range result. Alternative A places an outcome receipt beside the selected attempt, keeping identity, Private status and recovery together. Alternative B creates a dedicated result page with more space for source context and play. Both preserve the same source, action meanings and failure consequences.",
+          "images": [
+            "/images/projects/x-games/design/exploration-lowfi.webp"
+          ],
+          "decisions": [
+            {
+              "title": "A / Inline outcome receipt",
+              "description": "Preserves the existing route and selection context while explaining who can access the result. Its tradeoff is competition for space on a long page."
+            },
+            {
+              "title": "B / Dedicated result page",
+              "description": "Separates the result more strongly and makes room for play, but adds navigation and a state handoff back to the attempt."
+            },
+            {
+              "title": "Compare the consequential tasks",
+              "description": "Can someone explain private visibility, reopen without creating again, recover without a new interpretation and find actions on a narrow screen?"
+            }
+          ],
+          "note": "Alternative A is recommended pending Mike’s review; it is not implemented or evaluated through participant research. The receipt offers Play saved game followed by Open private library, with recovery on a separate path. Play saved game is proposed navigation within this refinement, not a claim about an existing baseline button.",
+          "link": {
+            "label": "Play the preferred inline-result proposal",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=14-264&starting-point-node-id=14%3A264"
+          }
+        },
+        {
+          "id": "responsive-play",
+          "label": "Player and responsive behavior",
+          "title": "Which controls belong around the game?",
+          "body": "Sam opens Signal Range from a simulated discovery card, checks the source and instructions, then plays toward Clear the signal targets. The game uses three targets and a maximum of three hits. Movement, Fire and Restart belong to this example’s runtime. Fullscreen is an inspected application capability outside this prototype’s scope. The selected prototype simplifies platform navigation and carries the task through to the controls below the viewport.",
+          "images": [
+            "/images/projects/x-games/design/player-desktop.webp",
+            "/images/projects/x-games/design/player-mobile-scrolled.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Expose supported controls",
+              "description": "WASD or arrows move; Space or Enter fires. Touch uses a movement pad and Fire. This retained-runtime example has no Tune, Refold, challenge, score sharing, sound or haptic settings."
+            },
+            {
+              "title": "Make the return predictable",
+              "description": "Restart resets the run without changing its source. Returning to discovery preserves the same Signal Range identity."
+            }
+          ],
+          "note": "Signal Range is a safe local fixture, not an existing public catalog listing. The published context and play transitions are simulated. A local gameplay capture represents the viewport; its source-media texture has a recorded rendering limitation, so the source illustration is shown separately. The prototype does not run the game engine.",
+          "link": {
+            "label": "Open the mobile player prototype",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=19-424&starting-point-node-id=19%3A424"
+          }
+        },
+        {
+          "id": "design-system",
+          "label": "Reusable visual system",
+          "title": "Can shared components keep the flow consistent?",
+          "body": "Playfold’s dark surfaces, blue play actions, pink source context and violet Refold role give the interface a consistent vocabulary. Its existing gamepad identity stays intact. The editable system connects semantic roles, actions, inputs, attribution, game cards and outcomes to the creator and player journeys. Long names, narrow widths, missing imagery and failure states expose problems beyond the default screen.",
+          "images": [
+            "/images/projects/x-games/design/components.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Document the source mapping",
+              "description": "The design roles map to the product’s adaptive CSS. The existing creator surface’s slate/cyan variation remains documented rather than presented as already unified."
+            },
+            {
+              "title": "Keep type practical",
+              "description": "Roboto is the verified Figma working face and is already in the production fallback stack. The application keeps its platform system-font configuration."
+            }
+          ],
+          "link": {
+            "label": "Inspect the editable product design system",
+            "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic"
+          }
+        },
+        {
+          "id": "evaluation",
+          "label": "Evaluation priorities",
+          "title": "Test comprehension and control next.",
+          "body": "The next evaluation should ask creators to explain who can access a saved game, reopen it without creating again and distinguish recovery from a new interpretation. Players should find the controls, understand an outcome and restart on a phone. The connected artifacts keep those questions tied to the same scenario. AI assistance supported source review, alternatives, critique, corrections and consistency checks; no participant findings, adoption metrics or business impact are claimed.",
+          "decisions": [
+            {
+              "title": "Understand the consequence",
+              "description": "Ask for an explanation of private saving and cancellation before the participant takes an action."
+            },
+            {
+              "title": "Recover independently",
+              "description": "Observe whether the participant returns to the saved attempt, finds recovery and understands when a valid specification is unavailable."
+            },
+            {
+              "title": "Reach the controls",
+              "description": "Use the actual scrolled mobile state to examine whether movement, Fire, Restart and return actions are discoverable."
+            }
+          ],
+          "note": "Working Figma and FigJam sources may require sign-in. The public images and downloadable PDFs carry the design narrative without changing workspace sharing.",
+          "link": {
+            "label": "Open the editable case study and guidelines",
+            "url": "https://www.figma.com/design/lNKpvksDNg6rK1D6S98XRQ"
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "title": "Playfold product-design case study",
+          "description": "Source-driven creation, creator and player journeys, the private-result exploration and evaluation priorities.",
+          "url": "/projects/x-games/Playfold-Product-Design-Case-Study.pdf",
+          "pages": 16,
+          "size": "7.6 MB"
+        },
+        {
+          "title": "Playfold brand guide",
+          "description": "The existing mark, clear space, color roles, typography, imagery and practical applications.",
+          "url": "/projects/x-games/Playfold_Brand_Guide.pdf",
+          "pages": 8,
+          "size": "2.9 MB"
+        },
+        {
+          "title": "Playfold design system",
+          "description": "Foundations, editable components, state meanings, responsive controls, accessibility and source mapping.",
+          "url": "/projects/x-games/Playfold_Design_System.pdf",
+          "pages": 10,
+          "size": "4.7 MB"
+        }
+      ],
+      "mediaDimensions": {
+        "/images/projects/x-games/design/creator-source.webp": {
+          "width": 1440,
+          "height": 800
+        },
+        "/images/projects/x-games/design/creator-outcome.webp": {
+          "width": 1440,
+          "height": 800
+        },
+        "/images/projects/x-games/design/exploration-lowfi.webp": {
+          "width": 1580,
+          "height": 1180
+        },
+        "/images/projects/x-games/design/player-desktop.webp": {
+          "width": 1440,
+          "height": 1021
+        },
+        "/images/projects/x-games/design/player-mobile-scrolled.webp": {
+          "width": 390,
+          "height": 844
+        },
+        "/images/projects/x-games/design/components.webp": {
+          "width": 1440,
+          "height": 670
+        }
+      }
     }
   },
   "geovoice": {

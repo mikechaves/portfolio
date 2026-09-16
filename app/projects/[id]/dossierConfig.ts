@@ -12,8 +12,8 @@ const EVIDENCE_DOSSIERS: Partial<Record<string, EvidenceDossierConfig>> = {
   },
   "x-games": {
     caseFile: "AF-03",
-    eyebrow: "AI-native game systems / Social creation loop",
-    signals: "Post / Generate / Play / Rank",
+    eyebrow: "Product design / Private-result proposal",
+    signals: "Source / Private save / Play / Return",
   },
   speakeasy: {
     caseFile: "AF-08",
