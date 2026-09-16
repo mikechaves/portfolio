@@ -22,12 +22,23 @@ describe("Playfold product-design case study", () => {
     expect(project.description.length).toBeLessThanOrEqual(160)
     expect(getEvidenceDossierConfig("x-games")).toEqual({
       caseFile: "AF-03",
-      eyebrow: "Product design / Private-result proposal",
-      signals: "Source / Private save / Play / Return",
+      eyebrow: "Product design / Discovery to play",
+      signals: "Source / Discover / Play / Return",
     })
     expect(JSON.stringify(project)).not.toContain('"X Games"')
     expect(story.quote).toBeUndefined()
     expect(story.attribution).toBeUndefined()
+  })
+
+  it("leads with the existing principal product surfaces", () => {
+    expect(project.image).toBe("/images/projects/x-games/design/homepage.webp")
+    expect(story.sections.slice(0, 6).map((section) => section.id)).toEqual([
+      "product-introduction", "public-discovery", "public-play", "mobile-product", "game-rankings", "product-navigation",
+    ])
+    expect(story.sections.find((section) => section.id === "public-discovery")?.body).toContain("/games")
+    expect(story.sections.find((section) => section.id === "game-rankings")?.body).toContain("total verified score")
+    expect(story.sections.find((section) => section.id === "game-rankings")?.decisions?.[0].description).toContain("resets All time to Season")
+    expect(story.downloads.map((file) => file.pages)).toEqual([24, 10, 14])
   })
 
   it("distinguishes the disabled baseline, simulated result and unapproved refinement", () => {
@@ -43,7 +54,7 @@ describe("Playfold product-design case study", () => {
     expect(exploration.decisions?.map((decision) => decision.title)).toEqual(expect.arrayContaining([
       "A / Inline outcome receipt", "B / Dedicated result page",
     ]))
-    expect(exploration.note).toContain("pending Mike’s review")
+    expect(exploration.note).toContain("for design review")
     expect(exploration.note).toContain("not implemented or evaluated")
     expect(exploration.note).toContain("Play saved game is proposed navigation")
   })
@@ -66,13 +77,13 @@ describe("Playfold product-design case study", () => {
   it("registers every story figure with descriptive media and a stable accessible label", () => {
     const media = buildProjectMedia({ gallery: project.gallery, id: "x-games", image: project.image, title: project.title })
     const sources = new Set(media.map((item) => item.src))
-    expect(media).toHaveLength(6)
+    expect(media).toHaveLength(13)
     for (const section of story.sections) {
       for (const src of section.images ?? []) expect(sources.has(src)).toBe(true)
     }
     expect(media.every((item) => item.caption.length > 60 && item.alt.startsWith("Playfold: "))).toBe(true)
     expect(media.every((item) => item.src.startsWith("/images/projects/x-games/design/"))).toBe(true)
-    expect(media.find((item) => item.src.endsWith("exploration-lowfi.webp"))?.caption).toContain("pending Mike's review")
+    expect(media.find((item) => item.src.endsWith("exploration-lowfi.webp"))?.caption).toContain("for design review")
     expect(media.find((item) => item.src.endsWith("player-mobile-scrolled.webp"))?.label).toContain("scrolled to movement, Fire and Restart")
   })
 
@@ -90,7 +101,7 @@ describe("Playfold product-design case study", () => {
   it("links distinct prototype entries and public documents without private workspace records", () => {
     const sectionLinks = story.sections.flatMap((section) => section.link ? [section.link.url] : [])
     const prototypes = sectionLinks.filter((url) => url.startsWith("https://www.figma.com/proto/"))
-    expect(new Set(prototypes).size).toBe(4)
+    expect(new Set(prototypes).size).toBe(10)
     for (const link of prototypes) {
       const url = new URL(link)
       expect(url.pathname).toContain("Fvg2ULLsIr6kLNEIYcD6Ic")

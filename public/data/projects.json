@@ -291,8 +291,8 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Founder-led product design for Playfold: source-driven creation, private results, recovery and browser play, with a proposed result refinement.",
-    "image": "/images/projects/x-games/design/creator-source.webp",
+    "description": "Product design for Playfold: source-to-game storytelling, public discovery, browser play, game rankings and a focused private-result exploration.",
+    "image": "/images/projects/x-games/design/homepage.webp",
     "technologies": [
       "Product Design",
       "Interaction Design",
@@ -306,27 +306,38 @@
     "demoLabel": "Visit Playfold",
     "links": [
       {
-        "label": "Creator prototype",
+        "label": "Explore Playfold prototype",
+        "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=106-985&starting-point-node-id=106%3A985"
+      },
+      {
+        "label": "Mobile browsing prototype",
+        "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=117-641&starting-point-node-id=117%3A641"
+      },
+      {
+        "label": "Signal Range creator exploration",
         "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=12-49&starting-point-node-id=12%3A49"
       },
       {
-        "label": "Player prototype",
-        "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=15-219&starting-point-node-id=15%3A219"
-      },
-      {
         "label": "UX exploration board",
-        "url": "https://www.figma.com/board/DhsCDMjXeG0OCoKn24LP1j"
+        "url": "https://www.figma.com/board/DhsCDMjXeG0OCoKn24LP1j?node-id=1-2"
       },
       {
         "label": "Editable product design system",
-        "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic"
+        "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=0-1"
       },
       {
         "label": "Editable case study and guidelines",
-        "url": "https://www.figma.com/design/lNKpvksDNg6rK1D6S98XRQ"
+        "url": "https://www.figma.com/design/lNKpvksDNg6rK1D6S98XRQ?node-id=3-2"
       }
     ],
     "gallery": [
+      "/images/projects/x-games/design/homepage-explanation.webp",
+      "/images/projects/x-games/design/catalog.webp",
+      "/images/projects/x-games/design/public-game.webp",
+      "/images/projects/x-games/design/public-game-mobile.webp",
+      "/images/projects/x-games/design/leaderboard.webp",
+      "/images/projects/x-games/design/library.webp",
+      "/images/projects/x-games/design/creator-source.webp",
       "/images/projects/x-games/design/creator-outcome.webp",
       "/images/projects/x-games/design/exploration-lowfi.webp",
       "/images/projects/x-games/design/player-desktop.webp",
@@ -347,39 +358,153 @@
       "situation": [
         {
           "title": "A Source-Driven Product",
-          "description": "Playfold is a browser game product that keeps source context connected to creation and play. The current private creator accepts an owned X post with text and a static image; new creation is disabled in the inspected baseline."
+          "description": "I design and build Playfold through Wizzo Labs. The product connects source-to-game storytelling, a public catalog, focused browser play, ranked games and personal return destinations."
         }
       ],
       "task": [
         {
-          "title": "Make Consequences Understandable",
-          "description": "Distinguish a generated candidate, a playable result, a privately saved game and a separately reviewed public release. Preserve source and game identity through waiting, recovery and return."
+          "title": "Connect Discovery, Play and Return",
+          "description": "Keep game identity and source attribution legible as people move from the homepage to the catalog, rankings, focused play and Library. Make private creation and public release consequences distinct."
         }
       ],
       "actions": [
         {
-          "title": "Connect the Creator and Player Journeys",
-          "description": "Use the same illustrative Signal Range fixture across source selection, simulated gated creation, private reopening and a simulated published player context."
+          "title": "Design the Product as a Connected Experience",
+          "description": "I connect desktop and mobile marketing, app navigation, catalog cards and public-game patterns, then examine the private-result task through a separate Signal Range scenario."
         },
         {
           "title": "Compare a Bounded Refinement",
-          "description": "Compare an inline outcome receipt with a dedicated result page. Recommend the inline approach pending Mike’s review, without changing Playfold application code."
+          "description": "I compare an inline saved receipt with a dedicated result page. Both retain the selected source and comparison branch when reopening; source inspection returns without creating again."
         }
       ],
       "results": [
         {
-          "title": "A Design Proposal with Explicit Boundaries",
-          "description": "The connected design artifacts make state, visibility, recovery and responsive controls inspectable. The new private-result refinement remains a proposal; participant evaluation and implementation approval are still open."
+          "title": "Connected Product Coverage and a Focused Proposal",
+          "description": "Native editable desktop and mobile designs, exercised prototype paths and visual guides make the product relationships inspectable. My design review, participant evaluation and implementation approval for the private-result proposal remain separate."
         }
       ]
     },
     "designStory": {
       "sections": [
         {
+          "id": "product-introduction",
+          "label": "Product overview",
+          "title": "From a source post to something playable.",
+          "body": "I own Playfold’s product direction, interaction design, visual system and engineering. The homepage makes the source-to-game relationship concrete before asking someone to explore or create. Its current presentation combines a source, an interpretation and a public game, then continues through explanation, examples, a product tour and support.",
+          "images": [
+            "/images/projects/x-games/design/homepage-explanation.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Make the invitation concrete",
+              "description": "The source and game remain visibly related. Distinct Create and Discover actions give the introduction a useful next step."
+            }
+          ],
+          "note": "The main UI represents the existing product. Public examples preserve observed game identities and artwork; counts are a frozen reference, not impact evidence. Signal Range is a separate simulated private-result exploration.",
+          "link": {
+            "label": "Explore the homepage and public browsing path",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=106-985&starting-point-node-id=106%3A985"
+          }
+        },
+        {
+          "id": "public-discovery",
+          "label": "Catalog and discovery",
+          "title": "Give the catalog more than one way in.",
+          "body": "Discover lives at /games. I use wide cards for the latest refolds, a popular shelf and a denser browse grid. Artwork invites exploration; titles and separate creator/source labels make the choice understandable. Search provides a direct route to a known game without changing its identity.",
+          "images": [
+            "/images/projects/x-games/design/catalog.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Preserve the browsing context",
+              "description": "The connected AETHERSEED example returns to the catalog or its search query through browser-style Back. The product’s Back to Discover control intentionally opens the unfiltered catalog."
+            }
+          ],
+          "link": {
+            "label": "Try the AETHERSEED search and return path",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=135-2071&starting-point-node-id=135%3A2071"
+          }
+        },
+        {
+          "id": "public-play",
+          "label": "Public game and focused play",
+          "title": "Keep context beside the game.",
+          "body": "AETHERSEED carries its title, artwork, objective, creator and source from discovery into the public game page. Focused play removes the app rail, while instructions and the game’s own controls remain close to the viewport. On mobile, the page stacks those relationships and keeps lower utility groups reachable by scrolling.",
+          "images": [
+            "/images/projects/x-games/design/public-game.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Keep the selected game",
+              "description": "Poster, instructions, play and restart belong to the same AETHERSEED example. Figma changes platform states; the captured game scene does not execute the runtime."
+            },
+            {
+              "title": "Reflect actual capabilities",
+              "description": "Public-game utility groups are represented where the inspected product provides them. The walkthrough does not submit Save, Share, Tune, Refold or score activity."
+            }
+          ],
+          "link": {
+            "label": "Open the public-game prototype",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=89-410&starting-point-node-id=89%3A410"
+          }
+        },
+        {
+          "id": "mobile-product",
+          "label": "Responsive product UI",
+          "title": "Keep mobile play connected.",
+          "body": "The mobile app uses a compact header and bottom navigation for browsing. The public game page replaces those destinations with its focused header, preserving the selected game while stacking its objective, source and utility groups. I keep the lower content scrollable rather than squeezing every action into the opening viewport.",
+          "images": [
+            "/images/projects/x-games/design/public-game-mobile.webp"
+          ],
+          "link": {
+            "label": "Try mobile discovery and focused play",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=117-641&starting-point-node-id=117%3A641"
+          }
+        },
+        {
+          "id": "game-rankings",
+          "label": "Leaderboard",
+          "title": "Explain what the ranking measures.",
+          "body": "The leaderboard ranks games. Season uses total verified score, with best run and scored plays resolving ties. All time uses shares, then plays. Podium cards introduce the leaders before compact rows continue the list; the alternate and unavailable states retain the mode context.",
+          "images": [
+            "/images/projects/x-games/design/leaderboard.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Preserve the existing return behavior",
+              "description": "The inspected product resets All time to Season after leaving and returning. The prototype records that limitation instead of implying that period state persists."
+            }
+          ],
+          "link": {
+            "label": "Explore leaderboard modes and ranked play",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=97-491&starting-point-node-id=97%3A491"
+          }
+        },
+        {
+          "id": "product-navigation",
+          "label": "Navigation and return destinations",
+          "title": "One product, different kinds of work.",
+          "body": "I keep Discover, Feed, Create, Leaderboard and Library connected through the desktop rail and mobile bottom navigation, with Profile and Settings as account destinations. Marketing pages use their own header; focused play has its own return control. Library distinguishes Created, Saved, Refolded and Recent views so public bookmarks remain separate from creator-private results.",
+          "images": [
+            "/images/projects/x-games/design/library.webp"
+          ],
+          "decisions": [
+            {
+              "title": "Represent access honestly",
+              "description": "Account examples use an illustrative standard account. Feed shows the observed expired-session state. No private production history is presented."
+            }
+          ],
+          "note": "Library initializes on Created when remounted in the inspected source. Its authenticated live return behavior remains unverified.",
+          "link": {
+            "label": "Try the mobile Library return path",
+            "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=121-3901&starting-point-node-id=121%3A3901"
+          }
+        },
+        {
           "id": "source-and-intent",
           "label": "Source and intent",
           "title": "How does a post become a game without losing its context?",
-          "body": "I design and build Playfold through Wizzo Labs. The product begins with a selected source: the current private creator uses the signed-in person’s own X post with text and a static image. This design scenario follows Alex Rivera, an illustrative creator, turning a source about unstable signal beacons into Signal Range. Sam Chen is the illustrative player. Reusing the same game makes each state and consequence easier to compare.",
+          "body": "The current private creator accepts the signed-in person’s own X post with text and a static image. I use a separate illustrative scenario to examine the saved result: Alex Rivera selects Image 1 from a source about unstable signal beacons, and the game is Signal Range. Sam Chen is the illustrative player. Keeping one source and game lets me compare state and recovery consequences.",
           "images": [
             "/images/projects/x-games/design/creator-source.webp"
           ],
@@ -426,25 +551,25 @@
           "id": "result-exploration",
           "label": "Private-result exploration",
           "title": "Where should the result explain what to do next?",
-          "body": "I explored two approaches to the same private Signal Range result. Alternative A places an outcome receipt beside the selected attempt, keeping identity, Private status and recovery together. Alternative B creates a dedicated result page with more space for source context and play. Both preserve the same source, action meanings and failure consequences.",
+          "body": "I compare two approaches to the same private Signal Range result. A keeps a preserved source excerpt and Image 1 beside the saved receipt. B gives that result a dedicated page with its own source summary. Play saved game and Open private library stay with the result they operate on. Both return to the selected alternative after reopening, and read-only source inspection returns to the same saved game.",
           "images": [
             "/images/projects/x-games/design/exploration-lowfi.webp"
           ],
           "decisions": [
             {
               "title": "A / Inline outcome receipt",
-              "description": "Preserves the existing route and selection context while explaining who can access the result. Its tradeoff is competition for space on a long page."
+              "description": "Keeps the source, private-access explanation and result actions together. Its tradeoff is competition for space on a long page."
             },
             {
               "title": "B / Dedicated result page",
-              "description": "Separates the result more strongly and makes room for play, but adds navigation and a state handoff back to the attempt."
+              "description": "Separates the result and provides more room for play. Reopening and source inspection must preserve the B context instead of silently returning to A."
             },
             {
               "title": "Compare the consequential tasks",
               "description": "Can someone explain private visibility, reopen without creating again, recover without a new interpretation and find actions on a narrow screen?"
             }
           ],
-          "note": "Alternative A is recommended pending Mike’s review; it is not implemented or evaluated through participant research. The receipt offers Play saved game followed by Open private library, with recovery on a separate path. Play saved game is proposed navigation within this refinement, not a claim about an existing baseline button.",
+          "note": "I recommend Alternative A for design review. It is not implemented or evaluated through participant research. Play saved game is proposed navigation within this refinement; recovery remains a separate path.",
           "link": {
             "label": "Play the preferred inline-result proposal",
             "url": "https://www.figma.com/proto/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=14-264&starting-point-node-id=14%3A264"
@@ -454,7 +579,7 @@
           "id": "responsive-play",
           "label": "Player and responsive behavior",
           "title": "Which controls belong around the game?",
-          "body": "Sam opens Signal Range from a simulated discovery card, checks the source and instructions, then plays toward Clear the signal targets. The game uses three targets and a maximum of three hits. Movement, Fire and Restart belong to this example’s runtime. Fullscreen is an inspected application capability outside this prototype’s scope. The selected prototype simplifies platform navigation and carries the task through to the controls below the viewport.",
+          "body": "Sam opens Signal Range from a simulated discovery card, checks its source and instructions, then plays toward Clear the signal targets. The example uses three targets and a maximum of three hits. Movement, Fire and Restart belong to this runtime. This focused exploration tests access to controls below the viewport; the public-product designs above retain the full app and focused-game shells.",
           "images": [
             "/images/projects/x-games/design/player-desktop.webp",
             "/images/projects/x-games/design/player-mobile-scrolled.webp"
@@ -479,7 +604,7 @@
           "id": "design-system",
           "label": "Reusable visual system",
           "title": "Can shared components keep the flow consistent?",
-          "body": "Playfold’s dark surfaces, blue play actions, pink source context and violet Refold role give the interface a consistent vocabulary. Its existing gamepad identity stays intact. The editable system connects semantic roles, actions, inputs, attribution, game cards and outcomes to the creator and player journeys. Long names, narrow widths, missing imagery and failure states expose problems beyond the default screen.",
+          "body": "I extend the existing system across marketing navigation, the desktop rail, mobile destinations, catalog cards, focused-game patterns and ranked-game podiums and rows. Dark surfaces, blue play actions, pink source context and violet Refold roles keep their meanings. The original gamepad identity stays intact. Corrected Action variants separate hierarchy from state and preserve label overrides and a stable 50-pixel height.",
           "images": [
             "/images/projects/x-games/design/components.webp"
           ],
@@ -495,14 +620,14 @@
           ],
           "link": {
             "label": "Inspect the editable product design system",
-            "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic"
+            "url": "https://www.figma.com/design/Fvg2ULLsIr6kLNEIYcD6Ic?node-id=75-2"
           }
         },
         {
           "id": "evaluation",
           "label": "Evaluation priorities",
           "title": "Test comprehension and control next.",
-          "body": "The next evaluation should ask creators to explain who can access a saved game, reopen it without creating again and distinguish recovery from a new interpretation. Players should find the controls, understand an outcome and restart on a phone. The connected artifacts keep those questions tied to the same scenario. AI assistance supported source review, alternatives, critique, corrections and consistency checks; no participant findings, adoption metrics or business impact are claimed.",
+          "body": "I plan task-based evaluation around finding a public game, understanding its controls, interpreting rankings and returning to the right context. Creator tasks ask people to explain private access, reopen without creating again and distinguish recovery from a new interpretation. AI assistance supports source review, alternatives, critique and consistency checks. Prototype verification does not establish participant findings, adoption or business impact.",
           "decisions": [
             {
               "title": "Understand the consequence",
@@ -527,50 +652,78 @@
       "downloads": [
         {
           "title": "Playfold product-design case study",
-          "description": "Source-driven creation, creator and player journeys, the private-result exploration and evaluation priorities.",
+          "description": "Homepage, discovery, public play, game rankings, navigation and the focused private-result exploration.",
           "url": "/projects/x-games/Playfold-Product-Design-Case-Study.pdf",
-          "pages": 16,
-          "size": "7.6 MB"
+          "pages": 24,
+          "size": "12.2 MB"
         },
         {
           "title": "Playfold brand guide",
           "description": "The existing mark, clear space, color roles, typography, imagery and practical applications.",
           "url": "/projects/x-games/Playfold_Brand_Guide.pdf",
-          "pages": 8,
-          "size": "2.9 MB"
+          "pages": 10,
+          "size": "4.4 MB"
         },
         {
           "title": "Playfold design system",
-          "description": "Foundations, editable components, state meanings, responsive controls, accessibility and source mapping.",
+          "description": "Foundations, action states, navigation, catalog cards, game-page and ranking patterns, responsive controls and source mapping.",
           "url": "/projects/x-games/Playfold_Design_System.pdf",
-          "pages": 10,
-          "size": "4.7 MB"
+          "pages": 14,
+          "size": "7.2 MB"
         }
       ],
       "mediaDimensions": {
+        "/images/projects/x-games/design/homepage.webp": {
+          "width": 1440,
+          "height": 1000
+        },
+        "/images/projects/x-games/design/homepage-explanation.webp": {
+          "width": 1360,
+          "height": 581
+        },
+        "/images/projects/x-games/design/catalog.webp": {
+          "width": 1440,
+          "height": 1000
+        },
+        "/images/projects/x-games/design/public-game.webp": {
+          "width": 1440,
+          "height": 1044
+        },
+        "/images/projects/x-games/design/public-game-mobile.webp": {
+          "width": 390,
+          "height": 888
+        },
+        "/images/projects/x-games/design/leaderboard.webp": {
+          "width": 1440,
+          "height": 1000
+        },
+        "/images/projects/x-games/design/library.webp": {
+          "width": 1440,
+          "height": 1000
+        },
         "/images/projects/x-games/design/creator-source.webp": {
           "width": 1440,
-          "height": 800
+          "height": 1000
         },
         "/images/projects/x-games/design/creator-outcome.webp": {
           "width": 1440,
-          "height": 800
+          "height": 1188
         },
         "/images/projects/x-games/design/exploration-lowfi.webp": {
-          "width": 1580,
-          "height": 1180
+          "width": 1328,
+          "height": 540
         },
         "/images/projects/x-games/design/player-desktop.webp": {
           "width": 1440,
-          "height": 1021
+          "height": 1221
         },
         "/images/projects/x-games/design/player-mobile-scrolled.webp": {
           "width": 390,
           "height": 844
         },
         "/images/projects/x-games/design/components.webp": {
-          "width": 1440,
-          "height": 670
+          "width": 1640,
+          "height": 750
         }
       }
     }
