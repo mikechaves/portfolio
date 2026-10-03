@@ -99,7 +99,7 @@ describe("professional experience entity integrity", () => {
 
   it("uses only the approved Snorkel disclosure language", () => {
     const snorkel = PROFESSIONAL_EXPERIENCE_BY_ID.get("employment-snorkel")
-    expect(snorkel?.dates).toBeUndefined()
+    expect(snorkel?.dates).toBe("April 2025 - October 2025")
     expect(snorkel?.summary).toBe(
       "Authored and validated original, high-difficulty, graduate-level exam-style problems; assessed AI-generated responses; identified reasoning flaws; and refined model outputs. Contributed to proprietary datasets used for LLM fine-tuning, benchmarking, and reinforcement learning."
     )

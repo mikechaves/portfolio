@@ -6,6 +6,7 @@ import { createPageMetadata } from "@/lib/seo/site"
 import { getProjectStructuredData } from "@/lib/seo/structured-data"
 import { DossierExitPath } from "./DossierExitPath"
 import ProjectPageClient from "./ProjectPageClient"
+import { buildProjectMedia } from "./projectMedia"
 import { getEvidenceDossierConfig } from "./dossierConfig"
 import { getDossierExitPath } from "./dossierExitPathData"
 import { RETIRED_PROJECT_REDIRECTS } from "./retiredProjectRedirects"
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     description: project.description,
     path: `/projects/${project.id}`,
     image: project.image,
-    imageAlt: `${project.title} project evidence`,
+    imageAlt: buildProjectMedia(project)[0]?.alt ?? `${project.title} project image`,
     type: "article",
   })
 }
@@ -57,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <JsonLd id="project-structured-data" data={getProjectStructuredData(project)} />
-      <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
+      <div data-project-id={project.id} className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
         <ProjectPageClient project={project} />
         <DossierExitPath
           exitPath={dossierExitPath}

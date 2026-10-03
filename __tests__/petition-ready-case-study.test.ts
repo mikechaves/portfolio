@@ -29,8 +29,8 @@ describe("PetitionReady evidence dossier", () => {
   it("states the implemented legal-operations role without overstating prototype scope", () => {
     const project = projects["petition-ready"]
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("AI-assisted legal-operations workflow")
-    expect(project.details.proofRole).toContain("paralegal-to-attorney review boundaries")
+    expect(project.details.proofRole).toContain("workflow and interaction design")
+    expect(project.details.proofRole).toContain("prototyping, and implementation")
     expect(project.details.services).toEqual([
       "Legal Operations UX",
       "AI Product Systems",

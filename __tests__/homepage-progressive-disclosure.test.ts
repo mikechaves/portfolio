@@ -13,14 +13,14 @@ describe("homepage progressive disclosure", () => {
   const bridgeSource = readSource("public/scripts/homepage.js")
 
   it("publishes the hiring-first statement and three requested hero actions", () => {
-    expect(homeSource).toContain("AI-Native Design Engineer")
+    expect(homeSource).toContain("Creative Director & Creative Technologist")
     expect(homeSource).toContain(
-      "I build AI product systems, playable experiences, and immersive tools."
+      "I shape brands, tell stories, and make ideas playable."
     )
     expect(homeSource).toContain("Founder of Wizzo Labs")
     expect(homeSource).toContain("View selected work")
     expect(homeSource).toContain("Match me to a role")
-    expect(homeSource).toContain("Download resume")
+    expect(homeSource).toContain("Download résumé (PDF)")
   })
 
   it("keeps the primary journey in the required source order", () => {
@@ -47,20 +47,21 @@ describe("homepage progressive disclosure", () => {
 
   it("renders all professional records as non-linked image-free homepage summaries", () => {
     expect(PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => record.id)).toEqual([
+      "employment-knitting-factory",
+      "employment-power",
       "employment-astrocade",
       "employment-snorkel",
       "employment-ford",
       "employment-starbucks",
-      "employment-knitting-factory",
     ])
     expect(homeSource).toContain('variant="homepage"')
-    expect(homeSource).toContain("Public summaries only")
+    expect(homeSource).toContain("From directing creative work across all Knitting Factory")
   })
 
   it("shows four role lenses before a native More lenses disclosure", () => {
-    expect(focusSource).toContain('id: "ai-product-systems"')
+    expect(focusSource).toContain('id: "creative-direction"')
     expect(focusSource).toContain('id: "game-ux-creator-systems"')
-    expect(focusSource).toContain('id: "hitl-evaluation"')
+    expect(focusSource).toContain('id: "xr-accessibility"')
     expect(focusSource).toContain('id: "design-engineering"')
     expect(focusSource).toContain("<details")
     expect(focusSource).toContain("More lenses")

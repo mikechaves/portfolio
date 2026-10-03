@@ -22,7 +22,7 @@ export function getSiteStructuredData() {
         "@id": PERSON_ID,
         name: SITE_NAME,
         url: SITE_ORIGIN,
-        jobTitle: "AI-Native Design Engineer",
+        jobTitle: "Creative Director & Creative Technologist",
         sameAs: [...SITE_SOCIAL_PROFILES],
       },
       {
@@ -46,14 +46,14 @@ export function getProfilePageStructuredData() {
     url: getCanonicalUrl("/about"),
     name: `About ${SITE_NAME}`,
     description:
-      "Mike Chaves's operating model, selected professional evidence, public practice, and contact information.",
+      "Mike Chaves’s creative approach, brand and entertainment experience, interactive work, and contact information.",
     inLanguage: "en-US",
     isPartOf: { "@id": WEBSITE_ID },
     mainEntity: {
       "@type": "Person",
       "@id": PERSON_ID,
       name: SITE_NAME,
-      jobTitle: "AI-Native Design Engineer",
+      jobTitle: "Creative Director & Creative Technologist",
       url: SITE_ORIGIN,
       sameAs: [...SITE_SOCIAL_PROFILES],
     },
@@ -117,9 +117,9 @@ export function getProjectCollectionStructuredData(projects: Project[]) {
     "@type": "CollectionPage",
     "@id": `${url}#collection`,
     url,
-    name: "AI product, game, and design engineering projects",
+    name: "Creative direction, storytelling, and interactive design projects",
     description:
-      "Reviewed case studies spanning AI-native products, human-in-the-loop workflows, game and creator systems, XR accessibility, and interactive tools.",
+      "Case studies in visual direction, product identity, playable storytelling, accessible XR, and interactive tools.",
     inLanguage: "en-US",
     isPartOf: { "@id": WEBSITE_ID },
     mainEntity: {
@@ -141,9 +141,9 @@ export function getBlogCollectionStructuredData(posts: Post[]) {
     "@type": "CollectionPage",
     "@id": `${url}#collection`,
     url,
-    name: "Writing on AI product design, XR accessibility, and interactive systems",
+    name: "Writing on design, storytelling, and interactive experiences",
     description:
-      "Article summaries and original writing by Mike Chaves about AI-native UX, emerging technology, and accessible spatial interaction.",
+      "Article summaries and original writing by Mike Chaves about experience design, emerging technology, and accessible spatial interaction.",
     inLanguage: "en-US",
     isPartOf: { "@id": WEBSITE_ID },
     mainEntity: {

@@ -3469,3 +3469,15 @@ body:has(.site-mobile-menu[open]) {
     transform: none;
   }
 }
+
+/* The full-screen immersive controls must sit above the shared header/footer. */
+.site-main:has([data-immersive-entry]) {
+  z-index: 60;
+}
+
+/* Lay out the long Playfold narrative as its sections approach the viewport. */
+.evidence-dossier[data-project-id="x-games"] .case-study-section,
+.evidence-dossier[data-project-id="x-games"] .case-study-terminal {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

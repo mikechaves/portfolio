@@ -106,7 +106,7 @@ export function DossierExitPath({
             Start a conversation
           </TrackedPortfolioLink>
           <TrackedPortfolioLink
-            href="/Michael_Chaves_Resume_min.pdf"
+            href="/Michael_Chaves_Resume.pdf"
             download
             prefetch={false}
             eventName="portfolio_conversion_clicked"
@@ -117,7 +117,7 @@ export function DossierExitPath({
             }}
           >
             <Download size={17} aria-hidden="true" />
-            Download resume
+            Download résumé (PDF)
           </TrackedPortfolioLink>
         </div>
       </div>

@@ -1,5 +1,8 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test"
 
+import { PROJECTS } from "../data/projects"
+import { posts } from "../lib/posts"
+
 interface SmokeRoute {
   name: string
   path: string
@@ -7,22 +10,22 @@ interface SmokeRoute {
 }
 
 const routes: SmokeRoute[] = [
-  {
-    name: "home",
-    path: "/",
-    heading: "I build AI product systems, playable experiences, and immersive tools.",
-  },
-  { name: "projects", path: "/projects", heading: "Project Signal Index" },
-  { name: "wizzo", path: "/projects/wizzo", heading: "Wizzo" },
-  { name: "playfold", path: "/projects/x-games", heading: "Playfold" },
-  { name: "geovoice", path: "/projects/geovoice", heading: "GeoVoice" },
-  { name: "speakeasy", path: "/projects/speakeasy", heading: "SpeakEasy" },
+  { name: "home", path: "/", heading: "I shape brands, tell stories, and make ideas playable." },
+  { name: "about", path: "/about", heading: "Mike Chaves" },
+  { name: "projects", path: "/projects", heading: "Selected projects" },
+  { name: "writing", path: "/blog", heading: "Ideas on design, imagination, and interaction" },
+  { name: "archive", path: "/archive", heading: "Archive" },
+  { name: "error", path: "/error", heading: "Error" },
+  ...PROJECTS.map((project) => ({ name: project.id, path: `/projects/${project.id}`, heading: project.title })),
+  ...posts.map((post) => ({ name: post.id, path: `/blog/${post.id}`, heading: post.title })),
 ]
 
 async function settleVisuals(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "dark" })
   await page.addStyleTag({
     content: `
+      /* Include off-screen narrative sections in full-page review captures. */
+      .case-study-section, .case-study-terminal { content-visibility: visible !important; }
       *, *::before, *::after {
         animation-delay: 0s !important;
         animation-duration: 0s !important;
@@ -81,6 +84,7 @@ async function captureRoute(page: Page, testInfo: TestInfo, route: SmokeRoute) {
   await expect(page.locator("body")).not.toContainText("Internal Server Error")
   await expect(page.locator("nextjs-portal [data-nextjs-dialog-overlay]")).toHaveCount(0)
   await settleVisuals(page)
+  await expectNoHorizontalOverflow(page)
   expect(pageErrors, `${route.path} should not raise browser runtime errors`).toEqual([])
   expect(consoleErrors, `${route.path} should not log browser console errors`).toEqual([])
 
@@ -100,7 +104,7 @@ for (const route of routes) {
 
 test("Wizzo design narrative, image viewer and public downloads work", async ({ page }, testInfo) => {
   await page.goto("/projects/wizzo")
-  await expect(page.getByText("Founder and product designer — product direction, visual identity, interaction design, prototyping and implementation", { exact: true })).toBeVisible()
+  await expect(page.getByText("Founder & Creative Director — concept, visual identity, product design, prototyping, and implementation", { exact: true })).toBeVisible()
   await expect(page.getByRole("heading", { name: "What stays editable before commitment?" })).toBeVisible()
   await page.locator("#home-exploration").scrollIntoViewIfNeeded()
   await expect(page.locator("#home-exploration")).toContainText("Alternative A is recommended pending review by Mike; not implemented")
@@ -272,7 +276,7 @@ test("project category controls update the rendered archive", async ({ page }, t
   })
 
   await page.goto("/projects", { waitUntil: "domcontentloaded" })
-  await expect(page.getByRole("heading", { level: 1, name: "Project Signal Index" })).toBeVisible()
+  await expect(page.getByRole("heading", { level: 1, name: "Selected projects" })).toBeVisible()
 
   const aiFilter = page
     .getByLabel("Project categories")
@@ -282,6 +286,7 @@ test("project category controls update the rendered archive", async ({ page }, t
   await expect(aiFilter).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByRole("heading", { level: 3, name: "Wizzo" })).toBeVisible()
   await settleVisuals(page)
+  await expectNoHorizontalOverflow(page)
   expect(pageErrors, "the project filter should not raise browser runtime errors").toEqual([])
   expect(consoleErrors, "the project filter should not log browser console errors").toEqual([])
 
@@ -304,19 +309,20 @@ test("homepage features only the curated public proof", async ({ page }) => {
   await expectNoHorizontalOverflow(page)
 })
 
-test("homepage presents five professional records without engagement-type qualifiers", async ({
+test("homepage presents six professional records without engagement-type qualifiers", async ({
   page,
 }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" })
   const experience = page.locator("#professional-experience")
 
-  await expect(experience.getByRole("article")).toHaveCount(5)
+  await expect(experience.getByRole("article")).toHaveCount(6)
   await expect(experience.getByRole("heading", { level: 3 })).toHaveText([
+    "Knitting Factory Entertainment",
+    "POWER Engineers",
     "Astrocade",
     "Snorkel AI",
     "Ford Motor Company",
     "Starbucks",
-    "Knitting Factory Entertainment",
   ])
   await expect(
     experience.getByRole("article").filter({ hasText: "Knitting Factory Entertainment" })
@@ -332,7 +338,7 @@ test("homepage role path focuses Adaptive Focus without suppressing core proof",
   await expect(page).toHaveURL(/#adaptive-focus$/u)
   await expect(page.getByLabel("Role or job description")).toBeFocused()
   await expect(page.getByRole("heading", { name: "Selected work" })).toBeVisible()
-  await expect(page.getByRole("heading", { name: "Professional systems experience" })).toBeAttached()
+  await expect(page.getByRole("heading", { name: "Creative roots. Hands-on range." })).toBeAttached()
 })
 
 test("mobile task menu traps focus, closes on Escape, and returns focus", async ({ page }) => {
@@ -509,7 +515,7 @@ test("about distinguishes confidential and approved professional summaries witho
   await expect(
     experience.getByRole("heading", { level: 2, name: "Selected professional experience" })
   ).toBeVisible()
-  await expect(experience.getByRole("article")).toHaveCount(5)
+  await expect(experience.getByRole("article")).toHaveCount(6)
 
   const snorkel = experience.getByRole("article").filter({ hasText: "Snorkel AI" })
   await expect(snorkel).toContainText("Approved public experience")
@@ -603,4 +609,27 @@ test("retired proprietary assets are not served", async ({ request }) => {
     const response = await request.get(path)
     expect(response.status()).toBe(404)
   }
+})
+
+test("creative direction lens includes the entertainment foundation", async ({ page }) => {
+  await openPreset(page, "creative-direction")
+  const brief = page.getByRole("article").filter({ hasText: "Knitting Factory Entertainment" }).first()
+  await expect(brief).toContainText("Creative Director")
+  await expect(brief).toContainText("all Knitting Factory venues and subsidiaries")
+  await expectNoHorizontalOverflow(page)
+})
+
+test("optional immersive navigation and missing-page recovery render", async ({ page }, testInfo) => {
+  await page.goto("/metaverse", { waitUntil: "networkidle" })
+  await expect(page.getByRole("button", { name: "EXIT", exact: true })).toBeVisible()
+  await expect(page.locator("body")).not.toContainText("Internal Server Error")
+  await expectNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath("metaverse.png"), animations: "disabled" })
+  await page.getByRole("button", { name: "EXIT", exact: true }).click()
+  await expect(page.getByRole("heading", { level: 1, name: "I shape brands, tell stories, and make ideas playable." })).toBeVisible()
+  const response = await page.goto("/missing-portfolio-page")
+  expect(response?.status()).toBe(404)
+  await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible()
+  await expectNoHorizontalOverflow(page)
+  await page.screenshot({ path: testInfo.outputPath("not-found.png"), fullPage: true })
 })

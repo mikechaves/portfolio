@@ -2,11 +2,11 @@ import type { ReactNode } from "react"
 import { createPageMetadata } from "@/lib/seo/site"
 
 export const metadata = createPageMetadata({
-  title: "AI Product, Game & Design Engineering Projects",
+  title: "Creative Direction & Interactive Design Projects",
   description:
-    "Explore reviewed case studies in AI-native products, human-in-the-loop workflows, game and creator systems, XR accessibility, and interactive tools.",
+    "Explore Mike Chaves’s creative direction, visual design, playable storytelling, accessible XR, and hands-on interactive work.",
   path: "/projects",
-  imageAlt: "Mike Chaves reviewed AI product and design engineering projects",
+  imageAlt: "Mike Chaves creative direction and interactive design projects",
 })
 
 export default function ProjectsLayout({ children }: { children: ReactNode }) {

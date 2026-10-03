@@ -23,7 +23,7 @@ describe("Wizzo evidence dossier", () => {
   it("leads with product-design ownership and the founder's assessment", () => {
     const project = projects.wizzo
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("Founder and product designer")
+    expect(project.details.proofRole).toContain("Founder & Creative Director")
     expect(project.details.services).toContain("Design Systems")
     expect(project.designStory.quote).toBe("The original Wizzo was functional, but it felt too generic to me. It did not express the identity or sense of direction I wanted the product to have.")
   })

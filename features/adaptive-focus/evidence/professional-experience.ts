@@ -9,6 +9,7 @@ export type ProfessionalExperienceDeliveryStatus =
   | "exploratory-prototypes"
   | "ai-training-and-evaluation"
   | "creative-direction-live-entertainment"
+  | "spatial-storytelling"
 
 export interface ProfessionalExperienceRecord {
   id: string
@@ -30,9 +31,32 @@ export const PROFESSIONAL_EXPERIENCE_DELIVERY_LABELS: Record<
   "exploratory-prototypes": "Emerging technology prototypes",
   "ai-training-and-evaluation": "Approved public contribution",
   "creative-direction-live-entertainment": "Creative direction for live entertainment",
+  "spatial-storytelling": "Spatial storytelling and experience design",
 }
 
 export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
+  {
+    id: "employment-knitting-factory",
+    company: "Knitting Factory Entertainment",
+    role: "Creative Director",
+    dates: "August 2008 - January 2016",
+    disclosureLevel: "public-resume-summary",
+    deliveryStatus: "creative-direction-live-entertainment",
+    summary:
+      "Directed digital creative projects and managed teams across all Knitting Factory venues and subsidiaries, unifying brand identity, visual storytelling, and promotional standards across web, campaign, and event experiences. Redesigned the ticketing platform and supporting digital experiences while coordinating event visuals and interactive assets for live productions.",
+    disclosureNote:
+      "Public professional summary based on resume-provided information. Detailed campaign materials, operational data, and proprietary assets are not published.",
+  },
+  {
+    id: "employment-power",
+    company: "POWER Engineers",
+    role: "Front-End Web Developer",
+    dates: "June 2020 - October 2021",
+    disclosureLevel: "public-resume-summary",
+    deliveryStatus: "spatial-storytelling",
+    summary: "Led design and frontend development of GeoVoice, a web and VR platform for spatial storytelling. Built responsive interfaces and high-fidelity prototypes for geospatial and data-rich tools across web, AR, and VR, translating infrastructure data for non-technical stakeholders.",
+    disclosureNote: "Public professional summary based on the approved résumé. The GeoVoice case study contains the existing public project materials.",
+  },
   {
     id: "employment-astrocade",
     company: "Astrocade",
@@ -48,7 +72,8 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-snorkel",
     company: "Snorkel AI",
-    role: "Expert Contributor",
+    role: "AI Expert Contributor",
+    dates: "April 2025 - October 2025",
     disclosureLevel: "approved-public-summary",
     deliveryStatus: "ai-training-and-evaluation",
     summary:
@@ -59,7 +84,7 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
   {
     id: "employment-ford",
     company: "Ford Motor Company",
-    role: "Software Engineer II, Unity",
+    role: "Unity Developer",
     dates: "October 2021 - March 2022",
     disclosureLevel: "confidential-summary",
     deliveryStatus: "production-manufacturing-system",
@@ -80,18 +105,7 @@ export const PROFESSIONAL_EXPERIENCE_RECORDS: ProfessionalExperienceRecord[] = [
     disclosureNote:
       "Exploratory prototypes, not production deployments. Internal project names, interfaces, pilot materials, participant evidence, metrics, and implementation details are withheld.",
   },
-  {
-    id: "employment-knitting-factory",
-    company: "Knitting Factory Entertainment",
-    role: "Creative Director",
-    dates: "August 2008 - January 2016",
-    disclosureLevel: "public-resume-summary",
-    deliveryStatus: "creative-direction-live-entertainment",
-    summary:
-      "Directed digital creative projects and managed teams across five live music venues and subsidiaries, unifying brand identity, visual storytelling, and promotional standards across web, campaign, and event experiences. Redesigned the ticketing platform and supporting digital experiences while coordinating event visuals and interactive assets for live productions.",
-    disclosureNote:
-      "Public professional summary based on resume-provided information. Detailed campaign materials, operational data, and proprietary assets are not published.",
-  },
+
 ]
 
 export const PROFESSIONAL_EXPERIENCE_BY_ID = new Map(

@@ -9,6 +9,7 @@ import {
   createRobotsMetadata,
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
+  DEFAULT_SOCIAL_IMAGE_ALT,
   getAbsoluteUrl,
   getCanonicalUrl,
   SITE_NAME,
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: getAbsoluteUrl(DEFAULT_SOCIAL_IMAGE),
-        alt: `${SITE_NAME} — AI-Native Design Engineer`,
+        alt: DEFAULT_SOCIAL_IMAGE_ALT,
       },
     ],
   },
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: getAbsoluteUrl(DEFAULT_SOCIAL_IMAGE),
-        alt: `${SITE_NAME} — AI-Native Design Engineer`,
+        alt: DEFAULT_SOCIAL_IMAGE_ALT,
       },
     ],
   },

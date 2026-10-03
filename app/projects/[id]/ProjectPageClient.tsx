@@ -208,7 +208,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             <div className="evidence-dossier-status">
               <span>CASE FILE / {dossierConfig?.caseFile}</span>
               <span>{designStory ? "PRODUCT DESIGN" : "REVIEWED EVIDENCE"}</span>
-              <span>ACTIVE SYSTEM / {project.details.date}</span>
+              <span>PROJECT / {project.details.date}</span>
             </div>
 
             <div className="evidence-dossier-hero-grid">
@@ -221,7 +221,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
 
               <dl className="evidence-dossier-ledger">
                 <div>
-                  <dt>{designStory ? "My role" : "Operating proof"}</dt>
+                  <dt>My role</dt>
                   <dd>{project.details.proofRole}</dd>
                 </div>
                 <div>
@@ -281,7 +281,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     <span key={index} className="rounded bg-secondary px-2 py-1 text-xs text-secondary-foreground">{tech}</span>
                   ))}
                 </p>
-                <p><span className="text-primary">proof role:</span> {project.details.proofRole || "concrete evidence for the operating model"}</p>
+                <p><span className="text-primary">proof role:</span> {project.details.proofRole || "Design and hands-on execution"}</p>
               </div>
             </div>
           </div>
@@ -292,7 +292,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 <h2 className="case-study-section-title">Project Overview</h2>
                 <p className="case-study-detail-body">{project.description || "No description available."}</p>
                 <Link href="/about" className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80">
-                  Revisit operating model <ArrowRight size={14} />
+                  Explore my creative approach <ArrowRight size={14} />
                 </Link>
               </div>
               {projectActions}
@@ -311,9 +311,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 {designStory.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{String(index + 1).padStart(2, "0")}</span> {section.label}</a>)}
                 <a href="#downloads"><span>↓</span> Downloads</a>
               </> : <>
-              <a href="#situation"><span>01</span> Situation</a>
-              <a href="#mandate"><span>02</span> Mandate</a>
-              <a href="#build"><span>03</span> Build</a>
+              <a href="#situation"><span>01</span> Challenge</a>
+              <a href="#mandate"><span>02</span> Direction</a>
+              <a href="#build"><span>03</span> Execution</a>
               <a href="#outcomes"><span>04</span> Outcomes</a>
               </>}
             </nav>
@@ -329,13 +329,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
 
       {designStory ? <ProjectDesignStory story={designStory} media={media} onOpen={openMedia} /> : <>
       {project.details && project.details.situation && typeof project.details.situation === "string" && (
-        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
+        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Creative challenge" evidence={renderEvidence("situation", "Situation")}>
           <DetailTextCard text={project.details.situation} />
         </CaseStudySection>
       )}
 
       {project.details && project.details.situation && Array.isArray(project.details.situation) && (
-        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Situation" evidence={renderEvidence("situation", "Situation")}>
+        <CaseStudySection id="situation" kicker={isEvidenceDossier ? "01 / Context" : undefined} title="Creative challenge" evidence={renderEvidence("situation", "Situation")}>
           <div className="case-study-detail-grid">
             {project.details.situation.map((item: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
@@ -345,13 +345,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.task && typeof project.details.task === "string" && (
-        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title={isEvidenceDossier ? "Mandate" : "Task"} evidence={renderEvidence("task", "Task")}>
+        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title="Direction and intent" evidence={renderEvidence("task", "Task")}>
           <DetailTextCard text={project.details.task} />
         </CaseStudySection>
       )}
 
       {project.details && project.details.task && Array.isArray(project.details.task) && (
-        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title={isEvidenceDossier ? "Mandate" : "Task"} evidence={renderEvidence("task", "Task")}>
+        <CaseStudySection id="mandate" kicker={isEvidenceDossier ? "02 / Mandate" : undefined} title="Direction and intent" evidence={renderEvidence("task", "Task")}>
           <div className="case-study-detail-grid">
             {project.details.task.map((item: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={item} marker="•" />
@@ -361,7 +361,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       )}
 
       {project.details && project.details.actions && (
-        <CaseStudySection id="build" kicker={isEvidenceDossier ? "03 / Build" : undefined} title={isEvidenceDossier ? "Build" : "Action"} evidence={renderEvidence("action", "Action")}>
+        <CaseStudySection id="build" kicker={isEvidenceDossier ? "03 / Build" : undefined} title="Creative decisions and execution" evidence={renderEvidence("action", "Action")}>
           <div className="case-study-detail-grid">
             {project.details.actions.map((action: ProjectDetailItem, index: number) => (
               <DetailItemCard key={index} item={action} marker={`${index + 1}.`} />
@@ -398,6 +398,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       </>}
         </div>
       </div>
+      <section className="case-study-section space-y-4" aria-labelledby="tools-title">
+        <p className="dossier-section-kicker">How I brought it to life</p>
+        <h2 id="tools-title" className="case-study-section-title">Tools and implementation</h2>
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.map((tool) => <span key={tool} className="rounded bg-secondary px-3 py-2 text-sm text-secondary-foreground">{tool}</span>)}
+        </div>
+      </section>
       {hasOpenedMedia ? (
         <ImageModal
           open={selectedIndex !== null}

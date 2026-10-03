@@ -13,23 +13,23 @@ import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evide
 const operatingLoop = [
   {
     index: "01",
-    title: "Frame the workflow",
-    description: "Map the people, decisions, handoffs, constraints, and failure modes before committing to an interface.",
+    title: "Find the story",
+    description: "Start with the audience, the idea, and what the experience should make someone feel or understand.",
   },
   {
     index: "02",
-    title: "Build the system",
-    description: "Move between product design and implementation to turn ambiguous requirements into an operable product surface.",
+    title: "Set the direction",
+    description: "Shape the visual language, tone, hierarchy, and interaction around a clear creative concept.",
   },
   {
     index: "03",
-    title: "Instrument the work",
-    description: "Make system behavior, human review, disagreement, and outcomes visible enough to evaluate and improve.",
+    title: "Make it tangible",
+    description: "Move from sketches and high-fidelity prototypes into working experiences, using design, motion, code, and AI where they help.",
   },
   {
     index: "04",
-    title: "Calibrate the loop",
-    description: "Use evidence from real use to refine automation, interfaces, guardrails, and the division of human and machine work.",
+    title: "Refine the experience",
+    description: "Test how the idea reads and behaves. Refine the details, accessibility, and consistency through design QA and feedback.",
   },
 ]
 
@@ -37,17 +37,17 @@ const proofPoints = [
   {
     caseFile: "AF-01",
     title: "Wizzo",
-    label: "AI product systems / Intent to action",
-    description: "Designed and built an AI mentor product system connecting chat, work context, goals, and follow-up to actionable quests.",
+    label: "Creative direction / Brand + product",
+    description: "Led Wizzo’s creative direction, visual systems, product design, and implementation as founder and creative director at Wizzo Labs.",
     href: "/projects/wizzo",
     projectId: "wizzo",
   },
   {
     caseFile: "AF-02",
     title: "Playfold",
-    label: "Game UX / Creator systems",
+    label: "Interactive storytelling / Game UX",
     description:
-      "Built an AI-assisted concept-to-play system connecting creator input, generated browser games, discovery, rankings, and direct play.",
+      "Directed Playfold’s visual and interaction design, demos, social and video assets, and launch copy, turning social posts into playable experiences.",
     href: "/projects/x-games",
     projectId: "x-games",
   },
@@ -61,26 +61,26 @@ const proofPoints = [
   },
   {
     caseFile: "OPS-01",
-    title: "Confidential professional experience",
-    label: "Production / Evaluation / Prototypes",
+    title: "Professional experience",
+    label: "Brand / Spatial / Product",
     description:
-      "High-level employment evidence preserves role, delivery status, and capability coverage while withholding internal interfaces, data, methods, and metrics.",
+      "Creative and hands-on work across entertainment, spatial storytelling, product design, and technical roles, with historical job titles preserved.",
     href: "#professional-experience",
     projectId: null,
   },
 ]
 
 const currentFocusItems = [
-  "AI-assisted workflows",
-  "Human-in-the-loop systems",
-  "Product and design engineering",
-  "Internal tools and operational UX",
-  "Moderation and QA calibration",
-  "Creator workflows",
-  "Accessibility-focused interaction",
-  "XR, voice UI, and emerging interfaces",
-  "LLM evaluation, reasoning validation, and training data",
-  "Model evaluation, expert annotation, and prompt engineering",
+  "Creative direction and team leadership",
+  "Brand identity and visual storytelling",
+  "Graphic design, campaigns, and live-event visuals",
+  "Art direction, motion, and interactive media",
+  "Visual and interaction design",
+  "Design systems and high-fidelity prototyping",
+  "Game UX and spatial storytelling",
+  "Accessible XR and voice interaction",
+  "AI-assisted creative workflows",
+  "Frontend implementation and design QA",
 ]
 
 const professionalExperienceCapabilities = new Map(
@@ -151,33 +151,33 @@ export function AboutContent() {
 
       <section className="operating-profile-hero" aria-labelledby="about-title">
         <div className="operating-profile-status" aria-hidden="true">
-          <span>PROFILE / VERIFIED</span>
-          <span>MODE / DESIGN + ENGINEERING</span>
-          <span>AVAILABILITY / BAY AREA + REMOTE</span>
+          <span>PROFILE / MIKE CHAVES</span>
+          <span>MODE / CREATIVE DIRECTION</span>
+          <span>BASE / LOS ANGELES</span>
         </div>
 
         <div className="operating-profile-grid">
           <div className="operating-profile-copy">
-            <p className="operating-profile-eyebrow">AI-Native Design Engineer</p>
+            <p className="operating-profile-eyebrow">Creative Director & Creative Technologist</p>
             <h1 id="about-title" className="operating-profile-title">Mike Chaves</h1>
             <p className="operating-profile-lede">
-              I design and build product systems for workflows where software, automation, and human judgment have to work together.
+              I’m a creative director, designer, and storyteller who likes to make the idea real.
             </p>
             <p className="operating-profile-summary">
-              My work sits between product design, front-end engineering, AI workflow design, and operational tooling. I also operate <a href="https://wizzolabs.net" target="_blank" rel="noopener noreferrer" className="text-primary underline decoration-primary/35 underline-offset-4 hover:decoration-primary">Wizzo Labs</a>, the studio behind Wizzo and Playfold. I am strongest in ambiguous environments that require both systems thinking and hands-on execution.
+              My foundation is brand and entertainment: I directed digital creative work across all Knitting Factory venues and subsidiaries, connecting identity, campaigns, and live-event experiences. Today I lead <a href="https://wizzolabs.net" target="_blank" rel="noopener noreferrer" className="text-primary underline decoration-primary/35 underline-offset-4 hover:decoration-primary">Wizzo Labs</a>, the parent company behind Wizzo, an AI mentor product, and Playfold, an interactive-experiences product. I move from concept and visual direction through prototyping and implementation, using AI, code, and real-time 3D as part of the creative toolkit.
             </p>
             <div className="operating-profile-actions">
               <Link href="/projects" prefetch={false} className="operating-profile-primary-action">
-                Inspect project proof <ArrowRight size={15} aria-hidden="true" />
+                Explore selected work <ArrowRight size={15} aria-hidden="true" />
               </Link>
               <PortfolioEventLink
-                href="/Michael_Chaves_Resume_min.pdf"
+                href="/Michael_Chaves_Resume.pdf"
                 download
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "about_hero" }}
                 className="operating-profile-secondary-action"
               >
-                Download resume <Download size={15} aria-hidden="true" />
+                Download résumé (PDF) <Download size={15} aria-hidden="true" />
               </PortfolioEventLink>
             </div>
           </div>
@@ -193,7 +193,7 @@ export function AboutContent() {
             />
             <figcaption>
               <span>Public practice / 2023-2025</span>
-              <strong>Design systems in public</strong>
+              <strong>Sharing ideas in public</strong>
             </figcaption>
           </figure>
         </div>
@@ -201,18 +201,18 @@ export function AboutContent() {
         <dl className="operating-profile-ledger">
           <div><dt>Projects indexed</dt><dd>{PROJECTS.length.toString().padStart(2, "0")}</dd></div>
           <div><dt>Reviewed dossiers</dt><dd>{EVIDENCE_DOSSIER_PROJECT_IDS.size.toString().padStart(2, "0")}</dd></div>
-          <div><dt>Base</dt><dd>Pacifica, California</dd></div>
-          <div><dt>Operating loop</dt><dd>Frame / Build / Measure / Calibrate</dd></div>
+          <div><dt>Base</dt><dd>Los Angeles, California</dd></div>
+          <div><dt>Operating loop</dt><dd>Story / Direction / Make / Refine</dd></div>
         </dl>
       </section>
 
       <section className="profile-section" aria-labelledby="operating-model-title">
         <div className="profile-section-heading">
           <div>
-            <p className="operating-profile-eyebrow">Operating model</p>
-            <h2 id="operating-model-title">How I turn ambiguity into a usable system</h2>
+            <p className="operating-profile-eyebrow">Creative process</p>
+            <h2 id="operating-model-title">From a point of view to a working experience</h2>
           </div>
-          <p>One working loop across product strategy, interaction design, implementation, and evaluation.</p>
+          <p>Concept, visual direction, craft, and iteration stay connected throughout the work.</p>
         </div>
         <ol className="operating-loop-grid">
           {operatingLoop.map((step) => (
@@ -229,9 +229,9 @@ export function AboutContent() {
         <div className="profile-section-heading">
           <div>
             <p className="operating-profile-eyebrow">Selected evidence</p>
-            <h2 id="proof-path-title">Proof across systems, operations, and access</h2>
+            <h2 id="proof-path-title">Brand, play, and inclusive interaction</h2>
           </div>
-          <Link href="/projects">Open signal index <ArrowRight size={14} aria-hidden="true" /></Link>
+          <Link href="/projects">Explore projects <ArrowRight size={14} aria-hidden="true" /></Link>
         </div>
         <div className="profile-proof-grid">
           {proofPoints.map((proof) => (
@@ -253,7 +253,7 @@ export function AboutContent() {
                 </div>
                 <h3>{proof.title}</h3>
                 <p>{proof.description}</p>
-                <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
+                <span className="profile-proof-link">Explore the work <ArrowRight size={14} aria-hidden="true" /></span>
               </PortfolioEventLink>
             ) : (
               <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
@@ -263,7 +263,7 @@ export function AboutContent() {
                 </div>
                 <h3>{proof.title}</h3>
                 <p>{proof.description}</p>
-                <span className="profile-proof-link">Inspect evidence <ArrowRight size={14} aria-hidden="true" /></span>
+                <span className="profile-proof-link">Explore the work <ArrowRight size={14} aria-hidden="true" /></span>
               </Link>
             )
           ))}
@@ -274,9 +274,9 @@ export function AboutContent() {
         <div className="profile-section-heading">
           <div>
             <p className="operating-profile-eyebrow">Current focus</p>
-            <h2 id="current-focus-title">Where the work compounds</h2>
+            <h2 id="current-focus-title">What I bring to the work</h2>
           </div>
-          <p>The recurring system problems behind the projects, not a list of disconnected tools.</p>
+          <p>Creative leadership grounded in visual craft, research, and the ability to build.</p>
         </div>
         <ul className="profile-focus-index">
           {currentFocusItems.map((item, index) => (
@@ -299,7 +299,7 @@ export function AboutContent() {
             <h2 id="professional-experience-title">Selected professional experience</h2>
           </div>
           <p>
-            Some professional work was created inside confidential company environments, while other contributions may be described only through employer-approved public language. These summaries preserve role, scope, delivery status, and relevant capabilities without exposing internal interfaces, datasets, customers, methods, or metrics.
+            Brand and entertainment leadership sits alongside product, immersive, and technical work. These summaries describe my roles and scope; confidential employer materials remain private.
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
@@ -315,11 +315,21 @@ export function AboutContent() {
         </div>
       </section>
 
+      <section className="profile-section" aria-labelledby="education-title">
+        <div className="profile-section-heading">
+          <div><p className="operating-profile-eyebrow">Education</p><h2 id="education-title">A foundation in experience and interactive media</h2></div>
+        </div>
+        <div className="profile-proof-grid">
+          <article className="profile-proof-record"><h3>Master of Design, Experience Design</h3><p>San José State University / May 2025</p></article>
+          <article className="profile-proof-record"><h3>Bachelor of Science, Games, Interactive Media &amp; Mobile Technology</h3><p>Boise State University / May 2020</p></article>
+        </div>
+      </section>
+
       <section className="profile-section" aria-labelledby="public-practice-title">
         <div className="profile-section-heading">
           <div>
             <p className="operating-profile-eyebrow">Public practice</p>
-            <h2 id="public-practice-title">Research, accessibility, and emerging systems</h2>
+            <h2 id="public-practice-title">Ideas, accessibility, and emerging experiences</h2>
           </div>
           <p>Selected talks and panels extending project work into shared industry conversations.</p>
         </div>
@@ -342,18 +352,18 @@ export function AboutContent() {
       <section id="contact" className="profile-contact-section scroll-mt-24" aria-labelledby="contact-title">
         <div className="profile-contact-intro">
           <p className="operating-profile-eyebrow">Location and availability</p>
-          <h2 id="contact-title" className="scroll-mt-24">Start with the system you need to make usable</h2>
+          <h2 id="contact-title" className="scroll-mt-24">Tell me what you want people to feel, see, or do</h2>
           <p>
-            Based in Pacifica, California. Focused on Bay Area and remote product, design engineering, and AI systems roles.
+            Based in Los Angeles, California (Hollywood). Let’s talk creative direction, art direction, brand storytelling, or interactive experiences.
           </p>
           <PortfolioEventLink
-            href="/Michael_Chaves_Resume_min.pdf"
+            href="/Michael_Chaves_Resume.pdf"
             download
             eventName="portfolio_conversion_clicked"
             eventProperties={{ destination: "resume", source: "about_contact" }}
             className="operating-profile-secondary-action"
           >
-            Download resume <Download size={15} aria-hidden="true" />
+            Download résumé (PDF) <Download size={15} aria-hidden="true" />
           </PortfolioEventLink>
 
           <div className="profile-network-links" aria-label="Professional network links">

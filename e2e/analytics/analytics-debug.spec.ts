@@ -32,6 +32,7 @@ test("consent-gated debug mode verifies the real funnel with zero provider trans
     .poll(async () => (await debugEvents(page)).filter((event) => event.name === "page_view").length)
     .toBe(1)
 
+  await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
   await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
   await page.waitForURL(/\/projects\?focusPreset=/u)
   await page.locator('a[href="/projects/x-games"]').first().click()
@@ -104,6 +105,7 @@ test("declining persists, records nothing, and remains reversible from the foote
 
   await page.goto("/")
   await page.getByRole("button", { name: "Keep optional analytics off" }).click()
+  await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
   await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
   await page.waitForURL(/\/projects\?focusPreset=/u)
   expect(await debugEvents(page)).toEqual([])
@@ -152,7 +154,8 @@ for (const signal of ["Global Privacy Control", "Do Not Track"] as const) {
     await expect(page.getByText(/Global Privacy Control or Do Not Track/iu)).toBeVisible()
     await expect(page.getByRole("button", { name: "Allow optional analytics" })).toHaveCount(0)
 
-    await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
+    await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
+  await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
     await page.waitForURL(/\/projects\?focusPreset=/u)
     expect(await debugEvents(page)).toEqual([])
     expect(providerRequests).toEqual([])

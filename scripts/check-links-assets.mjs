@@ -45,7 +45,7 @@ const externalLinks = new Map()
 const REQUIRED_PUBLIC_ASSETS = [
   {
     label: "download resume CTA",
-    value: "/Michael_Chaves_Resume_min.pdf",
+    value: "/Michael_Chaves_Resume.pdf",
   },
 ]
 
@@ -68,7 +68,7 @@ const REQUIRED_SOURCE_LINKS = [
   },
   {
     label: "resume download",
-    value: "/Michael_Chaves_Resume_min.pdf",
+    value: "/Michael_Chaves_Resume.pdf",
   },
 ]
 

@@ -28,7 +28,7 @@ describe("SpeakEasy evidence dossier", () => {
   it("states the implemented voice-XR role and preserves measured iteration", () => {
     const project = projects.speakeasy
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("voice-first mixed-reality accessibility system")
+    expect(project.details.proofRole).toContain("voice and visual interaction design")
     expect(project.details.services).toEqual([
       "Accessibility Research",
       "Voice Interaction",

@@ -10,6 +10,7 @@ import {
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
+  DEFAULT_SOCIAL_IMAGE_ALT,
   getAbsoluteUrl,
   isProductionIndexingEnabled,
   SITE_NAME,
@@ -59,12 +60,12 @@ export default function HomePage() {
         <meta property="og:title" content={SITE_TITLE} />
         <meta property="og:description" content={DEFAULT_DESCRIPTION} />
         <meta property="og:image" content={socialImage} />
-        <meta property="og:image:alt" content={`${SITE_NAME} — AI-Native Design Engineer`} />
+        <meta property="og:image:alt" content={DEFAULT_SOCIAL_IMAGE_ALT} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={SITE_TITLE} />
         <meta name="twitter:description" content={DEFAULT_DESCRIPTION} />
         <meta name="twitter:image" content={socialImage} />
-        <meta name="twitter:image:alt" content={`${SITE_NAME} — AI-Native Design Engineer`} />
+        <meta name="twitter:image:alt" content={DEFAULT_SOCIAL_IMAGE_ALT} />
         {process.env.GOOGLE_SITE_VERIFICATION ? (
           <meta name="google-site-verification" content={process.env.GOOGLE_SITE_VERIFICATION} />
         ) : null}

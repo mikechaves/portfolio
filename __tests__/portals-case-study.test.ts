@@ -33,8 +33,8 @@ describe("Portals evidence dossier", () => {
     expect(project).toBeDefined()
     expect(project.details.client).toBe("Stanford Immerse the Bay 2024 / Four-person team")
     expect(project.details.date).toBe("November 2024")
-    expect(project.details.proofRole).toContain("VoiceML portal activation")
-    expect(project.details.proofRole).toContain("hand-tracked pinch scaling")
+    expect(project.details.proofRole).toContain("voice navigation")
+    expect(project.details.proofRole).toContain("hand interaction")
     expect(project.details.services).toEqual([
       "SnapAR Prototyping",
       "Voice Interaction Design",

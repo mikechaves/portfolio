@@ -219,13 +219,13 @@ const METAVERSE_FILTER_THEMES: Record<MetaverseProjectFilter, MetaverseFilterThe
   },
   development: {
     accent: "#00ff8c",
-    label: "AI Ops",
+    label: "Creative tools",
     secondary: "#b6ff00",
     signal: "automation systems",
   },
   web: {
     accent: "#4ea8ff",
-    label: "Web Systems",
+    label: "Web experiences",
     secondary: "#00ffff",
     signal: "product interfaces",
   },
@@ -239,7 +239,7 @@ const METAVERSE_FILTER_THEMES: Record<MetaverseProjectFilter, MetaverseFilterThe
 
 const METAVERSE_FILTERS: Array<{ id: MetaverseProjectFilter; label: string }> = [
   { id: "all", label: "All" },
-  { id: "development", label: "AI Ops" },
+  { id: "development", label: "Creative tools" },
   { id: "web", label: "Web" },
   { id: "research", label: "XR" },
 ]
@@ -249,7 +249,7 @@ const METAVERSE_PROJECTS = IMMERSIVE_NAV_PROJECT_IDS.map((id) =>
 ).filter((project): project is Project => Boolean(project))
 
 const categoryLabel = (category: Project["category"]) => {
-  if (category === "development") return "AI Ops"
+  if (category === "development") return "Creative tools"
   if (category === "web") return "Web"
   if (category === "research" || category === "ar-vr") return "XR"
   return "Design"
@@ -1676,8 +1676,8 @@ export function MetaverseNav() {
   }, [pathname, searchParams])
 
   const navItems = useMemo(() => [
-    { name: "impact", path: "/" },
-    { name: "systems", path: "/projects" },
+    { name: "home", path: "/" },
+    { name: "work", path: "/projects" },
     { name: "writing", path: "/blog" },
     { name: "about", path: "/about" },
   ], [])

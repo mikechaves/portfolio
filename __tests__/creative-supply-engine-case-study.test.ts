@@ -31,8 +31,8 @@ describe("Creative Supply Engine evidence dossier", () => {
     const project = projects["creative-supply-engine"]
     expect(project).toBeDefined()
     expect(project.details.client).toBe("Pulse Beverages (Sample Brand)")
-    expect(project.details.proofRole).toContain("reuse-first creative operations pipeline")
-    expect(project.details.proofRole).toContain("human review packaging")
+    expect(project.details.proofRole).toContain("campaign brief structure")
+    expect(project.details.proofRole).toContain("review surfaces")
     expect(project.details.services).toEqual([
       "Creative Operations",
       "AI Image Systems",

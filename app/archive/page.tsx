@@ -22,7 +22,7 @@ export default function ArchivePage() {
         <h1>Archive</h1>
         <p>
           Retired experiments preserved for historical context. Current portfolio work remains in the{" "}
-          <Link href="/projects">Project Signal Index</Link>.
+          <Link href="/projects">selected projects</Link>.
         </p>
       </header>
 
