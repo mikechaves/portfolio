@@ -7,6 +7,7 @@ const navLinkClass =
 const mobileNavLinkClass =
   "flex min-h-12 items-center justify-between bg-black px-3 text-sm uppercase tracking-[0.1em] text-zinc-100 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
 
+// Active-link attributes are owned by the native site-nav script, including before Pages Router hydration.
 export function SiteNav() {
   return (
     <div className="fixed inset-x-0 top-0 z-50" data-standard-nav>
@@ -33,6 +34,7 @@ export function SiteNav() {
                     href={item.path}
                     className={navLinkClass}
                     data-site-nav-item
+                    suppressHydrationWarning
                     data-site-nav-path={item.path}
                   >
                     {item.name}
@@ -113,6 +115,7 @@ export function SiteNav() {
                           href={item.path}
                           className={mobileNavLinkClass}
                           data-site-nav-item
+                          suppressHydrationWarning
                           data-site-nav-path={item.path}
                         >
                           {item.name}
