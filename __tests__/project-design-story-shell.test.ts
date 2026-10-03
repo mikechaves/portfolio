@@ -59,7 +59,7 @@ describe("shared product-design story shell", () => {
     const html = render("wizzo")
     expect(html).toContain('id="primary-artifact-title">The Wizzo experience</h2>')
     expect(html).toContain(`“${story.quote}”</blockquote>`)
-    expect(html).toContain(`${story.attribution}</figcaption>`)
+    expect(html).toContain(`${story.attribution?.replace(/&/gu, "&amp;")}</figcaption>`)
   })
 
   it("does not render an orphan attribution or an empty quotation", () => {
