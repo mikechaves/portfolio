@@ -2,7 +2,7 @@
   "wizzo": {
     "title": "Wizzo",
     "category": "web",
-    "description": "Product and visual direction for an AI mentor: a clear next move, deliberate user control and a shared Observatory design system.",
+    "description": "Creative direction and product identity for Wizzo, Wizzo Labs’ AI mentor: a recognizable visual world, a clear next move, and deliberate user control.",
     "image": "/projects/wizzo/home-2026.webp",
     "technologies": [
       "Next.js",
@@ -41,9 +41,9 @@
     ],
     "details": {
       "client": "Wizzo Labs",
-      "date": "2025 - Present",
+      "date": "August 2025 - Present",
       "category": "Product Design",
-      "proofRole": "Founder and product designer — product direction, visual identity, interaction design, prototyping and implementation",
+      "proofRole": "Founder & Creative Director — concept, visual identity, product design, prototyping, and implementation",
       "services": [
         "Product Direction",
         "Interaction Design",
@@ -98,7 +98,7 @@
     },
     "designStory": {
       "quote": "The original Wizzo was functional, but it felt too generic to me. It did not express the identity or sense of direction I wanted the product to have.",
-      "attribution": "Mike Chaves · Founder and product designer · Assessment of the original product",
+      "attribution": "Mike Chaves · Founder & Creative Director at Wizzo Labs",
       "sections": [
         {
           "id": "direction",
@@ -291,7 +291,7 @@
   "x-games": {
     "title": "Playfold",
     "category": "web",
-    "description": "Product design for Playfold: source-to-game storytelling, public discovery, browser play, game rankings and a focused private-result exploration.",
+    "description": "Creative direction for Playfold, Wizzo Labs’ interactive storytelling product: social posts become characters, worlds, visual plans, and playable experiences.",
     "image": "/images/projects/x-games/design/homepage.webp",
     "technologies": [
       "Product Design",
@@ -346,10 +346,12 @@
     ],
     "details": {
       "client": "Wizzo Labs",
-      "date": "2026",
+      "date": "February 2026 - Present",
       "category": "Product Design · Browser Games",
-      "proofRole": "Founder and product designer — product direction, interaction design, visual system, prototyping and engineering of the existing product.",
+      "proofRole": "Founder & Creative Director — product direction, interaction design, visual system, prototyping, and engineering of the existing product.",
       "services": [
+        "Creative Direction",
+        "Interactive Storytelling",
         "Product Design",
         "Interaction Design",
         "Design Systems",
@@ -731,7 +733,7 @@
   "geovoice": {
     "title": "GeoVoice",
     "category": "web",
-    "description": "Designed a map-based stakeholder-feedback system that connects project layers, location-specific comments, participant context, and public-facing infrastructure review in one workflow.",
+    "description": "Spatial storytelling for infrastructure: a map-based experience that helps people understand a place, explore project layers, and contribute location-specific feedback.",
     "image": "/projects/geovoice/geovoice-demo.webp",
     "technologies": [
       "Geospatial Mapping",
@@ -750,7 +752,7 @@
       "client": "POWER Engineers",
       "date": "Jan 10, 2021",
       "category": "Design Engineering",
-      "proofRole": "Direct design and prototype evidence for a geospatial stakeholder-feedback workflow, from location selection and structured comments through map layers and regional project applications.",
+      "proofRole": "Front-End Web Developer at POWER Engineers — design, responsive interfaces, high-fidelity prototypes, and frontend development for GeoVoice",
       "services": [
         "Stakeholder UX",
         "Workflow Design",
@@ -818,7 +820,7 @@
   "speakeasy": {
     "title": "SpeakEasy",
     "category": "research",
-    "description": "Designed and built a Quest 3 voice-first accessibility prototype in Unity, using Meta Voice SDK, multimodal feedback, and three research-through-design iterations to reduce dependence on handheld XR controllers.",
+    "description": "A voice-first mixed reality accessibility experience for people with low muscle tone, shaped through participatory research, visual feedback, and hands-free interaction.",
     "image": "/projects/speakeasy/thesis-defense.webp",
     "technologies": [
       "Voice-Driven AI",
@@ -837,7 +839,7 @@
       "client": "Master of Design in Experience Design, SJSU",
       "date": "May 14, 2025",
       "category": "Accessible AI/XR Research",
-      "proofRole": "Direct research and implementation evidence for a voice-first mixed-reality accessibility system, spanning participatory inquiry, Unity and Quest development, Meta Voice SDK integration, measured prototype iteration, and public thesis defense.",
+      "proofRole": "Master of Design thesis — participatory research, voice and visual interaction design, Unity/Meta Quest prototyping, and evaluation",
       "services": [
         "Accessibility Research",
         "Voice Interaction",
@@ -927,7 +929,7 @@
   "petition-ready": {
     "title": "PetitionReady",
     "category": "development",
-    "description": "Built an AI-assisted bankruptcy intake readiness console for paralegals, focused on case blockers, document gaps, readiness scoring, client follow-up, and attorney-review packet preparation without crossing into legal advice.",
+    "description": "Making a complex handoff legible: an intake readiness prototype that gives paralegals a clear hierarchy of blockers, evidence, and next actions for attorney review.",
     "image": "/projects/petition-ready/main-image.webp",
     "technologies": [
       "Next.js",
@@ -949,7 +951,7 @@
       "client": "Personal Project",
       "date": "June 2026",
       "category": "AI Legal Operations Prototype",
-      "proofRole": "Direct product and implementation evidence for an AI-assisted legal-operations workflow, spanning typed bankruptcy intake models, deterministic readiness analysis, server-side structured model outputs, fallback behavior, and explicit paralegal-to-attorney review boundaries.",
+      "proofRole": "Independent designer and developer — information hierarchy, workflow and interaction design, prototyping, and implementation",
       "services": [
         "Legal Operations UX",
         "AI Product Systems",
@@ -1021,7 +1023,7 @@
   "creative-supply-engine": {
     "title": "Creative Supply Engine",
     "category": "development",
-    "description": "Built a Python creative automation pipeline that turns structured campaign briefs and reusable product assets into localized AI-assisted social creatives across 1:1, 9:16, and 16:9 formats, with deterministic logo/text overlays, compliance checks, run logs, and review galleries.",
+    "description": "Keeping a campaign recognizable across formats and languages: a creative automation prototype combining reusable product assets, AI-assisted imagery, and controlled logo and text placement.",
     "image": "/projects/creative-supply-engine/main-image.webp",
     "technologies": [
       "Python",
@@ -1047,7 +1049,7 @@
       "client": "Pulse Beverages (Sample Brand)",
       "date": "2026",
       "category": "AI Creative Operations Prototype",
-      "proofRole": "Direct implementation evidence for a reuse-first creative operations pipeline, spanning structured campaign briefs, optional OpenAI image generation, deterministic brand composition, multi-market localization, compliance checks, provenance logs, and human review packaging.",
+      "proofRole": "Independent designer and developer — campaign brief structure, visual consistency, localization layouts, automation, and review surfaces",
       "services": [
         "Creative Operations",
         "AI Image Systems",
@@ -1084,6 +1086,10 @@
       ],
       "actions": [
         {
+          "title": "Kept the brand elements deliberate",
+          "description": "The campaign brief and reusable product assets establish the visual constraints. Deterministic logo and text overlays keep those elements controlled while AI-assisted image generation supplies variations; review galleries make the resulting compositions inspectable."
+        },
+        {
           "title": "Packaged a repeatable Python CLI",
           "description": "Packaged the workflow as the pulse-cse Python command with structured brief loading, campaign logging, and repeatable output paths."
         },
@@ -1119,7 +1125,7 @@
   "material-explorer": {
     "title": "Material Explorer",
     "category": "web",
-    "description": "Material Explorer is a production-minded interactive web app for creating, comparing, and sharing physically based 3D materials in real time. Built with React + Three.js/React Three Fiber, it now includes autosave/restore, A/B compare, texture workflows, draft history, and shareable presets for rapid iteration.",
+    "description": "An interactive material studio for exploring light, texture, and surface in real time, with side-by-side comparison and shareable presets that support visual iteration.",
     "image": "/projects/material-explorer/main-image.webp",
     "technologies": [
       "TypeScript",
@@ -1142,7 +1148,7 @@
       "client": "Personal Project",
       "date": "2026 (active beta)",
       "category": "Interactive 3D Tooling",
-      "proofRole": "Direct shipped browser-product evidence for interactive 3D design tooling, spanning real-time PBR authoring, dual-canvas comparison, texture workflows, local-first persistence, share and GLB export, and automated quality gates.",
+      "proofRole": "Independent designer and developer — 3D authoring interaction, comparison workflows, material visualization, and frontend implementation",
       "services": [
         "3D Product Design",
         "Interactive 3D Tooling",
@@ -1214,7 +1220,7 @@
   "vulnerability-visualizer": {
     "title": "Vulnerability Visualizer",
     "category": "web",
-    "description": "Built a React + TypeScript security-review dashboard that keeps a 236,656-record vulnerability dataset searchable, visualizes manual-versus-AI assessment patterns, and exposes source provenance, record detail, comparison, and export controls.",
+    "description": "Visual clarity for dense security data: a review dashboard that uses hierarchy, charts, and record detail to make manual and AI assessment patterns inspectable.",
     "image": "/projects/vulnerability-visualizer/main-image.webp",
     "technologies": [
       "React 18",
@@ -1237,7 +1243,7 @@
       "client": "Personal Project",
       "date": "2025 - 2026",
       "category": "Security Review System",
-      "proofRole": "Direct shipped browser-product evidence for large-scale security review, spanning 236,656-record ingestion, virtualized exploration, explicit manual-versus-AI assessment modes, source provenance, record-level inspection, comparison controls, and filtered export.",
+      "proofRole": "Independent designer and developer — information design, data visualization, review interactions, and frontend performance",
       "services": [
         "Security Workflow UX",
         "Human-AI Review Design",
@@ -1313,7 +1319,7 @@
   "sound-escape-vr": {
     "title": "Sound Escape VR",
     "category": "ar-vr",
-    "description": "Built a Unity VR music system that turns a four-channel, 16-step sequencer into an audio-reactive spatial performance, with persisted patterns, microphone sampling, eight-band FFT analysis, and Quest 3 interaction updates.",
+    "description": "Compose a loop and watch the world respond: a spatial music prototype connecting a sequencer to neon geometry, light, and audio-reactive movement.",
     "image": "/projects/soundescape/music-interface.webp",
     "technologies": [
       "Unity 2022 LTS",
@@ -1335,7 +1341,7 @@
       "client": "Independent Prototype",
       "date": "2023 - 2025",
       "category": "Spatial Music System",
-      "proofRole": "Direct implemented Unity evidence for spatial music tooling, spanning a four-channel 16-step sequencer, persisted grid and tempo state, microphone sample capture, eight-band FFT analysis, audio-reactive Koch geometry, and Quest 3 input adaptation.",
+      "proofRole": "Independent designer and developer — spatial interaction, audio-reactive visual direction, Unity implementation, and Quest adaptation",
       "services": [
         "Spatial Interaction Design",
         "Audio Systems Engineering",
@@ -1415,7 +1421,7 @@
   "portals": {
     "title": "Portals",
     "category": "ar-vr",
-    "description": "Led SnapAR development for a four-person Spectacles hackathon prototype that opens and routes cultural portals through VoiceML commands, supports explicit return phrases, and lets users resize portal objects with hand-tracked pinch input.",
+    "description": "A cultural portal prototype for Snap Spectacles, using voice and hand interaction to connect place, music, and spatial media without a dense visual menu.",
     "image": "/projects/portals/main-image.webp",
     "technologies": [
       "Lens Studio",
@@ -1439,7 +1445,7 @@
       "client": "Stanford Immerse the Bay 2024 / Four-person team",
       "date": "November 2024",
       "category": "Voice-first Spectacles Prototype",
-      "proofRole": "Direct hackathon prototype evidence for voice-first AR navigation, spanning VoiceML portal activation, phrase-routed destination states, explicit return commands, hand-tracked pinch scaling, spatial media assets, and an on-device Spectacles scene.",
+      "proofRole": "Project lead and SnapAR developer in a four-person hackathon team — voice navigation, hand interaction, and Lens Studio integration",
       "services": [
         "SnapAR Prototyping",
         "Voice Interaction Design",
@@ -1519,7 +1525,7 @@
   "die-ai": {
     "title": "Die, AI!",
     "category": "web",
-    "description": "Preserved a 2018 ActionScript game as a playable modern-browser artifact by keeping the original FLA, source, GreenSock dependency, and SWF intact while adding a static Ruffle wrapper, verified controls, fallback context, checksums, and archival documentation.",
+    "description": "A playable piece of game storytelling preserved for modern browsers: hacked Buddy Bots escape Sector 12 in the original 2018 Flash game, delivered through a contemporary wrapper.",
     "image": "/projects/die-ai/level-one.webp",
     "technologies": [
       "ActionScript 3",
@@ -1544,7 +1550,7 @@
       "client": "GIMM 110 student project / Independent preservation",
       "date": "2018, preservation revival 2025 - 2026",
       "category": "Legacy Game Preservation",
-      "proofRole": "Direct digital-preservation evidence spanning a 50,392,143-byte FLA, 3,223,681-byte SWF, original ActionScript and GreenSock source, a pinned Ruffle WebAssembly wrapper, runtime-confirmed keyboard controls, checksum manifests, fallback content, and archive runbooks.",
+      "proofRole": "Student game project and independent preservation — original ActionScript artifact, browser delivery, input verification, and accessible story context",
       "services": [
         "Digital Preservation",
         "Legacy Runtime Migration",

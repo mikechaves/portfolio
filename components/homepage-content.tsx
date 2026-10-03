@@ -1,7 +1,7 @@
 import {
   ArrowRight,
   AudioLines,
-  BrainCircuit,
+  Palette,
   Code2,
   Download,
   Gamepad2,
@@ -19,21 +19,21 @@ import type { Project } from "@/types/project"
 
 const featuredProjectPresentation = {
   wizzo: {
-    eyebrow: "AI product system",
+    eyebrow: "Brand + product direction",
     summary:
-      "An AI mentor system that turns goals, blockers, and progress into one clear next move with reviewable follow-through.",
+      "Creative direction and product design for Wizzo Labs’ AI mentor, giving progress a visual identity and a clear next move.",
     actionLabel: "View Wizzo",
   },
   "x-games": {
-    eyebrow: "Game + creator platform",
+    eyebrow: "Interactive storytelling",
     summary:
-      "An AI-native social game platform that turns source posts into playable browser games, adaptive discovery, and verified competition.",
+      "Visual and interaction direction for Playfold, Wizzo Labs’ product that turns social posts into characters, worlds, and playable stories.",
     actionLabel: "View Playfold",
   },
   speakeasy: {
     eyebrow: "Voice-first XR accessibility",
     summary:
-      "A Quest 3 voice-first interaction system that reduces reliance on handheld controllers through multimodal feedback.",
+      "A voice-first mixed reality thesis: research, visual feedback, and hands-free interaction for people with low muscle tone.",
     actionLabel: "View SpeakEasy",
   },
 } as const
@@ -48,19 +48,19 @@ const featuredProjects = HOMEPAGE_FEATURED_PROJECT_IDS.map((id) => {
 
 const capabilities = [
   {
-    icon: BrainCircuit,
-    title: "AI product systems",
-    description: "Human-in-loop workflows, model evaluation, trust controls, and operational AI.",
+    icon: Palette,
+    title: "Creative direction + brand",
+    description: "Concepts, visual identity, campaigns, and live-event visuals with a coherent point of view.",
   },
   {
     icon: Gamepad2,
-    title: "Game and creator systems",
-    description: "Game UX, playable systems, creator workflows, and AI-assisted creation.",
+    title: "Storytelling + interactive media",
+    description: "Characters, worlds, game UX, motion, and experiences people can take part in.",
   },
   {
     icon: Code2,
-    title: "Design engineering",
-    description: "Frontend architecture, prototyping, design systems, and production implementation.",
+    title: "Design + hands-on delivery",
+    description: "Visual and interaction design, high-fidelity prototypes, design systems, and production code.",
   },
   {
     icon: AudioLines,
@@ -103,9 +103,9 @@ export function HomepageContent() {
             aria-hidden="true"
           />
           <div className="home-journey-copy">
-            <p className="home-section-kicker">AI-Native Design Engineer</p>
+            <p className="home-section-kicker">Creative Director & Creative Technologist</p>
             <h1 id="home-title">
-              I build AI product systems, playable experiences, and immersive tools.
+              I shape brands, tell stories, and make ideas playable.
             </h1>
             <p className="home-journey-lede">
               <a
@@ -116,8 +116,7 @@ export function HomepageContent() {
               >
                 Founder of Wizzo Labs
               </a>
-              . I design trustworthy AI products, creator workflows, and human-in-the-loop
-              multimodal experiences.
+              . Creative director, designer, and hands-on founder working across brand, entertainment, and interactive experiences. I use AI and code to carry an idea from concept to something you can experience.
             </p>
             <div className="home-journey-actions" aria-label="Homepage paths">
               <HomeJourneyLink
@@ -136,13 +135,13 @@ export function HomepageContent() {
                 Match me to a role
               </HomeJourneyLink>
               <PortfolioEventLink
-                href="/Michael_Chaves_Resume_min.pdf"
+                href="/Michael_Chaves_Resume.pdf"
                 download
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "home_hero" }}
                 className="home-text-action"
               >
-                Download resume <Download size={15} aria-hidden="true" />
+                Download résumé (PDF) <Download size={15} aria-hidden="true" />
               </PortfolioEventLink>
             </div>
           </div>
@@ -160,7 +159,7 @@ export function HomepageContent() {
         >
           <div className="home-section-heading">
             <div>
-              <p className="home-section-kicker">Three flagship proofs</p>
+              <p className="home-section-kicker">Selected creative work</p>
               <h2 id="selected-work-title">Selected work</h2>
             </div>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- keeps the homepage server-first */}
@@ -186,12 +185,11 @@ export function HomepageContent() {
         >
           <div className="home-section-heading home-section-heading-wide">
             <div>
-              <p className="home-section-kicker">Production and experimental systems</p>
-              <h2 id="professional-experience-title">Professional systems experience</h2>
+              <p className="home-section-kicker">Brand, entertainment, and experience design</p>
+              <h2 id="professional-experience-title">Creative roots. Hands-on range.</h2>
             </div>
             <p>
-              Public summaries only. Images, internal interfaces, data, methods, and case materials
-              remain private where required.
+              From directing creative work across all Knitting Factory venues and subsidiaries to designing spatial and interactive experiences.
             </p>
           </div>
           <div className="home-experience-list">
@@ -276,11 +274,10 @@ export function HomepageContent() {
         </section>
 
         <section id="contact" className="home-contact-section scroll-mt-24" aria-labelledby="home-contact-title">
-          <p className="home-section-kicker">Direct conversion</p>
-          <h2 id="home-contact-title">Build the next system with me.</h2>
+          <p className="home-section-kicker">Let’s make something memorable</p>
+          <h2 id="home-contact-title">Give your next idea a point of view.</h2>
           <p>
-            I work where AI products, playable systems, design engineering, and immersive
-            interaction meet.
+            Let’s talk creative direction, art direction, brand, or an interactive experience that needs both imagination and hands-on craft.
           </p>
           <div className="home-contact-actions">
             <PortfolioEventLink
@@ -292,13 +289,13 @@ export function HomepageContent() {
               Contact Mike <ArrowRight size={16} aria-hidden="true" />
             </PortfolioEventLink>
             <PortfolioEventLink
-              href="/Michael_Chaves_Resume_min.pdf"
+              href="/Michael_Chaves_Resume.pdf"
               download
               eventName="portfolio_conversion_clicked"
               eventProperties={{ destination: "resume", source: "home_contact" }}
               className="home-secondary-action"
             >
-              Download resume <Download size={15} aria-hidden="true" />
+              Download résumé (PDF) <Download size={15} aria-hidden="true" />
             </PortfolioEventLink>
             <PortfolioEventLink
               href="https://www.linkedin.com/in/mikejchaves"
@@ -312,8 +309,7 @@ export function HomepageContent() {
             </PortfolioEventLink>
           </div>
           <small>
-            Contact opens the site&apos;s protected form. No email address or message content is exposed
-            to analytics.
+            Based in Los Angeles, California. Open to creative direction and art direction conversations.
           </small>
         </section>
       </div>

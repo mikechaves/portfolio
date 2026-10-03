@@ -11,8 +11,8 @@ describe("server-first project index", () => {
   const cardSource = readSource("components/project-card.tsx")
 
   it("keeps the index heading and all public evidence paths in the server page", () => {
-    expect(pageSource).toContain("Project Signal Index")
-    expect(pageSource).toContain("Choose an evidence path")
+    expect(pageSource).toContain("Selected projects")
+    expect(pageSource).toContain("Find a way into the work")
     for (const projectId of [
       "wizzo",
       "petition-ready",

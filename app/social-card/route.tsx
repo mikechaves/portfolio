@@ -24,14 +24,14 @@ export function GET() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            fontSize: 23,
+            fontSize: 20,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
             color: "#a1a1aa",
           }}
         >
-          <span>AI-Native Product Systems</span>
-          <span style={{ color: "#00ff8c" }}>Reviewed Evidence / Online</span>
+          <span>Creative Direction + Design</span>
+          <span style={{ color: "#00ff8c" }}>Brand / Play / Experience</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
@@ -56,7 +56,7 @@ export function GET() {
               color: "#d4d4d8",
             }}
           >
-            Design engineering for AI workflows, game and creator systems, and immersive interfaces.
+            Brand, visual storytelling, and interactive experiences. From concept to hands-on craft.
           </div>
         </div>
         <div
@@ -69,7 +69,7 @@ export function GET() {
           }}
         >
           <span>MIKECHAVES.IO</span>
-          <span style={{ color: "#00ff8c" }}>HUMAN INTENT → OPERATIONAL REALITY</span>
+          <span style={{ color: "#00ff8c" }}>IDEAS → EXPERIENCES</span>
         </div>
       </div>
     ),

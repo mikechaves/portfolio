@@ -7,15 +7,15 @@ import { DeferredProjectsExplorer } from "./DeferredProjectsExplorer"
 
 const PROJECT_INTENT_PATHS = [
   {
-    title: "AI products and human review",
+    title: "Brand and product experiences",
     description:
-      "Intent-to-action systems, evaluation workflows, operational interfaces, and governed automation.",
+      "Visual identity, clear interaction, and creative tools that carry an idea into everyday use.",
     projects: ["wizzo", "petition-ready", "vulnerability-visualizer", "creative-supply-engine"],
   },
   {
-    title: "Game and creator systems",
+    title: "Stories you can play",
     description:
-      "Creation loops, game UX, discovery, spatial audio, and interactive play systems.",
+      "Social stories, spatial music, cultural portals, and game experiences.",
     projects: ["x-games", "sound-escape-vr", "portals", "die-ai"],
   },
   {
@@ -45,13 +45,12 @@ export default function ProjectsPage() {
 
           <div className="project-index-hero-grid">
             <div>
-              <p className="project-index-eyebrow">Portfolio evidence layer</p>
+              <p className="project-index-eyebrow">Concept to experience</p>
               <h1 id="project-index-title" className="project-index-title">
-                Project Signal Index
+                Selected projects
               </h1>
               <p className="project-index-summary">
-                Public proof across AI-native products, game and creator systems, immersive
-                interfaces, human-AI workflows, operational tools, and design engineering.
+                Creative direction and hands-on design across brand, interactive storytelling, immersive experiences, and useful tools. Explore the creative decisions, execution, and results behind each project.
               </p>
             </div>
 
@@ -77,13 +76,12 @@ export default function ProjectsPage() {
           aria-labelledby="project-intent-paths-title"
         >
           <div className="mb-5 max-w-3xl">
-            <p className="project-index-eyebrow">Explore by product problem</p>
+            <p className="project-index-eyebrow">Explore by creative challenge</p>
             <h2 id="project-intent-paths-title" className="mt-1 text-2xl font-semibold text-white">
-              Choose an evidence path
+              Find a way into the work
             </h2>
             <p className="mt-2 text-sm leading-6 text-zinc-400">
-              Start with the system closest to the work you are evaluating. Every public case
-              remains available here before interactive filters are used.
+              Follow the kind of experience you’re interested in, or browse the complete selection below.
             </p>
           </div>
           <div className="grid gap-5 lg:grid-cols-3">

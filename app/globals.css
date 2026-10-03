@@ -3469,3 +3469,8 @@ body:has(.site-mobile-menu[open]) {
     transform: none;
   }
 }
+
+/* The full-screen immersive controls must sit above the shared header/footer. */
+.site-main:has([data-immersive-entry]) {
+  z-index: 60;
+}

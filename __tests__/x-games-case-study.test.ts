@@ -15,7 +15,7 @@ describe("Playfold product-design case study", () => {
     expect(project.title).toBe("Playfold")
     expect(project.demo).toBe("https://playfold.wizzolabs.net/")
     expect(project.details.client).toBe("Wizzo Labs")
-    expect(project.details.proofRole).toContain("Founder and product designer")
+    expect(project.details.proofRole).toContain("Founder & Creative Director")
     expect(project.details.services).toContain("Interaction Design")
     expect(project.details.services).toContain("Design Systems")
     expect(project.description.length).toBeGreaterThanOrEqual(70)

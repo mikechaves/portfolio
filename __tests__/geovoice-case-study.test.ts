@@ -27,7 +27,7 @@ describe("GeoVoice evidence dossier", () => {
   it("states the documented geospatial workflow role and attributes the planning-cycle claim", () => {
     const project = projects.geovoice
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("geospatial stakeholder-feedback workflow")
+    expect(project.details.proofRole).toContain("Front-End Web Developer at POWER Engineers")
     expect(project.details.services).toEqual([
       "Stakeholder UX",
       "Workflow Design",

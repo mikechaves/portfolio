@@ -28,8 +28,8 @@ describe("Material Explorer evidence dossier", () => {
   it("states the shipped browser-product role and preserves beta limitations", () => {
     const project = projects["material-explorer"]
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("interactive 3D design tooling")
-    expect(project.details.proofRole).toContain("automated quality gates")
+    expect(project.details.proofRole).toContain("3D authoring interaction")
+    expect(project.details.proofRole).toContain("frontend implementation")
     expect(project.details.services).toEqual([
       "3D Product Design",
       "Interactive 3D Tooling",

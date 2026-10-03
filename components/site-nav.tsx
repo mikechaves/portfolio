@@ -43,13 +43,13 @@ export function SiteNav() {
 
             <div className="hidden items-center justify-end gap-3 lg:flex">
               <PortfolioEventLink
-                href="/Michael_Chaves_Resume_min.pdf"
+                href="/Michael_Chaves_Resume.pdf"
                 download
                 eventName="portfolio_conversion_clicked"
                 eventProperties={{ destination: "resume", source: "site_nav" }}
                 className="site-nav-utility"
               >
-                Resume <Download size={13} aria-hidden="true" />
+                Résumé (PDF) <Download size={13} aria-hidden="true" />
               </PortfolioEventLink>
               <PortfolioEventLink
                 href="/about#contact"
@@ -123,13 +123,13 @@ export function SiteNav() {
                   </ul>
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     <PortfolioEventLink
-                      href="/Michael_Chaves_Resume_min.pdf"
+                      href="/Michael_Chaves_Resume.pdf"
                       download
                       eventName="portfolio_conversion_clicked"
                       eventProperties={{ destination: "resume", source: "site_nav" }}
                       className="site-nav-utility"
                     >
-                      Resume <Download size={13} aria-hidden="true" />
+                      Résumé (PDF) <Download size={13} aria-hidden="true" />
                     </PortfolioEventLink>
                     <PortfolioEventLink
                       href="/about#contact"

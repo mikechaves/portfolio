@@ -11,6 +11,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/Michael_Chaves_Resume_min.pdf",
+        destination: "/Michael_Chaves_Resume.pdf",
+        permanent: true,
+      },
+      {
         source: "/projects/ai-energy-consumption",
         destination: "/archive#ai-energy-context-explorer",
         permanent: true,

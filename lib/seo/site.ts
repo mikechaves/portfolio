@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 
 export const SITE_NAME = "Mike Chaves"
-export const SITE_TITLE = "Mike Chaves | AI-Native Design Engineer"
+export const SITE_TITLE = "Mike Chaves | Creative Director & Creative Technologist"
 export const DEFAULT_SITE_ORIGIN = "https://www.mikechaves.io"
 export const DEFAULT_DESCRIPTION =
-  "Mike Chaves builds trustworthy AI product systems, playable experiences, creator workflows, and accessible immersive tools."
+  "Creative direction, brand, visual storytelling, and interactive experiences by Mike Chaves: designer, creative technologist, and founder of Wizzo Labs."
 export const DEFAULT_SOCIAL_IMAGE = "/social-card"
+export const DEFAULT_SOCIAL_IMAGE_ALT = "Mike Chaves in white lettering on black, with green accents and the words Creative Direction + Design."
 
 export const SITE_SOCIAL_PROFILES = [
   "https://github.com/mikechaves",
@@ -111,7 +112,7 @@ export function createPageMetadata({
   description,
   path,
   image = DEFAULT_SOCIAL_IMAGE,
-  imageAlt = `${title} — ${SITE_NAME}`,
+  imageAlt = DEFAULT_SOCIAL_IMAGE_ALT,
   noIndex = false,
   follow = true,
   type = "website",

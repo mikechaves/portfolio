@@ -9,6 +9,7 @@ import {
 } from "@/components/static-route-analytics"
 import {
   DEFAULT_SOCIAL_IMAGE,
+  DEFAULT_SOCIAL_IMAGE_ALT,
   getAbsoluteUrl,
   getCanonicalUrl,
   isProductionIndexingEnabled,
@@ -19,12 +20,12 @@ import {
   getSiteStructuredData,
 } from "@/lib/seo/structured-data"
 
-const title = "AI-Native Design Engineer: Approach & Experience | Mike Chaves"
+const title = "Creative Direction, Design & Experience | Mike Chaves"
 const description =
-  "How Mike Chaves frames workflows, builds AI-native product systems, instruments human review, and turns reviewed evidence into operational product decisions."
+  "Meet Mike Chaves, a creative director and designer working across brand, entertainment, and interactive experiences, from concept to hands-on execution."
 const canonical = getCanonicalUrl("/about")
 const socialImage = getAbsoluteUrl(DEFAULT_SOCIAL_IMAGE)
-const imageAlt = "Mike Chaves operating model and professional experience"
+const imageAlt = DEFAULT_SOCIAL_IMAGE_ALT
 const indexingEnabled = isProductionIndexingEnabled()
 
 export const config = {

@@ -9,9 +9,9 @@ import { createPageMetadata } from "@/lib/seo/site"
 import { getBlogCollectionStructuredData } from "@/lib/seo/structured-data"
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Writing on AI Product Design, XR & Interactive Systems",
+  title: "Writing on Design, Storytelling & Interactive Experiences",
   description:
-    "Read Mike Chaves on AI-native UX, designing for AI as a user, emerging-technology ambiguity, voice-first XR, and accessible spatial interaction.",
+    "Read Mike Chaves’s ideas on experience design, creative exploration, AI-assisted interaction, accessible XR, and emerging technology.",
   path: "/blog",
   imageAlt: "Writing by Mike Chaves on AI product design and XR accessibility",
 })
@@ -31,17 +31,17 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <section className="border-y border-white/15 bg-black/45 px-5 py-8 sm:px-8" aria-labelledby="writing-title">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Writing / Field notes</p>
         <h1 id="writing-title" className="mt-2 max-w-4xl font-display text-4xl font-semibold uppercase leading-none text-white sm:text-5xl">
-          AI product design, XR, accessibility, and emerging interfaces
+          Ideas on design, imagination, and interaction
         </h1>
         <p className="mt-4 max-w-3xl text-sm leading-6 text-zinc-400">
-          On-site summaries connect each original article to the project evidence behind it, so readers can move from an idea to a working system without losing context.
+          Notes on how people experience emerging technology, from accessible spatial interaction to the creative possibilities of AI. Each summary connects the ideas to related work.
         </p>
         <div className="mt-5 flex flex-wrap gap-4 text-xs uppercase tracking-[0.09em]">
           <Link href="/projects" className="inline-flex items-center gap-1 text-primary hover:text-white">
-            Inspect project evidence <ArrowRight size={13} aria-hidden="true" />
+            Explore related work <ArrowRight size={13} aria-hidden="true" />
           </Link>
           <Link href="/about#operating-model-title" className="inline-flex items-center gap-1 text-zinc-300 hover:text-primary">
-            See the operating model <ArrowRight size={13} aria-hidden="true" />
+            See my creative approach <ArrowRight size={13} aria-hidden="true" />
           </Link>
         </div>
       </section>

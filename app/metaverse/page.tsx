@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { redirect } from "next/navigation"
 import { Suspense } from "react"
 import { MetaverseNav } from "@/components/metaverse-nav"
 import { getCanonicalUrl } from "@/lib/seo/site"
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function MetaverseEntryPage() {
+export default async function MetaverseEntryPage({ searchParams }: {
+  searchParams: Promise<{ metaverse?: string }>
+}) {
+  const params = await searchParams
+  if (params.metaverse !== "true") redirect("/?metaverse=true")
   return (
     <Suspense
       fallback={
@@ -19,7 +24,7 @@ export default function MetaverseEntryPage() {
         </div>
       }
     >
-      <MetaverseNav />
+      <div data-immersive-entry><MetaverseNav /></div>
     </Suspense>
   )
 }

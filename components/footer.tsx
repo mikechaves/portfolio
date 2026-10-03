@@ -22,7 +22,7 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
             {analyticsPreferencesEnabled ? <AnalyticsPreferencesButton /> : null}
           </div>
           <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-500 lg:block">
-            Built with human curiosity and machine leverage.
+            Creative direction. Design. Stories you can step into.
           </p>
           <div className="flex space-x-4">
             <Link

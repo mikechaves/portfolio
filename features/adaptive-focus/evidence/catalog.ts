@@ -9,6 +9,26 @@ const professionalExperiencePath = "/about#professional-experience"
 
 export const EVIDENCE_CATALOG: EvidenceRecord[] = [
   {
+    id: "wizzo-creative-direction",
+    entityId: "wizzo",
+    capability: "creative-technology",
+    statement: "Led Wizzo’s creative direction, visual identity, product design, and launch as founder and creative director at Wizzo Labs, carrying concepts through prototyping and implementation.",
+    sourcePath: projectPath("wizzo"),
+    evidenceType: "designed",
+    ownership: "led",
+    confidence: "direct",
+  },
+  {
+    id: "employment-power-spatial-storytelling",
+    entityId: "employment-power",
+    capability: "design-engineering",
+    statement: "Led design and frontend development of GeoVoice, a web and VR platform for spatial storytelling, translating infrastructure data into responsive interfaces and high-fidelity prototypes.",
+    sourcePath: professionalExperiencePath,
+    evidenceType: "implemented",
+    ownership: "led",
+    confidence: "direct",
+  },
+  {
     id: "employment-astrocade-hitl",
     entityId: "employment-astrocade",
     capability: "human-in-the-loop-ai",
@@ -233,7 +253,7 @@ export const EVIDENCE_CATALOG: EvidenceRecord[] = [
     entityId: "employment-knitting-factory",
     capability: "creative-technology",
     statement:
-      "Directed digital creative projects across five live music venues and subsidiaries, connecting brand identity, visual storytelling, campaigns, web, and event experiences.",
+      "Directed digital creative projects across all Knitting Factory venues and subsidiaries, connecting brand identity, visual storytelling, campaigns, web, and event experiences.",
     sourcePath: professionalExperiencePath,
     evidenceType: "designed",
     ownership: "led",

@@ -29,9 +29,9 @@ describe("Die, AI! evidence dossier", () => {
   it("states the preservation role and preserves remaining archive gaps", () => {
     const project = projects["die-ai"]
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("50,392,143-byte FLA")
-    expect(project.details.proofRole).toContain("3,223,681-byte SWF")
-    expect(project.details.proofRole).toContain("runtime-confirmed keyboard controls")
+    expect(project.details.proofRole).toContain("original ActionScript artifact")
+    expect(project.details.proofRole).toContain("browser delivery")
+    expect(project.details.proofRole).toContain("input verification")
     expect(project.details.services).toEqual([
       "Digital Preservation",
       "Legacy Runtime Migration",

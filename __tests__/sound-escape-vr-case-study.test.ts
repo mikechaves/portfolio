@@ -29,9 +29,9 @@ describe("Sound Escape VR evidence dossier", () => {
   it("states the implemented spatial-audio role and preserves prototype scope", () => {
     const project = projects["sound-escape-vr"]
     expect(project).toBeDefined()
-    expect(project.details.proofRole).toContain("four-channel 16-step sequencer")
-    expect(project.details.proofRole).toContain("eight-band FFT analysis")
-    expect(project.details.proofRole).toContain("Quest 3 input adaptation")
+    expect(project.details.proofRole).toContain("spatial interaction")
+    expect(project.details.proofRole).toContain("audio-reactive visual direction")
+    expect(project.details.proofRole).toContain("Quest adaptation")
     expect(project.details.services).toEqual([
       "Spatial Interaction Design",
       "Audio Systems Engineering",

@@ -6,10 +6,10 @@ import { ADAPTIVE_FOCUS_INPUT_MAX_LENGTH } from "@/features/adaptive-focus/hando
 
 const INPUT_ID = "adaptive-focus-role-input"
 const PRIMARY_PRESET_PRESENTATION = [
-  { id: "ai-product-systems", label: "AI product systems" },
+  { id: "creative-direction", label: "Creative direction" },
   { id: "game-ux-creator-systems", label: "Game UX" },
-  { id: "hitl-evaluation", label: "Human-in-loop" },
-  { id: "design-engineering", label: "Product + design eng" },
+  { id: "xr-accessibility", label: "Immersive + accessible" },
+  { id: "design-engineering", label: "Design + delivery" },
 ] as const
 
 const primaryPresetIds = new Set(PRIMARY_PRESET_PRESENTATION.map((preset) => preset.id))

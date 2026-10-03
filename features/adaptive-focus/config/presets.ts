@@ -20,6 +20,25 @@ function presetInterpretation(
 
 export const ADAPTIVE_FOCUS_PRESETS: AdaptiveFocusPreset[] = [
   {
+    id: "creative-direction",
+    label: "Creative direction + art direction",
+    description: "Brand, visual storytelling, creative team leadership, and hands-on interactive work.",
+    interpretation: {
+      ...presetInterpretation({
+        roleFamily: "creative-technology",
+        requirements: [
+          { capability: "creative-technology", importance: "required", basis: "explicit" },
+          { capability: "people-management", importance: "preferred", basis: "explicit" },
+          { capability: "product-ownership", importance: "preferred", basis: "explicit" },
+          { capability: "prototyping", importance: "preferred", basis: "explicit" },
+        ],
+        responsibilities: ["Set creative and visual direction", "Connect brand and storytelling across experiences", "Lead creative work from concept through execution"],
+      }),
+      roleTitle: "Creative Director / Art Director",
+      seniority: "director",
+    },
+  },
+  {
     id: "hitl-evaluation",
     label: "Human-in-the-loop AI",
     description: "Evaluation, calibration, moderation, and accountable review workflows.",
