@@ -132,6 +132,15 @@ function readMetrics(report) {
   }
 }
 
+function getMedianMetrics(samples) {
+  return Object.fromEntries(
+    Object.keys(samples[0]).map((key) => [
+      key,
+      samples.map((sample) => sample[key]).sort((a, b) => a - b)[1],
+    ])
+  )
+}
+
 function getFailures(metrics) {
   const failures = []
   if (metrics.lcpMs > BUDGETS.lcpMs) {
@@ -185,17 +194,22 @@ async function main() {
         const url = new URL(route.pathname, BASE_URL).toString()
 
         process.stdout.write(`Auditing ${route.pathname} (${profile.id})... `)
-        await run(PNPM, getLighthouseArgs(url, outputPath, profile.lighthouseArgs), {
-          stdio: "ignore",
-        })
-
-        const report = JSON.parse(await fs.readFile(outputPath, "utf8"))
-        const metrics = readMetrics(report)
+        const samples = []
+        for (let sample = 1; sample <= 3; sample += 1) {
+          const samplePath = outputPath.replace(/\.json$/, `-sample-${sample}.json`)
+          await run(PNPM, getLighthouseArgs(url, samplePath, profile.lighthouseArgs), {
+            stdio: "ignore",
+          })
+          const report = JSON.parse(await fs.readFile(samplePath, "utf8"))
+          samples.push(readMetrics(report))
+        }
+        const metrics = getMedianMetrics(samples)
         const failures = getFailures(metrics)
         results.push({
           route: route.pathname,
           profile: profile.id,
           ...metrics,
+          samples,
           passed: failures.length === 0,
           failures,
         })
@@ -215,7 +229,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     lighthouseVersion: "12.8.2",
     budgets: BUDGETS,
-    note: "TBT is the repeatable lab responsiveness proxy; production INP requires field data.",
+    note: "Budgets use the median of three cold Lighthouse samples per route/profile. Raw samples are retained. TBT is a lab responsiveness proxy; production INP requires field data.",
     results,
   }
   await fs.writeFile(
