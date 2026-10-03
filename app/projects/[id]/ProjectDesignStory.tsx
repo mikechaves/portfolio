@@ -36,7 +36,7 @@ export function ProjectDesignStory({ story, media, onOpen }: {
                     <button type="button" onClick={() => onOpen(item.index)}
                       aria-label={`Open ${item.label} fullscreen`}
                       className="group relative block w-full p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary">
-                      <Image src={src} alt={item.alt} width={dimensions?.width ?? 1440} height={dimensions?.height ?? 1000} loading="lazy"
+                      <Image src={src} alt={item.alt} width={dimensions?.width ?? 1440} height={dimensions?.height ?? 1000} loading="lazy" fetchPriority="low"
                         sizes={section.images!.length > 1 ? "(min-width: 768px) 40vw, 100vw" : "(min-width: 1024px) 900px, 100vw"}
                         className={dimensions ? "mx-auto h-auto max-h-[34rem] w-auto max-w-full object-contain" : "max-h-[34rem] w-full object-contain"} />
                       <Maximize2 aria-hidden="true" size={18} className="absolute right-4 top-4 rounded bg-black/80 p-0.5 text-zinc-200" />
