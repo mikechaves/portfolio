@@ -7,7 +7,8 @@ import * as jsxRuntime from "react/jsx-runtime"
 import { renderToStaticMarkup } from "react-dom/server"
 import ts from "typescript"
 import { getEvidenceDossierConfig } from "../app/projects/[id]/dossierConfig"
-import { buildProjectMedia, getSectionMedia } from "../app/projects/[id]/projectMedia"
+import type { EvidenceDossierConfig } from "../app/projects/[id]/dossierConfig"
+import { buildProjectMedia, getSectionMedia, type ProjectMediaItem } from "../app/projects/[id]/projectMedia"
 import type { ProjectDetail, ProjectDesignStory } from "../types/project-detail"
 
 // The repository's Node-only Jest transform preserves JSX. Compile this one
@@ -24,13 +25,14 @@ const modules: Record<string, unknown> = {
   "next/dynamic": () => Empty,
   "lucide-react": { ArrowRight: Empty, Github: Empty, ExternalLink: Empty },
   "@/components/share-project-button": { ShareProjectButton: Empty },
+  "@/components/cinematic-project-cover": { CinematicProjectCover: Empty },
   "./ProjectDesignStory": { ProjectDesignStory: Empty },
   "./ProjectEvidenceStrip": { ProjectEvidenceStrip: Empty },
   "./ProjectMediaShowcase": { ProjectMediaShowcase: Empty },
   "./dossierConfig": { getEvidenceDossierConfig },
   "./projectMedia": { buildProjectMedia, getSectionMedia },
 }
-const componentModule = { exports: {} as { default: ComponentType<{ project: ProjectDetail }> } }
+const componentModule = { exports: {} as { default: ComponentType<{ project: ProjectDetail; media: ProjectMediaItem[]; dossierConfig?: EvidenceDossierConfig }> } }
 runInNewContext(compiled, {
   module: componentModule,
   exports: componentModule.exports,
@@ -41,8 +43,10 @@ runInNewContext(compiled, {
 })
 const ProjectPageClient = componentModule.exports.default
 const projects = JSON.parse(fs.readFileSync(path.join(__dirname, "../public/data/projects.json"), "utf8")) as Record<string, ProjectDetail>
-const render = (id: string, designStory = projects[id].designStory) =>
-  renderToStaticMarkup(createElement(ProjectPageClient, { project: { ...projects[id], id, designStory } }))
+const render = (id: string, designStory = projects[id].designStory) => {
+  const project = { ...projects[id], id, designStory }
+  return renderToStaticMarkup(createElement(ProjectPageClient, { project, media: buildProjectMedia(project), dossierConfig: getEvidenceDossierConfig(id) }))
+}
 
 describe("shared product-design story shell", () => {
   it("renders a Playfold story without inventing a quote or borrowing Wizzo's title", () => {

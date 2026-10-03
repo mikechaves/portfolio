@@ -69,11 +69,14 @@ export const metadata: Metadata = {
   verification: process.env.GOOGLE_SITE_VERIFICATION
     ? { google: process.env.GOOGLE_SITE_VERIFICATION }
     : undefined,
-  manifest: "/favicon/site.webmanifest",
+  manifest: "/favicon/site.webmanifest?v=chaves-key",
   icons: {
-    icon: "/favicon/favicon.ico",
-    shortcut: "/favicon/favicon-96x96.png",
-    apple: "/favicon/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon/favicon.ico?v=chaves-key", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/favicon/favicon.svg?v=chaves-key", sizes: "any", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon/favicon-32x32.png?v=chaves-key",
+    apple: "/favicon/apple-touch-icon.png?v=chaves-key",
   },
 }
 
@@ -84,13 +87,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-mono bg-black text-white min-h-screen flex flex-col">
+      <head>
+        <link rel="preload" href="/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
+      <body className="cinematic-site min-h-screen flex flex-col">
         <JsonLd id="site-structured-data" data={getSiteStructuredData()} />
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <div
-          className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
-          aria-hidden="true"
-        ></div>
+
 
         <SiteNav />
 
@@ -100,6 +103,7 @@ export default function RootLayout({
         <Footer analyticsPreferencesEnabled={analyticsPreferencesEnabled} />
         <script src="/scripts/portfolio-events.js" defer />
         <script src="/scripts/site-nav.js" defer />
+        <script src="/scripts/cinematic.js" defer />
         {analyticsRuntimeEnabled ? (
           <AnalyticsManager
             canonicalOrigin={SITE_ORIGIN}

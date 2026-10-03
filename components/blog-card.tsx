@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, AudioWaveform } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 interface BlogCardProps {
   id: string
@@ -13,13 +13,10 @@ interface BlogCardProps {
 
 export function BlogCard({ id, title, excerpt, date, readingTime, url, publication }: BlogCardProps) {
   return (
-    <Link href={`/blog/${id}`} className="group grid h-full grid-cols-[3.25rem_1fr] gap-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-      <div className="flex h-12 items-center justify-center border border-[#ff2bd6]/35 text-[#ff2bd6]" aria-hidden="true">
-        <AudioWaveform size={28} />
-      </div>
+    <Link href={`/blog/${id}`} className="cinematic-blog-card group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
       <div>
         <div className="mb-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.6rem] uppercase tracking-[0.1em] text-zinc-600">
-          {publication ? <span className="text-[#ff2bd6]">{publication}</span> : null}
+          {publication ? <span className="text-primary">{publication}</span> : null}
           <span>{date}</span>
           <span>{readingTime}</span>
         </div>

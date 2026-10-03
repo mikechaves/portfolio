@@ -12,28 +12,18 @@ describe("homepage progressive disclosure", () => {
   const focusSource = readSource("components/adaptive-focus-entry.tsx")
   const bridgeSource = readSource("public/scripts/homepage.js")
 
-  it("publishes the hiring-first statement and three requested hero actions", () => {
+  it("opens with identity and real work while keeping professional detail available", () => {
     expect(homeSource).toContain("Creative Director & Creative Technologist")
-    expect(homeSource).toContain(
-      "I shape brands, tell stories, and make ideas playable."
-    )
-    expect(homeSource).toContain("Founder of Wizzo Labs")
-    expect(homeSource).toContain("View selected work")
-    expect(homeSource).toContain("Match me to a role")
-    expect(homeSource).toContain("Download résumé (PDF)")
+    expect(homeSource).toContain('id="home-title"')
+    expect(homeSource).toContain("<ProjectTheater />")
+    expect(homeSource).toContain("Résumé (PDF)")
+    expect(homeSource).not.toContain("Give your next idea a point of view")
   })
 
-  it("keeps the primary journey in the required source order", () => {
-    const ids = [
-      'id="selected-work"',
-      'id="professional-experience"',
-      'id="capabilities-title"',
-      'id="writing"',
-      'id="contact"',
-    ]
-    const positions = ids.map((id) => homeSource.indexOf(id))
-    expect(positions.every((position) => position >= 0)).toBe(true)
-    expect([...positions].sort((left, right) => left - right)).toEqual(positions)
+  it("keeps the creative platform in the requested order", () => {
+    const positions = ["<ProjectTheater />", "<AdaptiveFocusEntry />", 'id="work"', 'id="writing"', 'id="appearances"', 'id="music"', 'id="contact"'].map(id => homeSource.indexOf(id))
+    expect(positions.every(position => position >= 0)).toBe(true)
+    expect([...positions].sort((a,b) => a-b)).toEqual(positions)
   })
 
   it("preserves the flagship and full public project order", () => {
@@ -45,7 +35,7 @@ describe("homepage progressive disclosure", () => {
     expect(homeSource).not.toContain('href="/projects/playfold"')
   })
 
-  it("renders all professional records as non-linked image-free homepage summaries", () => {
+  it("preserves professional records on the About page for inquirers", () => {
     expect(PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => record.id)).toEqual([
       "employment-knitting-factory",
       "employment-power",
@@ -54,15 +44,15 @@ describe("homepage progressive disclosure", () => {
       "employment-ford",
       "employment-starbucks",
     ])
-    expect(homeSource).toContain('variant="homepage"')
-    expect(homeSource).toContain("From directing creative work across all Knitting Factory")
+    expect(readSource("components/about-content.tsx")).toContain("PROFESSIONAL_EXPERIENCE_RECORDS.map")
+    expect(homeSource).toContain('href="/about"')
   })
 
   it("shows four role lenses before a native More lenses disclosure", () => {
-    expect(focusSource).toContain('id: "creative-direction"')
-    expect(focusSource).toContain('id: "game-ux-creator-systems"')
-    expect(focusSource).toContain('id: "xr-accessibility"')
-    expect(focusSource).toContain('id: "design-engineering"')
+    expect(focusSource).toContain('"creative-direction"')
+    expect(focusSource).toContain('"game-ux-creator-systems"')
+    expect(focusSource).toContain('"xr-accessibility"')
+    expect(focusSource).toContain('"design-engineering"')
     expect(focusSource).toContain("<details")
     expect(focusSource).toContain("More lenses")
     expect(focusSource).toContain("Custom role text is processed by OpenAI and not stored")

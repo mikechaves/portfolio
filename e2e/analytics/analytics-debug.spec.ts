@@ -34,6 +34,7 @@ test("consent-gated debug mode verifies the real funnel with zero provider trans
 
   await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
   await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
+  await page.locator("[data-focus-explore]").click()
   await page.waitForURL(/\/projects\?focusPreset=/u)
   await page.locator('a[href="/projects/x-games"]').first().click()
   await page.waitForURL(/\/projects\/x-games$/u)
@@ -63,14 +64,9 @@ test("homepage journey analytics records bounded paths, disclosure, and public p
 
   await page.goto("/")
   await page.getByRole("button", { name: "Allow optional analytics" }).click()
-  await page.getByRole("link", { name: "Match me to a role" }).click()
+  await page.locator("#adaptive-focus").scrollIntoViewIfNeeded()
   await page.getByText("More lenses", { exact: true }).click()
 
-  await expect
-    .poll(async () => (await debugEvents(page)).some(
-      (event) => event.parameters.item_id === "role_match"
-    ))
-    .toBe(true)
   await expect
     .poll(async () => (await debugEvents(page)).some(
       (event) => event.parameters.item_list_id === "adaptive_focus_more_lenses"
@@ -107,6 +103,7 @@ test("declining persists, records nothing, and remains reversible from the foote
   await page.getByRole("button", { name: "Keep optional analytics off" }).click()
   await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
   await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
+  await page.locator("[data-focus-explore]").click()
   await page.waitForURL(/\/projects\?focusPreset=/u)
   expect(await debugEvents(page)).toEqual([])
 
@@ -156,7 +153,8 @@ for (const signal of ["Global Privacy Control", "Do Not Track"] as const) {
 
     await page.locator("[data-adaptive-focus-more]").evaluate((details) => { (details as HTMLDetailsElement).open = true })
   await page.getByRole("button", { name: /Human-in-the-loop AI/i }).first().click()
-    await page.waitForURL(/\/projects\?focusPreset=/u)
+    await page.locator("[data-focus-explore]").click()
+  await page.waitForURL(/\/projects\?focusPreset=/u)
     expect(await debugEvents(page)).toEqual([])
     expect(providerRequests).toEqual([])
   })

@@ -22,6 +22,8 @@ const PUBLIC_ASSET_EXTENSIONS = new Set([
   ".svg",
   ".webmanifest",
   ".webp",
+  ".woff",
+  ".woff2",
 ])
 
 const CHECK_EXTERNAL = process.argv.includes("--check-external")

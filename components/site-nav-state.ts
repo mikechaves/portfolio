@@ -5,8 +5,8 @@ export interface SiteNavItem {
 
 export const SITE_NAV_ITEMS: SiteNavItem[] = [
   { name: "Work", path: "/projects" },
-  { name: "Experience", path: "/about#professional-experience" },
   { name: "Writing", path: "/blog" },
+  { name: "Music", path: "/#music" },
   { name: "About", path: "/about" },
 ]
 
@@ -22,6 +22,5 @@ export function isSiteNavItemActive(
   }
 
   if (itemPathname === "/") return pathname === "/"
-  if (itemPathname === "/about" && hash === "#professional-experience") return false
   return pathname === itemPathname || pathname.startsWith(`${itemPathname}/`)
 }

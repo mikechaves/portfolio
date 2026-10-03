@@ -1,6 +1,4 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 import { BlogCard } from "@/components/blog-card"
 import { JsonLd } from "@/components/json-ld"
 import { FocusContextBadge } from "@/components/focus-context-badge"
@@ -25,39 +23,15 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const focus = resolvedSearchParams.focus?.trim() ?? ""
 
   return (
-    <div className="space-y-8 pt-8">
+    <div className="cinematic-writing space-y-8 pt-8">
       <JsonLd id="blog-collection-structured-data" data={getBlogCollectionStructuredData(posts)} />
       {focus && <FocusContextBadge focus={focus} />}
       <section className="border-y border-white/15 bg-black/45 px-5 py-8 sm:px-8" aria-labelledby="writing-title">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Writing / Field notes</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Essays & notes</p>
         <h1 id="writing-title" className="mt-2 max-w-4xl font-display text-4xl font-semibold uppercase leading-none text-white sm:text-5xl">
-          Ideas on design, imagination, and interaction
+          Writing.
         </h1>
-        <p className="mt-4 max-w-3xl text-sm leading-6 text-zinc-400">
-          Notes on how people experience emerging technology, from accessible spatial interaction to the creative possibilities of AI. Each summary connects the ideas to related work.
-        </p>
-        <div className="mt-5 flex flex-wrap gap-4 text-xs uppercase tracking-[0.09em]">
-          <Link href="/projects" className="inline-flex items-center gap-1 text-primary hover:text-white">
-            Explore related work <ArrowRight size={13} aria-hidden="true" />
-          </Link>
-          <Link href="/about#operating-model-title" className="inline-flex items-center gap-1 text-zinc-300 hover:text-primary">
-            See my creative approach <ArrowRight size={13} aria-hidden="true" />
-          </Link>
-        </div>
       </section>
-      <div className="terminal-window">
-        <div className="terminal-header">
-          <div className="terminal-button terminal-button-red"></div>
-          <div className="terminal-button terminal-button-yellow"></div>
-          <div className="terminal-button terminal-button-green"></div>
-          <div className="terminal-title">blog_posts.sh</div>
-        </div>
-        <div className="terminal-content">
-          <p className="mb-4">
-            <span className="text-primary">$</span> ls -la /articles
-          </p>
-        </div>
-      </div>
 
       <section>
         <h2 className="text-2xl font-bold mb-6">All Articles</h2>

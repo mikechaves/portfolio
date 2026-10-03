@@ -1,0 +1,352 @@
+{
+  "generatedAt": "2026-10-03T22:14:18.505Z",
+  "lighthouseVersion": "12.8.2",
+  "budgets": {
+    "lcpMs": 2500,
+    "cls": 0.1,
+    "tbtMs": 200
+  },
+  "note": "Budgets use the median of three cold Lighthouse samples per route/profile. Raw samples are retained. TBT is a lab responsiveness proxy; production INP requires field data.",
+  "results": [
+    {
+      "route": "/",
+      "profile": "mobile",
+      "performanceScore": 100,
+      "lcpMs": 1730,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 228,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 1732,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 228
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 1729,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 228
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 1730,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 228
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/about",
+      "profile": "mobile",
+      "performanceScore": 100,
+      "lcpMs": 1504,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 167,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 1504,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 1429,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 1504,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/projects",
+      "profile": "mobile",
+      "performanceScore": 98,
+      "lcpMs": 2385,
+      "cls": 0,
+      "tbtMs": 2,
+      "transferKb": 322,
+      "samples": [
+        {
+          "performanceScore": 98,
+          "lcpMs": 2382,
+          "cls": 0,
+          "tbtMs": 1,
+          "transferKb": 322
+        },
+        {
+          "performanceScore": 98,
+          "lcpMs": 2387,
+          "cls": 0,
+          "tbtMs": 4,
+          "transferKb": 322
+        },
+        {
+          "performanceScore": 98,
+          "lcpMs": 2385,
+          "cls": 0,
+          "tbtMs": 2,
+          "transferKb": 322
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/projects/x-games",
+      "profile": "mobile",
+      "performanceScore": 98,
+      "lcpMs": 2457,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 365,
+      "samples": [
+        {
+          "performanceScore": 97,
+          "lcpMs": 2531,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 365
+        },
+        {
+          "performanceScore": 98,
+          "lcpMs": 2451,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 365
+        },
+        {
+          "performanceScore": 98,
+          "lcpMs": 2457,
+          "cls": 0,
+          "tbtMs": 1,
+          "transferKb": 365
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/blog/voice-first-xr",
+      "profile": "mobile",
+      "performanceScore": 99,
+      "lcpMs": 2000,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 167,
+      "samples": [
+        {
+          "performanceScore": 99,
+          "lcpMs": 2000,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        },
+        {
+          "performanceScore": 99,
+          "lcpMs": 2000,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        },
+        {
+          "performanceScore": 99,
+          "lcpMs": 1998,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 167
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/",
+      "profile": "desktop",
+      "performanceScore": 100,
+      "lcpMs": 544,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 936,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 544,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 936
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 670,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 936
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 544,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 936
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/about",
+      "profile": "desktop",
+      "performanceScore": 100,
+      "lcpMs": 328,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 451,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 328,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 451
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 329,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 451
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 328,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 451
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/projects",
+      "profile": "desktop",
+      "performanceScore": 100,
+      "lcpMs": 584,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 1127,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 584,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 1127
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 584,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 1127
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 584,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 1127
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/projects/x-games",
+      "profile": "desktop",
+      "performanceScore": 100,
+      "lcpMs": 538,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 489,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 538,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 489
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 538,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 489
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 539,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 489
+        }
+      ],
+      "passed": true,
+      "failures": []
+    },
+    {
+      "route": "/blog/voice-first-xr",
+      "profile": "desktop",
+      "performanceScore": 100,
+      "lcpMs": 455,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferKb": 195,
+      "samples": [
+        {
+          "performanceScore": 100,
+          "lcpMs": 456,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 195
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 455,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 195
+        },
+        {
+          "performanceScore": 100,
+          "lcpMs": 455,
+          "cls": 0,
+          "tbtMs": 0,
+          "transferKb": 195
+        }
+      ],
+      "passed": true,
+      "failures": []
+    }
+  ]
+}

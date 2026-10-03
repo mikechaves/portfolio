@@ -9,7 +9,7 @@ describe("global route context", () => {
     ["/blog/voice-first-xr", "/blog", "", true],
     ["/about", "/about", "", true],
     ["/about", "/about#professional-experience", "#professional-experience", true],
-    ["/about", "/about", "#professional-experience", false],
+    ["/about", "/about", "#professional-experience", true],
     ["/about", "/about#professional-experience", "#contact", false],
     ["/project", "/projects", "", false],
     ["/blogroll", "/blog", "", false],
@@ -20,8 +20,8 @@ describe("global route context", () => {
   it("publishes the four task-oriented navigation destinations", () => {
     expect(SITE_NAV_ITEMS).toEqual([
       { name: "Work", path: "/projects" },
-      { name: "Experience", path: "/about#professional-experience" },
       { name: "Writing", path: "/blog" },
+      { name: "Music", path: "/#music" },
       { name: "About", path: "/about" },
     ])
   })
@@ -54,14 +54,14 @@ describe("global route context", () => {
     expect(runtime).toContain('trigger.setAttribute("aria-expanded", "false")')
   })
 
-  it("keeps the optional Metaverse bundle off the standard homepage", () => {
+  it("retires the Metaverse entry points into direct navigation", () => {
     const layout = fs.readFileSync(path.join(__dirname, "..", "app", "layout.tsx"), "utf8")
     const middleware = fs.readFileSync(path.join(__dirname, "..", "middleware.ts"), "utf8")
 
     expect(layout).toContain("<SiteNav />")
     expect(layout).not.toContain("SnowCrashEffects")
-    expect(middleware).toContain('request.nextUrl.searchParams.get("metaverse") === "true"')
-    expect(middleware).toContain("NextResponse.rewrite")
+    expect(middleware).toContain('request.nextUrl.searchParams.has("metaverse")')
+    expect(middleware).toContain("NextResponse.redirect")
   })
 
   it("keeps the contact conversion target clear of the sticky navigation", () => {

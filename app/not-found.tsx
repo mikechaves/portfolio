@@ -3,10 +3,10 @@ import Link from "next/link"
 export default function NotFound() {
   return (
     <div className="site-shell space-y-6 py-16">
-      <p className="project-index-eyebrow">404 / Signal not found</p>
+      <p className="project-index-eyebrow">404</p>
       <h1 className="font-display text-5xl font-semibold uppercase text-white">Page not found</h1>
       <p className="max-w-2xl text-sm leading-6 text-zinc-400">
-        This page isn’t here. Explore the selected projects or return home to find your way into the work.
+        This page isn’t here.
       </p>
       <div className="flex flex-wrap gap-3">
         <Link

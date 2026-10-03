@@ -1,87 +1,12 @@
 import { ArrowRight, Download, Github, Linkedin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { EVIDENCE_DOSSIER_PROJECT_IDS } from "@/app/projects/[id]/dossierConfig"
 import { AboutContactForm } from "@/components/about-contact-form"
 import { PortfolioEventLink } from "@/components/portfolio-event-link"
 import { ProfessionalExperienceProof } from "@/components/professional-experience-proof"
 import { XIcon } from "@/components/x-icon"
-import { PROJECTS } from "@/data/projects"
 import { EVIDENCE_CATALOG } from "@/features/adaptive-focus/evidence/catalog"
 import { PROFESSIONAL_EXPERIENCE_RECORDS } from "@/features/adaptive-focus/evidence/professional-experience"
-
-const operatingLoop = [
-  {
-    index: "01",
-    title: "Find the story",
-    description: "Start with the audience, the idea, and what the experience should make someone feel or understand.",
-  },
-  {
-    index: "02",
-    title: "Set the direction",
-    description: "Shape the visual language, tone, hierarchy, and interaction around a clear creative concept.",
-  },
-  {
-    index: "03",
-    title: "Make it tangible",
-    description: "Move from sketches and high-fidelity prototypes into working experiences, using design, motion, code, and AI where they help.",
-  },
-  {
-    index: "04",
-    title: "Refine the experience",
-    description: "Test how the idea reads and behaves. Refine the details, accessibility, and consistency through design QA and feedback.",
-  },
-]
-
-const proofPoints = [
-  {
-    caseFile: "AF-01",
-    title: "Wizzo",
-    label: "Creative direction / Brand + product",
-    description: "Led Wizzo’s creative direction, visual systems, product design, and implementation as founder and creative director at Wizzo Labs.",
-    href: "/projects/wizzo",
-    projectId: "wizzo",
-  },
-  {
-    caseFile: "AF-02",
-    title: "Playfold",
-    label: "Interactive storytelling / Game UX",
-    description:
-      "Directed Playfold’s visual and interaction design, demos, social and video assets, and launch copy, turning social posts into playable experiences.",
-    href: "/projects/x-games",
-    projectId: "x-games",
-  },
-  {
-    caseFile: "AF-03",
-    title: "SpeakEasy",
-    label: "Voice interaction / Accessibility",
-    description: "Designed a voice-controlled mixed reality system for users with low muscle tone, grounding emerging interaction in access needs.",
-    href: "/projects/speakeasy",
-    projectId: "speakeasy",
-  },
-  {
-    caseFile: "OPS-01",
-    title: "Professional experience",
-    label: "Brand / Spatial / Product",
-    description:
-      "Creative and hands-on work across entertainment, spatial storytelling, product design, and technical roles, with historical job titles preserved.",
-    href: "#professional-experience",
-    projectId: null,
-  },
-]
-
-const currentFocusItems = [
-  "Creative direction and team leadership",
-  "Brand identity and visual storytelling",
-  "Graphic design, campaigns, and live-event visuals",
-  "Art direction, motion, and interactive media",
-  "Visual and interaction design",
-  "Design systems and high-fidelity prototyping",
-  "Game UX and spatial storytelling",
-  "Accessible XR and voice interaction",
-  "AI-assisted creative workflows",
-  "Frontend implementation and design QA",
-]
 
 const professionalExperienceCapabilities = new Map(
   PROFESSIONAL_EXPERIENCE_RECORDS.map((record) => [
@@ -150,11 +75,6 @@ export function AboutContent() {
       </div>
 
       <section className="operating-profile-hero" aria-labelledby="about-title">
-        <div className="operating-profile-status" aria-hidden="true">
-          <span>PROFILE / MIKE CHAVES</span>
-          <span>MODE / CREATIVE DIRECTION</span>
-          <span>BASE / LOS ANGELES</span>
-        </div>
 
         <div className="operating-profile-grid">
           <div className="operating-profile-copy">
@@ -184,108 +104,21 @@ export function AboutContent() {
 
           <figure className="operating-profile-portrait">
             <Image
-              src="/events/chaves_adobesympo_2023_thumb.webp"
-              alt="Mike Chaves presenting at the Adobe Experiential Horizons Symposium"
+              src="/portrait/mike-chaves.webp"
+              alt="Mike Chaves"
               fill
               className="object-cover"
               sizes="(min-width: 900px) 38vw, 100vw"
-              loading="lazy"
+              priority
             />
             <figcaption>
-              <span>Public practice / 2023-2025</span>
-              <strong>Sharing ideas in public</strong>
+              <span>Los Angeles, California</span>
+              <strong>Mike Chaves</strong>
             </figcaption>
           </figure>
         </div>
 
-        <dl className="operating-profile-ledger">
-          <div><dt>Projects indexed</dt><dd>{PROJECTS.length.toString().padStart(2, "0")}</dd></div>
-          <div><dt>Reviewed dossiers</dt><dd>{EVIDENCE_DOSSIER_PROJECT_IDS.size.toString().padStart(2, "0")}</dd></div>
-          <div><dt>Base</dt><dd>Los Angeles, California</dd></div>
-          <div><dt>Operating loop</dt><dd>Story / Direction / Make / Refine</dd></div>
-        </dl>
-      </section>
-
-      <section className="profile-section" aria-labelledby="operating-model-title">
-        <div className="profile-section-heading">
-          <div>
-            <p className="operating-profile-eyebrow">Creative process</p>
-            <h2 id="operating-model-title">From a point of view to a working experience</h2>
-          </div>
-          <p>Concept, visual direction, craft, and iteration stay connected throughout the work.</p>
-        </div>
-        <ol className="operating-loop-grid">
-          {operatingLoop.map((step) => (
-            <li key={step.index}>
-              <span>{step.index}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="profile-section" aria-labelledby="proof-path-title">
-        <div className="profile-section-heading">
-          <div>
-            <p className="operating-profile-eyebrow">Selected evidence</p>
-            <h2 id="proof-path-title">Brand, play, and inclusive interaction</h2>
-          </div>
-          <Link href="/projects">Explore projects <ArrowRight size={14} aria-hidden="true" /></Link>
-        </div>
-        <div className="profile-proof-grid">
-          {proofPoints.map((proof) => (
-            proof.projectId ? (
-              <PortfolioEventLink
-                key={proof.caseFile}
-                href={proof.href}
-                eventName="project_evidence_opened"
-                eventProperties={{
-                  project_id: proof.projectId,
-                  source: "about_proof",
-                  match_level: "unranked",
-                }}
-                className="profile-proof-record"
-              >
-                <div className="profile-proof-meta">
-                  <span>{proof.caseFile}</span>
-                  <span>{proof.label}</span>
-                </div>
-                <h3>{proof.title}</h3>
-                <p>{proof.description}</p>
-                <span className="profile-proof-link">Explore the work <ArrowRight size={14} aria-hidden="true" /></span>
-              </PortfolioEventLink>
-            ) : (
-              <Link key={proof.caseFile} href={proof.href} className="profile-proof-record">
-                <div className="profile-proof-meta">
-                  <span>{proof.caseFile}</span>
-                  <span>{proof.label}</span>
-                </div>
-                <h3>{proof.title}</h3>
-                <p>{proof.description}</p>
-                <span className="profile-proof-link">Explore the work <ArrowRight size={14} aria-hidden="true" /></span>
-              </Link>
-            )
-          ))}
-        </div>
-      </section>
-
-      <section className="profile-section profile-focus-section" aria-labelledby="current-focus-title">
-        <div className="profile-section-heading">
-          <div>
-            <p className="operating-profile-eyebrow">Current focus</p>
-            <h2 id="current-focus-title">What I bring to the work</h2>
-          </div>
-          <p>Creative leadership grounded in visual craft, research, and the ability to build.</p>
-        </div>
-        <ul className="profile-focus-index">
-          {currentFocusItems.map((item, index) => (
-            <li key={item}>
-              <span>{(index + 1).toString().padStart(2, "0")}</span>
-              <strong>{item}</strong>
-            </li>
-          ))}
-        </ul>
+        <p className="profile-personal-note">Horror and thrillers. Metal and industrial music. Modern art, brutalist forms, and stories you can step into.</p>
       </section>
 
       <section
@@ -295,7 +128,7 @@ export function AboutContent() {
       >
         <div className="profile-section-heading">
           <div>
-            <p className="operating-profile-eyebrow">Professional evidence</p>
+            <p className="operating-profile-eyebrow">Experience</p>
             <h2 id="professional-experience-title">Selected professional experience</h2>
           </div>
           <p>
@@ -317,7 +150,7 @@ export function AboutContent() {
 
       <section className="profile-section" aria-labelledby="education-title">
         <div className="profile-section-heading">
-          <div><p className="operating-profile-eyebrow">Education</p><h2 id="education-title">A foundation in experience and interactive media</h2></div>
+          <div><p className="operating-profile-eyebrow">Education</p><h2 id="education-title">Education</h2></div>
         </div>
         <div className="profile-proof-grid">
           <article className="profile-proof-record"><h3>Master of Design, Experience Design</h3><p>San José State University / May 2025</p></article>
@@ -329,7 +162,7 @@ export function AboutContent() {
         <div className="profile-section-heading">
           <div>
             <p className="operating-profile-eyebrow">Public practice</p>
-            <h2 id="public-practice-title">Ideas, accessibility, and emerging experiences</h2>
+            <h2 id="public-practice-title">Talks & panels</h2>
           </div>
           <p>Selected talks and panels extending project work into shared industry conversations.</p>
         </div>
@@ -351,10 +184,10 @@ export function AboutContent() {
 
       <section id="contact" className="profile-contact-section scroll-mt-24" aria-labelledby="contact-title">
         <div className="profile-contact-intro">
-          <p className="operating-profile-eyebrow">Location and availability</p>
-          <h2 id="contact-title" className="scroll-mt-24">Tell me what you want people to feel, see, or do</h2>
+          <p className="operating-profile-eyebrow">Contact</p>
+          <h2 id="contact-title" className="scroll-mt-24">Say hello.</h2>
           <p>
-            Based in Los Angeles, California (Hollywood). Let’s talk creative direction, art direction, brand storytelling, or interactive experiences.
+            Los Angeles, California.
           </p>
           <PortfolioEventLink
             href="/Michael_Chaves_Resume.pdf"

@@ -53,13 +53,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = getProjectDetail(id)
   if (!project) notFound()
   const dossierExitPath = getDossierExitPath(id)
-  const isEvidenceDossier = Boolean(getEvidenceDossierConfig(id))
+  const dossierConfig = getEvidenceDossierConfig(id)
+  const isEvidenceDossier = Boolean(dossierConfig)
 
   return (
     <>
       <JsonLd id="project-structured-data" data={getProjectStructuredData(project)} />
       <div data-project-id={project.id} className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
-        <ProjectPageClient project={project} />
+        <ProjectPageClient project={project} media={buildProjectMedia(project)} dossierConfig={dossierConfig} />
         <DossierExitPath
           exitPath={dossierExitPath}
           projectId={project.id}

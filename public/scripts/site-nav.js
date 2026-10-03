@@ -52,7 +52,6 @@
     const { pathname, hash } = window.location
     if (itemHash) return pathname === itemPathname && hash === `#${itemHash}`
     if (itemPathname === "/") return pathname === "/"
-    if (itemPathname === "/about" && hash === "#professional-experience") return false
     return pathname === itemPathname || pathname.startsWith(`${itemPathname}/`)
   }
 
