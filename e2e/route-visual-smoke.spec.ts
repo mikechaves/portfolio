@@ -24,6 +24,8 @@ async function settleVisuals(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "dark" })
   await page.addStyleTag({
     content: `
+      /* Include off-screen narrative sections in full-page review captures. */
+      .case-study-section { content-visibility: visible !important; }
       *, *::before, *::after {
         animation-delay: 0s !important;
         animation-duration: 0s !important;

@@ -3474,3 +3474,9 @@ body:has(.site-mobile-menu[open]) {
 .site-main:has([data-immersive-entry]) {
   z-index: 60;
 }
+
+/* Lay out the long Playfold narrative as its sections approach the viewport. */
+.evidence-dossier[data-project-id="x-games"] .case-study-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

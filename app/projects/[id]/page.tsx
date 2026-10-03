@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <JsonLd id="project-structured-data" data={getProjectStructuredData(project)} />
-      <div className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
+      <div data-project-id={project.id} className={isEvidenceDossier ? "evidence-dossier space-y-10 pt-6" : "space-y-8 pt-8"}>
         <ProjectPageClient project={project} />
         <DossierExitPath
           exitPath={dossierExitPath}
