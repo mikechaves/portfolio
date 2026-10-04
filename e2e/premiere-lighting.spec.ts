@@ -1,0 +1,107 @@
+import { expect, test } from "@playwright/test"
+
+test("rapid selections settle on the latest project and pause preserves it", async ({ page }) => {
+  await page.goto("/")
+  const theater = page.locator("[data-project-theater]")
+  await expect(theater).toHaveAttribute("data-carousel-ready", "true")
+  const next = page.getByRole("button", { name: "Next project", exact: true })
+  await next.click()
+  await next.click()
+  await next.press("ArrowLeft")
+  await next.press("ArrowRight")
+  await expect(theater).toHaveAttribute("data-theater-active", "x-games")
+  await expect(page.locator('[data-theater-work="x-games"]')).toHaveAttribute("data-theater-slot", "center")
+  await expect(page.getByRole("button", { name: "Resume carousel", exact: true })).toHaveAccessibleDescription(/ambient lighting/)
+  await page.getByRole("button", { name: "Resume carousel", exact: true }).click()
+  await page.getByRole("button", { name: "Pause carousel", exact: true }).click()
+  await page.waitForTimeout(7600)
+  await expect(theater).toHaveAttribute("data-theater-active", "x-games")
+  await expect(theater).toHaveAttribute("data-theater-paused", "true")
+  await page.locator('[data-theater-work="x-games"]').press("Enter")
+  await expect(page).toHaveURL(/\/projects\/x-games$/)
+})
+
+test("Adaptive Focus open, selected, edited and reset states keep the chosen premiere", async ({ page }) => {
+  await page.goto("/")
+  const theater = page.locator("[data-project-theater]")
+  const focus = page.locator("#adaptive-focus")
+  await page.getByRole("button", { name: "Next project", exact: true }).click()
+  await page.locator("[data-focus-custom] > summary").click()
+  await expect(focus).toHaveAttribute("data-premiere-open", "true")
+  await page.getByLabel("Role or job description").fill("Creative direction for immersive worlds")
+  await page.locator('[data-adaptive-focus-preset="xr-accessibility"]').click()
+  await expect(focus).toHaveAttribute("data-premiere-lens", "selected")
+  await page.getByLabel("Role or job description").fill("Creative director for interactive stories")
+  await page.getByRole("button", { name: "Reset focus", exact: true }).click()
+  await expect(focus).toHaveAttribute("data-premiere-lens", "all")
+  await expect(page.getByLabel("Role or job description")).toHaveValue("")
+  await page.locator("[data-focus-custom] > summary").click()
+  await expect(focus).toHaveAttribute("data-premiere-open", "false")
+  await page.locator("[data-adaptive-focus-more] > summary").click()
+  await expect(focus).toHaveAttribute("data-premiere-open", "true")
+  await page.getByRole("button", { name: "Reset focus", exact: true }).click()
+  await expect(focus).toHaveAttribute("data-premiere-open", "false")
+  await page.waitForTimeout(7400)
+  await expect(theater).toHaveAttribute("data-theater-active", "speakeasy")
+})
+
+test("explicit motion pause survives case-study navigation without blocking content", async ({ page }) => {
+  await page.goto("/")
+  await page.getByRole("button", { name: "Pause carousel", exact: true }).click()
+  await page.locator('[data-theater-work="wizzo"]').press("Enter")
+  await expect(page).toHaveURL(/\/projects\/wizzo$/)
+  const opening = page.locator("[data-premiere-opening]")
+  await expect(opening).toBeVisible()
+  await expect(opening.locator("img")).toBeVisible()
+  await expect(opening.locator("div[data-art-plane]")).toHaveCSS("animation-name", "none")
+  await page.goto("/")
+  await expect(page.getByRole("button", { name: "Resume carousel", exact: true })).toBeVisible()
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-paused", "true")
+})
+
+test("reduced motion gives Wizzo a static composed opening, and the prototype stays scoped", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  const graphics: string[] = []
+  page.on("request", request => { if (/project-theater-(scene|lighting)|three\.module/.test(request.url())) graphics.push(request.url()) })
+  await page.goto("/projects/wizzo")
+  await expect(page.locator("[data-premiere-opening] > div")).toHaveCSS("animation-name", "none")
+  expect(graphics).toEqual([])
+  for (const project of ["x-games", "speakeasy"]) {
+    await page.goto(`/projects/${project}`)
+    await expect(page.locator("[data-premiere-opening]")).toHaveCount(0)
+    await expect(page.locator("[data-case-study-opening-media] img").first()).toBeVisible()
+  }
+})
+
+test("a failed lighting module leaves silent, working HTML controls", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name.includes("mobile"), "Narrow screens intentionally do not load the 3D module")
+  await page.route("**/scripts/project-theater-capability.js", route => route.fulfill({ contentType: "application/javascript", body: "self.postMessage(true);self.close()" }))
+  await page.route("**/scripts/project-theater-lighting.js", route => route.abort())
+  await page.goto("/")
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-ready", "false")
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-render-path", "html")
+  await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+  await expect(page.locator("body")).not.toContainText(/WebGL|reflections unavailable|lighting unavailable/i)
+  await page.getByRole("button", { name: "Next project", exact: true }).click()
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-active", "speakeasy")
+  await page.locator('[data-theater-work="speakeasy"]').press("Enter")
+  await expect(page).toHaveURL(/\/projects\/speakeasy$/)
+})
+
+test("a vertical touch gesture scrolls naturally without selecting another premiere", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.includes("mobile"), "Touch scrolling is exercised in mobile Chromium")
+  await page.goto("/")
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-carousel-ready", "true")
+  const bounds = (await page.locator('[data-theater-work="wizzo"] .theater-picture').boundingBox())!
+  const cdp = await page.context().newCDPSession(page)
+  const x = bounds.x + bounds.width * .5, y = bounds.y + bounds.height * .8
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] })
+  for (let i = 1; i <= 8; i++) {
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y - i * 15 }] })
+  }
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] })
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(40)
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-active", "wizzo")
+  await expect(page).toHaveURL(/\/$/)
+  await cdp.detach()
+})

@@ -11,7 +11,7 @@ export function hasCinematicProjectCover(projectId: string) {
 export function CinematicProjectCover({projectId, priority = false}:{projectId:string; priority?:boolean}) {
   const cover=covers[projectId]
   if (!cover) return null
-  return <figure className={`cinematic-project-cover cinematic-project-cover--${projectId}`}>
+  return <figure className={`cinematic-project-cover cinematic-project-cover--${projectId}`} data-premiere-opening={projectId === 'wizzo' && priority ? '' : undefined}>
     <div data-art-plane>
       {/* eslint-disable-next-line @next/next/no-img-element -- committed, optimized real project art */}
       <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height}

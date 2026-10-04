@@ -39,7 +39,9 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: `pnpm dev --hostname 127.0.0.1 --port ${port}`,
+        // CI builds the release before this suite. Test that artifact: next dev
+        // hydrates pages that explicitly omit the React runtime in production.
+        command: `pnpm ${process.env.CI ? "start" : "dev"} --hostname 127.0.0.1 --port ${port}`,
         url: baseURL,
         reuseExistingServer: false,
         timeout: 120_000,

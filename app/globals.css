@@ -2533,6 +2533,24 @@ body.cinematic-site { background:#090a13; }
   max-height:54svh;
 }
 .case-study-opening-media .cinematic-project-cover--speakeasy img { object-fit:contain; }
+
+/* Representative continuation of the theater's warm metal and lavender rim: Wizzo only. */
+[data-premiere-opening] { perspective:1400px; }
+[data-premiere-opening] > div {
+  border:1px solid #c59c746e;
+  box-shadow:0 24px 40px -30px #000,0 -8px 28px -20px #e4b783,inset 0 0 0 1px #c9bcec;
+  transform-origin:50% 30%;
+}
+[data-premiere-opening] > div::after {
+  content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
+  box-shadow:inset 0 1px #ffe4bf99,inset -1px 0 #c4b3f270,inset 0 -1px #6c5664;
+}
+[data-premiere-opening].is-revealed > div { animation:premiere-arrival 850ms cubic-bezier(.22,.68,.15,1) both; }
+@keyframes premiere-arrival {
+  from { transform:rotateX(3deg) rotateY(-2deg) translateZ(-18px); }
+  to { transform:rotateX(0) rotateY(0) translateZ(0); }
+}
+@media(prefers-reduced-motion:reduce) { [data-premiere-opening].is-revealed > div { animation:none; } }
 .case-study-opening-media .cinematic-media-layout > div > button > img {
   width:100%;
   height:100%;
