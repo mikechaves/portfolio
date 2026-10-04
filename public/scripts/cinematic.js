@@ -7,7 +7,18 @@
   const coarse = matchMedia('(pointer: coarse)')
   const seen = new WeakSet(), scenes = new Map()
   const animate = () => !reduce.matches && !navigator.connection?.saveData
-  let modulePromise
+  let modulePromise, graphicsPromise
+  const acceleratedGraphics = () => graphicsPromise ??= new Promise(resolve => {
+    if (!('Worker' in window) || !('OffscreenCanvas' in window)) { resolve(false); return }
+    let worker
+    const finish = value => { clearTimeout(timeout); worker?.terminate(); resolve(value) }
+    const timeout = setTimeout(() => finish(false), 3000)
+    try {
+      worker = new Worker('/scripts/project-theater-capability.js')
+      worker.onmessage = event => finish(event.data === true)
+      worker.onerror = () => finish(false)
+    } catch { finish(false) }
+  })
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     for (const entry of entries) {
       const state = scenes.get(entry.target)
@@ -84,6 +95,8 @@
       state.loading = true
       const generation = state.generation
       try {
+        if (!await acceleratedGraphics()) { if (root.isConnected && generation === state.generation) fail(); return }
+        if (!root.isConnected || generation !== state.generation) return
         modulePromise ??= import('/scripts/project-theater-scene.js')
         const { createTheater } = await modulePromise
         if (!root.isConnected || generation !== state.generation) return

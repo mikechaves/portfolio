@@ -158,8 +158,10 @@ test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async
   test.skip(testInfo.project.name.includes("mobile"),"Mobile uses the HTML carousel without WebGL")
   const accelerated = await page.evaluate(() => {
     const context = document.createElement("canvas").getContext("webgl2", { failIfMajorPerformanceCaveat:true, powerPreference:"low-power" })
+    const graphics = context?.getExtension("WEBGL_debug_renderer_info")
+    const driver = graphics ? context!.getParameter(graphics.UNMASKED_RENDERER_WEBGL) : ""
     context?.getExtension("WEBGL_lose_context")?.loseContext()
-    return Boolean(context)
+    return Boolean(context) && !/SwiftShader|llvmpipe|softpipe|software renderer|software rasterizer/i.test(driver)
   })
   await page.goto("/")
   const scene=page.locator("[data-project-theater]")
@@ -194,6 +196,8 @@ test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async
 test("a major graphics performance caveat retains the HTML carousel",async({page},testInfo)=>{
   test.skip(testInfo.project.name.includes("mobile"),"Mobile never requests the optional graphics context")
   await page.addInitScript(()=>{
+    // Exercise the main-context safeguard after a successful off-thread probe.
+    window.Worker=class { onmessage:((event:{data:boolean})=>void)|null=null; constructor(){setTimeout(()=>this.onmessage?.({data:true}),0)} terminate(){} } as unknown as typeof Worker
     const original=HTMLCanvasElement.prototype.getContext
     HTMLCanvasElement.prototype.getContext=function(this:HTMLCanvasElement,type:string,...args:unknown[]){
       if(type==="webgl2" && (args[0] as WebGLContextAttributes)?.failIfMajorPerformanceCaveat) return null
@@ -209,4 +213,41 @@ test("a major graphics performance caveat retains the HTML carousel",async({page
   await expect(scene).toHaveAttribute("data-theater-active","speakeasy")
   await page.locator('[data-theater-work="speakeasy"]').click()
   await expect(page).toHaveURL(/\/projects\/speakeasy$/)
+})
+
+test("an allowed software graphics context retains the HTML carousel",async({page},testInfo)=>{
+  test.skip(testInfo.project.name.includes("mobile"),"Mobile never requests the optional graphics context")
+  await page.addInitScript(()=>{
+    window.Worker=class { onmessage:((event:{data:boolean})=>void)|null=null; constructor(){setTimeout(()=>this.onmessage?.({data:true}),0)} terminate(){} } as unknown as typeof Worker
+    const original=HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext=function(this:HTMLCanvasElement,type:string,...args:unknown[]){
+      if(type!=="webgl2") return original.apply(this,[type,...args] as Parameters<typeof original>)
+      const context=original.apply(this,[type,{...(args[0] as WebGLContextAttributes),failIfMajorPerformanceCaveat:false}] as unknown as Parameters<typeof original>) as WebGL2RenderingContext | null
+      if(context){
+        const getParameter=context.getParameter.bind(context)
+        const graphics=context.getExtension("WEBGL_debug_renderer_info")
+        context.getParameter=(parameter:number)=>parameter===graphics?.UNMASKED_RENDERER_WEBGL ? "ANGLE (SwiftShader Device)" : getParameter(parameter)
+      }
+      return context
+    } as typeof original
+  })
+  await page.goto("/")
+  const scene=page.locator("[data-project-theater]")
+  await expect(scene).toHaveAttribute("data-theater-ready","false")
+  await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+  await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
+  await page.getByRole("button",{name:"Next project"}).click()
+  await expect(scene).toHaveAttribute("data-theater-active","speakeasy")
+})
+
+test("a declined graphics probe avoids the heavy scene and keeps navigation",async({page},testInfo)=>{
+  test.skip(testInfo.project.name.includes("mobile"),"Mobile never requests the optional graphics probe")
+  const graphicsRequests:string[]=[]
+  page.on("request",request=>{if(/project-theater-scene|three\.module/.test(request.url()))graphicsRequests.push(request.url())})
+  await page.route("**/scripts/project-theater-capability.js",route=>route.fulfill({contentType:"application/javascript",body:"self.postMessage(false);self.close()"}))
+  await page.goto("/")
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-ready","false")
+  expect(graphicsRequests).toEqual([])
+  await page.getByRole("button",{name:"Next project"}).click()
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-active","speakeasy")
 })

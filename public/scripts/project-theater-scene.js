@@ -8,6 +8,13 @@ export async function createTheater(root, { onFailure }) {
   // Preserve the HTML carousel when the browser can only offer very slow WebGL.
   const context = canvas.getContext('webgl2', { alpha:true, antialias:true, powerPreference:'low-power', failIfMajorPerformanceCaveat:true })
   if (!context) throw new Error('Accelerated project reflections unavailable')
+  const graphics = context.getExtension('WEBGL_debug_renderer_info')
+  const driver = graphics ? context.getParameter(graphics.UNMASKED_RENDERER_WEBGL) : ''
+  // Some browsers allow software contexts even when a major caveat was disallowed.
+  if (/SwiftShader|llvmpipe|softpipe|software renderer|software rasterizer/i.test(driver)) {
+    context.getExtension('WEBGL_lose_context')?.loseContext()
+    throw new Error('Software project reflections unavailable')
+  }
   const renderer = new THREE.WebGLRenderer({ canvas, context })
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   renderer.setClearColor(0, 0)
