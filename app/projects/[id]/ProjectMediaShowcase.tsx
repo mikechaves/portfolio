@@ -35,6 +35,8 @@ export function ProjectMediaShowcase({ media, onOpen, className, priority = fals
 
             <img
               src={primaryItem.src}
+              srcSet={primaryItem.previewSrcSet}
+              sizes={primaryItem.previewSrcSet ? "(max-width: 700px) calc(100vw - 44px), 90vw" : undefined}
               alt={primaryItem.alt}
               width={1600}
               height={1000}
