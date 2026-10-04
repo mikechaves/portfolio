@@ -131,10 +131,14 @@ export async function createTheater(root, { onFailure, signal }) {
   }
   function measureLayout() {
     const bounds=mount.getBoundingClientRect(), width=Math.max(1,bounds.width),height=Math.max(1,bounds.height)
+    let floorEdge = Infinity
     if(width!==canvasWidth||height!==canvasHeight){renderer.setSize(width,height,false);canvasWidth=width;canvasHeight=height}
     camera.aspect=width/height;camera.position.set(0,0,height/(2*Math.tan(Math.PI/9)));camera.lookAt(0,0,0);camera.updateProjectionMatrix();camera.updateMatrixWorld(true)
     for (const item of frames) {
       const rect=item.element.querySelector('.theater-picture').getBoundingClientRect()
+      // A panel's world dimensions grow when it travels behind the others. The
+      // floor stays beneath the visible artwork, rather than following that depth.
+      floorEdge = Math.min(floorEdge, height/2 - (rect.bottom-bounds.top))
       const matrix=new DOMMatrixReadOnly(getComputedStyle(item.element).transform)
       item.rotation=Math.atan2(-matrix.m13,matrix.m11)
       item.baseX=rect.left-bounds.left+rect.width/2-width/2
@@ -163,8 +167,7 @@ export async function createTheater(root, { onFailure, signal }) {
       item.poster.mesh.scale.set(item.poster.width * titleScale, item.poster.height * titleScale, 1)
       item.poster.mesh.position.y = -item.art.scale.y * .44 + titleScale / 2
     }
-    const bottom=Math.min(...frames.map(i=>i.baseY-i.frame.scale.y/2))
-    floor.position.y=bottom-9
+    floor.position.y=floorEdge-9
     lighting.layout(width, height, floor.position.y)
     moveCamera()
   }

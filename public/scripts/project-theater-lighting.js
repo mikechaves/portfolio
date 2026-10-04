@@ -24,8 +24,8 @@ export function createPremiereLighting(scene, frames, initialProject) {
     fragmentShader: `uniform vec3 tint; uniform float strength;
       varying vec2 vUv; varying vec3 vNormal; varying vec3 vView;
       void main() {
-        float softSides = pow(abs(dot(normalize(vNormal), normalize(vView))), 1.8);
-        float ends = smoothstep(0.0, .24, vUv.y) * (1.0 - smoothstep(.8, 1.0, vUv.y));
+        float softSides = pow(abs(dot(normalize(vNormal), normalize(vView))), 1.25);
+        float ends = smoothstep(0.0, .16, vUv.y) * (1.0 - smoothstep(.88, 1.0, vUv.y));
         gl_FragColor = vec4(tint, softSides * ends * strength);
       }`,
     transparent: true, depthWrite: false, side: THREE.BackSide, blending: THREE.AdditiveBlending,
@@ -44,7 +44,7 @@ export function createPremiereLighting(scene, frames, initialProject) {
   })
   const lights = [warm, fillColor].map((color, index) => {
     // Artistic attenuation: no shadow maps, extra render targets, or postprocessing passes.
-    const light = new THREE.SpotLight(color, index ? 1.7 : 3.1, 0, index ? .49 : .42, .9, 0)
+    const light = new THREE.SpotLight(color, index ? 1.7 : 3.1, 0, index ? .4 : .34, .8, 0)
     const beam = new THREE.Mesh(new THREE.CylinderGeometry(.015, 1, 1, 32, 1, true), beamMaterial(color))
     const pool = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), poolMaterial(color))
     const fixture = new THREE.Group()
@@ -74,15 +74,15 @@ export function createPremiereLighting(scene, frames, initialProject) {
       item.frame.material.emissiveIntensity = .025 + .12 * item.lightWeight
       item.frame.material.roughness = .38 - .13 * item.lightWeight
     }
-    const drift = Math.sin(time * .21)
-    const breathe = Math.cos(time * .17)
+    const drift = Math.sin(time * .48)
+    const breathe = Math.cos(time * .39)
     for (const [index, rig] of lights.entries()) {
       const { light, beam, pool, fixture } = rig
       const side = index ? 1 : -1
       light.position.set(side * width * .4, height * .39, 130)
       aim.set(
-        target.group.position.x + side * target.art.scale.x * .19 + (index ? 32 * breathe : 22 * drift),
-        target.group.position.y + target.art.scale.y * (index ? .1 : .24),
+        target.group.position.x + target.art.scale.x * (side * .14 + (index ? .15 * breathe : .19 * drift)),
+        target.group.position.y + target.art.scale.y * (index ? .1 + .05 * drift : .24 + .07 * breathe),
         target.group.position.z + 9,
       )
       light.target.position.lerp(aim, blend)
@@ -93,7 +93,7 @@ export function createPremiereLighting(scene, frames, initialProject) {
       fixture.position.copy(light.position)
       fixture.quaternion.copy(beam.quaternion)
       beam.scale.set(length * Math.tan(light.angle) * .58, length, length * Math.tan(light.angle) * .58)
-      beam.material.uniforms.strength.value = (index ? .09 : .15) * (1 - focus * .25)
+      beam.material.uniforms.strength.value = (index ? .11 : .18) * (1 - focus * .25)
       // The pool sits on the same inclined floor as the mirror. Its position follows the lit panel.
       const z = 145 + index * 70
       pool.position.set(light.target.position.x + side * 30, floorY - z * Math.tan(Math.PI * .06) + 2, z)
