@@ -9,15 +9,15 @@
   const animate = () => !reduce.matches && !navigator.connection?.saveData
   let modulePromise, graphicsPromise
   const acceleratedGraphics = () => graphicsPromise ??= new Promise(resolve => {
-    if (!('Worker' in window) || !('OffscreenCanvas' in window)) { resolve(false); return }
+    if (typeof Worker !== 'function' || typeof OffscreenCanvas !== 'function') { resolve(null); return }
     let worker
     const finish = value => { clearTimeout(timeout); worker?.terminate(); resolve(value) }
-    const timeout = setTimeout(() => finish(false), 3000)
+    const timeout = setTimeout(() => finish(null), 3000)
     try {
       worker = new Worker('/scripts/project-theater-capability.js')
-      worker.onmessage = event => finish(event.data === true)
-      worker.onerror = () => finish(false)
-    } catch { finish(false) }
+      worker.onmessage = event => finish(typeof event.data === 'boolean' ? event.data : null)
+      worker.onerror = event => { event.preventDefault(); finish(null) }
+    } catch { finish(null) }
   })
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     for (const entry of entries) {
@@ -40,7 +40,6 @@
     const works = [...root.querySelectorAll('[data-theater-work]')]
     const button = root.querySelector('[data-theater-motion]')
     const label = root.querySelector('[data-theater-motion-label]')
-    const status = root.querySelector('[data-theater-status]')
     const slideStatus = root.querySelector('[data-theater-slide-status]')
     const counter = root.querySelector('[data-theater-counter]')
     const initial = Math.max(0, works.findIndex(work => work.dataset.theaterSlot === 'center'))
@@ -88,31 +87,33 @@
       state.failed = true
       state.api?.dispose(); state.api = null
       root.dataset.theaterReady = 'false'
-      status.textContent = 'Project carousel. Dimensional reflections unavailable.'
+      root.dataset.theaterRenderPath = 'html'
     }
     state.load = async () => {
-      if (state.api || state.loading || state.failed || narrow.matches || !animate() || !state.visible || document.hidden) return
+      if (!root.isConnected || state.api || state.loading || state.failed || narrow.matches || !animate() || !state.visible || document.hidden) return
       state.loading = true
       const generation = state.generation
       try {
-        if (!await acceleratedGraphics()) { if (root.isConnected && generation === state.generation) fail(); return }
-        if (!root.isConnected || generation !== state.generation) return
+        if (await acceleratedGraphics() === false) { if (root.isConnected && generation === state.generation) fail(); return }
+        // Preferences or viewport may have changed while the worker was running.
+        if (!root.isConnected || generation !== state.generation || !animate() || narrow.matches) return
         modulePromise ??= import('/scripts/project-theater-scene.js')
         const { createTheater } = await modulePromise
-        if (!root.isConnected || generation !== state.generation) return
+        if (!root.isConnected || generation !== state.generation || !animate() || narrow.matches) return
         const api = await createTheater(root, { onFailure: fail })
         if (!root.isConnected || generation !== state.generation || state.failed) { api.dispose(); return }
         state.api = api
         api.setPaused(state.paused); api.setVisible(state.visible && !document.hidden)
         root.dataset.theaterReady = 'true'
-        status.textContent = 'Project carousel with dimensional frames and reflections.'
+        root.dataset.theaterRenderPath = 'webgl'
       } catch { if (root.isConnected && generation === state.generation) fail() }
-      finally { state.loading = false; sync() }
+      finally { state.loading = false; sync(); if (generation !== state.generation) state.load() }
     }
     state.stopScene = () => {
       state.generation++
       state.api?.dispose(); state.api = null
       root.dataset.theaterReady = 'false'
+      root.dataset.theaterRenderPath = 'html'
     }
     state.preferencesChanged = () => {
       state.paused = !animate()

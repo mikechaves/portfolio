@@ -25,7 +25,10 @@ const modules: Record<string, unknown> = {
   "next/dynamic": () => Empty,
   "lucide-react": { ArrowRight: Empty, Github: Empty, ExternalLink: Empty },
   "@/components/share-project-button": { ShareProjectButton: Empty },
-  "@/components/cinematic-project-cover": { CinematicProjectCover: Empty },
+  "@/components/cinematic-project-cover": {
+    CinematicProjectCover: Empty,
+    hasCinematicProjectCover: (id: string) => ["wizzo", "x-games", "speakeasy"].includes(id),
+  },
   "./ProjectDesignStory": { ProjectDesignStory: Empty },
   "./ProjectEvidenceStrip": { ProjectEvidenceStrip: Empty },
   "./ProjectMediaShowcase": { ProjectMediaShowcase: Empty },

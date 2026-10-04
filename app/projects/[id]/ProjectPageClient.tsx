@@ -7,7 +7,7 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import type { ReactNode } from "react"
 import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
-import { CinematicProjectCover } from "@/components/cinematic-project-cover"
+import { CinematicProjectCover, hasCinematicProjectCover } from "@/components/cinematic-project-cover"
 import { ProjectDesignStory } from "./ProjectDesignStory"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
@@ -74,6 +74,7 @@ export default function ProjectPageClient({ project, media, dossierConfig }: Pro
   const mediaOpenerRef = useRef<HTMLElement | null>(null)
   const isEvidenceDossier = Boolean(dossierConfig)
   const designStory = project.designStory
+  const hasCover = hasCinematicProjectCover(project.id)
   const projectLinks = useMemo(
     () => [
       ...(project.github
@@ -196,9 +197,17 @@ export default function ProjectPageClient({ project, media, dossierConfig }: Pro
         <>
           <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
             <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
-            <div className="evidence-dossier-hero-grid">
-              <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
-              <div><p className="evidence-dossier-summary">{project.description}</p><div className="mt-6">{projectActions}</div></div>
+            <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
+            <div className="case-study-opening-media" data-case-study-opening-media>
+              {hasCover ? (
+                <CinematicProjectCover projectId={project.id} priority />
+              ) : (
+                <ProjectMediaShowcase media={media} onOpen={openMedia} priority />
+              )}
+            </div>
+            <div className="case-study-intro-details">
+              <p className="evidence-dossier-summary">{project.description}</p>
+              {projectActions}
             </div>
             <dl className="evidence-dossier-ledger">
               <div><dt>My role</dt><dd>{project.details.proofRole}</dd></div>
@@ -208,20 +217,19 @@ export default function ProjectPageClient({ project, media, dossierConfig }: Pro
             </dl>
             <div className="evidence-dossier-capabilities" aria-label="Documented capabilities">{project.details.services?.map((service) => <span key={service}>{service}</span>)}</div>
           </section>
-          <CinematicProjectCover projectId={project.id} />
 
           {designStory?.quote && <figure className="border-l-2 border-primary/60 py-2 pl-6 md:pl-8">
             <blockquote className="max-w-5xl text-xl leading-relaxed text-zinc-100 md:text-2xl">“{designStory.quote}”</blockquote>
             {designStory.attribution && <figcaption className="mt-4 text-sm text-zinc-400">{designStory.attribution}</figcaption>}
           </figure>}
 
-          <section className="evidence-dossier-artifact" aria-labelledby="primary-artifact-title">
+          {hasCover && <section className="evidence-dossier-artifact" aria-labelledby="primary-artifact-title">
             <div className="signal-section-heading">
               <h2 id="primary-artifact-title">{designStory ? `The ${project.title} experience` : "Primary artifact"}</h2>
               <span>01 / {String(media.length).padStart(2, "0")}</span>
             </div>
             <ProjectMediaShowcase media={media} onOpen={openMedia} />
-          </section>
+          </section>}
         </>
       ) : (
         <>

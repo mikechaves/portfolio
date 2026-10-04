@@ -34,7 +34,7 @@ test("all eight lenses switch, reorder, reset, and preserve the custom role path
 test("reduced motion keeps art and navigation without WebGL",async({page})=>{
   await page.emulateMedia({reducedMotion:"reduce"})
   const webgl:string[]=[]
-  page.on("request",request=>{if(request.url().includes("three.module")||request.url().includes("project-theater-scene"))webgl.push(request.url())})
+  page.on("request",request=>{if(/three\.module|project-theater-(scene|capability)/.test(request.url()))webgl.push(request.url())})
   await page.goto("/")
   await expect(page.locator("[data-theater-work] img")).toHaveCount(3)
   await expect(page.getByRole("button",{name:"Pause carousel"})).not.toBeVisible()
@@ -44,6 +44,8 @@ test("reduced motion keeps art and navigation without WebGL",async({page})=>{
   await page.locator("#adaptive-focus").scrollIntoViewIfNeeded()
   await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
   expect(webgl).toEqual([])
+  await expect(page.locator("[data-project-theater]")).toHaveAttribute("data-theater-render-path","html")
+  await expect(page.locator("body")).not.toContainText("Dimensional reflections unavailable")
   await page.locator('[data-adaptive-focus-preset="xr-accessibility"]').press("Enter")
   await expect(page.locator('[data-adaptive-focus-preset="xr-accessibility"]')).toHaveAttribute("aria-pressed","true")
 })
@@ -142,7 +144,7 @@ test("approved resume bytes and legacy download redirect remain intact",async({r
   expect(legacy.headers().location).toBe("/Michael_Chaves_Resume.pdf")
 })
 
-test("tablet layout keeps direct access to work, focus, and menu",async({page})=>{
+test("tablet layout keeps direct access to work, focus, and menu",async({page},testInfo)=>{
   await page.setViewportSize({width:820,height:1180})
   await page.goto("/")
   await expect(page.getByRole("heading",{name:"Mike Chaves",level:1})).toBeVisible()
@@ -151,10 +153,10 @@ test("tablet layout keeps direct access to work, focus, and menu",async({page})=
   await page.getByRole("button",{name:"Close menu"}).press("Escape")
   await expect(page.getByRole("dialog")).not.toBeVisible()
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
-  await page.screenshot({path:"docs/cinematic/evidence/tablet.png",fullPage:false})
+  await page.screenshot({path:testInfo.outputPath("tablet.png"),fullPage:false})
 })
 
-test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async({page},testInfo)=>{
+test("accelerated WebGL scene motion, pause, offscreen lifecycle, and context-loss fallback",async({page},testInfo)=>{
   test.skip(testInfo.project.name.includes("mobile"),"Mobile uses the HTML carousel without WebGL")
   const accelerated = await page.evaluate(() => {
     const context = document.createElement("canvas").getContext("webgl2", { failIfMajorPerformanceCaveat:true, powerPreference:"low-power" })
@@ -163,17 +165,11 @@ test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async
     context?.getExtension("WEBGL_lose_context")?.loseContext()
     return Boolean(context) && !/SwiftShader|llvmpipe|softpipe|software renderer|software rasterizer/i.test(driver)
   })
+  test.skip(!accelerated,"This browser has no accelerated WebGL context; HTML fallback is tested separately")
   await page.goto("/")
   const scene=page.locator("[data-project-theater]")
-  if (!accelerated) {
-    await expect(scene).toHaveAttribute("data-theater-ready","false")
-    await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
-    await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
-    await page.getByRole("button",{name:"Next project"}).click()
-    await expect(scene).toHaveAttribute("data-theater-active","speakeasy")
-    return
-  }
   await expect(scene).toHaveAttribute("data-theater-ready","true")
+  await expect(scene).toHaveAttribute("data-theater-render-path","webgl")
   await page.mouse.move(300,550)
   await page.mouse.move(1120,620,{steps:25})
   await page.getByRole("button",{name:"Pause carousel"}).click()
@@ -191,6 +187,8 @@ test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async
   await expect(scene).toHaveAttribute("data-theater-ready","false")
   await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
   await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+  await expect(scene).toHaveAttribute("data-theater-render-path","html")
+  await expect(page.locator("body")).not.toContainText("Dimensional reflections unavailable")
 })
 
 test("a major graphics performance caveat retains the HTML carousel",async({page},testInfo)=>{

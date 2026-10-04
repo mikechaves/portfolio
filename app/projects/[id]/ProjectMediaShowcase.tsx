@@ -8,13 +8,14 @@ interface ProjectMediaShowcaseProps {
   media: ProjectMediaItem[]
   onOpen: (index: number) => void
   className?: string
+  priority?: boolean
 }
 
 function getThumbnailLabel(item: ProjectMediaItem) {
   return `Open ${item.label} from artifact viewer fullscreen`
 }
 
-export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaShowcaseProps) {
+export function ProjectMediaShowcase({ media, onOpen, className, priority = false }: ProjectMediaShowcaseProps) {
   if (media.length === 0) return null
 
   const primaryItem = media[0]
@@ -38,7 +39,7 @@ export function ProjectMediaShowcase({ media, onOpen, className }: ProjectMediaS
               width={1600}
               height={1000}
               className="relative z-10 max-h-[min(68vh,620px)] w-full rounded-sm object-contain"
-              loading="lazy" fetchPriority="low" decoding="async"
+              loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "low"} decoding="async"
             />
             <span className="absolute right-3 top-3 z-20 inline-flex items-center gap-2 rounded border border-primary/30 bg-black/70 px-2 py-1 text-xs text-primary opacity-90 backdrop-blur-sm transition-opacity group-hover:opacity-100">
               <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
