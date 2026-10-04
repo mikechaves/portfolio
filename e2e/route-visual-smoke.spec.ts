@@ -10,10 +10,10 @@ interface SmokeRoute {
 }
 
 const routes: SmokeRoute[] = [
-  { name: "home", path: "/", heading: "I shape brands, tell stories, and make ideas playable." },
+  { name: "home", path: "/", heading: "Mike Chaves" },
   { name: "about", path: "/about", heading: "Mike Chaves" },
-  { name: "projects", path: "/projects", heading: "Selected projects" },
-  { name: "writing", path: "/blog", heading: "Ideas on design, imagination, and interaction" },
+  { name: "projects", path: "/projects", heading: "Work." },
+  { name: "writing", path: "/blog", heading: "Writing." },
   { name: "archive", path: "/archive", heading: "Archive" },
   { name: "error", path: "/error", heading: "Error" },
   ...PROJECTS.map((project) => ({ name: project.id, path: `/projects/${project.id}`, heading: project.title })),
@@ -56,7 +56,7 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 async function revealProjectExplorer(page: Page) {
-  const explorer = page.locator("[data-project-explorer]")
+  const explorer = page.locator('section[aria-labelledby="project-archive-heading"]')
   await expect(explorer).toBeAttached()
   await explorer.scrollIntoViewIfNeeded()
   await expect(page.locator('section[aria-labelledby="project-archive-heading"]')).toBeVisible()
@@ -217,7 +217,7 @@ test("Playfold design proposal, image focus return and frozen public resources w
   await expect(portraitDialog).not.toBeVisible()
 
   const pageImages = page.locator("main img")
-  await expect(pageImages).toHaveCount(25)
+  await expect(pageImages).toHaveCount(26)
   for (const image of await pageImages.all()) {
     await image.scrollIntoViewIfNeeded()
     await expect.poll(() => image.evaluate((element) => {
@@ -276,7 +276,7 @@ test("project category controls update the rendered archive", async ({ page }, t
   })
 
   await page.goto("/projects", { waitUntil: "domcontentloaded" })
-  await expect(page.getByRole("heading", { level: 1, name: "Selected projects" })).toBeVisible()
+  await expect(page.getByRole("heading", { level: 1, name: "Work." })).toBeVisible()
 
   const aiFilter = page
     .getByLabel("Project categories")
@@ -309,10 +309,10 @@ test("homepage features only the curated public proof", async ({ page }) => {
   await expectNoHorizontalOverflow(page)
 })
 
-test("homepage presents six professional records without engagement-type qualifiers", async ({
+test("About preserves six professional records without engagement-type qualifiers", async ({
   page,
 }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" })
+  await page.goto("/about", { waitUntil: "domcontentloaded" })
   const experience = page.locator("#professional-experience")
 
   await expect(experience.getByRole("article")).toHaveCount(6)
@@ -331,14 +331,13 @@ test("homepage presents six professional records without engagement-type qualifi
   await expectNoHorizontalOverflow(page)
 })
 
-test("homepage role path focuses Adaptive Focus without suppressing core proof", async ({ page }) => {
+test("homepage Adaptive Focus stays optional and preserves the work", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" })
-  await page.getByRole("link", { name: "Match me to a role" }).click()
-
-  await expect(page).toHaveURL(/#adaptive-focus$/u)
+  await page.locator("#adaptive-focus").scrollIntoViewIfNeeded()
+  await page.locator("[data-focus-custom] summary").click()
+  await page.getByLabel("Role or job description").focus()
   await expect(page.getByLabel("Role or job description")).toBeFocused()
-  await expect(page.getByRole("heading", { name: "Selected work" })).toBeVisible()
-  await expect(page.getByRole("heading", { name: "Creative roots. Hands-on range." })).toBeAttached()
+  await expect(page.getByRole("heading", { name: "The work.", exact:true })).toBeAttached()
 })
 
 test("mobile task menu traps focus, closes on Escape, and returns focus", async ({ page }) => {
@@ -351,7 +350,7 @@ test("mobile task menu traps focus, closes on Escape, and returns focus", async 
   await expect(dialog).toBeVisible()
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
   await page.keyboard.press("Shift+Tab")
-  await expect(dialog.getByRole("link", { name: "Enter Metaverse" })).toBeFocused()
+  await expect(dialog.getByRole("link", { name: "Contact", exact: true })).toBeFocused()
   await page.keyboard.press("Tab")
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
 
@@ -483,8 +482,10 @@ test("custom role queries preserve the model-evaluation and operational-calibrat
     })
   })
   await page.goto("/projects", { waitUntil: "networkidle" })
+  await page.locator(".archive-focus-deck > summary").click()
+  await page.locator(".archive-custom-role > summary").click()
   const input = page.getByLabel("Role, responsibilities, or job description")
-  const submit = page.getByRole("button", { name: "Build Role Fit Brief", exact: true })
+  const submit = page.getByRole("button", { name: "Analyze role", exact: true })
 
   const trainerQuery =
     "AI trainer who has evaluated LLM reasoning, authored benchmark problems, performed data annotation, and improved model outputs"
@@ -619,14 +620,14 @@ test("creative direction lens includes the entertainment foundation", async ({ p
   await expectNoHorizontalOverflow(page)
 })
 
-test("optional immersive navigation and missing-page recovery render", async ({ page }, testInfo) => {
+test("retired immersive entry points and missing-page recovery work", async ({ page }, testInfo) => {
   await page.goto("/metaverse", { waitUntil: "networkidle" })
-  await expect(page.getByRole("button", { name: "EXIT", exact: true })).toBeVisible()
+  await expect(page).toHaveURL(/\/#selected-work$/)
+  await expect(page.getByRole("heading", { level: 1, name: "Mike Chaves" })).toBeAttached()
   await expect(page.locator("body")).not.toContainText("Internal Server Error")
   await expectNoHorizontalOverflow(page)
-  await page.screenshot({ path: testInfo.outputPath("metaverse.png"), animations: "disabled" })
-  await page.getByRole("button", { name: "EXIT", exact: true }).click()
-  await expect(page.getByRole("heading", { level: 1, name: "I shape brands, tell stories, and make ideas playable." })).toBeVisible()
+  await page.goto("/?metaverse=true")
+  await expect(page).toHaveURL(/\/#selected-work$/)
   const response = await page.goto("/missing-portfolio-page")
   expect(response?.status()).toBe(404)
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible()

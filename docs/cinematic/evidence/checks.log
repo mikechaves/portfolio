@@ -1,0 +1,438 @@
+=== build-final ===
+
+> my-v0-project@0.1.0 build /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> next build
+
+   ▲ Next.js 15.2.8
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/35) ...
+   Generating static pages (8/35) 
+   Generating static pages (17/35) 
+   Generating static pages (26/35) 
+ ✓ Generating static pages (35/35)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size  First Load JS
+┌ ○ /_not-found                             160 B         102 kB
+├ ƒ /api/adaptive-focus/analyze             160 B         102 kB
+├ ƒ /api/contact                            160 B         102 kB
+├ ƒ /api/placeholder                        160 B         102 kB
+├ ○ /archive                                177 B         105 kB
+├ ƒ /article-card/[id]                      160 B         102 kB
+├ ƒ /blog                                   172 B         105 kB
+├ ○ /blog/ai-becomes-user                 1.61 kB         106 kB
+├ ○ /blog/embracing-ambiguity             1.61 kB         106 kB
+├ ○ /blog/extended-pausabilities          1.61 kB         106 kB
+├ ○ /blog/redefining-reality              1.61 kB         106 kB
+├ ○ /blog/voice-first-xr                  1.61 kB         106 kB
+├ ƒ /error                                  177 B         105 kB
+├ ○ /metaverse                              160 B         102 kB
+├ ○ /projects                             26.8 kB         131 kB
+├ ● /projects/[id]                        8.77 kB         113 kB
+├   ├ /projects/wizzo
+├   ├ /projects/x-games
+├   ├ /projects/geovoice
+├   └ [+12 more paths]
+├ ○ /robots.txt                             160 B         102 kB
+├ ○ /sitemap.xml                            160 B         102 kB
+└ ƒ /social-card                            160 B         102 kB
++ First Load JS shared by all              101 kB
+  ├ chunks/567-48f0c9fefd7e37cc.js        46.1 kB
+  ├ chunks/6c733eb2-e49398bf88527d04.js   53.3 kB
+  └ other shared chunks (total)           2.04 kB
+
+Route (pages)                                Size  First Load JS
+┌ ○ /                                     6.26 kB         120 kB
+├   /_app                                     0 B        93.3 kB
+└ ○ /about                                17.8 kB         131 kB
++ First Load JS shared by all              121 kB
+  ├ chunks/framework-c018588afd5a305c.js  57.3 kB
+  ├ chunks/main-694438ad9ab4fd06.js       33.9 kB
+  ├ css/b9f5149f80947372.css              27.6 kB
+  └ other shared chunks (total)           2.13 kB
+
+ƒ Middleware                                31 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+
+=== types-final ===
+
+> my-v0-project@0.1.0 type-check /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> tsc --noEmit
+
+
+
+=== lint-final ===
+
+> my-v0-project@0.1.0 lint /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> ESLINT_USE_FLAT_CONFIG=false eslint app components data e2e features lib packages pages scripts __tests__ --ext .js,.jsx,.mjs,.ts,.tsx
+
+(node:66191) ESLintRCWarning: You are using an eslintrc configuration file, which is deprecated and support will be removed in v10.0.0. Please migrate to an eslint.config.js file. See https://eslint.org/docs/latest/use/configure/migration-guide for details. An eslintrc configuration file is used because you have the ESLINT_USE_FLAT_CONFIG environment variable set to false. If you want to use an eslint.config.js file, remove the environment variable. If you want to find the location of the eslintrc configuration file, use the --debug flag.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+=== unit-final ===
+
+> my-v0-project@0.1.0 test:unit /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> jest --runInBand
+
+PASS __tests__/project-design-story-shell.test.ts
+  ● Console
+
+    console.error
+      Received `false` for a non-boolean attribute `prefetch`.
+      
+      If you want to write it to the DOM, pass a string instead: prefetch="false" or prefetch={value.toString()}.
+      
+      If you used to conditionally omit it with prefetch={condition && value}, pass prefetch={condition ? value : undefined} instead.
+
+      46 | const render = (id: string, designStory = projects[id].designStory) => {
+      47 |   const project = { ...projects[id], id, designStory }
+    > 48 |   return renderToStaticMarkup(createElement(ProjectPageClient, { project, media: buildProjectMedia(project), dossierConfig: getEvidenceDossierConfig(id) }))
+         |                              ^
+      49 | }
+      50 |
+      51 | describe("shared product-design story shell", () => {
+
+      at validateProperty (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:590:27)
+      at warnUnknownProperties (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:658:9)
+      at pushStartInstance (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:1535:9)
+      at renderElement (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5032:27)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5613:22)
+      at renderNodeDestructive (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5439:11)
+      at renderNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5989:18)
+      at renderChildrenArray (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5874:9)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5626:13)
+      at renderNodeDestructive (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5439:11)
+      at renderNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5989:18)
+      at renderElement (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5048:11)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5613:22)
+      at renderNodeDestructive (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5439:11)
+      at renderNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5989:18)
+      at renderChildrenArray (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5874:9)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5626:13)
+      at renderNodeDestructive (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5439:11)
+      at renderElement (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5099:13)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5613:22)
+      at renderNodeDestructive (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5439:11)
+      at finishFunctionComponent (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:4568:13)
+      at renderElement (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5010:11)
+      at retryNode (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5613:22)
+      at performWork (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:6416:19)
+      at startWork (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:7027:7)
+      at renderToStringImpl (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:7111:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.renderToStaticMarkup (node_modules/.pnpm/react-dom@19.0.0_react@19.0.0/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:8558:14)
+      at render (__tests__/project-design-story-shell.test.ts:48:30)
+      at Object.<anonymous> (__tests__/project-design-story-shell.test.ts:54:18)
+
+PASS features/adaptive-focus/server/openai-role-interpreter.test.ts
+PASS app/api/adaptive-focus/analyze/route.test.ts
+PASS features/adaptive-focus/adaptive-focus.test.ts
+PASS features/adaptive-focus/handoff.test.ts
+PASS lib/__tests__/ga4.test.ts
+PASS __tests__/professional-experience-evidence.test.ts
+PASS __tests__/wizzo-case-study.test.ts
+PASS __tests__/retired-project-routes.test.ts
+PASS __tests__/portfolio-curation.test.ts
+PASS __tests__/portals-case-study.test.ts
+PASS lib/__tests__/utils.test.ts
+PASS __tests__/seo-routes.test.ts
+PASS __tests__/global-route-context.test.ts
+PASS __tests__/dossier-exit-path.test.ts
+PASS __tests__/x-games-case-study.test.ts
+PASS __tests__/speakeasy-case-study.test.ts
+PASS __tests__/homepage-server-first.test.ts
+PASS __tests__/contrast.test.ts
+PASS lib/seo/__tests__/structured-data.test.ts
+PASS lib/seo/__tests__/host-policy.test.ts
+PASS __tests__/vulnerability-visualizer-case-study.test.ts
+PASS __tests__/sound-escape-vr-case-study.test.ts
+PASS __tests__/project-media.test.ts
+PASS __tests__/homepage-progressive-disclosure.test.ts
+PASS __tests__/creative-supply-engine-case-study.test.ts
+PASS __tests__/about-server-first.test.ts
+PASS __tests__/ai-energy-archive.test.ts
+PASS lib/__tests__/portfolio-analytics.test.ts
+PASS lib/__tests__/content-relationships.test.ts
+PASS __tests__/project-thumbnails.test.ts
+PASS lib/seo/__tests__/site.test.ts
+PASS lib/__tests__/analytics-config.test.ts
+PASS __tests__/petition-ready-case-study.test.ts
+PASS __tests__/material-explorer-case-study.test.ts
+PASS __tests__/die-ai-case-study.test.ts
+PASS __tests__/projects-server-first.test.ts
+PASS __tests__/geovoice-case-study.test.ts
+
+Test Suites: 38 passed, 38 total
+Tests:       223 passed, 223 total
+Snapshots:   0 total
+Time:        1.129 s
+Ran all test suites.
+
+
+=== browser-final ===
+
+> my-v0-project@0.1.0 test:visual-smoke /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> playwright test --config=playwright.config.ts
+
+
+Running 98 tests using 2 workers
+
+
+(node:66202) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:66203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:34:5 › reduced motion keeps art and navigation without WebGL
+[2/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:5:5 › all eight lenses switch, reorder, reset, and preserve the custom role path
+[3/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:47:5 › failed artwork and unavailable WebGL retain usable project links
+[4/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:64:5 › approved resume bytes and legacy download redirect remain intact
+[5/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:73:5 › tablet layout keeps direct access to work, focus, and menu
+[6/98] [desktop-chromium] › e2e/cinematic-platform.spec.ts:85:5 › scene motion, pause, offscreen lifecycle, and context-loss fallback
+[7/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › home renders without a framework or runtime failure
+[8/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › about renders without a framework or runtime failure
+[9/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › projects renders without a framework or runtime failure
+[10/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › writing renders without a framework or runtime failure
+[11/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › archive renders without a framework or runtime failure
+[12/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › error renders without a framework or runtime failure
+[13/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › wizzo renders without a framework or runtime failure
+[14/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › x-games renders without a framework or runtime failure
+[15/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › speakeasy renders without a framework or runtime failure
+[16/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › sound-escape-vr renders without a framework or runtime failure
+[17/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › material-explorer renders without a framework or runtime failure
+[18/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › geovoice renders without a framework or runtime failure
+[19/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › vulnerability-visualizer renders without a framework or runtime failure
+[20/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › petition-ready renders without a framework or runtime failure
+[21/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › creative-supply-engine renders without a framework or runtime failure
+[22/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › portals renders without a framework or runtime failure
+[23/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › die-ai renders without a framework or runtime failure
+[24/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › voice-first-xr renders without a framework or runtime failure
+[25/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › embracing-ambiguity renders without a framework or runtime failure
+[26/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › ai-becomes-user renders without a framework or runtime failure
+[27/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › extended-pausabilities renders without a framework or runtime failure
+[28/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › redefining-reality renders without a framework or runtime failure
+[29/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:105:5 › Wizzo design narrative, image viewer and public downloads work
+[30/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:130:5 › Playfold design proposal, image focus return and frozen public resources work
+[31/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:251:5 › Wizzo shared viewer restores focus after button close and Escape
+[32/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:270:5 › project category controls update the rendered archive
+[33/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:297:5 › homepage features only the curated public proof
+[34/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:312:5 › About preserves six professional records without engagement-type qualifiers
+[35/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:334:5 › homepage Adaptive Focus stays optional and preserves the work
+[36/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:343:5 › mobile task menu traps focus, closes on Escape, and returns focus
+[37/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:363:5 › project media loads the fullscreen viewer on first activation
+[38/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:376:5 › public archive follows the canonical project order
+[39/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:401:5 › Games & Interactive exposes only the curated game set
+[40/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:418:5 › human review and LLM lenses render the correct professional evidence variants
+[41/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:448:5 › operational and XR lenses preserve production versus prototype status
+[42/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:463:5 › game and creator lens keeps public game proof central
+[43/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:474:5 › custom role queries preserve the model-evaluation and operational-calibration distinction
+[44/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:511:5 › about distinguishes confidential and approved professional summaries without project links
+[45/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:549:5 › about progressively enhances focus context and contact submission
+[46/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:581:5 › retired case-study routes redirect server-side to professional experience
+[47/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:603:5 › retired proprietary assets are not served
+[48/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:615:5 › creative direction lens includes the entertainment foundation
+[49/98] [desktop-chromium] › e2e/route-visual-smoke.spec.ts:623:5 › retired immersive entry points and missing-page recovery work
+
+(node:66332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[50/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:5:5 › all eight lenses switch, reorder, reset, and preserve the custom role path
+
+(node:66339) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[51/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:34:5 › reduced motion keeps art and navigation without WebGL
+[52/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:47:5 › failed artwork and unavailable WebGL retain usable project links
+[53/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:64:5 › approved resume bytes and legacy download redirect remain intact
+[54/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:73:5 › tablet layout keeps direct access to work, focus, and menu
+[55/98] [mobile-chromium] › e2e/cinematic-platform.spec.ts:85:5 › scene motion, pause, offscreen lifecycle, and context-loss fallback
+[56/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › home renders without a framework or runtime failure
+[57/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › about renders without a framework or runtime failure
+[58/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › projects renders without a framework or runtime failure
+[59/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › writing renders without a framework or runtime failure
+[60/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › archive renders without a framework or runtime failure
+[61/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › error renders without a framework or runtime failure
+[62/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › wizzo renders without a framework or runtime failure
+[63/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › x-games renders without a framework or runtime failure
+[64/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › speakeasy renders without a framework or runtime failure
+[65/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › sound-escape-vr renders without a framework or runtime failure
+[66/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › material-explorer renders without a framework or runtime failure
+[67/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › geovoice renders without a framework or runtime failure
+[68/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › vulnerability-visualizer renders without a framework or runtime failure
+[69/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › petition-ready renders without a framework or runtime failure
+[70/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › creative-supply-engine renders without a framework or runtime failure
+[71/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › portals renders without a framework or runtime failure
+[72/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › die-ai renders without a framework or runtime failure
+[73/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › voice-first-xr renders without a framework or runtime failure
+[74/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › embracing-ambiguity renders without a framework or runtime failure
+[75/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › ai-becomes-user renders without a framework or runtime failure
+[76/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › extended-pausabilities renders without a framework or runtime failure
+[77/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:100:7 › redefining-reality renders without a framework or runtime failure
+[78/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:105:5 › Wizzo design narrative, image viewer and public downloads work
+[79/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:130:5 › Playfold design proposal, image focus return and frozen public resources work
+[80/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:251:5 › Wizzo shared viewer restores focus after button close and Escape
+[81/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:270:5 › project category controls update the rendered archive
+[82/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:297:5 › homepage features only the curated public proof
+[83/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:312:5 › About preserves six professional records without engagement-type qualifiers
+[84/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:334:5 › homepage Adaptive Focus stays optional and preserves the work
+[85/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:343:5 › mobile task menu traps focus, closes on Escape, and returns focus
+[86/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:363:5 › project media loads the fullscreen viewer on first activation
+[87/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:376:5 › public archive follows the canonical project order
+[88/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:401:5 › Games & Interactive exposes only the curated game set
+[89/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:418:5 › human review and LLM lenses render the correct professional evidence variants
+[90/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:448:5 › operational and XR lenses preserve production versus prototype status
+[91/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:463:5 › game and creator lens keeps public game proof central
+[92/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:474:5 › custom role queries preserve the model-evaluation and operational-calibration distinction
+[93/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:511:5 › about distinguishes confidential and approved professional summaries without project links
+[94/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:549:5 › about progressively enhances focus context and contact submission
+[95/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:581:5 › retired case-study routes redirect server-side to professional experience
+[96/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:603:5 › retired proprietary assets are not served
+[97/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:615:5 › creative direction lens includes the entertainment foundation
+[98/98] [mobile-chromium] › e2e/route-visual-smoke.spec.ts:623:5 › retired immersive entry points and missing-page recovery work
+  1 skipped
+  97 passed (37.3s)
+
+
+=== seo-final ===
+
+Running 4 tests using 1 worker
+
+
+(node:66427) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/4] e2e/seo/seo-audit.spec.ts:110:5 › initial HTML, metadata, sitemap, structured data, and links form one canonical crawl
+[2/4] e2e/seo/seo-audit.spec.ts:228:5 › noncanonical, preview, error, query, and API routes obey their controls
+[3/4] e2e/seo/seo-audit.spec.ts:306:5 › rendered desktop pages preserve the crawlable contract after hydration
+[4/4] e2e/seo/seo-audit.spec.ts:312:5 › representative mobile acquisition pages remain usable and stable
+  4 passed (3.0s)
+
+
+=== analytics ===
+
+> my-v0-project@0.1.0 analytics:audit /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> NEXT_PUBLIC_ANALYTICS_DEBUG=1 pnpm build && playwright test --config=playwright.analytics.config.ts
+
+
+> my-v0-project@0.1.0 build /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> next build
+
+   ▲ Next.js 15.2.8
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/35) ...
+   Generating static pages (8/35) 
+   Generating static pages (17/35) 
+   Generating static pages (26/35) 
+ ✓ Generating static pages (35/35)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size  First Load JS
+┌ ○ /_not-found                             160 B         101 kB
+├ ƒ /api/adaptive-focus/analyze             160 B         101 kB
+├ ƒ /api/contact                            160 B         101 kB
+├ ƒ /api/placeholder                        160 B         101 kB
+├ ○ /archive                                177 B         105 kB
+├ ƒ /article-card/[id]                      160 B         101 kB
+├ ƒ /blog                                   172 B         105 kB
+├ ○ /blog/ai-becomes-user                 1.61 kB         106 kB
+├ ○ /blog/embracing-ambiguity             1.61 kB         106 kB
+├ ○ /blog/extended-pausabilities          1.61 kB         106 kB
+├ ○ /blog/redefining-reality              1.61 kB         106 kB
+├ ○ /blog/voice-first-xr                  1.61 kB         106 kB
+├ ƒ /error                                  177 B         105 kB
+├ ○ /metaverse                              160 B         101 kB
+├ ○ /projects                             18.9 kB         136 kB
+├ ● /projects/[id]                        16.1 kB         133 kB
+├   ├ /projects/wizzo
+├   ├ /projects/x-games
+├   ├ /projects/geovoice
+├   └ [+12 more paths]
+├ ○ /robots.txt                             160 B         101 kB
+├ ○ /sitemap.xml                            160 B         101 kB
+└ ƒ /social-card                            160 B         101 kB
++ First Load JS shared by all              101 kB
+  ├ chunks/567-48f0c9fefd7e37cc.js        46.1 kB
+  ├ chunks/6c733eb2-e49398bf88527d04.js   53.3 kB
+  └ other shared chunks (total)           2.01 kB
+
+Route (pages)                                Size  First Load JS
+┌ ○ /                                     6.05 kB         119 kB
+├   /_app                                     0 B        93.3 kB
+└ ○ /about                                17.8 kB         131 kB
++ First Load JS shared by all              120 kB
+  ├ chunks/framework-c018588afd5a305c.js  57.3 kB
+  ├ chunks/main-694438ad9ab4fd06.js       33.9 kB
+  ├ css/f0eca5dd28b1e488.css              26.9 kB
+  └ other shared chunks (total)           2.11 kB
+
+ƒ Middleware                                31 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+[WebServer] (node:51386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:51397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+
+(node:51403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/5] e2e/analytics/analytics-debug.spec.ts:18:5 › consent-gated debug mode verifies the real funnel with zero provider transport
+[2/5] e2e/analytics/analytics-debug.spec.ts:57:5 › homepage journey analytics records bounded paths, disclosure, and public practice
+[3/5] e2e/analytics/analytics-debug.spec.ts:96:5 › declining persists, records nothing, and remains reversible from the footer
+[4/5] e2e/analytics/analytics-debug.spec.ts:126:7 › Global Privacy Control keeps optional analytics off
+[5/5] e2e/analytics/analytics-debug.spec.ts:126:7 › Do Not Track keeps optional analytics off
+  5 passed (7.3s)
+
+
+=== performance-final ===
+Auditing / (mobile)... PASS — score 100, LCP 1730ms, CLS 0, TBT 0ms, 228KB
+Auditing /about (mobile)... PASS — score 100, LCP 1504ms, CLS 0, TBT 0ms, 167KB
+Auditing /projects (mobile)... PASS — score 98, LCP 2385ms, CLS 0, TBT 2ms, 322KB
+Auditing /projects/x-games (mobile)... PASS — score 98, LCP 2457ms, CLS 0, TBT 0ms, 365KB
+Auditing /blog/voice-first-xr (mobile)... PASS — score 99, LCP 2000ms, CLS 0, TBT 0ms, 167KB
+Auditing / (desktop)... PASS — score 100, LCP 544ms, CLS 0, TBT 0ms, 936KB
+Auditing /about (desktop)... PASS — score 100, LCP 328ms, CLS 0, TBT 0ms, 451KB
+Auditing /projects (desktop)... PASS — score 100, LCP 584ms, CLS 0, TBT 0ms, 1127KB
+Auditing /projects/x-games (desktop)... PASS — score 100, LCP 538ms, CLS 0, TBT 0ms, 489KB
+Auditing /blog/voice-first-xr (desktop)... PASS — score 100, LCP 455ms, CLS 0, TBT 0ms, 195KB
+All 10 performance audits passed. Reports: /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio/docs/cinematic/evidence/performance
+
+
+=== links-final ===
+
+> my-v0-project@0.1.0 check:links /Users/michaelchaves/.codex/worktrees/cinematic-portfolio/portfolio
+> node scripts/check-links-assets.mjs
+
+Portfolio link and asset check
+- Local/public assets checked: 304
+- Internal routes checked: 185
+- External/mailto references checked: 108
+- Required contact/social/resume links present: 5/5
+- External links syntax checked: 61 (HTTP skipped; pass --check-external to verify statuses)

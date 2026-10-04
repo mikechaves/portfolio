@@ -22,6 +22,8 @@ const PUBLIC_ASSET_EXTENSIONS = new Set([
   ".svg",
   ".webmanifest",
   ".webp",
+  ".woff",
+  ".woff2",
 ])
 
 const CHECK_EXTERNAL = process.argv.includes("--check-external")
@@ -394,7 +396,8 @@ async function validateProjectData(projects, routeSet) {
 
 function extractStaticInternalReferences(fileText, isMarkdown = false) {
   const references = new Set()
-  const quotedPathPattern = /["'`]((?:\/)(?!\/)[^"'`\s<>{}]*)["'`]/g
+  // HTML excerpts in JSON reports escape closing quotes; the escape is not part of the URL.
+  const quotedPathPattern = /["'`]((?:\/)(?!\/)[^"'`\\\s<>{}]*)\\?["'`]/g
   for (const match of fileText.matchAll(quotedPathPattern)) {
     const value = match[1]
     if (value.includes("${")) continue

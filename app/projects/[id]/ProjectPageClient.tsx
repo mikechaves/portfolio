@@ -7,11 +7,12 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import type { ReactNode } from "react"
 import { ShareProjectButton } from "@/components/share-project-button"
 import type { ProjectDetail, ProjectDetailItem } from "@/types/project-detail"
+import { CinematicProjectCover } from "@/components/cinematic-project-cover"
 import { ProjectDesignStory } from "./ProjectDesignStory"
 import { ProjectEvidenceStrip } from "./ProjectEvidenceStrip"
 import { ProjectMediaShowcase } from "./ProjectMediaShowcase"
-import { getEvidenceDossierConfig } from "./dossierConfig"
-import { buildProjectMedia, getSectionMedia, type ProjectEvidenceSection } from "./projectMedia"
+import type { EvidenceDossierConfig } from "./dossierConfig"
+import { getSectionMedia, type ProjectEvidenceSection, type ProjectMediaItem } from "./projectMedia"
 
 const ImageModal = dynamic(
   () => import("@/components/image-modal").then((module) => module.ImageModal),
@@ -20,6 +21,8 @@ const ImageModal = dynamic(
 
 interface ProjectPageClientProps {
   project: ProjectDetail
+  media: ProjectMediaItem[]
+  dossierConfig?: EvidenceDossierConfig
 }
 
 function CaseStudySection({
@@ -65,11 +68,10 @@ function DetailItemCard({ item, marker }: { item: ProjectDetailItem; marker: str
   )
 }
 
-export default function ProjectPageClient({ project }: ProjectPageClientProps) {
+export default function ProjectPageClient({ project, media, dossierConfig }: ProjectPageClientProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [hasOpenedMedia, setHasOpenedMedia] = useState(false)
   const mediaOpenerRef = useRef<HTMLElement | null>(null)
-  const dossierConfig = getEvidenceDossierConfig(project.id)
   const isEvidenceDossier = Boolean(dossierConfig)
   const designStory = project.designStory
   const projectLinks = useMemo(
@@ -102,17 +104,6 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       })),
     ],
     [project.demo, project.demoLabel, project.github, project.links]
-  )
-
-  const media = useMemo(
-    () =>
-      buildProjectMedia({
-        gallery: project.gallery,
-        id: project.id,
-        image: project.image,
-        title: project.title,
-      }),
-    [project.gallery, project.id, project.image, project.title]
   )
 
   const images = useMemo(() => media.map((item) => item.src), [media])
@@ -193,11 +184,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
 
   return (
     <>
-      {!isEvidenceDossier && <h1 className="sr-only">{project.title || "Project Details"}</h1>}
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500">
-        <Link href="/" className="transition-colors hover:text-primary">Home</Link>
+        <Link href="/" prefetch={false} className="transition-colors hover:text-primary">Home</Link>
         <span aria-hidden="true">/</span>
-        <Link href="/projects" className="transition-colors hover:text-primary">Projects</Link>
+        <Link href="/projects" prefetch={false} className="transition-colors hover:text-primary">Projects</Link>
         <span aria-hidden="true">/</span>
         <span className="text-zinc-300" aria-current="page">{project.title}</span>
       </nav>
@@ -205,44 +195,20 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
       {isEvidenceDossier ? (
         <>
           <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
-            <div className="evidence-dossier-status">
-              <span>CASE FILE / {dossierConfig?.caseFile}</span>
-              <span>{designStory ? "PRODUCT DESIGN" : "REVIEWED EVIDENCE"}</span>
-              <span>PROJECT / {project.details.date}</span>
-            </div>
-
+            <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
             <div className="evidence-dossier-hero-grid">
-              <div>
-                <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
-                <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
-                <p className="evidence-dossier-summary">{project.description}</p>
-                <div className="mt-6">{projectActions}</div>
-              </div>
-
-              <dl className="evidence-dossier-ledger">
-                <div>
-                  <dt>My role</dt>
-                  <dd>{project.details.proofRole}</dd>
-                </div>
-                <div>
-                  <dt>{designStory ? "Product" : "Engagement"}</dt>
-                  <dd>{project.details.client}</dd>
-                </div>
-                <div>
-                  <dt>{designStory ? "Design scope" : "Evidence set"}</dt>
-                  <dd>{designStory ? "Desktop, mobile and recovery" : `${media.length} reviewed artifacts`}</dd>
-                </div>
-                <div>
-                  <dt>{designStory ? "Design resources" : "Capability coverage"}</dt>
-                  <dd>{designStory ? <a href="#downloads" className="text-primary underline underline-offset-4">Case study + two guides ↓</a> : `${project.details.services?.length || 0} documented areas`}</dd>
-                </div>
-              </dl>
+              <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
+              <div><p className="evidence-dossier-summary">{project.description}</p><div className="mt-6">{projectActions}</div></div>
             </div>
-
-            <div className="evidence-dossier-capabilities" aria-label="Documented capabilities">
-              {project.details.services?.map((service) => <span key={service}>{service}</span>)}
-            </div>
+            <dl className="evidence-dossier-ledger">
+              <div><dt>My role</dt><dd>{project.details.proofRole}</dd></div>
+              <div><dt>{designStory ? "Product" : "Engagement"}</dt><dd>{project.details.client}</dd></div>
+              <div><dt>Period</dt><dd>{project.details.date}</dd></div>
+              <div><dt>Resources</dt><dd>{designStory ? <a href="#downloads">Case study + two guides</a> : `${media.length} reviewed artifacts`}</dd></div>
+            </dl>
+            <div className="evidence-dossier-capabilities" aria-label="Documented capabilities">{project.details.services?.map((service) => <span key={service}>{service}</span>)}</div>
           </section>
+          <CinematicProjectCover projectId={project.id} />
 
           {designStory?.quote && <figure className="border-l-2 border-primary/60 py-2 pl-6 md:pl-8">
             <blockquote className="max-w-5xl text-xl leading-relaxed text-zinc-100 md:text-2xl">“{designStory.quote}”</blockquote>
@@ -259,17 +225,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         </>
       ) : (
         <>
-          <div className="terminal-window case-study-terminal">
-            <div className="terminal-header">
-              <div className="terminal-button terminal-button-red"></div>
-              <div className="terminal-button terminal-button-yellow"></div>
-              <div className="terminal-button terminal-button-green"></div>
-              <div className="terminal-title">project_details.sh</div>
-            </div>
-            <div className="terminal-content case-study-meta">
-              <p className="case-study-command">
-                <span className="text-primary">$</span> cat {project.id}.json
-              </p>
+          <div className="case-study-introduction">
+            <h1 className="evidence-dossier-title">{project.title}</h1>
+            <div className="case-study-meta">
               <div className="case-study-meta-grid">
                 <p><span className="text-primary">title:</span> {project.title}</p>
                 <p><span className="text-primary">category:</span> {project.category}</p>
@@ -291,8 +249,8 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               <div className="case-study-overview space-y-3">
                 <h2 className="case-study-section-title">Project Overview</h2>
                 <p className="case-study-detail-body">{project.description || "No description available."}</p>
-                <Link href="/about" className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80">
-                  Explore my creative approach <ArrowRight size={14} />
+                <Link href="/about" prefetch={false} className="inline-flex items-center gap-1 text-sm text-primary transition-colors hover:text-primary/80">
+                  About Mike <ArrowRight size={14} />
                 </Link>
               </div>
               {projectActions}
@@ -306,7 +264,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         {isEvidenceDossier && (
           <aside className="evidence-dossier-index">
             <nav aria-label="Case study sections">
-              <p>Case index</p>
+              <p>In this project</p>
               {designStory ? <>
                 {designStory.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{String(index + 1).padStart(2, "0")}</span> {section.label}</a>)}
                 <a href="#downloads"><span>↓</span> Downloads</a>
@@ -399,7 +357,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         </div>
       </div>
       <section className="case-study-section space-y-4" aria-labelledby="tools-title">
-        <p className="dossier-section-kicker">How I brought it to life</p>
+        <p className="dossier-section-kicker">Tools</p>
         <h2 id="tools-title" className="case-study-section-title">Tools and implementation</h2>
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tool) => <span key={tool} className="rounded bg-secondary px-3 py-2 text-sm text-secondary-foreground">{tool}</span>)}

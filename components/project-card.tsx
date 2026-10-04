@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { TrackedPortfolioLink } from "@/components/tracked-portfolio-link"
@@ -65,14 +64,14 @@ export function ProjectCard({
   title,
   description,
   image,
-  technologies,
   thumbnailFocalPoint = "center",
   analyticsContext,
   analyticsMatchLevel = "unranked",
   priority,
 }: ProjectCardProps) {
   const imageSource =
-    image || `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`
+    ({ wizzo: "/projects/wizzo/celestial-identity.webp", "x-games": "/projects/x-games/generated-game-detail.webp", speakeasy: "/projects/speakeasy/thesis-defense.webp" } as Record<string,string>)[id] || image || `/api/placeholder?width=600&height=400&text=${encodeURIComponent(title)}`
+  const responsiveArt = ({ wizzo: 1730, "x-games": 1600, speakeasy: 4032 } as Record<string, number>)[id]
 
   return (
     <ProjectCardLink
@@ -81,17 +80,15 @@ export function ProjectCard({
       analyticsMatchLevel={analyticsMatchLevel}
       className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <article className="signal-project-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
+      <article className="signal-project-card cinematic-archive-card h-full overflow-hidden border border-white/15 bg-black/80 transition-colors group-hover:border-primary/60">
         <div className="relative aspect-[16/9] min-h-44 overflow-hidden border-b border-white/10 bg-zinc-950">
-          <Image
-            src={imageSource}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-            style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }}
-            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-            priority={priority}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- direct responsive WebP avoids the image transformer and its client runtime */}
+            <img src={imageSource} alt={title}
+              srcSet={responsiveArt ? `/visuals/night-frequency/${id === "x-games" ? "playfold" : id}-mobile.webp ${id === "wizzo" ? 800 : 480}w, /visuals/night-frequency/${id === "x-games" ? "playfold" : id}.webp ${id === "wizzo" ? 1200 : 760}w, ${imageSource} ${responsiveArt}w` : undefined}
+              sizes="(min-width: 1024px) 60vw, 100vw"
+              loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+              style={{ objectPosition: THUMBNAIL_OBJECT_POSITIONS[thumbnailFocalPoint] }} />
         </div>
         <div className="flex flex-1 flex-col p-3.5">
           <div className="mb-2 flex items-start justify-between gap-4">
@@ -103,16 +100,7 @@ export function ProjectCard({
           <p className="mb-3 line-clamp-3 flex-1 text-xs leading-5 text-zinc-400 sm:text-sm">
             {description}
           </p>
-          <div className="flex flex-wrap gap-x-3 gap-y-1 border-t border-white/10 pt-2.5">
-            {technologies.slice(0, 6).map((tech) => (
-              <span
-                key={tech}
-                className="text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-primary/85"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+
         </div>
       </article>
     </ProjectCardLink>

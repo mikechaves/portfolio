@@ -1,6 +1,6 @@
 "use client"
+/* eslint-disable @next/next/no-img-element -- Precompressed local artifacts use native lazy loading without an image runtime. */
 
-import Image from "next/image"
 import { Maximize2 } from "lucide-react"
 import type { ProjectMediaItem } from "./projectMedia"
 
@@ -14,13 +14,8 @@ export function ProjectEvidenceStrip({ media, onOpen, title }: ProjectEvidenceSt
   if (media.length === 0) return null
 
   return (
-    <section className="terminal-window case-study-terminal mt-4" aria-label={`${title} media evidence`}>
-      <div className="terminal-header">
-        <div className="terminal-button terminal-button-red"></div>
-        <div className="terminal-button terminal-button-yellow"></div>
-        <div className="terminal-button terminal-button-green"></div>
-        <div className="terminal-title">{`evidence_${title.toLowerCase()}.log`}</div>
-      </div>
+    <section className="cinematic-evidence-strip mt-4" aria-label={`${title} media evidence`}>
+
 
       <div className={media.length === 1 ? "grid gap-4" : "grid gap-4 md:grid-cols-2"}>
         {media.map((item) => (
@@ -32,14 +27,13 @@ export function ProjectEvidenceStrip({ media, onOpen, title }: ProjectEvidenceSt
               aria-label={`Open ${item.label} evidence fullscreen`}
             >
               <div className="bg-grid-pattern pointer-events-none absolute inset-0 opacity-20" />
-              <Image
+              <img
                 src={item.src}
                 alt={item.alt}
                 width={900}
                 height={620}
                 className="relative z-10 max-h-80 w-full rounded-sm object-contain"
-                sizes="(min-width: 768px) 460px, 100vw"
-                quality={84}
+                loading="lazy" fetchPriority="low" decoding="async"
               />
               <span className="absolute right-2 top-2 z-20 inline-flex items-center gap-1 rounded border border-primary/30 bg-black/70 px-2 py-1 text-xs text-primary opacity-90 backdrop-blur-sm transition-opacity group-hover:opacity-100">
                 <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />

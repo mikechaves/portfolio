@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, MessageSquareText } from "lucide-react"
 import { JsonLd } from "@/components/json-ld"
@@ -13,11 +12,11 @@ interface ArticleSummaryPageProps {
   summary: readonly [string, string]
 }
 
-export function ArticleSummaryPage({ gradientClassName, post, summary }: ArticleSummaryPageProps) {
+export function ArticleSummaryPage({ post, summary }: ArticleSummaryPageProps) {
   const relatedProjects = getRelatedProjectsForArticle(post.id)
 
   return (
-    <article className="mx-auto max-w-3xl space-y-8 pt-8">
+    <article className="cinematic-article mx-auto max-w-3xl space-y-8 pt-8">
       <JsonLd id="article-structured-data" data={getArticleStructuredData(post)} />
 
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.1em] text-zinc-500">
@@ -27,17 +26,6 @@ export function ArticleSummaryPage({ gradientClassName, post, summary }: Article
         <span aria-hidden="true">/</span>
         <span className="text-zinc-300" aria-current="page">{post.title}</span>
       </nav>
-
-      <div className={`relative h-64 overflow-hidden border border-white/10 ${gradientClassName}`}>
-        <Image
-          src={post.image}
-          alt={`${post.title} article preview`}
-          fill
-          className="object-cover mix-blend-overlay opacity-70"
-          sizes="(min-width: 1024px) 768px, 100vw"
-          priority
-        />
-      </div>
 
       <header>
         <div className="mb-3 inline-block border border-zinc-700 px-3 py-1 text-xs text-zinc-400">
@@ -60,7 +48,7 @@ export function ArticleSummaryPage({ gradientClassName, post, summary }: Article
 
       {relatedProjects.length > 0 ? (
         <section className="border-y border-white/10 py-6" aria-labelledby="related-projects-title">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary">Evidence behind the ideas</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary">Related work</p>
           <h2 id="related-projects-title" className="mb-4 text-xl font-bold">Related project case studies</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {relatedProjects.map((project) => (
@@ -81,9 +69,9 @@ export function ArticleSummaryPage({ gradientClassName, post, summary }: Article
       ) : null}
 
       <section className="border border-zinc-800 bg-black p-6" aria-labelledby="article-next-step-title">
-        <h2 id="article-next-step-title" className="text-xl font-bold">Continue from the summary</h2>
+        <h2 id="article-next-step-title" className="text-xl font-bold">Read the original</h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-          Read the complete original on Medium, inspect the supporting portfolio evidence, or start a conversation about a related product problem.
+          Read the full article on Medium.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <TrackedArticleLink articleId={post.id} href={post.url} />
@@ -91,13 +79,13 @@ export function ArticleSummaryPage({ gradientClassName, post, summary }: Article
             href="/projects"
             className="inline-flex min-h-10 items-center gap-2 border border-white/20 px-4 text-xs uppercase tracking-[0.1em] text-zinc-200 transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            Browse project evidence <ArrowRight size={14} aria-hidden="true" />
+            Browse projects <ArrowRight size={14} aria-hidden="true" />
           </Link>
           <Link
             href="/about#contact-title"
             className="inline-flex min-h-10 items-center gap-2 border border-white/20 px-4 text-xs uppercase tracking-[0.1em] text-zinc-200 transition-colors hover:border-primary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            Start a conversation <MessageSquareText size={14} aria-hidden="true" />
+            Contact <MessageSquareText size={14} aria-hidden="true" />
           </Link>
         </div>
       </section>

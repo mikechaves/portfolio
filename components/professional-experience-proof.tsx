@@ -55,21 +55,10 @@ export function ProfessionalExperienceProof({
 
   if (variant === "homepage") {
     return (
-      <article className="home-experience-record">
-        <div className="home-experience-identity">
-          <h3>{record.company}</h3>
-          <p>{record.role}{record.dates ? ` / ${record.dates}` : ""}</p>
-        </div>
-        <p className="home-experience-status">{statusLabel}</p>
-        <p className="home-experience-summary">{record.summary}</p>
-        <p className="home-experience-disclosure">
-          {isApproved
-            ? "Employer-approved public summary"
-            : isPublicResume
-              ? "Public professional summary"
-              : "Confidential high-level summary"}
-        </p>
-      </article>
+      <details className="home-experience-record">
+        <summary><span className="home-experience-company">{record.company}</span><span>{record.role}</span><span>{record.dates}</span><span className="experience-plus" aria-hidden="true">+</span></summary>
+        <div className="home-experience-detail"><p className="home-experience-status">{statusLabel}</p><p className="home-experience-summary">{record.summary}</p><p className="home-experience-disclosure">{isApproved ? "Employer-approved public summary" : isPublicResume ? "Public professional summary" : "Confidential high-level summary"}</p></div>
+      </details>
     )
   }
 

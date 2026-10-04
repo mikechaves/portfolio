@@ -12,52 +12,6 @@
     }
   }
 
-  const featuredImages = Array.from(
-    document.querySelectorAll("img[data-home-featured-src]")
-  )
-  const loadFeaturedImage = (image) => {
-    const src = image.dataset.homeFeaturedSrc
-    if (!src || image.hasAttribute("src")) return
-    image.addEventListener(
-      "load",
-      () => image.setAttribute("data-home-featured-loaded", "true"),
-      { once: true }
-    )
-    image.src = src
-    if (image.complete) image.setAttribute("data-home-featured-loaded", "true")
-  }
-
-  const observeFeaturedImages = () => {
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          loadFeaturedImage(entry.target)
-          observer.unobserve(entry.target)
-        }
-      })
-      featuredImages.forEach((image) => observer.observe(image))
-    } else {
-      featuredImages.forEach(loadFeaturedImage)
-    }
-  }
-  const scheduleFeaturedImages = () => {
-    const developmentRuntimePresent = [...document.scripts].some((script) =>
-      script.src.includes("/_next/static/development/")
-    )
-    if (developmentRuntimePresent) {
-      window.setTimeout(observeFeaturedImages, 250)
-      return
-    }
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(observeFeaturedImages, { timeout: 2000 })
-    } else {
-      window.setTimeout(observeFeaturedImages, 100)
-    }
-  }
-  if (document.readyState === "complete") scheduleFeaturedImages()
-  else window.addEventListener("load", scheduleFeaturedImages, { once: true })
-
   const focusForm = document.querySelector("[data-adaptive-focus-form]")
   const focusInput = document.getElementById("adaptive-focus-role-input")
   const focusSubmit = focusForm?.querySelector("[data-adaptive-focus-submit]")
@@ -68,6 +22,15 @@
   const focusPresetButtons = Array.from(
     document.querySelectorAll("[data-adaptive-focus-preset]")
   )
+  const workCollection = document.querySelector(".home-featured-grid")
+  const originalWork = workCollection ? [...workCollection.children] : []
+  const arrangeWork = (ids = []) => {
+    const ordered = [...originalWork].sort((a,b) => {
+      const ai = ids.indexOf(a.dataset.featuredProject), bi = ids.indexOf(b.dataset.featuredProject)
+      return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi)
+    })
+    if (workCollection) ordered.forEach(card => workCollection.append(card))
+  }
   const moreLenses = document.querySelector("[data-adaptive-focus-more]")
   let focusBusy = false
 
@@ -131,6 +94,26 @@
       track("adaptive_focus_more_lenses_expanded", { entry_point: "home" })
     }
   })
+  document.querySelector("[data-focus-reset]")?.addEventListener("click", () => {
+    focusPresetButtons.forEach((button) => button.setAttribute("aria-pressed", "false"))
+    document.querySelector("[data-focus-preview-label]").textContent = "Showing"
+    document.querySelector("[data-focus-preview-title]").textContent = "All work"
+    document.querySelector("[data-focus-preview-description]").textContent = "Choose an interest above, or explore everything."
+    document.querySelector("[data-focus-preview-evidence]").textContent = ""
+    const explore = document.querySelector("[data-focus-explore]")
+    explore.href = "/projects"
+    explore.firstChild.textContent = "Explore the work "
+    if (focusInput) focusInput.value = ""
+    setFocusError("")
+    updateFocusInput()
+    if (moreLenses) moreLenses.open = false
+    arrangeWork()
+    delete document.documentElement.dataset.focusLens
+    window.dispatchEvent(new CustomEvent("portfolio:focus-change", { detail: { presetId: null } }))
+  })
+  document.querySelector("[data-focus-explore]")?.addEventListener("click", () => {
+    if (document.documentElement.dataset.focusLens) track("adaptive_focus_started", { entry_point: "home", mode: "preset" })
+  })
   document.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) return
     const presetButton = event.target.closest("button[data-adaptive-focus-preset]")
@@ -138,9 +121,25 @@
       const presetId = presetButton.dataset.adaptiveFocusPreset
       if (!presetId) return
       event.preventDefault()
-      setFocusBusy(true)
-      track("adaptive_focus_started", { entry_point: "home", mode: "preset" })
-      window.location.assign(`/projects?focusPreset=${encodeURIComponent(presetId)}`)
+      focusPresetButtons.forEach((button) => button.setAttribute("aria-pressed", String(button === presetButton)))
+      const preview = document.querySelector(".focus-preview")
+      preview?.classList.remove("is-changing")
+      document.querySelector("[data-focus-preview-label]").textContent = "Selected focus"
+      document.querySelector("[data-focus-preview-title]").textContent = presetButton.dataset.focusTitle
+      document.querySelector("[data-focus-preview-description]").textContent = presetButton.dataset.focusDescription
+      document.querySelector("[data-focus-preview-evidence]").textContent = presetButton.dataset.focusEvidence || "Explore the reviewed evidence for this lens."
+      const explore = document.querySelector("[data-focus-explore]")
+      explore.href = `/projects?focusPreset=${encodeURIComponent(presetId)}`
+      explore.firstChild.textContent = "Explore this focus "
+      if (moreLenses) {
+        const wasSecondary = moreLenses.contains(presetButton)
+        moreLenses.open = false
+        if (wasSecondary) explore.focus({ preventScroll: true })
+      }
+      arrangeWork((presetButton.dataset.focusOrder || "").split(","))
+      document.documentElement.dataset.focusLens = presetId
+      window.dispatchEvent(new CustomEvent("portfolio:focus-change", { detail: { presetId } }))
+      requestAnimationFrame(() => preview?.classList.add("is-changing"))
       return
     }
 

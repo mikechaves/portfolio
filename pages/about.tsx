@@ -49,10 +49,11 @@ export default function AboutPage() {
         <meta name="robots" content={robotsContent} />
         <meta name="googlebot" content={robotsContent} />
         <link rel="canonical" href={canonical} />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link rel="icon" href="/favicon/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon/favicon-96x96.png" />
-        <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+        <link rel="manifest" href="/favicon/site.webmanifest?v=chaves-key" />
+        <link rel="icon" href="/favicon/favicon.ico?v=chaves-key" sizes="16x16 32x32 48x48" />
+        <link rel="icon" href="/favicon/favicon.svg?v=chaves-key" type="image/svg+xml" sizes="any" />
+        <link rel="shortcut icon" href="/favicon/favicon-32x32.png?v=chaves-key" />
+        <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=chaves-key" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content={SITE_NAME} />
@@ -76,10 +77,7 @@ export default function AboutPage() {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      <div
-        className="fixed inset-0 bg-grid-pattern opacity-10 pointer-events-none z-0"
-        aria-hidden="true"
-      />
+
 
       <SiteNav />
       <main id="main-content" tabIndex={-1} className="site-main flex-1 relative z-10">
@@ -90,6 +88,7 @@ export default function AboutPage() {
       <script src="/scripts/about.js" defer data-about-script />
       <script src="/scripts/portfolio-events.js" defer />
       <script src="/scripts/site-nav.js" defer />
+      <script src="/scripts/cinematic.js" defer />
     </>
   )
 }

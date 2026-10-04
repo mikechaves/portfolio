@@ -27,8 +27,8 @@ describe("server-first homepage interactions", () => {
     expect(contentSource).not.toContain("HeroVisualCanvas")
     expect(contentSource).not.toContain("ProgressiveHeroBackground")
     expect(contentSource).not.toContain('from "next/link"')
-    expect(contentSource).toContain('className="home-journey-visual"')
-    expect(contentSource).toContain('src="/visuals/black-sun-signal-grid-static.webp"')
+    expect(contentSource).toContain("<ProjectTheater />")
+    expect(pageSource).toContain('href="/visuals/premiere/wizzo-1200.webp"')
   })
 
   it("keeps event and journey links server-renderable", () => {
@@ -63,7 +63,7 @@ describe("server-first homepage interactions", () => {
     expect(bridgeSource).toContain('document.addEventListener("click"')
     expect(bridgeSource).toContain('focusForm?.addEventListener("submit"')
     expect(bridgeSource).toContain("data-adaptive-focus-preset")
-    expect(bridgeSource).toContain("IntersectionObserver")
+    expect(readSource("public/scripts/cinematic.js")).toContain("IntersectionObserver")
     expect(bridgeSource).toContain("prefers-reduced-motion: reduce")
     expect(bridgeSource).toContain("focus({ preventScroll: true })")
     expect(bridgeSource).not.toContain("HeroBackground")

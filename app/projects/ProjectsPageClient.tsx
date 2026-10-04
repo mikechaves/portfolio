@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react"
-import { NeonSeparator } from "@/components/neon-separator"
 import { ProjectCard } from "@/components/project-card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -28,7 +27,7 @@ import {
 } from "@/lib/portfolio-analytics"
 import type { Project } from "@/types/project"
 import { CAPABILITY_LABELS } from "@/packages/adaptive-focus-core/src"
-import { EVIDENCE_DOSSIER_PROJECT_IDS } from "./[id]/dossierConfig"
+
 
 const RoleFitBrief = dynamic(
   () => import("@/components/role-fit-brief").then((module) => module.RoleFitBrief),
@@ -54,6 +53,7 @@ function projectsForBrief(brief: AdaptiveFocusV2Result): Project[] {
 }
 
 export function ProjectsPageClient() {
+  const [activePreset, setActivePreset] = useState<string | null>(null)
   const [activeFilter, setActiveFilter] = useState("all")
   const [initialLimit, setInitialLimit] = useState(PROJECTS_LIMIT_MOBILE)
   const [showAll, setShowAll] = useState(false)
@@ -112,6 +112,7 @@ export function ProjectsPageClient() {
       abortRef.current?.abort()
       const controller = new AbortController()
       abortRef.current = controller
+      setActivePreset(request.mode === "preset" ? request.presetId : null)
       setRequestState("loading")
       setStatusMessage("Mapping role requirements to reviewed portfolio evidence...")
 
@@ -230,6 +231,7 @@ export function ProjectsPageClient() {
   }
 
   const handleCategoryChange = (category: string) => {
+    setActivePreset(null)
     abortRef.current?.abort()
     setActiveFilter(category)
     setDisplay(getProjectsForCategory(category))
@@ -241,6 +243,7 @@ export function ProjectsPageClient() {
   }
 
   const handleReset = () => {
+    setActivePreset(null)
     abortRef.current?.abort()
     setActiveFilter("all")
     setDisplay(PROJECTS)
@@ -278,14 +281,14 @@ export function ProjectsPageClient() {
         {statusMessage}
       </p>
 
-      <section className="archive-focus-deck" aria-labelledby="adaptive-focus-controls-heading">
-        <div className="archive-focus-heading">
+      <details className="archive-focus-deck" open={Boolean(brief) || requestState === "loading"}>
+        <summary className="archive-focus-heading">
           <div>
-            <p className="project-index-eyebrow">Adaptive Focus / Role lens</p>
-            <h2 id="adaptive-focus-controls-heading">Build a Role Fit Brief</h2>
+            <p className="project-index-eyebrow">For the inquirer</p>
+            <h2 id="adaptive-focus-controls-heading">Adaptive Focus</h2>
           </div>
-          <p>Map a target role to reviewed evidence, then inspect the strongest proof first.</p>
-        </div>
+          <p>Explore by role or interest <span aria-hidden="true">＋</span></p>
+        </summary>
 
         <div className="archive-focus-presets" aria-label="Preset role lenses">
           {ADAPTIVE_FOCUS_PRESETS.map((preset, index) => (
@@ -295,6 +298,7 @@ export function ProjectsPageClient() {
               onClick={() => void executeRequest({ mode: "preset", presetId: preset.id })}
               disabled={requestState === "loading"}
               className="archive-focus-preset"
+              aria-pressed={activePreset === preset.id}
             >
               <span aria-hidden="true">{(index + 1).toString().padStart(2, "0")}</span>
               <strong>{preset.label}</strong>
@@ -303,6 +307,7 @@ export function ProjectsPageClient() {
           ))}
         </div>
 
+        <details className="archive-custom-role"><summary>Have a specific role in mind?</summary>
         <form className="archive-focus-form" onSubmit={handleSubmit}>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <label htmlFor={inputId} className="text-sm font-medium">Role, responsibilities, or job description</label>
@@ -316,7 +321,7 @@ export function ProjectsPageClient() {
             value={query}
             maxLength={ADAPTIVE_FOCUS_INPUT_MAX_LENGTH}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Senior design engineer building AI-assisted creative workflows and internal tools..."
+            placeholder="Paste a role or job description"
             className="min-h-24 resize-y rounded-none border-white/15 bg-black/45 focus-visible:ring-primary"
           />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -328,37 +333,37 @@ export function ProjectsPageClient() {
                 {requestState === "loading" ? (
                   <span className="h-4 w-4 animate-spin rounded-full border border-current border-r-transparent" aria-hidden="true" />
                 ) : null}
-                {requestState === "loading" ? "Mapping evidence..." : "Build Role Fit Brief"}
+                {requestState === "loading" ? "Mapping evidence..." : "Analyze role"}
               </Button>
             </div>
           </div>
         </form>
+        </details>
 
         {requestState === "error" ? (
           <p role="alert" className="border-l-2 border-destructive pl-3 text-sm text-destructive">
             {statusMessage}
           </p>
         ) : null}
-      </section>
+      </details>
 
       {brief ? (
         <RoleFitBrief
           brief={brief}
           headingRef={briefHeadingRef}
           onRemoveCapability={handleRemoveCapability}
-          onEdit={() => inputRef.current?.focus()}
+          onEdit={() => { const details = inputRef.current?.closest("details"); if (details) details.open = true; inputRef.current?.focus() }}
           onReset={handleReset}
         />
       ) : null}
 
-      <NeonSeparator intensity="low" />
 
       <section className="project-archive-section" aria-labelledby="project-archive-heading">
         <div className="project-archive-heading">
           <div>
-            <p className="project-index-eyebrow">Indexed records</p>
+            <p className="project-index-eyebrow">The collection</p>
             <h2 id="project-archive-heading">
-              {brief ? "Project archive in relevance order" : activeCategoryName}
+              {brief ? "Projects for this focus" : activeCategoryName}
             </h2>
           </div>
           <p aria-live="polite">
@@ -388,17 +393,8 @@ export function ProjectsPageClient() {
         <div className="project-archive-grid">
           {visibleProjects.map((project, index) => (
             <div key={project.id} className="project-archive-record">
-              <div className="project-archive-record-meta">
-                <span>REC / {(index + 1).toString().padStart(2, "0")}</span>
-                {EVIDENCE_DOSSIER_PROJECT_IDS.has(project.id) ? (
-                  <span className="project-archive-dossier-mark">
-                    <span aria-hidden="true">✓</span> Evidence dossier
-                  </span>
-                ) : (
-                  <span>Case study</span>
-                )}
-              </div>
               <ProjectCard
+                priority={!brief && index === 0}
                 id={project.id}
                 title={project.title}
                 description={project.description}

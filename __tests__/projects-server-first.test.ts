@@ -6,38 +6,22 @@ const readSource = (relativePath: string) =>
 
 describe("server-first project index", () => {
   const pageSource = readSource("app/projects/page.tsx")
-  const explorerSource = readSource("app/projects/DeferredProjectsExplorer.tsx")
   const clientSource = readSource("app/projects/ProjectsPageClient.tsx")
   const cardSource = readSource("components/project-card.tsx")
 
   it("keeps the index heading and all public evidence paths in the server page", () => {
-    expect(pageSource).toContain("Selected projects")
-    expect(pageSource).toContain("Find a way into the work")
-    for (const projectId of [
-      "wizzo",
-      "petition-ready",
-      "vulnerability-visualizer",
-      "creative-supply-engine",
-      "x-games",
-      "sound-escape-vr",
-      "portals",
-      "die-ai",
-      "speakeasy",
-      "material-explorer",
-      "geovoice",
-    ]) {
-      expect(pageSource).toContain(`"${projectId}"`)
-    }
+    expect(pageSource).toContain('className="project-index-title">Work.</h1>')
+    expect(pageSource).toContain('aria-label="All project pages"')
+    expect(pageSource).toContain("PROJECTS.map")
+    expect(pageSource).toContain('href={`/projects/${project.id}`}')
   })
 
-  it("defers only the interactive explorer while prioritizing role handoffs", () => {
-    expect(pageSource).toContain("<DeferredProjectsExplorer />")
-    expect(explorerSource).toContain('"focusPreset"')
-    expect(explorerSource).toContain('"focusBrief"')
-    expect(explorerSource).toContain('"focusSession"')
-    expect(explorerSource).toContain("IntersectionObserver")
+  it("renders the collection immediately and defers the role engine until requested", () => {
+    expect(pageSource).toContain("<ProjectsPageClient />")
+    expect(clientSource).toContain('import("@/features/adaptive-focus/runtime")')
+    expect(clientSource).toContain('params.get("focusSession")')
+    expect(clientSource).toContain('params.get("focusBrief")')
     expect(clientSource).not.toContain("project-index-hero")
-    expect(clientSource).not.toContain("PROJECT_INTENT_PATHS")
   })
 
   it("keeps project cards server-renderable with a small tracked-link boundary", () => {

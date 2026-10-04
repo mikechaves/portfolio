@@ -13,14 +13,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(canonicalRedirect, 308)
   }
 
-  const metaverseEntry =
-    request.nextUrl.pathname === "/" &&
-    request.nextUrl.searchParams.get("metaverse") === "true"
-  const response = metaverseEntry
-    ? NextResponse.rewrite(
-        new URL(`/metaverse${request.nextUrl.search}`, request.url)
-      )
-    : NextResponse.next()
+  if (request.nextUrl.searchParams.has("metaverse")) {
+    const destination = request.nextUrl.clone()
+    destination.searchParams.delete("metaverse")
+    if (destination.pathname === "/") destination.hash = "selected-work"
+    return NextResponse.redirect(destination, 308)
+  }
+  const response = NextResponse.next()
   if (shouldSendNoIndexHeader(host)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow")
   }

@@ -22,8 +22,8 @@ export function SiteNav() {
               href="/"
               className="group flex min-h-11 w-fit items-center gap-3 text-sm font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <span className="tracking-[0.08em] transition-colors group-hover:text-primary">
-                MIKE_CHAVES
+              <span className="nav-wordmark">
+                MIKE CHAVES
               </span>
             </a>
 
@@ -60,14 +60,6 @@ export function SiteNav() {
                 className="site-nav-utility"
               >
                 Contact
-              </PortfolioEventLink>
-              <PortfolioEventLink
-                href="/?metaverse=true"
-                eventName="metaverse_entered"
-                eventProperties={{ source: "desktop_nav" }}
-                className="site-nav-metaverse"
-              >
-                Metaverse <ArrowUpRight size={13} aria-hidden="true" />
               </PortfolioEventLink>
             </div>
 
@@ -143,14 +135,6 @@ export function SiteNav() {
                       Contact
                     </PortfolioEventLink>
                   </div>
-                  <PortfolioEventLink
-                    href="/?metaverse=true"
-                    eventName="metaverse_entered"
-                    eventProperties={{ source: "mobile_nav" }}
-                    className="mt-3 flex min-h-12 items-center justify-between border border-primary/35 px-3 text-xs uppercase tracking-[0.12em] text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  >
-                    Enter Metaverse <ArrowUpRight size={14} aria-hidden="true" />
-                  </PortfolioEventLink>
                 </nav>
               </div>
             </dialog>

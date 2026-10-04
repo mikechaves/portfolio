@@ -11,8 +11,8 @@ export function AboutContactForm() {
       data-about-contact-form
     >
       <div className="profile-contact-form-heading">
-        <span>DIRECT CHANNEL / EMAIL</span>
-        <strong data-contact-state>READY</strong>
+        <span>Email</span>
+        <strong data-contact-state aria-live="polite" />
       </div>
       <div>
         <label htmlFor="name">Name</label>
@@ -44,7 +44,7 @@ export function AboutContactForm() {
         <Textarea
           id="message"
           name="message"
-          placeholder="What are you building or hiring for?"
+          placeholder="Your message"
           rows={5}
           maxLength={5_000}
           required

@@ -5,12 +5,12 @@ import { XIcon } from "@/components/x-icon"
 
 export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPreferencesEnabled?: boolean }) {
   return (
-    <footer className="relative z-10 border-t border-white/10 bg-black/90 py-4 backdrop-blur-sm">
+    <footer className="cinematic-footer relative z-10 border-t border-white/10 bg-black/90 py-4 backdrop-blur-sm">
       <div className="site-shell">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-4">
             <p className="text-[0.62rem] uppercase tracking-[0.1em] text-zinc-400">
-              &copy; {new Date().getFullYear()} MIKE_CHAVES. All rights
+              &copy; {new Date().getFullYear()} MIKE CHAVES. All rights
               reserved.
             </p>
             <Link
@@ -22,7 +22,7 @@ export function Footer({ analyticsPreferencesEnabled = false }: { analyticsPrefe
             {analyticsPreferencesEnabled ? <AnalyticsPreferencesButton /> : null}
           </div>
           <p className="hidden text-[0.58rem] uppercase tracking-[0.12em] text-zinc-500 lg:block">
-            Creative direction. Design. Stories you can step into.
+            Los Angeles, California
           </p>
           <div className="flex space-x-4">
             <Link

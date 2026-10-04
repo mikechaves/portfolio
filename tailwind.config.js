@@ -24,7 +24,7 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00ff8c", // Keep the direct hex value that's currently working
+          DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -51,7 +51,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        neon: "#00ff8c",
+        neon: "hsl(var(--primary))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -59,22 +59,8 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        mono: [
-          "ui-monospace",
-          "SFMono-Regular",
-          "Menlo",
-          "Monaco",
-          "Consolas",
-          "Liberation Mono",
-          "monospace",
-        ],
-        display: [
-          "Arial Narrow",
-          "Avenir Next Condensed",
-          "Roboto Condensed",
-          "ui-sans-serif",
-          "sans-serif",
-        ],
+        mono: ["var(--font-sans)", "Arial", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       keyframes: {
         "accordion-down": {
