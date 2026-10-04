@@ -25,6 +25,40 @@ export async function createTheater(root, { onFailure, signal }) {
   camera.position.z = 1400
   const events = new AbortController()
   const loader = new THREE.TextureLoader()
+  // Poster lettering belongs to the same depth-tested surface as the artwork.
+  // The HTML caption remains the accessible label and the complete fallback.
+  function createPosterTitle(element) {
+    const label = element.querySelector('.theater-poster-title')
+    const style = getComputedStyle(label)
+    const text = style.textTransform === 'uppercase' ? label.textContent.toUpperCase() : label.textContent
+    const size = 128, padding = 36
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    const font = `${style.fontStyle} ${style.fontWeight} ${size}px ${style.fontFamily}`
+    context.font = font
+    const spacing = (parseFloat(style.letterSpacing) || 0) / parseFloat(style.fontSize) * size
+    const letters = [...text]
+    const advances = letters.map(letter => context.measureText(letter).width)
+    canvas.width = Math.ceil(advances.reduce((sum, width) => sum + width, 0) + spacing * (letters.length - 1) + padding * 2)
+    canvas.height = size + padding * 2
+    context.font = font
+    const metrics = context.measureText(text)
+    const ascent = metrics.fontBoundingBoxAscent ?? size * .8
+    const descent = metrics.fontBoundingBoxDescent ?? size * .2
+    const baseline = padding + (size - ascent - descent) / 2 + ascent
+    context.fillStyle = '#f4eafb'
+    context.shadowColor = '#000000'
+    context.shadowBlur = 25
+    context.shadowOffsetY = 5
+    let x = padding
+    letters.forEach((letter, index) => { context.fillText(letter, x, baseline); x += advances[index] + spacing })
+    const texture = new THREE.CanvasTexture(canvas)
+    texture.colorSpace = THREE.SRGBColorSpace
+    resources.add(texture)
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false }))
+    mesh.position.z = 8
+    return { mesh, label, width: canvas.width / size, height: canvas.height / size }
+  }
   let observer, floor, lighting
   const frames = []
   const resources = new Set()
@@ -39,7 +73,7 @@ export async function createTheater(root, { onFailure, signal }) {
   try {
     const loads = await Promise.allSettled([...root.querySelectorAll('[data-theater-work]')].map(async (element) => {
       const image = element.querySelector('img')
-      await image.decode()
+      await Promise.all([image.decode(), document.fonts.ready])
       const source = image.currentSrc || image.src
       const texture = await loader.loadAsync(source)
       if (disposed) { texture.dispose(); return }
@@ -51,8 +85,9 @@ export async function createTheater(root, { onFailure, signal }) {
       const frame = new THREE.Mesh(new THREE.BoxGeometry(1,1,1),metal)
       const art = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshStandardMaterial({map:texture,color:'#77717e',emissiveMap:texture,emissive:'#ffffff',emissiveIntensity:.68,metalness:.02,roughness:.64}))
       art.position.z=7
-      group.add(frame,art);scene.add(group)
-      const item = {element,group,frame,art,texture,source,request:0,baseX:0,baseY:0,rotation:0}
+      const poster = createPosterTitle(element)
+      group.add(frame,art,poster.mesh);scene.add(group)
+      const item = {element,group,frame,art,poster,texture,source,request:0,baseX:0,baseY:0,rotation:0}
       frames.push(item)
       image.addEventListener('load', async () => {
         const source = image.currentSrc || image.src
@@ -123,6 +158,10 @@ export async function createTheater(root, { onFailure, signal }) {
         item.art.scale.x*=sx;item.art.scale.y*=sy;item.frame.scale.x=item.art.scale.x+5;item.frame.scale.y=item.art.scale.y+5
         item.group.position.x+=item.baseX-(left+right)/2;item.group.position.y+=item.baseY-(top+bottom)/2
       }
+      const fontSize = parseFloat(getComputedStyle(item.poster.label).fontSize)
+      const titleScale = fontSize * item.art.scale.x / Math.max(1, item.element.querySelector('.theater-picture').clientWidth)
+      item.poster.mesh.scale.set(item.poster.width * titleScale, item.poster.height * titleScale, 1)
+      item.poster.mesh.position.y = -item.art.scale.y * .44 + titleScale / 2
     }
     const bottom=Math.min(...frames.map(i=>i.baseY-i.frame.scale.y/2))
     floor.position.y=bottom-9

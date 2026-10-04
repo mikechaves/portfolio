@@ -1635,6 +1635,9 @@
 [data-theater-ready='true'] .theater-picture img { opacity:0; }
 
 [data-theater-ready='true'] .theater-picture .art-fallback { visibility:hidden; }
+[data-theater-ready='true'] .theater-poster-title { opacity:0; }
+.theater-caption { transition:opacity 180ms; }
+[data-theater-render-path='webgl']:not([data-theater-settled]) [data-theater-slot]:not([data-theater-slot='center']) .theater-caption { opacity:0; }
 
 .theater-canvas { z-index:0; }
 
