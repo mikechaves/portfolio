@@ -7,6 +7,7 @@ export interface ProjectMediaItem {
   label: string
   section?: ProjectEvidenceSection
   src: string
+  previewSrcSet?: string
   thumbnailSrc?: string
 }
 
@@ -18,6 +19,7 @@ interface ProjectMediaSource {
 }
 
 interface ProjectMediaCopy {
+  previewSrcSet?: string
   thumbnailSrc?: string
   caption: string
   label: string
@@ -232,49 +234,60 @@ const PROJECT_MEDIA_COPY: Record<string, Record<string, ProjectMediaCopy>> = {
   },
   wizzo: {
     "/projects/wizzo/home-2026.webp": {
+        previewSrcSet: "/projects/wizzo/home-2026-preview.webp 800w, /projects/wizzo/home-2026.webp 1440w",
         "label": "Home: recommendation hierarchy",
         section: "action",
         "caption": "September 2026 Figma screen. A dominant next move, quiet task surface and amber action establish a clear starting point."
     },
     "/projects/wizzo/review-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/review-2026-thumbnail.webp",
         "label": "Onboarding: review before commitment",
         "caption": "Campaign, first move, supporting detail and duration remain visible before confirmation. Figma prototype with illustrative content."
     },
     "/projects/wizzo/recovery-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/recovery-2026-thumbnail.webp",
         "label": "Recovery: preserve the decision",
         "caption": "A failed save keeps the entered plan in view and provides a retry. Prototype save outcomes are simulated."
     },
     "/projects/wizzo/mobile-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/mobile-2026-thumbnail.webp",
         "label": "Mobile: a reachable confirmation",
         "caption": "The real mobile prototype, scrolled to Confirm first move. The action is fully visible above fixed navigation."
     },
     "/projects/wizzo/components-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/components-2026-thumbnail.webp",
         "label": "Reusable controls and interaction states",
         "caption": "Native Figma Action variants: default, focus, disabled and busy, with editable labels and swappable icons."
     },
     "/projects/wizzo/stress-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/stress-2026-thumbnail.webp",
         "label": "Components under content stress",
         "caption": "Long labels, multiline Campaign content, responsive review rows and state variants expose the shared layout rules."
     },
     "/projects/wizzo/wisp-direction-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/wisp-direction-2026-thumbnail.webp",
         "label": "Wisp: accepted replacement",
         "caption": "The accepted Celestial Familiar image follows the direction critique. This is the replacement, not the rejected export."
     },
     "/projects/wizzo/wisp-states-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/wisp-states-2026-thumbnail.webp",
         "label": "Wisp: a shared state family",
         "caption": "Eight distinct states carry one recognizable character across surfaces. Essential status also remains available in text."
     },
     "/projects/wizzo/home-inline-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/home-inline-2026-thumbnail.webp",
         "label": "Home proposal A: inline adjustment",
         "caption": "Recommended proposal, pending review by Mike. The reason remains visible while Snooze, Not for now and Keep this recommendation stay beside the task."
     },
     "/projects/wizzo/home-drawer-2026.webp": {
+        thumbnailSrc: "/projects/wizzo/home-drawer-2026-thumbnail.webp",
         "label": "Home proposal B: context drawer",
         "caption": "Alternative proposal with the same task and consequences. The drawer adds a context shift; closing it keeps the recommendation unchanged."
     }
 },
   "x-games": {
     "/images/projects/x-games/design/homepage.webp": {
+      previewSrcSet: "/images/projects/x-games/design/homepage-preview.webp 800w, /images/projects/x-games/design/homepage.webp 1440w",
       label: "Homepage: source-to-game introduction",
       caption: "The existing homepage connects Playfold’s proposition, a source post, an interpretation and a public game. The full native desktop and mobile pages continue through examples, product explanation, support and footer.",
     },
@@ -463,6 +476,7 @@ export function buildProjectMedia({ gallery = [], id, image, title }: ProjectMed
       label: copy.label,
       section: copy.section,
       src,
+      previewSrcSet: copy.previewSrcSet,
       thumbnailSrc: copy.thumbnailSrc,
     }
   })

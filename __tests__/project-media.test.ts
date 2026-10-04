@@ -1,5 +1,10 @@
 import fs from "node:fs"
 import path from "node:path"
+import { runInNewContext } from "node:vm"
+import { createElement, type ComponentType } from "react"
+import * as jsxRuntime from "react/jsx-runtime"
+import { renderToStaticMarkup } from "react-dom/server"
+import ts from "typescript"
 import { buildProjectMedia } from "../app/projects/[id]/projectMedia"
 
 type ProjectRecord = {
@@ -53,14 +58,36 @@ describe("high-signal project media", () => {
     }
   })
 
-  test("the shared viewer defers below-fold project media", () => {
+  test.each([false, true])("the viewer prioritizes only its opening image when priority is %s", (priority) => {
     const source = fs.readFileSync(
       path.join(__dirname, "..", "app", "projects", "[id]", "ProjectMediaShowcase.tsx"),
       "utf8",
     )
 
-    expect(source.match(/loading="lazy"/gu)).toHaveLength(2)
-    expect(source).not.toContain('loading="eager"')
+    const compiled = ts.transpileModule(source, {
+      compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX },
+    }).outputText
+    const componentModule = { exports: {} as { ProjectMediaShowcase: ComponentType<{ media: ReturnType<typeof buildProjectMedia>; onOpen: () => void; priority: boolean }> } }
+    runInNewContext(compiled, {
+      module: componentModule,
+      exports: componentModule.exports,
+      require: (name: string) => {
+        if (name === "react/jsx-runtime") return jsxRuntime
+        if (name === "lucide-react") return { Maximize2: () => null }
+        throw new Error(`Unexpected media dependency: ${name}`)
+      },
+    })
+    const html = renderToStaticMarkup(createElement(componentModule.exports.ProjectMediaShowcase, {
+      media: buildProjectMedia({ ...projects.wizzo, id: "wizzo" }), onOpen: () => {}, priority,
+    }))
+    const images = html.match(/<img\b[^>]*>/gu)!
+    expect(images.length).toBeGreaterThan(1)
+    expect(images[0]).toContain(`loading="${priority ? "eager" : "lazy"}"`)
+    expect(images[0]).toContain(`fetchPriority="${priority ? "high" : "low"}"`)
+    for (const image of images.slice(1)) {
+      expect(image).toContain('loading="lazy"')
+      expect(image).toContain('fetchPriority="low"')
+    }
   })
 
   test.each(HIGH_SIGNAL_PROJECT_IDS)("%s has explicit media copy", (id) => {

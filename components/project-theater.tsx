@@ -8,7 +8,7 @@ const works = [
 ]
 
 export function ProjectTheater() {
-  return <section id="selected-work" className="project-theater" aria-label="Selected work" aria-roledescription="carousel" data-project-theater data-theater-active="wizzo">
+  return <section id="selected-work" className="project-theater" aria-label="Selected work" aria-roledescription="carousel" data-project-theater data-theater-active="wizzo" data-theater-render-path="html">
     <div className="theater-canvas" aria-hidden="true" data-theater-canvas />
     <div id="featured-projects" className="theater-works" data-theater-track>
       {works.map((work) => <PortfolioEventLink key={work.id} href={`/projects/${work.id}`} eventName="project_evidence_opened" eventProperties={{ project_id: work.id, source: "home_featured", match_level: "unranked" }} className={`theater-work theater-work--${work.id}`} data-theater-work={work.id} data-theater-slot={work.slot} data-theater-title={work.title} data-theater-full-src={`/visuals/premiere/${work.image}-1672.webp`}>
@@ -33,7 +33,6 @@ export function ProjectTheater() {
         <button type="button" className="theater-rotation-toggle" data-theater-motion aria-pressed="false" aria-label="Pause carousel"><span data-theater-pause><Pause size={13} /></span><span data-theater-play hidden><Play size={13} /></span><span data-theater-motion-label>Pause</span></button>
       </div>
       <span className="sr-only" data-theater-slide-status aria-live="polite" aria-atomic="true" />
-      <span className="sr-only" data-theater-status />
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- native navigation on the server-first homepage */}
       <a href="/projects">All projects <ArrowUpRight size={18} /></a>
     </div>
