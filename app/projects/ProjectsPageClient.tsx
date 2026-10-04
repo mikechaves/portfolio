@@ -65,6 +65,7 @@ export function ProjectsPageClient() {
   const didInitialize = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
   const briefHeadingRef = useRef<HTMLHeadingElement>(null)
+  const focusDeckRef = useRef<HTMLDetailsElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const inputId = useId()
 
@@ -230,6 +231,13 @@ export function ProjectsPageClient() {
     void executeRequest({ mode: "custom", input })
   }
 
+  const handleEdit = () => {
+    if (focusDeckRef.current) focusDeckRef.current.open = true
+    const customRoleDetails = inputRef.current?.closest("details")
+    if (customRoleDetails) customRoleDetails.open = true
+    inputRef.current?.focus()
+  }
+
   const handleCategoryChange = (category: string) => {
     setActivePreset(null)
     abortRef.current?.abort()
@@ -281,7 +289,11 @@ export function ProjectsPageClient() {
         {statusMessage}
       </p>
 
-      <details className="archive-focus-deck" open={Boolean(brief) || requestState === "loading"}>
+      <details
+        ref={focusDeckRef}
+        className="archive-focus-deck"
+        open={Boolean(brief) || requestState !== "idle"}
+      >
         <summary className="archive-focus-heading">
           <div>
             <p className="project-index-eyebrow">For the inquirer</p>
@@ -352,7 +364,7 @@ export function ProjectsPageClient() {
           brief={brief}
           headingRef={briefHeadingRef}
           onRemoveCapability={handleRemoveCapability}
-          onEdit={() => { const details = inputRef.current?.closest("details"); if (details) details.open = true; inputRef.current?.focus() }}
+          onEdit={handleEdit}
           onReset={handleReset}
         />
       ) : null}
