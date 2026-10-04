@@ -4,7 +4,11 @@ import { Reflector } from './vendor/Reflector.js'
 // Portfolio key art on dimensional metal frames. HTML remains the navigation layer.
 export async function createTheater(root, { onFailure }) {
   const mount = root.querySelector('[data-theater-canvas]')
-  const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true, powerPreference:'low-power' })
+  const canvas = document.createElement('canvas')
+  // Preserve the HTML carousel when the browser can only offer very slow WebGL.
+  const context = canvas.getContext('webgl2', { alpha:true, antialias:true, powerPreference:'low-power', failIfMajorPerformanceCaveat:true })
+  if (!context) throw new Error('Accelerated project reflections unavailable')
+  const renderer = new THREE.WebGLRenderer({ canvas, context })
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   renderer.setClearColor(0, 0)
   renderer.outputColorSpace = THREE.SRGBColorSpace

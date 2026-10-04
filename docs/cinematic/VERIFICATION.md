@@ -4,6 +4,12 @@ Local production preview: http://127.0.0.1:3210/.
 
 Isolated branch `mike/cinematic-portfolio`, based on PR #190 merge `443ec6854c4e4abb83a4b861df98bb576af44b55`. The original `main` checkout remains clean at that commit. This delivery is a local review candidate; it has not been merged or deployed.
 
+## Hosted release check follow-up
+
+The first hosted release run exposed two issues not reproduced in the preceding local measurements. The source-link checker treated a JSON-escaped closing quote in a Lighthouse HTML excerpt as part of an asset path; it now validates that path without the escape, and a negative fixture still rejects missing assets and routes. The Linux runner also reported desktop homepage CLS 0.254 and TBT 7,688ms while spending over 43 seconds inside the optional graphics renderer. All five mobile routes and the other four desktop routes passed.
+
+The renderer now requests `failIfMajorPerformanceCaveat` so browsers can retain the existing HTML carousel when they cannot provide suitably fast graphics. Regression checks cover that refusal and continued project navigation. The scene lifecycle test exercises the graphics branch where that context is available and validates the HTML fallback where it is not. The Codex browser still rendered one working 3D canvas after the change. Performance thresholds and the audit configuration are unchanged; hosted checks are rerun on the release head.
+
 ## Chaves key identity follow-up
 
 The user-directed C key now has the small V between its original teeth, redrawn as a continuous native SVG silhouette. The transparent master, monochrome version and 1024px PNG are in `public/identity/`; browser, Apple and app icons are in `public/favicon/`. All page shells use the new icon links with a cache revision. Exact concept prompts and asset guidance are in `identity/README.md`, with the inspected final proof sheet at `identity/chaves-key-preview.png`.

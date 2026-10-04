@@ -156,8 +156,21 @@ test("tablet layout keeps direct access to work, focus, and menu",async({page})=
 
 test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async({page},testInfo)=>{
   test.skip(testInfo.project.name.includes("mobile"),"Mobile uses the HTML carousel without WebGL")
+  const accelerated = await page.evaluate(() => {
+    const context = document.createElement("canvas").getContext("webgl2", { failIfMajorPerformanceCaveat:true, powerPreference:"low-power" })
+    context?.getExtension("WEBGL_lose_context")?.loseContext()
+    return Boolean(context)
+  })
   await page.goto("/")
   const scene=page.locator("[data-project-theater]")
+  if (!accelerated) {
+    await expect(scene).toHaveAttribute("data-theater-ready","false")
+    await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+    await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
+    await page.getByRole("button",{name:"Next project"}).click()
+    await expect(scene).toHaveAttribute("data-theater-active","speakeasy")
+    return
+  }
   await expect(scene).toHaveAttribute("data-theater-ready","true")
   await page.mouse.move(300,550)
   await page.mouse.move(1120,620,{steps:25})
@@ -176,4 +189,24 @@ test("scene motion, pause, offscreen lifecycle, and context-loss fallback",async
   await expect(scene).toHaveAttribute("data-theater-ready","false")
   await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
   await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+})
+
+test("a major graphics performance caveat retains the HTML carousel",async({page},testInfo)=>{
+  test.skip(testInfo.project.name.includes("mobile"),"Mobile never requests the optional graphics context")
+  await page.addInitScript(()=>{
+    const original=HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext=function(this:HTMLCanvasElement,type:string,...args:unknown[]){
+      if(type==="webgl2" && (args[0] as WebGLContextAttributes)?.failIfMajorPerformanceCaveat) return null
+      return original.apply(this,[type,...args] as Parameters<typeof original>)
+    } as typeof original
+  })
+  await page.goto("/")
+  const scene=page.locator("[data-project-theater]")
+  await expect(scene).toHaveAttribute("data-theater-ready","false")
+  await expect(page.locator("[data-theater-canvas] canvas")).toHaveCount(0)
+  await expect(page.locator('[data-theater-work="wizzo"] img')).toHaveCSS("opacity","1")
+  await page.getByRole("button",{name:"Next project"}).click()
+  await expect(scene).toHaveAttribute("data-theater-active","speakeasy")
+  await page.locator('[data-theater-work="speakeasy"]').click()
+  await expect(page).toHaveURL(/\/projects\/speakeasy$/)
 })
