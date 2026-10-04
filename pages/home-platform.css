@@ -1640,6 +1640,43 @@
 
 .theater-works,.theater-bottom { z-index:1; }
 
+/* Premiere lighting extends into the room; its upper edge dissolves before the masthead. */
+.theater-canvas { top:-70px; mask-image:linear-gradient(transparent,black 72px,black); }
+.project-theater[data-theater-render-path='html'] .theater-picture {
+  border-color:#746779;
+  transition:box-shadow 950ms cubic-bezier(.22,.68,.15,1),border-color 950ms;
+}
+.project-theater[data-theater-render-path='html'] [data-theater-slot='center'] .theater-picture {
+  border-color:#c89e77;
+  box-shadow:0 22px 40px #0008,0 -1px 18px #e4b78324,inset 0 0 0 1px #ffe3be26;
+}
+.project-theater[data-theater-render-path='html'] [data-theater-slot]:not([data-theater-slot='center']) img { filter:brightness(.8); }
+.project-theater[data-theater-render-path='html']::after {
+  content:''; position:absolute; pointer-events:none; z-index:-1;
+  bottom:30px; left:10%; width:80%; height:110px;
+  background:radial-gradient(ellipse,#d7945221,transparent 68%);
+}
+.theater-work:focus-visible { outline:2px solid var(--ember); outline-offset:7px; }
+
+/* The reflected warmth arrives at the next section as a quiet architectural seam. */
+.home-focus-panel { position:relative; isolation:isolate; }
+.home-focus-panel::before {
+  content:''; position:absolute; z-index:-1; pointer-events:none;
+  top:-1px; left:0; width:100%; height:64px; opacity:.48;
+  background:radial-gradient(ellipse at var(--focus-light-x,50%) 0,#d9996540,transparent 46%);
+  border-top:1px solid #b27c4540;
+  transition:opacity 650ms,border-color 650ms;
+}
+.home-focus-panel[data-premiere-lens='selected']::before { opacity:.8; border-color:#d4a57370; }
+.home-focus-panel[data-premiere-open='true']::before { opacity:1; border-color:#edc69b99; }
+.focus-custom { transition:border-color 500ms,box-shadow 500ms; }
+.focus-custom[open] { border-color:#d4a57380; box-shadow:inset 2px 0 #d4a57350; }
+.focus-custom[open] > summary,.focus-custom[open] > form { padding-left:14px; }
+.home-focus-more[open] > summary { color:#edc69b; }
+@media(prefers-reduced-motion:reduce) {
+  .home-focus-panel::before,.focus-custom,.project-theater[data-theater-render-path='html'] .theater-picture,.theater-picture img { transition:none; }
+}
+
 @media (min-width:1101px){.home-journey-hero{padding-top:20px;padding-bottom:10px;}.home-masthead{font-size:11.3vw;}.theater-works{height:35vw;max-height:570px;}}
 
 .appearance-grid{display:grid;grid-template-columns:1fr 1fr;gap:5%;}

@@ -7,6 +7,12 @@
   const coarse = matchMedia('(pointer: coarse)')
   const seen = new WeakSet(), scenes = new Map()
   const animate = () => !reduce.matches && !navigator.connection?.saveData
+  let motionPaused = false
+  try { motionPaused = sessionStorage.getItem('portfolio:motion-paused') === 'true' } catch { /* Optional preference storage. */ }
+  const rememberPause = value => {
+    motionPaused = value
+    try { sessionStorage.setItem('portfolio:motion-paused', String(value)) } catch { /* Controls still work without storage. */ }
+  }
   let modulePromise, graphicsPromise
   const acceleratedGraphics = () => graphicsPromise ??= new Promise(resolve => {
     if (typeof Worker !== 'function' || typeof OffscreenCanvas !== 'function') { resolve(null); return }
@@ -28,7 +34,7 @@
         state.schedule()
         if (state.visible) state.load()
       } else if (entry.isIntersecting) {
-        if (animate()) entry.target.classList.add('is-revealed')
+        if (animate() && (!entry.target.matches('[data-premiere-opening]') || !motionPaused)) entry.target.classList.add('is-revealed')
         observer.unobserve(entry.target)
       }
     }
@@ -43,7 +49,10 @@
     const slideStatus = root.querySelector('[data-theater-slide-status]')
     const counter = root.querySelector('[data-theater-counter]')
     const initial = Math.max(0, works.findIndex(work => work.dataset.theaterSlot === 'center'))
-    const state = { api: null, active: initial, visible: true, paused: !animate(), hovering: false, loading: false, failed: false, generation: 0 }
+    const state = { api: null, active: initial, visible: true, paused: !animate() || motionPaused, hovering: false, loading: false, failed: false, generation: 0 }
+    const events = new AbortController()
+    const focusPanel = document.querySelector('#adaptive-focus')
+    let sceneController
     let timer, touch, suppressClickUntil = 0
     const clearTimer = () => { clearTimeout(timer); timer = undefined }
     const sync = () => {
@@ -100,10 +109,13 @@
         modulePromise ??= import('/scripts/project-theater-scene.js')
         const { createTheater } = await modulePromise
         if (!root.isConnected || generation !== state.generation || !animate() || narrow.matches) return
-        const api = await createTheater(root, { onFailure: fail })
+        sceneController = new AbortController()
+        const api = await createTheater(root, { onFailure: fail, signal: sceneController.signal })
         if (!root.isConnected || generation !== state.generation || state.failed) { api.dispose(); return }
         state.api = api
         api.setPaused(state.paused); api.setVisible(state.visible && !document.hidden)
+        api.setLens(document.documentElement.dataset.focusLens)
+        api.setFocusOpen(Boolean(focusPanel?.querySelector('details[open]')))
         root.dataset.theaterReady = 'true'
         root.dataset.theaterRenderPath = 'webgl'
       } catch { if (root.isConnected && generation === state.generation) fail() }
@@ -111,20 +123,38 @@
     }
     state.stopScene = () => {
       state.generation++
+      sceneController?.abort(); sceneController = null
       state.api?.dispose(); state.api = null
       root.dataset.theaterReady = 'false'
       root.dataset.theaterRenderPath = 'html'
     }
     state.preferencesChanged = () => {
-      state.paused = !animate()
+      state.paused = !animate() || motionPaused || state.paused
       if (!animate()) state.stopScene()
       else state.load()
       sync(); state.schedule()
     }
-    state.suspend = () => { clearTimer(); state.stopScene() }
+    state.suspend = () => { clearTimer(); state.stopScene(); if (!root.isConnected) events.abort() }
     root.querySelector('[data-theater-previous]').addEventListener('click', () => select(state.active - 1))
     root.querySelector('[data-theater-next]').addEventListener('click', () => select(state.active + 1))
-    button.addEventListener('click', () => { state.paused = !state.paused; sync(); state.schedule(); state.load() })
+    button.addEventListener('click', () => { state.paused = !state.paused; rememberPause(state.paused); sync(); state.schedule(); state.load() })
+    // Working with a role lens must never advance the featured project underneath it.
+    focusPanel?.addEventListener('pointerdown', pause, { signal: events.signal })
+    focusPanel?.addEventListener('focusin', pause, { signal: events.signal })
+    focusPanel?.addEventListener('toggle', () => {
+      const open = Boolean(focusPanel.querySelector('details[open]'))
+      focusPanel.dataset.premiereOpen = String(open)
+      state.api?.setFocusOpen(open)
+    }, { capture: true, signal: events.signal })
+    state.setLens = id => {
+      state.api?.setLens(id)
+      if (!focusPanel) return
+      const buttons = [...focusPanel.querySelectorAll('.home-focus-presets [data-adaptive-focus-preset]')]
+      const index = buttons.findIndex(item => item.dataset.adaptiveFocusPreset === id)
+      focusPanel.dataset.premiereLens = id ? 'selected' : 'all'
+      focusPanel.style.setProperty('--focus-light-x', `${index < 0 ? 50 : 41 + index * 17}%`)
+    }
+    state.setLens(document.documentElement.dataset.focusLens)
     track.addEventListener('pointerenter', event => { if (event.pointerType === 'touch') return; state.hovering = true; state.schedule() })
     track.addEventListener('pointerleave', () => { state.hovering = false; state.schedule(); state.api?.setPointer(0, 0) })
     root.addEventListener('pointermove', event => {
@@ -172,11 +202,11 @@
     if (!observer) state.load()
   }
   function scan() {
-    document.querySelectorAll('[data-project-theater],[data-reveal],[data-art-plane],img[data-project-art]').forEach(element => {
+    document.querySelectorAll('[data-project-theater],[data-reveal],[data-premiere-opening],[data-art-plane],img[data-project-art]').forEach(element => {
       if (seen.has(element)) return
       seen.add(element)
       if (element.matches('[data-project-theater]')) setupScene(element)
-      if (element.matches('[data-reveal]')) observer?.observe(element)
+      if (element.matches('[data-reveal],[data-premiere-opening]')) observer?.observe(element)
       if (element.matches('img[data-project-art]')) {
         const failed = () => { element.style.opacity = '0'; element.parentElement.dataset.mediaFailed = 'true' }
         element.addEventListener('error', failed)
@@ -206,7 +236,7 @@
   document.addEventListener('visibilitychange', () => {
     for (const state of scenes.values()) { state.api?.setVisible(state.visible && !document.hidden); state.schedule(); state.load() }
   })
-  window.addEventListener('portfolio:focus-change', event => { for (const state of scenes.values()) state.api?.setLens(event.detail?.presetId) })
+  window.addEventListener('portfolio:focus-change', event => { for (const state of scenes.values()) state.setLens(event.detail?.presetId) })
   window.addEventListener('pagehide', () => { for (const state of scenes.values()) state.suspend() })
   window.addEventListener('pageshow', event => { if (event.persisted) for (const state of scenes.values()) { state.load(); state.schedule() } })
   const start = () => { 'requestIdleCallback' in window ? requestIdleCallback(scan, { timeout: 1800 }) : setTimeout(scan, 100) }

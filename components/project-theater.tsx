@@ -30,9 +30,10 @@ export function ProjectTheater() {
         <button type="button" data-theater-previous aria-label="Previous project" aria-controls="featured-projects"><ArrowLeft size={18} /></button>
         <span className="theater-counter" data-theater-counter aria-hidden="true">01 / 03</span>
         <button type="button" data-theater-next aria-label="Next project" aria-controls="featured-projects"><ArrowRight size={18} /></button>
-        <button type="button" className="theater-rotation-toggle" data-theater-motion aria-pressed="false" aria-label="Pause carousel"><span data-theater-pause><Pause size={13} /></span><span data-theater-play hidden><Play size={13} /></span><span data-theater-motion-label>Pause</span></button>
+        <button type="button" className="theater-rotation-toggle" data-theater-motion aria-pressed="false" aria-label="Pause carousel" aria-describedby="theater-motion-help"><span data-theater-pause><Pause size={13} /></span><span data-theater-play hidden><Play size={13} /></span><span data-theater-motion-label>Pause</span></button>
       </div>
       <span className="sr-only" data-theater-slide-status aria-live="polite" aria-atomic="true" />
+      <span id="theater-motion-help" className="sr-only">Pause or resume automatic project rotation and ambient lighting. You can still select any project while paused.</span>
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- native navigation on the server-first homepage */}
       <a href="/projects">All projects <ArrowUpRight size={18} /></a>
     </div>

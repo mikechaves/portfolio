@@ -1,8 +1,9 @@
 import * as THREE from './vendor/three.module.min.js'
 import { Reflector } from './vendor/Reflector.js'
+import { createPremiereLighting } from './project-theater-lighting.js'
 
 // Portfolio key art on dimensional metal frames. HTML remains the navigation layer.
-export async function createTheater(root, { onFailure }) {
+export async function createTheater(root, { onFailure, signal }) {
   const mount = root.querySelector('[data-theater-canvas]')
   const canvas = document.createElement('canvas')
   // Preserve the HTML carousel when the browser can only offer very slow WebGL.
@@ -24,30 +25,31 @@ export async function createTheater(root, { onFailure }) {
   camera.position.z = 1400
   const events = new AbortController()
   const loader = new THREE.TextureLoader()
-  let observer, floor
+  let observer, floor, lighting
   const frames = []
   const resources = new Set()
-  const ambient = new THREE.HemisphereLight('#e9dffb','#1b1426',2.5)
+  const ambient = new THREE.HemisphereLight('#e9dffb','#1b1426',.8)
   scene.add(ambient)
-  const key = new THREE.DirectionalLight('#ffc08c',4)
-  key.position.set(-700,600,800);scene.add(key)
-  const rim = new THREE.DirectionalLight('#a49bff',3)
+  const rim = new THREE.DirectionalLight('#a49bff',1.1)
   rim.position.set(700,200,400);scene.add(rim)
   let disposed = false, visible = true, paused = false, raf = 0, last = 0, targetX=0, targetY=0, currentX=0, currentY=0
-  let layoutUntil = 0, canvasWidth = 0, canvasHeight = 0
+  let layoutUntil = 0, lightUntil = 0, canvasWidth = 0, canvasHeight = 0
+  let lens = null, focusOpen = false
+  signal?.addEventListener('abort', dispose, { once: true })
   try {
     const loads = await Promise.allSettled([...root.querySelectorAll('[data-theater-work]')].map(async (element) => {
       const image = element.querySelector('img')
       await image.decode()
       const source = image.currentSrc || image.src
       const texture = await loader.loadAsync(source)
+      if (disposed) { texture.dispose(); return }
       texture.colorSpace = THREE.SRGBColorSpace
       texture.anisotropy = Math.min(4,renderer.capabilities.getMaxAnisotropy())
       resources.add(texture)
       const group = new THREE.Group()
-      const metal = new THREE.MeshStandardMaterial({color:'#3d3542',metalness:.78,roughness:.24})
+      const metal = new THREE.MeshStandardMaterial({color:'#69606b',metalness:.62,roughness:.25,emissive:'#dc9e66',emissiveIntensity:.025})
       const frame = new THREE.Mesh(new THREE.BoxGeometry(1,1,1),metal)
-      const art = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map:texture}))
+      const art = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshStandardMaterial({map:texture,color:'#77717e',emissiveMap:texture,emissive:'#ffffff',emissiveIntensity:.68,metalness:.02,roughness:.64}))
       art.position.z=7
       group.add(frame,art);scene.add(group)
       const item = {element,group,frame,art,texture,source,request:0,baseX:0,baseY:0,rotation:0}
@@ -63,7 +65,7 @@ export async function createTheater(root, { onFailure }) {
           replacement.anisotropy = texture.anisotropy
           resources.delete(item.texture); item.texture.dispose()
           item.texture = replacement; item.source = source
-          item.art.material.map = replacement; item.art.material.needsUpdate = true
+          item.art.material.map = replacement; item.art.material.emissiveMap = replacement; item.art.material.needsUpdate = true
           resources.add(replacement)
           resize()
         } catch { if (!disposed) onFailure() }
@@ -71,7 +73,7 @@ export async function createTheater(root, { onFailure }) {
     }))
     if (loads.some(result=>result.status==='rejected')) throw new Error('Project texture unavailable')
   } catch(error) { dispose(); throw error }
-  if (!root.isConnected) { dispose(); throw new Error('Scene removed') }
+  if (disposed || !root.isConnected) { dispose(); throw new Error('Scene removed') }
   mount.append(renderer.domElement)
   renderer.domElement.setAttribute('aria-label','Dimensional frames and reflections for the three featured projects')
   floor = new Reflector(new THREE.PlaneGeometry(4200,2600),{color:'#473849',textureWidth:640,textureHeight:320,clipBias:.003})
@@ -83,9 +85,13 @@ export async function createTheater(root, { onFailure }) {
   floor.material.transparent=true
   floor.material.depthWrite=false
   floor.material.fragmentShader=floor.material.fragmentShader.replace('gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );', 'gl_FragColor = vec4( blendOverlay( base.rgb, color ), base.a * 0.2 );')
+  lighting = createPremiereLighting(scene, frames, root.dataset.theaterActive)
+  root.dataset.theaterLighting = 'premiere'
   function resize() {
     if (disposed) return
     measureLayout()
+    // A sharper responsive image can arrive mid-selection; keep the light's current pose.
+    lighting.update(0, false, !layoutUntil)
     renderOnce()
   }
   function measureLayout() {
@@ -120,41 +126,49 @@ export async function createTheater(root, { onFailure }) {
     }
     const bottom=Math.min(...frames.map(i=>i.baseY-i.frame.scale.y/2))
     floor.position.y=bottom-9
+    lighting.layout(width, height, floor.position.y)
     moveCamera()
   }
   observer=new ResizeObserver(resize);observer.observe(root)
   function renderOnce() { if(!disposed) {try {renderer.render(scene,camera)} catch {onFailure()}} }
   function tick(time) {
     raf=0
-    if(disposed||!visible||(paused&&!layoutUntil))return
+    if(disposed||!visible||(paused&&!layoutUntil&&!lightUntil))return
     if(time-last>32) {
+      const delta = Math.min((time-last)/1000,.05)
       last=time
       if(!paused){currentX+=(targetX-currentX)*.055;currentY+=(targetY-currentY)*.055}
       if(layoutUntil){measureLayout();if(time>=layoutUntil)layoutUntil=0}
       moveCamera()
+      lighting.update(delta, !paused, !layoutUntil && time >= lightUntil && paused)
+      if(lightUntil && time>=lightUntil)lightUntil=0
       renderOnce()
+      if (!layoutUntil && !lightUntil && root.dataset.theaterSettled !== root.dataset.theaterActive) root.dataset.theaterSettled = root.dataset.theaterActive
     }
-    if(!paused||layoutUntil)raf=requestAnimationFrame(tick)
+    if(!paused||layoutUntil||lightUntil)raf=requestAnimationFrame(tick)
   }
   function moveCamera() {
     camera.position.x=currentX*7;camera.position.y=currentY*3
     camera.lookAt(0,0,0)
   }
-  function run() {cancelAnimationFrame(raf);raf=0;if(visible&&(!paused||layoutUntil)&&!disposed)raf=requestAnimationFrame(tick)}
+  function run() {cancelAnimationFrame(raf);raf=0;last=performance.now();if(visible&&(!paused||layoutUntil||lightUntil)&&!disposed)raf=requestAnimationFrame(tick)}
   function dispose() {
     if(disposed)return;disposed=true;cancelAnimationFrame(raf)
     observer?.disconnect();events.abort()
+    signal?.removeEventListener('abort',dispose)
+    delete root.dataset.theaterLighting;delete root.dataset.theaterSettled
     scene.traverse(object=>{object.geometry?.dispose();if(object.material)for(const material of(Array.isArray(object.material)?object.material:[object.material]))material.dispose()})
     resources.forEach(resource=>resource.dispose());floor?.getRenderTarget().dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove()
   }
-  renderer.domElement.addEventListener('webglcontextlost',(event)=>{if(disposed)return;event.preventDefault();onFailure()},{once:true})
+  renderer.domElement.addEventListener('webglcontextlost',(event)=>{if(disposed)return;event.preventDefault();onFailure()},{once:true,signal:events.signal})
   resize();run()
   return {
     setPointer(x,y){targetX=x;targetY=y},
     setVisible(value){visible=value;if(value)resize();run()},
     setPaused(value){paused=value;run()},
-    transitionLayout(duration){layoutUntil=performance.now()+duration;run()},
-    setLens(id){key.color.set(id==='xr-accessibility'?'#c3c4ff':id==='game-ux-creator-systems'?'#e3b0ef':'#ffc08c');renderOnce()},
+    transitionLayout(duration){delete root.dataset.theaterSettled;lighting.select(root.dataset.theaterActive);layoutUntil=lightUntil=performance.now()+duration;run()},
+    setLens(id){lens=id;lighting.setFocus(focusOpen,lens);lightUntil=performance.now()+650;run()},
+    setFocusOpen(value){focusOpen=value;lighting.setFocus(focusOpen,lens);lightUntil=performance.now()+650;run()},
     dispose
   }
 }
