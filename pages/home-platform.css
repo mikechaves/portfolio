@@ -1583,17 +1583,11 @@
 
 .platform-writing-list h3 { font:400 clamp(26px,3.4vw,52px)/1.13 var(--font-display); margin-top:12px; max-width:1000px; }
 
-.platform-music { position:relative; min-height:480px; display:flex; align-items:center; gap:12%; padding:70px 8%; border-top:1px solid var(--rule); overflow:hidden; background:radial-gradient(ellipse at 30% 50%,#29243e,#090a13 65%); }
-
-.platform-music h2 { font:400 clamp(70px,11vw,160px)/1.05 var(--font-display); margin-top:8px; }
-
-.music-disc { flex-shrink:0; position:relative; width:340px; aspect-ratio:1; border-radius:50%; background:repeating-radial-gradient(circle at center,#0b0c13 0,#191924 1px,#06070c 2px,#080910 4px); box-shadow:0 35px 65px #000a,inset 1px 0 0 #8a718250; transform:perspective(900px) rotateY(19deg) rotateX(5deg); display:grid; place-items:center; }
-
-.music-disc::after { content:''; position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 20deg,transparent 5%,#cdc1ed18 12%,transparent 21%,transparent 53%,#f6a16f14 62%,transparent 74%); }
-
-.music-disc > div { width:28%; height:28%; border-radius:50%; background:#202031; position:absolute; box-shadow:inset 0 0 25px #5f465144; }
-
-.music-disc > span { font:400 30px var(--font-display); z-index:1; }
+.platform-music { scroll-margin-top:100px; }
+.music-promo-link { display:block; color:var(--ember); }
+.music-promo-link:focus-visible { outline:2px solid var(--ember); outline-offset:8px; }
+.music-promo-link img { display:block; width:100%; height:auto; }
+.music-promo-cta { display:none; }
 
 .platform-signoff { display:flex; justify-content:space-between; align-items:center; gap:25px; padding:60px 0; border-top:1px solid var(--rule); }
 
@@ -1608,7 +1602,6 @@
  .theater-works { height:43vw; }.theater-caption{padding-left:8px;padding-right:48px;}.theater-caption p{letter-spacing:.03em;}.theater-caption > span{right:5px;}
  .home-focus-panel{grid-template-columns:1fr;gap:22px;}.home-focus-intro{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}.home-focus-intro .home-section-kicker{width:100%;}.home-focus-intro h2{font-size:52px; margin:0;}.home-focus-intro > p:last-child{margin:0;}
  .home-focus-preset{min-height:72px;}.home-focus-intro{padding-bottom:0;}
- .music-disc{width:270px;}.platform-music{min-height:390px;}
 }
 
 @media (max-width:700px) {.home-journey-hero{padding:24px 15px 8px;}.home-journey-hero .home-section-kicker{font-size:7px;letter-spacing:.21em;}.home-masthead{font-size:14vw;letter-spacing:-.025em;margin:17px 0 0;}.opening-location{font-size:8px;letter-spacing:.2em;margin:13px 0 0;}
@@ -1620,7 +1613,7 @@
  .home-evidence-section{padding:45px 0;}.home-section-heading{margin-bottom:26px;}.home-section-heading h2{font-size:61px;}.home-section-heading > a{font-size:9px;}
  .cinematic-feature--wizzo .home-featured-copy{background:none;padding:20px 0 0;max-width:none;}.cinematic-feature--wizzo .home-featured-copy > span{max-width:none;}.home-featured-copy h3,.cinematic-feature--wizzo .home-featured-copy h3,.cinematic-feature--x-games .home-featured-copy h3,.cinematic-feature--speakeasy .home-featured-copy h3{font-size:63px;}.home-featured-copy > span{font-size:13px;}
  .platform-writing-list > a{grid-template-columns:20px 1fr 18px;gap:12px;padding:24px 0;}.platform-writing-list h3{font-size:29px;}.platform-writing-list time{font-size:9px;}.platform-writing-list svg{width:18px;}
- .platform-music{min-height:300px;gap:25px;padding:40px 0;}.music-disc{width:46%;}.platform-music h2{font-size:61px;}.platform-music .home-section-kicker{font-size:8px;}.music-disc > span{font-size:22px;}
+ .music-promo-cta{display:flex;align-items:center;gap:8px;min-height:44px;margin-top:8px;font-size:14px;}
  .platform-signoff{display:block;padding:40px 0;}.platform-about-link{font-size:48px;}.platform-signoff > div{margin-top:22px;gap:30px;}
 }
 
