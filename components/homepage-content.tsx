@@ -86,9 +86,22 @@ export function HomepageContent() {
         </div>
         <div className="acting-placeholder"><h3>Acting.</h3><p>More to come.</p></div>
       </section>
-      <section id="music" className="platform-music" aria-labelledby="music-title">
-        <div className="music-disc" aria-hidden="true"><div /><span>MC</span></div>
-        <div><p className="home-section-kicker">Coming soon</p><h2 id="music-title">Music.</h2></div>
+      <section id="music" className="home-evidence-section platform-music" aria-labelledby="music-title">
+        <div className="home-section-heading"><h2 id="music-title">Music.</h2></div>
+        <a className="music-promo-link" href="https://open.spotify.com/artist/6532kzHXaCDA9tgWPP5aCs">
+          {/* eslint-disable-next-line @next/next/no-img-element -- committed responsive WebP derivatives preserve the complete supplied graphic */}
+          <img
+            src="/music/kryterium-promo-1784.webp"
+            srcSet="/music/kryterium-promo-446.webp 446w, /music/kryterium-promo-892.webp 892w, /music/kryterium-promo-1338.webp 1338w, /music/kryterium-promo-1784.webp 1784w, /music/kryterium-promo-2676.webp 2676w, /music/kryterium-promo-3568.webp 3568w"
+            sizes="(min-width: 1920px) 1784px, (min-width: 701px) 93vw, calc(100vw - 44px)"
+            width={3568}
+            height={960}
+            alt="KRYTERIUM, featuring Mike Chaves on vocals. Listen to Control and Plagued By Their Power on Spotify."
+            loading="lazy"
+            decoding="async"
+          />
+          <span className="music-promo-cta" aria-hidden="true">Listen on Spotify <ArrowUpRight size={16} /></span>
+        </a>
       </section>
       <section id="contact" className="platform-signoff" aria-label="About and contact">
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- server-first navigation */}
