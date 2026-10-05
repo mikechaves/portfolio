@@ -10,6 +10,7 @@ import {
 import {
   DEFAULT_SOCIAL_IMAGE,
   DEFAULT_SOCIAL_IMAGE_ALT,
+  DEFAULT_SOCIAL_IMAGE_PROPERTIES,
   getAbsoluteUrl,
   getCanonicalUrl,
   isProductionIndexingEnabled,
@@ -61,6 +62,9 @@ export default function AboutPage() {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={socialImage} />
+        <meta property="og:image:width" content={String(DEFAULT_SOCIAL_IMAGE_PROPERTIES.width)} />
+        <meta property="og:image:height" content={String(DEFAULT_SOCIAL_IMAGE_PROPERTIES.height)} />
+        <meta property="og:image:type" content={DEFAULT_SOCIAL_IMAGE_PROPERTIES.type} />
         <meta property="og:image:alt" content={imageAlt} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />

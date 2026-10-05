@@ -10,6 +10,7 @@ import {
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
   DEFAULT_SOCIAL_IMAGE_ALT,
+  DEFAULT_SOCIAL_IMAGE_PROPERTIES,
   getAbsoluteUrl,
   getCanonicalUrl,
   SITE_NAME,
@@ -52,6 +53,7 @@ export const metadata: Metadata = {
       {
         url: getAbsoluteUrl(DEFAULT_SOCIAL_IMAGE),
         alt: DEFAULT_SOCIAL_IMAGE_ALT,
+        ...DEFAULT_SOCIAL_IMAGE_PROPERTIES,
       },
     ],
   },
