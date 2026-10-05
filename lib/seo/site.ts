@@ -5,8 +5,9 @@ export const SITE_TITLE = "Mike Chaves | Creative Director & Creative Technologi
 export const DEFAULT_SITE_ORIGIN = "https://www.mikechaves.io"
 export const DEFAULT_DESCRIPTION =
   "Creative direction, brand, visual storytelling, and interactive experiences by Mike Chaves: designer, creative technologist, and founder of Wizzo Labs."
-export const DEFAULT_SOCIAL_IMAGE = "/social-card"
-export const DEFAULT_SOCIAL_IMAGE_ALT = "Mike Chaves in white lettering on black, with green accents and the words Creative Direction + Design."
+export const DEFAULT_SOCIAL_IMAGE = "/social/mike-chaves-premiere-v1.jpg"
+export const DEFAULT_SOCIAL_IMAGE_ALT = "Mike Chaves above a cinematic, spotlit gallery, with Wizzo centered between Playfold and SpeakEasy."
+export const DEFAULT_SOCIAL_IMAGE_PROPERTIES = { width: 1200, height: 630, type: "image/jpeg" }
 
 export const SITE_SOCIAL_PROFILES = [
   "https://github.com/mikechaves",
@@ -134,7 +135,11 @@ export function createPageMetadata({
       url: canonical,
       title: fullTitle,
       description: normalizedDescription,
-      images: [{ url: socialImage, alt: imageAlt }],
+      images: [{
+        url: socialImage,
+        alt: imageAlt,
+        ...(image === DEFAULT_SOCIAL_IMAGE ? DEFAULT_SOCIAL_IMAGE_PROPERTIES : {}),
+      }],
     },
     twitter: {
       card: "summary_large_image",
