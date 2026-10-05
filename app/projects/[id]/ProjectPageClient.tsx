@@ -198,6 +198,7 @@ export default function ProjectPageClient({ project, media, dossierConfig }: Pro
           <section className="evidence-dossier-hero" aria-labelledby="dossier-title">
             <p className="evidence-dossier-eyebrow">{dossierConfig?.eyebrow}</p>
             <h1 id="dossier-title" className="evidence-dossier-title">{project.title}</h1>
+            {project.id === "wizzo" && <p className="case-study-opening-context">As Wizzo’s founder and creative director, I shaped its celestial identity, Wisp character, and AI mentor experience.</p>}
             <div className="case-study-opening-media" data-case-study-opening-media>
               {hasCover ? (
                 <CinematicProjectCover projectId={project.id} priority />

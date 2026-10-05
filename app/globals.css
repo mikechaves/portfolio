@@ -2366,11 +2366,21 @@ body:has(.site-mobile-menu[open]) {
   z-index: 60;
 }
 
-/* Lay out the long Playfold narrative as its sections approach the viewport. */
+/* Lay out supporting media and the long Playfold narrative near the viewport. */
+.evidence-dossier .evidence-dossier-artifact,
 .evidence-dossier[data-project-id="x-games"] .case-study-section,
 .evidence-dossier[data-project-id="x-games"] .case-study-terminal {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+.cinematic-media-layout [aria-label="Supporting media"] {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 150px;
+}
+@media (max-width: 700px) {
+  .cinematic-media-layout [aria-label="Supporting media"] {
+    contain-intrinsic-block-size: auto 110px;
+  }
 }
 
 
@@ -2533,6 +2543,7 @@ body.cinematic-site { background:#090a13; }
   max-height:54svh;
 }
 .case-study-opening-media .cinematic-project-cover--speakeasy img { object-fit:contain; }
+.case-study-opening-context { max-width:68ch; margin:-8px 0 22px; color:var(--ink); font-size:16px; line-height:1.6; }
 
 /* Representative continuation of the theater's warm metal and lavender rim: Wizzo only. */
 [data-premiere-opening] { perspective:1400px; }
@@ -2568,6 +2579,7 @@ body.cinematic-site { background:#090a13; }
 .case-study-intro-details > div { justify-content:flex-end; }
 @media(max-width:700px) {
   .evidence-dossier-hero > .evidence-dossier-title { font-size:clamp(46px,13.3vw,80px); }
+  .case-study-opening-context { font-size:14px; margin-bottom:20px; }
   .case-study-opening-media .cinematic-project-cover > div,
   .case-study-opening-media .cinematic-media-layout > div > button { aspect-ratio:1.28; max-height:none; }
   .case-study-opening-media .cinematic-project-cover--wizzo img { object-position:85% center; }

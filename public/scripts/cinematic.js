@@ -49,13 +49,15 @@
     const slideStatus = root.querySelector('[data-theater-slide-status]')
     const counter = root.querySelector('[data-theater-counter]')
     const initial = Math.max(0, works.findIndex(work => work.dataset.theaterSlot === 'center'))
-    const state = { api: null, active: initial, visible: true, paused: !animate() || motionPaused, hovering: false, loading: false, failed: false, generation: 0 }
+    // A system suspension must not become a visitor's pause preference.
+    const state = { api: null, active: initial, visible: true, visitorPaused: motionPaused, paused: !animate() || motionPaused, hovering: false, loading: false, failed: false, generation: 0 }
     const events = new AbortController()
     const focusPanel = document.querySelector('#adaptive-focus')
     let sceneController
     let timer, touch, suppressClickUntil = 0
     const clearTimer = () => { clearTimeout(timer); timer = undefined }
     const sync = () => {
+      state.paused = state.visitorPaused || !animate()
       button.hidden = !animate()
       button.setAttribute('aria-pressed', String(state.paused))
       button.setAttribute('aria-label', state.paused ? 'Resume carousel' : 'Pause carousel')
@@ -70,11 +72,61 @@
       if (state.paused || state.hovering || !state.visible || document.hidden || !animate()) return
       timer = setTimeout(() => select(state.active + 1, false), 7000)
     }
-    const pause = () => { state.paused = true; clearTimer(); sync() }
+    const pause = () => { state.visitorPaused = true; clearTimer(); sync() }
+    let journey, rotations = 0, animations = []
+    const ease = t => t * t * (3 - 2 * t)
+    const currentRotation = now => journey
+      ? journey.from + (journey.to - journey.from) * ease(Math.min(1, Math.max(0, (now - journey.start) / journey.duration)))
+      : rotations
+    // All three panels share one continuous route. The wrapping neighbor recedes
+    // behind the two front panels instead of cutting across their artwork.
+    const pose = (index, rotation) => {
+      const phase = ((index - initial - rotation) % works.length + works.length) % works.length
+      const mobile = narrow.matches
+      const center = { x:50, width:mobile ? 88 : 52, top:3, height:mobile ? 94 : 80, y:mobile ? -3 : -4, z:1, depth:20 }
+      const side = { width:mobile ? 78 : 25, top:mobile ? 12 : 19, height:mobile ? 77 : 64 }
+      let p
+      if (phase <= 1 || phase >= 2) {
+        const right = phase <= 1, t = right ? phase : 3 - phase
+        const mix = (a,b) => a + (b-a) * t
+        p = { x:mix(center.x, right ? (mobile ? 137 : 87.5) : (mobile ? -37 : 12.5)), width:mix(center.width,side.width), top:mix(center.top,side.top), height:mix(center.height,side.height), y:mix(center.y,(right ? -1 : 1)*(mobile ? 12 : 18)), z:mix(1,right ? -1 : 1), depth:mix(20,0) }
+      } else {
+        const t = phase - 1, arc = Math.sin(t * Math.PI)
+        p = { x:(mobile ? 137 : 87.5) - (mobile ? 174 : 75)*t, width:side.width - (mobile ? 36 : 10)*arc, top:side.top + 5*arc, height:side.height - 14*arc, y:(2*t-1)*(mobile ? 12 : 18), z:2*t-1, depth:-340*arc }
+      }
+      return { left:`${p.x-p.width/2}%`, width:`${p.width}%`, top:`${p.top}%`, height:`${p.height}%`, transform:`translateZ(${p.depth}px) rotateY(${p.y}deg) rotateZ(${p.z}deg)` }
+    }
+    state.finishTransition = () => {
+      animations.forEach(animation => animation.cancel()); animations = []; journey = null
+      rotations = (state.active - initial + works.length) % works.length
+      delete root.dataset.theaterTransitioning
+    }
+    const travel = delta => {
+      const now = document.timeline.currentTime ?? performance.now()
+      const from = currentRotation(now)
+      rotations += delta
+      animations.forEach(animation => animation.cancel())
+      if (!animate() || typeof works[0].animate !== 'function') { state.finishTransition(); return 0 }
+      const duration = Math.min(1250, 900 * Math.max(.7, Math.abs(rotations - from)))
+      const trip = journey = { from, to:rotations, start:now, duration }
+      root.dataset.theaterTransitioning = 'true'
+      animations = works.map((work, index) => {
+        const keyframes = Array.from({ length:49 }, (_, frame) => pose(index, from + (rotations-from)*ease(frame/48)))
+        const animation = work.animate(keyframes, { duration, easing:'linear' })
+        animation.startTime = now
+        return animation
+      })
+      Promise.all(animations.map(animation => animation.finished)).then(() => {
+        if (journey !== trip) return
+        journey = null; animations = []; delete root.dataset.theaterTransitioning
+      }).catch(() => { /* A newer selection takes over from the current pose. */ })
+      return duration
+    }
     function select(index, manual = true) {
       if (manual) pause()
       const next = (index + works.length) % works.length
       const changed = next !== state.active
+      const delta = (next - state.active + works.length) % works.length === 1 ? 1 : -1
       state.active = next
       works.forEach((work, i) => {
         const relative = (i - next + works.length) % works.length
@@ -89,7 +141,10 @@
       root.dataset.theaterActive = works[next].dataset.theaterWork
       counter.textContent = `${String((next - initial + works.length) % works.length + 1).padStart(2, '0')} / ${String(works.length).padStart(2, '0')}`
       if (manual) slideStatus.textContent = `${works[next].dataset.theaterTitle}, project ${(next - initial + works.length) % works.length + 1} of ${works.length}`
-      if (changed) state.api?.transitionLayout(animate() ? 1000 : 0)
+      if (changed) {
+        const duration = travel(delta)
+        state.api?.transitionLayout(duration + 60)
+      }
       state.schedule()
     }
     const fail = () => {
@@ -129,15 +184,15 @@
       root.dataset.theaterRenderPath = 'html'
     }
     state.preferencesChanged = () => {
-      state.paused = !animate() || motionPaused || state.paused
-      if (!animate()) state.stopScene()
+      sync()
+      if (!animate()) { state.finishTransition(); state.stopScene() }
       else state.load()
       sync(); state.schedule()
     }
-    state.suspend = () => { clearTimer(); state.stopScene(); if (!root.isConnected) events.abort() }
+    state.suspend = () => { clearTimer(); state.finishTransition(); state.stopScene(); if (!root.isConnected) events.abort() }
     root.querySelector('[data-theater-previous]').addEventListener('click', () => select(state.active - 1))
     root.querySelector('[data-theater-next]').addEventListener('click', () => select(state.active + 1))
-    button.addEventListener('click', () => { state.paused = !state.paused; rememberPause(state.paused); sync(); state.schedule(); state.load() })
+    button.addEventListener('click', () => { state.visitorPaused = !state.visitorPaused; rememberPause(state.visitorPaused); sync(); state.schedule(); state.load() })
     // Working with a role lens must never advance the featured project underneath it.
     focusPanel?.addEventListener('pointerdown', pause, { signal: events.signal })
     focusPanel?.addEventListener('focusin', pause, { signal: events.signal })
@@ -232,7 +287,7 @@
     requestAnimationFrame(() => { pending = false; scan() })
   }).observe(document.body, { childList: true, subtree: true })
   reduce.addEventListener('change', () => { for (const state of scenes.values()) state.preferencesChanged() })
-  narrow.addEventListener('change', () => { for (const state of scenes.values()) narrow.matches ? state.stopScene() : state.load() })
+  narrow.addEventListener('change', () => { for (const state of scenes.values()) { state.finishTransition(); narrow.matches ? state.stopScene() : state.load() } })
   document.addEventListener('visibilitychange', () => {
     for (const state of scenes.values()) { state.api?.setVisible(state.visible && !document.hidden); state.schedule(); state.load() }
   })
