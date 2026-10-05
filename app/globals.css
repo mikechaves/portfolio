@@ -2373,6 +2373,15 @@ body:has(.site-mobile-menu[open]) {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+.cinematic-media-layout [aria-label="Supporting media"] {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 150px;
+}
+@media (max-width: 700px) {
+  .cinematic-media-layout [aria-label="Supporting media"] {
+    contain-intrinsic-block-size: auto 110px;
+  }
+}
 
 
 /* Shared layout foundations and Night Frequency art direction. */
